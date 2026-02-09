@@ -164,7 +164,7 @@ export default function QuoteWizard({ rows, regions }) {
   return (
     <div className="mx-auto grid max-w-[1400px] gap-5 px-4 py-5 md:gap-8 md:px-8 md:py-12">
       <header>
-        <h1 className="font-logo text-3xl font-extrabold tracking-tight text-black md:text-5xl lg:text-6xl">
+        <h1 className="text-center font-logo text-3xl font-extrabold tracking-tight text-black md:text-5xl lg:text-6xl">
           How much <span className="text-brandRed">Tesla</span>?
         </h1>
       </header>
@@ -424,7 +424,7 @@ export default function QuoteWizard({ rows, regions }) {
             </a>
           </nav>
 
-          <aside className="sticky top-4 overflow-hidden rounded-2xl bg-black text-white shadow-2xl md:top-6 md:rounded-3xl">
+          <aside className="overflow-hidden rounded-2xl bg-black text-white shadow-2xl md:rounded-3xl">
           <div className="bg-gradient-to-br from-gray-900 to-black p-5 md:p-8">
             <h3 className="mb-5 text-2xl font-black md:mb-8 md:text-4xl">견적 요약</h3>
             <dl className="m-0 space-y-0.5">
