@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
 
@@ -6,6 +6,7 @@ const MODEL_CATALOG = [
   {
     id: "model3",
     name: "Model 3",
+    image: "/model3.svg",
     stats: [
       { label: "주행 가능 거리", value: "382 km" },
       { label: "최고 속도", value: "201 km/h" },
@@ -30,6 +31,7 @@ const MODEL_CATALOG = [
   {
     id: "modely",
     name: "Model Y",
+    image: "/modely.svg",
     stats: [
       { label: "주행 가능 거리", value: "400 km+" },
       { label: "최고 속도", value: "217 km/h" },
@@ -60,15 +62,12 @@ function formatWon(value) {
 function monthlyPayment(principal, annualRatePct, months) {
   if (principal <= 0 || months <= 0) return 0;
   const monthlyRate = annualRatePct / 100 / 12;
-  if (monthlyRate === 0) {
-    return principal / months;
-  }
+  if (monthlyRate === 0) return principal / months;
   const factor = Math.pow(1 + monthlyRate, months);
   return (principal * monthlyRate * factor) / (factor - 1);
 }
 
 export default function QuoteWizard({ rows, regions }) {
-  const [step, setStep] = useState(1);
   const [modelId, setModelId] = useState("model3");
   const [selectedTrimId, setSelectedTrimId] = useState("m3-rwd");
   const [regionCode, setRegionCode] = useState(regions[0]?.code || "");
@@ -121,30 +120,29 @@ export default function QuoteWizard({ rows, regions }) {
   return (
     <div className="wizard-wrap">
       <header className="hero">
-        <div className="brand">
-          <img src="/logo.svg" alt="테슬라 얼마 로고" />
+        <div className="hero-top">
+          <div className="brand">
+            <p className="brand-main">
+              How much <span className="brand-accent">Tesla</span>?
+            </p>
+            <p className="brand-sub">내 테슬라 얼마?</p>
+          </div>
+          <div className="steps" aria-label="견적 단계">
+            <a href="#section-model" className="step-chip">1. 모델</a>
+            <a href="#section-trim" className="step-chip active">2. 트림</a>
+            <a href="#section-region" className="step-chip">3. 지역</a>
+            <a href="#section-benefit" className="step-chip">4. 혜택·금융</a>
+          </div>
         </div>
+
         <p className="eyebrow">테슬라 얼마?</p>
         <h1>실구매가 빠른 견적</h1>
         <p>모델 선택부터 지역 보조금, 혜택, 할부 월 납입금까지 한 번에 확인</p>
       </header>
 
-      <div className="steps">
-        {["모델", "트림", "지역", "혜택·금융"].map((label, idx) => (
-          <button
-            key={label}
-            className={`step-chip ${step === idx + 1 ? "active" : ""}`}
-            onClick={() => setStep(idx + 1)}
-          >
-            {idx + 1}. {label}
-          </button>
-        ))}
-      </div>
-
-      <section className="panel">
-        {step === 1 && (
-          <>
-            <h2>모델 선택</h2>
+      <div className="main-grid">
+        <div className="left-column">
+          <section className="panel" id="section-model">
             <div className="model-select">
               {MODEL_CATALOG.map((item) => (
                 <button
@@ -156,14 +154,9 @@ export default function QuoteWizard({ rows, regions }) {
                 </button>
               ))}
             </div>
-            <button className="btn-primary" onClick={() => setStep(2)}>
-              다음: 트림 선택
-            </button>
-          </>
-        )}
 
-        {step >= 2 && (
-          <>
+            <img className="car-image" src={model.image} alt={model.name} />
+
             <h2>{model.name}</h2>
             <div className="stats-grid">
               {model.stats.map((item) => (
@@ -174,7 +167,7 @@ export default function QuoteWizard({ rows, regions }) {
               ))}
             </div>
 
-            <div className="trim-list">
+            <div className="trim-list" id="section-trim">
               {model.trims.map((item) => (
                 <button
                   key={item.id}
@@ -186,12 +179,12 @@ export default function QuoteWizard({ rows, regions }) {
                 </button>
               ))}
             </div>
-          </>
-        )}
 
-        {step >= 3 && (
-          <div className="group">
-            <h3>지역 선택</h3>
+            <button className="feature-link" type="button">기능 보기 및 비교하기</button>
+          </section>
+
+          <section className="section-box" id="section-region">
+            <h3>3. 지역 선택</h3>
             <select value={regionCode} onChange={(e) => setRegionCode(e.target.value)}>
               {regions.map((region) => (
                 <option key={region.code} value={region.code}>
@@ -200,31 +193,27 @@ export default function QuoteWizard({ rows, regions }) {
               ))}
             </select>
             <p className="subsidy-line">
-              보조금: 국비 {subsidy.national_subsidy_manwon}만원 + 지방비 {subsidy.local_subsidy_manwon}만원 ={" "}
-              <strong>총 {subsidy.total_subsidy_manwon}만원</strong>
+              보조금: 국비 {subsidy.national_subsidy_manwon}만원 + 지방비 {subsidy.local_subsidy_manwon}만원 =
+              <strong> 총 {subsidy.total_subsidy_manwon}만원</strong>
             </p>
-          </div>
-        )}
+          </section>
 
-        {step >= 4 && (
-          <>
-            <div className="group">
-              <h3>추가 혜택</h3>
-              <div className="check-grid">
-                {EXTRA_BENEFITS.map((item) => (
-                  <label key={item.key}>
-                    <input
-                      type="checkbox"
-                      checked={Boolean(selectedBenefits[item.key])}
-                      onChange={() => toggleBenefit(item.key)}
-                    />
-                    {item.label} ({formatWon(item.amount)})
-                  </label>
-                ))}
-              </div>
+          <section className="section-box" id="section-benefit">
+            <h3>4. 혜택 · 금융</h3>
+            <div className="check-grid">
+              {EXTRA_BENEFITS.map((item) => (
+                <label key={item.key}>
+                  <input
+                    type="checkbox"
+                    checked={Boolean(selectedBenefits[item.key])}
+                    onChange={() => toggleBenefit(item.key)}
+                  />
+                  {item.label} ({formatWon(item.amount)})
+                </label>
+              ))}
             </div>
 
-            <div className="group finance-grid">
+            <div className="finance-grid">
               <label>
                 선수금(원)
                 <input
@@ -256,51 +245,51 @@ export default function QuoteWizard({ rows, regions }) {
                 </select>
               </label>
             </div>
-          </>
-        )}
-      </section>
+          </section>
+        </div>
 
-      <aside className="summary">
-        <h3>견적 요약</h3>
-        <dl>
-          <div>
-            <dt>모델</dt>
-            <dd>{model.name}</dd>
-          </div>
-          <div>
-            <dt>트림</dt>
-            <dd>{trim.label}</dd>
-          </div>
-          <div>
-            <dt>지역</dt>
-            <dd>{selectedRegion?.name || "-"}</dd>
-          </div>
-          <div>
-            <dt>차량가</dt>
-            <dd>{formatWon(basePrice)}</dd>
-          </div>
-          <div>
-            <dt>보조금(국고+지자체)</dt>
-            <dd>- {formatWon(subsidyWon)}</dd>
-          </div>
-          <div>
-            <dt>추가 혜택</dt>
-            <dd>- {formatWon(extraBenefitWon)}</dd>
-          </div>
-          <div className="bold">
-            <dt>예상 실구매가</dt>
-            <dd>{formatWon(estimatedPrice)}</dd>
-          </div>
-          <div>
-            <dt>할부 원금</dt>
-            <dd>{formatWon(loanPrincipal)}</dd>
-          </div>
-          <div className="bold">
-            <dt>예상 월 납입금</dt>
-            <dd>{formatWon(Math.round(monthly))}</dd>
-          </div>
-        </dl>
-      </aside>
+        <aside className="summary">
+          <h3>견적 요약</h3>
+          <dl>
+            <div>
+              <dt>모델</dt>
+              <dd>{model.name}</dd>
+            </div>
+            <div>
+              <dt>트림</dt>
+              <dd>{trim.label}</dd>
+            </div>
+            <div>
+              <dt>지역</dt>
+              <dd>{selectedRegion?.name || "-"}</dd>
+            </div>
+            <div>
+              <dt>차량가</dt>
+              <dd>{formatWon(basePrice)}</dd>
+            </div>
+            <div>
+              <dt>보조금(국고+지자체)</dt>
+              <dd>- {formatWon(subsidyWon)}</dd>
+            </div>
+            <div>
+              <dt>추가 혜택</dt>
+              <dd>- {formatWon(extraBenefitWon)}</dd>
+            </div>
+            <div className="bold">
+              <dt>예상 실구매가</dt>
+              <dd>{formatWon(estimatedPrice)}</dd>
+            </div>
+            <div>
+              <dt>할부 원금</dt>
+              <dd>{formatWon(loanPrincipal)}</dd>
+            </div>
+            <div className="bold">
+              <dt>예상 월 납입금</dt>
+              <dd>{formatWon(Math.round(monthly))}</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
     </div>
   );
 }

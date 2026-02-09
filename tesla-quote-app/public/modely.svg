@@ -1,0 +1,33 @@
+<svg width="1400" height="700" viewBox="0 0 1400 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Model Y">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8f9fc"/>
+      <stop offset="100%" stop-color="#eceff4"/>
+    </linearGradient>
+    <linearGradient id="car2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2d323d"/>
+      <stop offset="60%" stop-color="#151922"/>
+      <stop offset="100%" stop-color="#444c5a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="700" fill="url(#bg2)"/>
+  <ellipse cx="700" cy="590" rx="505" ry="34" fill="#d7dce3"/>
+  <g transform="translate(130 130)">
+    <path d="M75 353 C144 252 290 182 526 172 L790 172 C892 172 973 196 1054 258 L1160 337 C1195 360 1201 395 1172 414 L1116 449 C1084 470 1025 480 965 480 L176 480 C113 480 73 451 65 408 C60 385 61 368 75 353 Z" fill="url(#car2)"/>
+    <path d="M286 248 C374 194 473 176 619 176 L810 176 C886 176 951 191 1005 224 L1080 280 C1088 286 1088 297 1077 301 L312 301 C286 301 274 268 286 248 Z" fill="#596173"/>
+    <path d="M302 258 C382 208 480 192 620 192 L805 192 C865 192 916 204 958 229 L1025 283 L332 283 C309 283 295 272 302 258 Z" fill="#a8b2c2"/>
+    <rect x="357" y="202" width="272" height="71" rx="12" fill="#d2dae7"/>
+    <rect x="640" y="202" width="251" height="71" rx="12" fill="#d2dae7"/>
+    <rect x="104" y="370" width="195" height="12" rx="6" fill="#0f131c"/>
+    <rect x="1001" y="359" width="124" height="14" rx="7" fill="#29303d"/>
+    <ellipse cx="335" cy="472" rx="102" ry="102" fill="#1a1f29"/>
+    <ellipse cx="335" cy="472" rx="64" ry="64" fill="#3b4352"/>
+    <ellipse cx="335" cy="472" rx="20" ry="20" fill="#1b2331"/>
+    <ellipse cx="932" cy="472" rx="102" ry="102" fill="#1a1f29"/>
+    <ellipse cx="932" cy="472" rx="64" ry="64" fill="#3b4352"/>
+    <ellipse cx="932" cy="472" rx="20" ry="20" fill="#1b2331"/>
+    <path d="M1049 273 L1110 311 C1120 317 1120 332 1107 339 L1061 366 C1050 372 1041 365 1042 352 L1044 283 C1045 274 1048 270 1049 273 Z" fill="#4d5666"/>
+    <path d="M153 334 C175 306 210 289 248 285 C270 283 279 293 269 312 L235 367 C227 380 211 387 194 384 C162 379 137 364 153 334 Z" fill="#4f5767"/>
+  </g>
+  <text x="700" y="654" text-anchor="middle" font-family="'Segoe UI','Noto Sans KR',sans-serif" font-size="42" font-weight="700" fill="#1a1f28">Model Y</text>
+</svg>
