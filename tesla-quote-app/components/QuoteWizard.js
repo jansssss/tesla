@@ -130,32 +130,32 @@ export default function QuoteWizard({ rows, regions }) {
   };
 
   return (
-    <div className="mx-auto grid max-w-[1400px] gap-8 px-6 py-8 md:px-8 md:py-12">
-      <header className="grid gap-6">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+    <div className="mx-auto grid max-w-[1400px] gap-5 px-4 py-5 md:gap-8 md:px-8 md:py-12">
+      <header className="grid gap-4">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h1 className="font-logo text-4xl font-extrabold tracking-tight text-black md:text-5xl lg:text-6xl">
+            <h1 className="font-logo text-3xl font-extrabold tracking-tight text-black md:text-5xl lg:text-6xl">
               How much <span className="text-brandRed">Tesla</span>?
             </h1>
           </div>
 
-          <nav className="flex flex-wrap gap-3" aria-label="견적 단계">
-            <a href="#section-model" className="rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 shadow-sm transition-all hover:border-gray-400 hover:shadow">1. 모델</a>
-            <a href="#section-trim" className="rounded-full border border-black bg-black px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-gray-900">2. 트림</a>
-            <a href="#section-region" className="rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 shadow-sm transition-all hover:border-gray-400 hover:shadow">3. 지역</a>
-            <a href="#section-benefit" className="rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 shadow-sm transition-all hover:border-gray-400 hover:shadow">4. 혜택·금융</a>
+          <nav className="flex flex-wrap gap-2" aria-label="견적 단계">
+            <a href="#section-model" className="rounded-full border border-gray-300 bg-white px-3.5 py-2 text-xs font-medium text-gray-900 shadow-sm transition-all hover:border-gray-400 hover:shadow md:px-5 md:py-2.5 md:text-sm">1. 모델</a>
+            <a href="#section-trim" className="rounded-full border border-black bg-black px-3.5 py-2 text-xs font-medium text-white shadow-sm transition-all hover:bg-gray-900 md:px-5 md:py-2.5 md:text-sm">2. 트림</a>
+            <a href="#section-region" className="rounded-full border border-gray-300 bg-white px-3.5 py-2 text-xs font-medium text-gray-900 shadow-sm transition-all hover:border-gray-400 hover:shadow md:px-5 md:py-2.5 md:text-sm">3. 지역</a>
+            <a href="#section-benefit" className="rounded-full border border-gray-300 bg-white px-3.5 py-2 text-xs font-medium text-gray-900 shadow-sm transition-all hover:border-gray-400 hover:shadow md:px-5 md:py-2.5 md:text-sm">4. 혜택·금융</a>
           </nav>
         </div>
       </header>
 
-      <div className="grid items-start gap-8 lg:grid-cols-[1.8fr_1fr]">
-        <div className="grid gap-8">
-          <section id="section-model" className="overflow-hidden rounded-3xl bg-white shadow-lg">
-            <div className="flex gap-4 border-b border-gray-200 p-6">
+      <div className="grid items-start gap-5 md:gap-8 lg:grid-cols-[1.8fr_1fr]">
+        <div className="grid gap-5 md:gap-8">
+          <section id="section-model" className="overflow-hidden rounded-2xl bg-white shadow-lg md:rounded-3xl">
+            <div className="flex gap-2 border-b border-gray-200 p-4 md:gap-4 md:p-6">
               {MODEL_CATALOG.map((item) => (
                 <button
                   key={item.id}
-                  className={`flex-1 rounded-lg px-6 py-4 text-base font-bold transition-all md:text-lg ${
+                  className={`flex-1 rounded-lg px-4 py-3 text-sm font-bold transition-all md:px-6 md:py-4 md:text-lg ${
                     modelId === item.id
                       ? "bg-black text-white shadow-md"
                       : "bg-gray-100 text-gray-800 hover:bg-gray-200"
@@ -167,51 +167,51 @@ export default function QuoteWizard({ rows, regions }) {
               ))}
             </div>
 
-            <div className="bg-gradient-to-b from-gray-50 to-white p-8 md:p-12">
+            <div className="bg-gradient-to-b from-gray-50 to-white p-5 md:p-12">
               <img
-                className="h-[240px] w-full object-contain md:h-[480px]"
+                className="h-[200px] w-full object-contain md:h-[480px]"
                 src={model.image}
                 alt={model.name}
               />
 
-              <h2 className="mt-8 text-center text-4xl font-black tracking-tight md:mt-12 md:text-6xl">{model.name}</h2>
+              <h2 className="mt-6 text-center text-[32px] font-extrabold leading-none tracking-tight md:mt-12 md:text-6xl">{model.name}</h2>
 
-              <div className="mx-auto mb-8 mt-6 grid max-w-3xl grid-cols-3 gap-6 text-center md:gap-8">
+              <div className="mx-auto mb-5 mt-6 grid grid-cols-3 gap-4 text-center md:mb-8 md:mt-6 md:max-w-3xl md:gap-8">
                 {model.stats.map((item) => (
-                  <div key={item.label} className="rounded-2xl bg-white p-4 shadow-sm">
-                    <strong className="block text-3xl font-black md:text-4xl">{item.value}</strong>
-                    <span className="mt-2 block text-xs font-medium text-gray-600 md:text-sm">{item.label}</span>
+                  <div key={item.label} className="px-1">
+                    <strong className="block text-[28px] font-extrabold leading-none md:text-4xl">{item.value}</strong>
+                    <span className="mt-2 block text-[11px] font-normal leading-tight text-gray-600 md:mt-2 md:text-sm">{item.label}</span>
                   </div>
                 ))}
               </div>
 
-              <div id="section-trim" className="grid gap-3">
+              <div id="section-trim" className="grid gap-2.5 md:gap-3">
                 {model.trims.map((item) => (
                   <button
                     key={item.id}
-                    className={`flex items-center justify-between rounded-2xl px-6 py-5 text-left transition-all ${
+                    className={`flex items-start justify-between gap-3 rounded-xl px-4 py-4 text-left transition-all md:items-center md:rounded-2xl md:px-6 md:py-5 ${
                       selectedTrimId === item.id
                         ? "bg-black text-white shadow-lg"
-                        : "bg-gray-50 text-gray-900 hover:bg-gray-100 hover:shadow-md"
+                        : "bg-white text-gray-900 hover:bg-gray-100 hover:shadow-md"
                     }`}
                     onClick={() => setSelectedTrimId(item.id)}
                   >
-                    <span className="max-w-[65%] text-base font-semibold md:text-xl">{item.label}</span>
-                    <strong className="text-xl font-black md:text-3xl">{formatWon(item.price)}</strong>
+                    <span className="flex-1 pr-2 text-[13px] font-normal leading-snug md:text-xl md:font-semibold">{item.label}</span>
+                    <strong className="shrink-0 text-[17px] font-extrabold md:text-3xl">{formatWon(item.price)}</strong>
                   </button>
                 ))}
               </div>
 
-              <button className="mt-6 w-full rounded-2xl border border-gray-300 bg-white px-6 py-4 text-base font-semibold text-gray-900 transition-all hover:bg-gray-50 hover:shadow-md md:text-lg">
+              <button className="mt-4 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm font-semibold text-gray-900 transition-all hover:bg-gray-50 hover:shadow-md md:mt-6 md:rounded-2xl md:px-6 md:py-4 md:text-lg">
                 기능 보기 및 비교하기
               </button>
             </div>
           </section>
 
-          <section id="section-region" className="overflow-hidden rounded-3xl bg-white p-8 shadow-lg">
-            <h3 className="mb-6 text-2xl font-black md:text-3xl">3. 지역 선택</h3>
+          <section id="section-region" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-8">
+            <h3 className="mb-4 text-xl font-black md:mb-6 md:text-3xl">3. 지역 선택</h3>
             <select
-              className="w-full rounded-xl border border-gray-300 bg-white px-5 py-4 text-base font-medium shadow-sm transition-all hover:border-gray-400 md:text-lg"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-4 md:text-lg"
               value={regionCode}
               onChange={(e) => setRegionCode(e.target.value)}
             >
@@ -221,42 +221,42 @@ export default function QuoteWizard({ rows, regions }) {
                 </option>
               ))}
             </select>
-            <div className="mt-6 rounded-xl bg-gray-50 p-5">
-              <p className="text-base text-gray-700 md:text-lg">
+            <div className="mt-4 rounded-lg bg-gray-50 p-4 md:mt-6 md:rounded-xl md:p-5">
+              <p className="text-sm text-gray-700 md:text-lg">
                 보조금: <span className="font-semibold">국비 {subsidy.national_subsidy_manwon}만원</span> + <span className="font-semibold">지방비 {subsidy.local_subsidy_manwon}만원</span>
               </p>
-              <p className="mt-2 text-xl font-black md:text-2xl">
+              <p className="mt-1.5 text-lg font-black md:mt-2 md:text-2xl">
                 총 {subsidy.total_subsidy_manwon}만원
               </p>
             </div>
           </section>
 
-          <section id="section-benefit" className="overflow-hidden rounded-3xl bg-white p-8 shadow-lg">
-            <h3 className="mb-6 text-2xl font-black md:text-3xl">4. 혜택 · 금융</h3>
+          <section id="section-benefit" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-8">
+            <h3 className="mb-4 text-xl font-black md:mb-6 md:text-3xl">4. 혜택 · 금융</h3>
 
-            <div className="mt-6 grid gap-4">
-              <label className="flex cursor-pointer items-center gap-3 rounded-xl bg-gray-50 px-5 py-4 transition-all hover:bg-gray-100">
+            <div className="mt-4 grid gap-3 md:mt-6 md:gap-4">
+              <label className="flex cursor-pointer items-center gap-2.5 rounded-lg bg-gray-50 px-4 py-3 transition-all hover:bg-gray-100 md:gap-3 md:rounded-xl md:px-5 md:py-4">
                 <input
                   type="checkbox"
-                  className="h-5 w-5 cursor-pointer rounded border-gray-300"
+                  className="h-4 w-4 cursor-pointer rounded border-gray-300 md:h-5 md:w-5"
                   checked={isLowIncomeBenefit}
                   onChange={(e) => setIsLowIncomeBenefit(e.target.checked)}
                 />
-                <span className="text-base font-semibold md:text-lg">차상위 이하 계층 (국비 20% 추가)</span>
+                <span className="text-sm font-semibold md:text-lg">차상위 이하 계층 (국비 20% 추가)</span>
               </label>
-              <label className="flex cursor-pointer items-center gap-3 rounded-xl bg-gray-50 px-5 py-4 transition-all hover:bg-gray-100">
+              <label className="flex cursor-pointer items-center gap-2.5 rounded-lg bg-gray-50 px-4 py-3 transition-all hover:bg-gray-100 md:gap-3 md:rounded-xl md:px-5 md:py-4">
                 <input
                   type="checkbox"
-                  className="h-5 w-5 cursor-pointer rounded border-gray-300"
+                  className="h-4 w-4 cursor-pointer rounded border-gray-300 md:h-5 md:w-5"
                   checked={isYouthBenefit}
                   onChange={(e) => setIsYouthBenefit(e.target.checked)}
                 />
-                <span className="text-base font-semibold md:text-lg">청년 생애 첫차 (국비 20% 추가)</span>
+                <span className="text-sm font-semibold md:text-lg">청년 생애 첫차 (국비 20% 추가)</span>
               </label>
-              <label className="grid gap-2 text-sm font-medium text-gray-700">
-                <span className="text-base font-bold md:text-lg">다자녀 자녀 수</span>
+              <label className="grid gap-1.5 text-sm font-medium text-gray-700 md:gap-2">
+                <span className="text-sm font-bold md:text-lg">다자녀 자녀 수</span>
                 <select
-                  className="rounded-xl border border-gray-300 bg-white px-5 py-4 text-base font-medium shadow-sm transition-all hover:border-gray-400"
+                  className="rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-4 md:text-base"
                   value={multiChildCount}
                   onChange={(e) => setMultiChildCount(Number(e.target.value))}
                 >
@@ -268,11 +268,11 @@ export default function QuoteWizard({ rows, regions }) {
               </label>
             </div>
 
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
-              <label className="grid gap-2 text-sm font-medium text-gray-700">
-                <span className="text-base font-bold md:text-lg">선수금</span>
+            <div className="mt-5 grid gap-3 md:mt-8 md:grid-cols-3 md:gap-4">
+              <label className="grid gap-1.5 text-sm font-medium text-gray-700 md:gap-2">
+                <span className="text-sm font-bold md:text-lg">선수금</span>
                 <input
-                  className="rounded-xl border border-gray-300 bg-white px-5 py-4 text-base font-medium shadow-sm transition-all hover:border-gray-400"
+                  className="rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-4 md:text-base"
                   type="text"
                   inputMode="numeric"
                   placeholder="예: 10,000,000"
@@ -280,10 +280,10 @@ export default function QuoteWizard({ rows, regions }) {
                   onChange={(e) => handleDownPaymentChange(e.target.value)}
                 />
               </label>
-              <label className="grid gap-2 text-sm font-medium text-gray-700">
-                <span className="text-base font-bold md:text-lg">할부금리(%)</span>
+              <label className="grid gap-1.5 text-sm font-medium text-gray-700 md:gap-2">
+                <span className="text-sm font-bold md:text-lg">할부금리(%)</span>
                 <input
-                  className="rounded-xl border border-gray-300 bg-white px-5 py-4 text-base font-medium shadow-sm transition-all hover:border-gray-400"
+                  className="rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-4 md:text-base"
                   type="number"
                   min="0"
                   step="0.1"
@@ -291,10 +291,10 @@ export default function QuoteWizard({ rows, regions }) {
                   onChange={(e) => setRate(Number(e.target.value || 0))}
                 />
               </label>
-              <label className="grid gap-2 text-sm font-medium text-gray-700">
-                <span className="text-base font-bold md:text-lg">할부개월</span>
+              <label className="grid gap-1.5 text-sm font-medium text-gray-700 md:gap-2">
+                <span className="text-sm font-bold md:text-lg">할부개월</span>
                 <select
-                  className="rounded-xl border border-gray-300 bg-white px-5 py-4 text-base font-medium shadow-sm transition-all hover:border-gray-400"
+                  className="rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-4 md:text-base"
                   value={months}
                   onChange={(e) => setMonths(Number(e.target.value))}
                 >
@@ -309,45 +309,45 @@ export default function QuoteWizard({ rows, regions }) {
           </section>
         </div>
 
-        <aside className="sticky top-6 overflow-hidden rounded-3xl bg-black text-white shadow-2xl">
-          <div className="bg-gradient-to-br from-gray-900 to-black p-8">
-            <h3 className="mb-8 text-3xl font-black md:text-4xl">견적 요약</h3>
-            <dl className="m-0 space-y-1">
-              <div className="flex justify-between gap-4 border-b border-white/10 py-4">
-                <dt className="text-base font-medium text-gray-400">모델</dt>
-                <dd className="m-0 text-right text-base font-bold">{model.name}</dd>
+        <aside className="sticky top-4 overflow-hidden rounded-2xl bg-black text-white shadow-2xl md:top-6 md:rounded-3xl">
+          <div className="bg-gradient-to-br from-gray-900 to-black p-5 md:p-8">
+            <h3 className="mb-5 text-2xl font-black md:mb-8 md:text-4xl">견적 요약</h3>
+            <dl className="m-0 space-y-0.5">
+              <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
+                <dt className="text-sm font-medium text-gray-400 md:text-base">모델</dt>
+                <dd className="m-0 text-right text-sm font-bold md:text-base">{model.name}</dd>
               </div>
-              <div className="flex justify-between gap-4 border-b border-white/10 py-4">
-                <dt className="text-base font-medium text-gray-400">트림</dt>
-                <dd className="m-0 text-right text-base font-bold">{trim.label}</dd>
+              <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
+                <dt className="text-sm font-medium text-gray-400 md:text-base">트림</dt>
+                <dd className="m-0 text-right text-sm font-bold md:text-base">{trim.label}</dd>
               </div>
-              <div className="flex justify-between gap-4 border-b border-white/10 py-4">
-                <dt className="text-base font-medium text-gray-400">지역</dt>
-                <dd className="m-0 text-right text-base font-bold">{selectedRegion?.name || "-"}</dd>
+              <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
+                <dt className="text-sm font-medium text-gray-400 md:text-base">지역</dt>
+                <dd className="m-0 text-right text-sm font-bold md:text-base">{selectedRegion?.name || "-"}</dd>
               </div>
-              <div className="flex justify-between gap-4 border-b border-white/10 py-4">
-                <dt className="text-base font-medium text-gray-400">차량가</dt>
-                <dd className="m-0 text-right text-lg font-bold">{formatWon(basePrice)}</dd>
+              <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
+                <dt className="text-sm font-medium text-gray-400 md:text-base">차량가</dt>
+                <dd className="m-0 text-right text-base font-bold md:text-lg">{formatWon(basePrice)}</dd>
               </div>
-              <div className="flex justify-between gap-4 border-b border-white/10 py-4">
-                <dt className="text-base font-medium text-gray-400">보조금(국고+지자체)</dt>
-                <dd className="m-0 text-right text-lg font-bold text-green-400">- {formatWon(subsidyWon)}</dd>
+              <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
+                <dt className="text-sm font-medium text-gray-400 md:text-base">보조금(국고+지자체)</dt>
+                <dd className="m-0 text-right text-base font-bold text-green-400 md:text-lg">- {formatWon(subsidyWon)}</dd>
               </div>
-              <div className="flex justify-between gap-4 border-b border-white/10 py-4">
-                <dt className="text-base font-medium text-gray-400">추가 혜택</dt>
-                <dd className="m-0 text-right text-lg font-bold text-green-400">- {formatWon(extraBenefitWon)}</dd>
+              <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
+                <dt className="text-sm font-medium text-gray-400 md:text-base">추가 혜택</dt>
+                <dd className="m-0 text-right text-base font-bold text-green-400 md:text-lg">- {formatWon(extraBenefitWon)}</dd>
               </div>
-              <div className="flex justify-between gap-4 border-b-2 border-white/20 py-5">
-                <dt className="text-lg font-bold">예상 실구매가</dt>
-                <dd className="m-0 text-right text-2xl font-black">{formatWon(estimatedPrice)}</dd>
+              <div className="flex justify-between gap-3 border-b-2 border-white/20 py-3.5 md:gap-4 md:py-5">
+                <dt className="text-base font-bold md:text-lg">예상 실구매가</dt>
+                <dd className="m-0 text-right text-xl font-black md:text-2xl">{formatWon(estimatedPrice)}</dd>
               </div>
-              <div className="flex justify-between gap-4 border-b border-white/10 py-4 pt-6">
-                <dt className="text-base font-medium text-gray-400">할부 원금</dt>
-                <dd className="m-0 text-right text-lg font-bold">{formatWon(loanPrincipal)}</dd>
+              <div className="flex justify-between gap-3 border-b border-white/10 py-3 pt-4 md:gap-4 md:py-4 md:pt-6">
+                <dt className="text-sm font-medium text-gray-400 md:text-base">할부 원금</dt>
+                <dd className="m-0 text-right text-base font-bold md:text-lg">{formatWon(loanPrincipal)}</dd>
               </div>
-              <div className="flex justify-between gap-4 rounded-2xl bg-white/5 px-6 py-6">
-                <dt className="text-lg font-bold">예상 월 납입금</dt>
-                <dd className="m-0 text-right text-3xl font-black text-brandRed">{formatWon(Math.round(monthly))}</dd>
+              <div className="flex justify-between gap-3 rounded-xl bg-white/5 px-4 py-4 md:gap-4 md:rounded-2xl md:px-6 md:py-6">
+                <dt className="text-base font-bold md:text-lg">예상 월 납입금</dt>
+                <dd className="m-0 text-right text-2xl font-black text-brandRed md:text-3xl">{formatWon(Math.round(monthly))}</dd>
               </div>
             </dl>
           </div>
