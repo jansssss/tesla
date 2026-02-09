@@ -1,0 +1,5 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="HOWMUCH TESLA icon">
+  <rect width="64" height="64" rx="14" fill="#e31937"/>
+  <path d="M0 0 H64 V24 C48 21 25 20 0 24 Z" fill="rgba(255,255,255,0.14)"/>
+  <text x="16" y="46" font-family="'Orbitron','Segoe UI',sans-serif" font-size="34" font-weight="900" fill="#ffffff">₩</text>
+</svg>

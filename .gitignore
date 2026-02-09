@@ -1,0 +1,17 @@
+.edge-profile/
+
+# scratch artifacts
+common.js
+decode_any.js
+decode_pnp.js
+ev_index.html
+ev_index_utf-8.html
+ev_popup.html
+ev_popup_decoded.html
+ev_popup_dom.html
+init_page_decoded.html
+init_page_raw.html
+model_1100.html
+pnp4web.js
+probe_ev.js
+test_model.js
