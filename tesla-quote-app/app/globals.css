@@ -7,10 +7,25 @@
 @layer base {
   html,
   body {
-    @apply m-0 p-0 bg-[#e8e8ea] text-[#101214] font-sans;
+    @apply m-0 p-0 bg-white text-black font-sans antialiased;
   }
 
   * {
     @apply box-border;
+  }
+
+  /* Smooth scrolling for better UX */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Better checkbox styling */
+  input[type="checkbox"] {
+    @apply cursor-pointer accent-black;
+  }
+
+  /* Better select styling */
+  select {
+    @apply cursor-pointer;
   }
 }
