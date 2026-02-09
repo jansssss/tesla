@@ -169,6 +169,50 @@ export default function QuoteWizard({ rows, regions }) {
         </h1>
       </header>
 
+      {/* Mobile Navigation - sticky below header */}
+      <nav className="sticky top-0 z-40 flex flex-wrap justify-center gap-2 bg-white py-3 shadow-md md:hidden" aria-label="견적 단계">
+        <a
+          href="#section-model"
+          className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
+            activeSection === "model"
+              ? "border-black bg-black text-white hover:bg-gray-900"
+              : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+          }`}
+        >
+          1. 모델
+        </a>
+        <a
+          href="#section-trim"
+          className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
+            activeSection === "trim"
+              ? "border-black bg-black text-white hover:bg-gray-900"
+              : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+          }`}
+        >
+          2. 트림
+        </a>
+        <a
+          href="#section-region"
+          className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
+            activeSection === "region"
+              ? "border-black bg-black text-white hover:bg-gray-900"
+              : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+          }`}
+        >
+          3. 지역
+        </a>
+        <a
+          href="#section-benefit"
+          className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
+            activeSection === "benefit"
+              ? "border-black bg-black text-white hover:bg-gray-900"
+              : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+          }`}
+        >
+          4. 혜택·금융
+        </a>
+      </nav>
+
       <div className="grid items-start gap-5 md:gap-8 lg:grid-cols-[1.8fr_1fr]">
         <div className="grid gap-5 md:gap-8">
           <section id="section-model" className="overflow-hidden rounded-2xl bg-white shadow-lg md:rounded-3xl">
@@ -195,13 +239,13 @@ export default function QuoteWizard({ rows, regions }) {
                 alt={model.name}
               />
 
-              <h2 className="mt-6 text-center text-[32px] font-extrabold leading-none tracking-tight md:mt-12 md:text-6xl">{model.name}</h2>
+              <h2 className="mt-6 text-center text-[32px] font-medium leading-none tracking-normal md:mt-12 md:text-[40px]">{model.name}</h2>
 
               <div className="mx-auto mb-5 mt-6 grid grid-cols-3 gap-4 text-center md:mb-8 md:mt-6 md:max-w-3xl md:gap-8">
                 {model.stats.map((item) => (
                   <div key={item.label} className="px-1">
-                    <strong className="block text-[28px] font-extrabold leading-none md:text-4xl">{item.value}</strong>
-                    <span className="mt-2 block text-[11px] font-normal leading-tight text-gray-600 md:mt-2 md:text-sm">{item.label}</span>
+                    <strong className="block text-[28px] font-medium leading-none tracking-tight md:text-[28px]">{item.value}</strong>
+                    <span className="mt-1 block text-[11px] font-normal leading-tight text-gray-500 md:mt-1.5 md:text-xs">{item.label}</span>
                   </div>
                 ))}
               </div>
@@ -336,10 +380,11 @@ export default function QuoteWizard({ rows, regions }) {
         </div>
 
         <div className="grid gap-5 md:gap-8">
-          <nav className="sticky top-0 z-40 flex flex-wrap justify-center gap-2 bg-white py-3 shadow-md md:static md:justify-start md:py-0 md:shadow-none" aria-label="견적 단계">
+          {/* Desktop Navigation - sticky in right column */}
+          <nav className="sticky top-4 z-40 hidden flex-wrap justify-start gap-2 md:flex" aria-label="견적 단계">
             <a
               href="#section-model"
-              className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all md:px-5 md:py-2.5 md:text-sm ${
+              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
                 activeSection === "model"
                   ? "border-black bg-black text-white hover:bg-gray-900"
                   : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
@@ -349,7 +394,7 @@ export default function QuoteWizard({ rows, regions }) {
             </a>
             <a
               href="#section-trim"
-              className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all md:px-5 md:py-2.5 md:text-sm ${
+              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
                 activeSection === "trim"
                   ? "border-black bg-black text-white hover:bg-gray-900"
                   : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
@@ -359,7 +404,7 @@ export default function QuoteWizard({ rows, regions }) {
             </a>
             <a
               href="#section-region"
-              className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all md:px-5 md:py-2.5 md:text-sm ${
+              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
                 activeSection === "region"
                   ? "border-black bg-black text-white hover:bg-gray-900"
                   : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
@@ -369,7 +414,7 @@ export default function QuoteWizard({ rows, regions }) {
             </a>
             <a
               href="#section-benefit"
-              className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all md:px-5 md:py-2.5 md:text-sm ${
+              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
                 activeSection === "benefit"
                   ? "border-black bg-black text-white hover:bg-gray-900"
                   : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
