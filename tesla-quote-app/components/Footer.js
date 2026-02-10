@@ -69,17 +69,6 @@ export default function Footer() {
                   goooods@naver.com
                 </a>
               </li>
-              <li className="flex items-start">
-                <span className="text-gray-500 mr-2">🔗</span>
-                <a
-                  href="https://github.com/jansssss/tesla"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
-                >
-                  GitHub
-                </a>
-              </li>
             </ul>
           </div>
         </div>
