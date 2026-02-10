@@ -22,8 +22,8 @@ export default function PrivacyPage() {
           </h1>
 
           <div className="text-sm text-gray-500 mb-8">
-            <p>최종 수정일: 2024년 2월 10일</p>
-            <p>시행일: 2024년 2월 10일</p>
+            <p>최종 수정일: 2026년 2월 10일</p>
+            <p>시행일: 2026년 2월 10일</p>
           </div>
 
           <div className="prose prose-lg max-w-none space-y-8">
