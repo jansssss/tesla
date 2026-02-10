@@ -317,7 +317,7 @@ export default function DisclaimerPage() {
             {/* 마지막 업데이트 */}
             <section className="border-t border-gray-200 pt-6 mt-8">
               <p className="text-sm text-gray-600">
-                본 면책조항은 2024년 2월 10일에 최종 수정되었으며, 예고 없이 변경될 수 있습니다.
+                본 면책조항은 2026년 2월 10일에 최종 수정되었으며, 예고 없이 변경될 수 있습니다.
                 정기적으로 확인하시기 바랍니다.
               </p>
             </section>
