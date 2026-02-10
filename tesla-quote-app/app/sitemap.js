@@ -1,5 +1,5 @@
 export default function sitemap() {
-  const baseUrl = 'https://howmuch-tesla.kr';
+  const baseUrl = 'https://paytesla.kr';
 
   // 현재 날짜
   const currentDate = new Date().toISOString();
