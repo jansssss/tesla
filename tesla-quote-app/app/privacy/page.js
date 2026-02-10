@@ -316,7 +316,7 @@ export default function PrivacyPage() {
                 부칙
               </h2>
               <p className="text-gray-700">
-                본 방침은 2024년 2월 10일부터 시행됩니다.
+                본 방침은 2026년 2월 10일부터 시행됩니다.
               </p>
             </section>
           </div>
