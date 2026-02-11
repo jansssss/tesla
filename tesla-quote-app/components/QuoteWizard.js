@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useMemo, useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 
 const MODEL_CATALOG = [
   {
@@ -73,19 +74,54 @@ function monthlyPayment(principal, annualRatePct, months) {
 }
 
 export default function QuoteWizard({ rows, regions }) {
-  const [modelId, setModelId] = useState("model3");
-  const [selectedTrimId, setSelectedTrimId] = useState("m3-rwd");
-  const [regionCode, setRegionCode] = useState(regions[0]?.code || "");
-  const [isYouthBenefit, setIsYouthBenefit] = useState(false);
-  const [isLowIncomeBenefit, setIsLowIncomeBenefit] = useState(false);
-  const [isEvConversionBenefit, setIsEvConversionBenefit] = useState(false);
-  const [multiChildCount, setMultiChildCount] = useState(0);
-  const [downPayment, setDownPayment] = useState(10000000);
-  const [downPaymentInput, setDownPaymentInput] = useState(formatNumber(10000000));
-  const [rate, setRate] = useState(3.6);
-  const [months, setMonths] = useState(60);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  // URL 파라미터에서 초기값 가져오기
+  const getInitialState = () => {
+    if (typeof window === 'undefined') return null;
+
+    const urlModelId = searchParams.get('model') || "model3";
+    const urlTrimId = searchParams.get('trim') || "m3-rwd";
+    const urlRegion = searchParams.get('region') || regions[0]?.code || "";
+    const urlYouth = searchParams.get('youth') === '1';
+    const urlLowIncome = searchParams.get('lowIncome') === '1';
+    const urlEvConversion = searchParams.get('evConversion') === '1';
+    const urlMultiChild = parseInt(searchParams.get('multiChild') || '0');
+    const urlDownPayment = parseInt(searchParams.get('downPayment') || '10000000');
+    const urlRate = parseFloat(searchParams.get('rate') || '3.6');
+    const urlMonths = parseInt(searchParams.get('months') || '60');
+
+    return {
+      modelId: urlModelId,
+      selectedTrimId: urlTrimId,
+      regionCode: urlRegion,
+      isYouthBenefit: urlYouth,
+      isLowIncomeBenefit: urlLowIncome,
+      isEvConversionBenefit: urlEvConversion,
+      multiChildCount: urlMultiChild,
+      downPayment: urlDownPayment,
+      rate: urlRate,
+      months: urlMonths
+    };
+  };
+
+  const initialState = getInitialState();
+
+  const [modelId, setModelId] = useState(initialState?.modelId || "model3");
+  const [selectedTrimId, setSelectedTrimId] = useState(initialState?.selectedTrimId || "m3-rwd");
+  const [regionCode, setRegionCode] = useState(initialState?.regionCode || regions[0]?.code || "");
+  const [isYouthBenefit, setIsYouthBenefit] = useState(initialState?.isYouthBenefit || false);
+  const [isLowIncomeBenefit, setIsLowIncomeBenefit] = useState(initialState?.isLowIncomeBenefit || false);
+  const [isEvConversionBenefit, setIsEvConversionBenefit] = useState(initialState?.isEvConversionBenefit || false);
+  const [multiChildCount, setMultiChildCount] = useState(initialState?.multiChildCount || 0);
+  const [downPayment, setDownPayment] = useState(initialState?.downPayment || 10000000);
+  const [downPaymentInput, setDownPaymentInput] = useState(formatNumber(initialState?.downPayment || 10000000));
+  const [rate, setRate] = useState(initialState?.rate || 3.6);
+  const [months, setMonths] = useState(initialState?.months || 60);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [activeSection, setActiveSection] = useState("model");
+  const [copied, setCopied] = useState(false);
 
   const model = useMemo(
     () => MODEL_CATALOG.find((item) => item.id === modelId) || MODEL_CATALOG[0],
@@ -159,6 +195,87 @@ export default function QuoteWizard({ rows, regions }) {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // 견적 URL 생성
+  const generateShareUrl = () => {
+    const params = new URLSearchParams({
+      model: modelId,
+      trim: selectedTrimId,
+      region: regionCode,
+      youth: isYouthBenefit ? '1' : '0',
+      lowIncome: isLowIncomeBenefit ? '1' : '0',
+      evConversion: isEvConversionBenefit ? '1' : '0',
+      multiChild: multiChildCount.toString(),
+      downPayment: downPayment.toString(),
+      rate: rate.toString(),
+      months: months.toString()
+    });
+    return `${window.location.origin}?${params.toString()}`;
+  };
+
+  // URL 복사
+  const copyUrlToClipboard = async () => {
+    try {
+      const url = generateShareUrl();
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      alert('URL 복사에 실패했습니다.');
+    }
+  };
+
+  // 카카오톡 공유
+  const shareToKakao = () => {
+    if (typeof window === 'undefined' || !window.Kakao) return;
+
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init('10836823db1cf5d613d24a19e229f8f9');
+    }
+
+    window.Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: '테슬라 견적 계산 결과',
+        description: `${model.name} ${trim.label}\n예상 실구매가: ${formatWon(estimatedPrice)}\n월 납입금: ${formatWon(Math.round(monthly))}`,
+        imageUrl: 'https://paytesla.kr/logo.svg',
+        link: {
+          mobileWebUrl: generateShareUrl(),
+          webUrl: generateShareUrl(),
+        },
+      },
+      buttons: [
+        {
+          title: '견적 확인하기',
+          link: {
+            mobileWebUrl: generateShareUrl(),
+            webUrl: generateShareUrl(),
+          },
+        },
+      ],
+    });
+  };
+
+  // 이미지로 저장
+  const downloadAsImage = async () => {
+    try {
+      const html2canvas = (await import('html2canvas')).default;
+      const element = document.getElementById('quote-summary');
+      if (!element) return;
+
+      const canvas = await html2canvas(element, {
+        backgroundColor: '#000000',
+        scale: 2
+      });
+
+      const link = document.createElement('a');
+      link.download = `테슬라_견적_${model.name}_${new Date().getTime()}.png`;
+      link.href = canvas.toDataURL();
+      link.click();
+    } catch (err) {
+      alert('이미지 저장에 실패했습니다.');
+    }
   };
 
   return (
@@ -424,7 +541,7 @@ export default function QuoteWizard({ rows, regions }) {
             </a>
           </nav>
 
-          <aside className="overflow-hidden rounded-2xl bg-black text-white shadow-2xl md:rounded-3xl">
+          <aside id="quote-summary" className="overflow-hidden rounded-2xl bg-black text-white shadow-2xl md:rounded-3xl">
           <div className="bg-gradient-to-br from-gray-900 to-black p-5 md:p-8">
             <h3 className="mb-5 text-2xl font-black md:mb-8 md:text-4xl">견적 요약</h3>
             <dl className="m-0 space-y-0.5">
@@ -465,6 +582,44 @@ export default function QuoteWizard({ rows, regions }) {
                 <dd className="m-0 text-right text-2xl font-black text-brandRed md:text-3xl">{formatWon(Math.round(monthly))}</dd>
               </div>
             </dl>
+
+            {/* 공유 버튼 */}
+            <div className="mt-6 border-t border-white/10 pt-6 md:mt-8 md:pt-8">
+              <p className="mb-3 text-sm font-medium text-gray-400 md:mb-4 md:text-base">
+                견적 공유하기
+              </p>
+              <div className="grid gap-2 md:grid-cols-3 md:gap-3">
+                <button
+                  onClick={copyUrlToClipboard}
+                  className="flex items-center justify-center gap-2 rounded-lg bg-white/10 px-4 py-3 text-sm font-semibold transition-all hover:bg-white/20 md:px-5 md:py-3.5 md:text-base"
+                >
+                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  {copied ? '복사됨!' : 'URL 복사'}
+                </button>
+
+                <button
+                  onClick={shareToKakao}
+                  className="flex items-center justify-center gap-2 rounded-lg bg-[#FEE500] px-4 py-3 text-sm font-semibold text-black transition-all hover:bg-[#FDD835] md:px-5 md:py-3.5 md:text-base"
+                >
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.9 5.3 4.8 6.7-.2.8-.7 2.8-.8 3.2-.1.5.2.5.4.4.3-.1 3.5-2.3 4-2.7.5.1 1 .1 1.6.1 5.5 0 10-3.6 10-8S17.5 3 12 3z"/>
+                  </svg>
+                  카카오톡
+                </button>
+
+                <button
+                  onClick={downloadAsImage}
+                  className="flex items-center justify-center gap-2 rounded-lg bg-white/10 px-4 py-3 text-sm font-semibold transition-all hover:bg-white/20 md:px-5 md:py-3.5 md:text-base"
+                >
+                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  이미지 저장
+                </button>
+              </div>
+            </div>
           </div>
         </aside>
         </div>
