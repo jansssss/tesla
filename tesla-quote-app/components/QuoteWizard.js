@@ -237,8 +237,8 @@ export default function QuoteWizard({ rows, regions }) {
     window.Kakao.Share.sendDefault({
       objectType: 'feed',
       content: {
-        title: '테슬라 견적 계산 결과',
-        description: `${model.name} ${trim.label}\n예상 실구매가: ${formatWon(estimatedPrice)}\n월 납입금: ${formatWon(Math.round(monthly))}`,
+        title: '테슬라 견적 계산 완료!',
+        description: `${model.name} ${trim.label} - 실구매가 ${formatWon(estimatedPrice)}`,
         imageUrl: 'https://paytesla.kr/logo.svg',
         link: {
           mobileWebUrl: generateShareUrl(),
@@ -247,7 +247,7 @@ export default function QuoteWizard({ rows, regions }) {
       },
       buttons: [
         {
-          title: '견적 확인하기',
+          title: '내 견적 확인하기',
           link: {
             mobileWebUrl: generateShareUrl(),
             webUrl: generateShareUrl(),
