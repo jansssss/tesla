@@ -178,7 +178,8 @@ export default function QuoteWizard({ rows, regions }) {
       for (const section of sections) {
         const element = document.getElementById(`section-${section}`);
         if (element) {
-          const top = element.offsetTop;
+          const rect = element.getBoundingClientRect();
+          const top = window.scrollY + rect.top;
           const bottom = top + element.offsetHeight;
           if (scrollPosition >= top && scrollPosition < bottom) {
             setActiveSection(section);
@@ -189,6 +190,7 @@ export default function QuoteWizard({ rows, regions }) {
     };
 
     window.addEventListener("scroll", handleScroll);
+    handleScroll(); // 초기 로드 시에도 실행
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
