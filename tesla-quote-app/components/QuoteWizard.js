@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { useMemo, useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const MODEL_CATALOG = [
   {
@@ -75,7 +75,6 @@ function monthlyPayment(principal, annualRatePct, months) {
 
 export default function QuoteWizard({ rows, regions }) {
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   // URL 파라미터에서 초기값 가져오기
   const getInitialState = () => {
@@ -498,7 +497,7 @@ export default function QuoteWizard({ rows, regions }) {
 
         <div className="grid gap-5 md:gap-8">
           {/* Desktop Navigation - sticky in right column */}
-          <nav className="sticky top-4 z-40 hidden flex-wrap justify-start gap-2 md:flex" aria-label="견적 단계">
+          <nav className="sticky top-4 z-40 hidden flex-wrap justify-start gap-2 self-start md:flex" aria-label="견적 단계">
             <a
               href="#section-model"
               className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
@@ -541,7 +540,7 @@ export default function QuoteWizard({ rows, regions }) {
             </a>
           </nav>
 
-          <aside id="quote-summary" className="overflow-hidden rounded-2xl bg-black text-white shadow-2xl md:rounded-3xl">
+          <aside id="quote-summary" className="sticky top-4 self-start overflow-hidden rounded-2xl bg-black text-white shadow-2xl md:rounded-3xl">
           <div className="bg-gradient-to-br from-gray-900 to-black p-5 md:p-8">
             <h3 className="mb-5 text-2xl font-black md:mb-8 md:text-4xl">견적 요약</h3>
             <dl className="m-0 space-y-0.5">
@@ -585,38 +584,38 @@ export default function QuoteWizard({ rows, regions }) {
 
             {/* 공유 버튼 */}
             <div className="mt-6 border-t border-white/10 pt-6 md:mt-8 md:pt-8">
-              <p className="mb-3 text-sm font-medium text-gray-400 md:mb-4 md:text-base">
+              <p className="mb-3 text-xs font-medium text-gray-400 md:mb-4 md:text-sm">
                 견적 공유하기
               </p>
               <div className="grid gap-2 md:grid-cols-3 md:gap-3">
                 <button
                   onClick={copyUrlToClipboard}
-                  className="flex items-center justify-center gap-2 rounded-lg bg-white/10 px-4 py-3 text-sm font-semibold transition-all hover:bg-white/20 md:px-5 md:py-3.5 md:text-base"
+                  className="flex items-center justify-center gap-1.5 rounded-lg bg-white/10 px-3 py-2.5 text-xs font-semibold transition-all hover:bg-white/20 md:px-4 md:py-3"
                 >
-                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
-                  {copied ? '복사됨!' : 'URL 복사'}
+                  <span className="whitespace-nowrap">{copied ? '복사됨!' : 'URL 복사'}</span>
                 </button>
 
                 <button
                   onClick={shareToKakao}
-                  className="flex items-center justify-center gap-2 rounded-lg bg-[#FEE500] px-4 py-3 text-sm font-semibold text-black transition-all hover:bg-[#FDD835] md:px-5 md:py-3.5 md:text-base"
+                  className="flex items-center justify-center gap-1.5 rounded-lg bg-[#FEE500] px-3 py-2.5 text-xs font-semibold text-black transition-all hover:bg-[#FDD835] md:px-4 md:py-3"
                 >
-                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.9 5.3 4.8 6.7-.2.8-.7 2.8-.8 3.2-.1.5.2.5.4.4.3-.1 3.5-2.3 4-2.7.5.1 1 .1 1.6.1 5.5 0 10-3.6 10-8S17.5 3 12 3z"/>
                   </svg>
-                  카카오톡
+                  <span className="whitespace-nowrap">카카오톡</span>
                 </button>
 
                 <button
                   onClick={downloadAsImage}
-                  className="flex items-center justify-center gap-2 rounded-lg bg-white/10 px-4 py-3 text-sm font-semibold transition-all hover:bg-white/20 md:px-5 md:py-3.5 md:text-base"
+                  className="flex items-center justify-center gap-1.5 rounded-lg bg-white/10 px-3 py-2.5 text-xs font-semibold transition-all hover:bg-white/20 md:px-4 md:py-3"
                 >
-                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  이미지 저장
+                  <span className="whitespace-nowrap">이미지</span>
                 </button>
               </div>
             </div>
