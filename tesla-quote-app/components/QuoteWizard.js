@@ -496,8 +496,8 @@ export default function QuoteWizard({ rows, regions }) {
         </div>
 
         <div className="grid gap-5 md:gap-8">
-          {/* Desktop Navigation - sticky in right column */}
-          <nav className="sticky top-4 z-40 hidden flex-wrap justify-start gap-2 self-start md:flex" aria-label="견적 단계">
+          {/* Desktop Navigation */}
+          <nav className="hidden flex-wrap justify-start gap-2 md:flex" aria-label="견적 단계">
             <a
               href="#section-model"
               className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
