@@ -173,20 +173,23 @@ export default function QuoteWizard({ rows, regions }) {
       setShowScrollTop(window.scrollY > 300);
 
       const sections = ["model", "trim", "region", "benefit"];
-      const scrollPosition = window.scrollY + 200;
+      const scrollPosition = window.scrollY + 150;
 
-      for (const section of sections) {
+      // 역순으로 체크하여 가장 가까운 섹션 찾기
+      let newActiveSection = "model";
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
         const element = document.getElementById(`section-${section}`);
         if (element) {
           const rect = element.getBoundingClientRect();
           const top = window.scrollY + rect.top;
-          const bottom = top + element.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < bottom) {
-            setActiveSection(section);
+          if (scrollPosition >= top) {
+            newActiveSection = section;
             break;
           }
         }
       }
+      setActiveSection(newActiveSection);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -332,7 +335,7 @@ export default function QuoteWizard({ rows, regions }) {
       </nav>
 
       <div className="grid items-start gap-5 md:gap-8 lg:grid-cols-[1.8fr_1fr]">
-        <div className="grid gap-5 md:gap-8">
+        <div className="space-y-5 md:space-y-8">
           <section id="section-model" className="overflow-hidden rounded-2xl bg-white shadow-lg md:rounded-3xl">
             <div className="flex gap-2 border-b border-gray-200 p-4 md:gap-4 md:p-6">
               {MODEL_CATALOG.map((item) => (
@@ -359,7 +362,7 @@ export default function QuoteWizard({ rows, regions }) {
 
               <h2 className="mt-6 text-center text-[32px] font-medium leading-none tracking-normal md:mt-12 md:text-[40px]">{model.name}</h2>
 
-              <div className="mx-auto mb-5 mt-6 grid grid-cols-3 gap-4 text-center md:mb-8 md:mt-6 md:max-w-3xl md:gap-8">
+              <div className="mx-auto mt-6 grid grid-cols-3 gap-4 text-center md:mt-6 md:max-w-3xl md:gap-8">
                 {model.stats.map((item) => (
                   <div key={item.label} className="px-1">
                     <strong className="block text-[28px] font-medium leading-none tracking-tight md:text-[28px]">{item.value}</strong>
@@ -367,23 +370,26 @@ export default function QuoteWizard({ rows, regions }) {
                   </div>
                 ))}
               </div>
+            </div>
+          </section>
 
-              <div id="section-trim" className="grid gap-2.5 md:gap-3">
-                {model.trims.map((item) => (
-                  <button
-                    key={item.id}
-                    className={`flex items-start justify-between gap-3 rounded-xl px-4 py-4 text-left transition-all md:items-center md:rounded-2xl md:px-6 md:py-5 ${
-                      selectedTrimId === item.id
-                        ? "bg-black text-white shadow-lg"
-                        : "bg-white text-gray-900 hover:bg-gray-100 hover:shadow-md"
-                    }`}
-                    onClick={() => setSelectedTrimId(item.id)}
-                  >
-                    <span className="flex-1 pr-2 text-[13px] font-normal leading-snug md:text-xl md:font-semibold">{item.label}</span>
-                    <strong className="shrink-0 text-[17px] font-extrabold md:text-3xl">{formatWon(item.price)}</strong>
-                  </button>
-                ))}
-              </div>
+          <section id="section-trim" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-8">
+            <h3 className="mb-4 text-xl font-black md:mb-6 md:text-3xl">2. 트림 선택</h3>
+            <div className="grid gap-2.5 md:gap-3">
+              {model.trims.map((item) => (
+                <button
+                  key={item.id}
+                  className={`flex items-start justify-between gap-3 rounded-xl px-4 py-4 text-left transition-all md:items-center md:rounded-2xl md:px-6 md:py-5 ${
+                    selectedTrimId === item.id
+                      ? "bg-black text-white shadow-lg"
+                      : "bg-gray-50 text-gray-900 hover:bg-gray-100 hover:shadow-md"
+                  }`}
+                  onClick={() => setSelectedTrimId(item.id)}
+                >
+                  <span className="flex-1 pr-2 text-[13px] font-normal leading-snug md:text-xl md:font-semibold">{item.label}</span>
+                  <strong className="shrink-0 text-[17px] font-extrabold md:text-3xl">{formatWon(item.price)}</strong>
+                </button>
+              ))}
             </div>
           </section>
 
@@ -497,7 +503,7 @@ export default function QuoteWizard({ rows, regions }) {
           </section>
         </div>
 
-        <div className="grid gap-5 md:gap-8">
+        <div className="space-y-5 md:space-y-8">
           {/* Desktop Navigation */}
           <nav className="hidden flex-wrap justify-start gap-2 md:flex" aria-label="견적 단계">
             <a
