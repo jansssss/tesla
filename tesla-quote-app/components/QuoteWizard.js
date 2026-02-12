@@ -284,55 +284,99 @@ export default function QuoteWizard({ rows, regions }) {
 
   return (
     <div className="mx-auto grid max-w-[1400px] gap-5 px-4 py-5 md:gap-8 md:px-8 md:py-12">
-      <header>
+      <header className="space-y-4 md:space-y-6">
         <h1 className="text-center font-logo text-3xl font-extrabold tracking-tight text-black md:text-5xl lg:text-6xl">
           How much <span className="text-brandRed">Tesla</span>?
         </h1>
-      </header>
 
-      {/* Mobile Navigation - sticky below header */}
-      <nav className="sticky top-0 z-40 flex flex-wrap justify-center gap-2 bg-white py-3 shadow-md md:hidden" aria-label="견적 단계">
-        <a
-          href="#section-model"
-          className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
-            activeSection === "model"
-              ? "border-black bg-black text-white hover:bg-gray-900"
-              : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-          }`}
-        >
-          1. 모델
-        </a>
-        <a
-          href="#section-trim"
-          className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
-            activeSection === "trim"
-              ? "border-black bg-black text-white hover:bg-gray-900"
-              : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-          }`}
-        >
-          2. 트림
-        </a>
-        <a
-          href="#section-region"
-          className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
-            activeSection === "region"
-              ? "border-black bg-black text-white hover:bg-gray-900"
-              : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-          }`}
-        >
-          3. 지역
-        </a>
-        <a
-          href="#section-benefit"
-          className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
-            activeSection === "benefit"
-              ? "border-black bg-black text-white hover:bg-gray-900"
-              : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-          }`}
-        >
-          4. 혜택·금융
-        </a>
-      </nav>
+        {/* Mobile Navigation - sticky below header */}
+        <nav className="sticky top-0 z-40 flex flex-wrap justify-center gap-2 bg-white py-3 shadow-md md:hidden" aria-label="견적 단계">
+          <a
+            href="#section-model"
+            className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
+              activeSection === "model"
+                ? "border-black bg-black text-white hover:bg-gray-900"
+                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+            }`}
+          >
+            1. 모델
+          </a>
+          <a
+            href="#section-trim"
+            className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
+              activeSection === "trim"
+                ? "border-black bg-black text-white hover:bg-gray-900"
+                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+            }`}
+          >
+            2. 트림
+          </a>
+          <a
+            href="#section-region"
+            className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
+              activeSection === "region"
+                ? "border-black bg-black text-white hover:bg-gray-900"
+                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+            }`}
+          >
+            3. 지역
+          </a>
+          <a
+            href="#section-benefit"
+            className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
+              activeSection === "benefit"
+                ? "border-black bg-black text-white hover:bg-gray-900"
+                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+            }`}
+          >
+            4. 혜택·금융
+          </a>
+        </nav>
+
+        {/* Desktop Navigation - in header area */}
+        <nav className="hidden flex-wrap justify-start gap-2 md:flex" aria-label="견적 단계">
+          <a
+            href="#section-model"
+            className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
+              activeSection === "model"
+                ? "border-black bg-black text-white hover:bg-gray-900"
+                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+            }`}
+          >
+            1. 모델
+          </a>
+          <a
+            href="#section-trim"
+            className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
+              activeSection === "trim"
+                ? "border-black bg-black text-white hover:bg-gray-900"
+                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+            }`}
+          >
+            2. 트림
+          </a>
+          <a
+            href="#section-region"
+            className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
+              activeSection === "region"
+                ? "border-black bg-black text-white hover:bg-gray-900"
+                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+            }`}
+          >
+            3. 지역
+          </a>
+          <a
+            href="#section-benefit"
+            className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
+              activeSection === "benefit"
+                ? "border-black bg-black text-white hover:bg-gray-900"
+                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+            }`}
+          >
+            4. 혜택·금융
+          </a>
+        </nav>
+      </header>
 
       <div className="grid items-start gap-5 md:gap-8 lg:grid-cols-[1.8fr_1fr]">
         <div className="space-y-5 md:space-y-8">
@@ -503,52 +547,7 @@ export default function QuoteWizard({ rows, regions }) {
           </section>
         </div>
 
-        <div className="space-y-5 md:space-y-8">
-          {/* Desktop Navigation */}
-          <nav className="hidden flex-wrap justify-start gap-2 md:flex" aria-label="견적 단계">
-            <a
-              href="#section-model"
-              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
-                activeSection === "model"
-                  ? "border-black bg-black text-white hover:bg-gray-900"
-                  : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-              }`}
-            >
-              1. 모델
-            </a>
-            <a
-              href="#section-trim"
-              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
-                activeSection === "trim"
-                  ? "border-black bg-black text-white hover:bg-gray-900"
-                  : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-              }`}
-            >
-              2. 트림
-            </a>
-            <a
-              href="#section-region"
-              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
-                activeSection === "region"
-                  ? "border-black bg-black text-white hover:bg-gray-900"
-                  : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-              }`}
-            >
-              3. 지역
-            </a>
-            <a
-              href="#section-benefit"
-              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
-                activeSection === "benefit"
-                  ? "border-black bg-black text-white hover:bg-gray-900"
-                  : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-              }`}
-            >
-              4. 혜택·금융
-            </a>
-          </nav>
-
-          <aside id="quote-summary" className="sticky top-4 self-start overflow-hidden rounded-2xl bg-black text-white shadow-2xl md:rounded-3xl">
+        <aside id="quote-summary" className="sticky top-4 self-start overflow-hidden rounded-2xl bg-black text-white shadow-2xl md:rounded-3xl">
           <div className="bg-gradient-to-br from-gray-900 to-black p-5 md:p-8">
             <h3 className="mb-5 text-2xl font-black md:mb-8 md:text-4xl">견적 요약</h3>
             <dl className="m-0 space-y-0.5">
@@ -629,7 +628,6 @@ export default function QuoteWizard({ rows, regions }) {
             </div>
           </div>
         </aside>
-        </div>
       </div>
 
       {showScrollTop && (
