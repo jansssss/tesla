@@ -39,7 +39,7 @@ const MODEL_CATALOG = [
       { label: "0-100 km/h", value: "5.9 초" }
     ],
     trims: [
-      { id: "my-rwd", label: "Premium RWD(후륜 구동)", price: 52990000, csvModel: "Model Y Premium RWD" },
+      { id: "my-rwd", label: "Premium RWD(후륜 구동)", price: 49990000, csvModel: "Model Y Premium RWD" },
       {
         id: "my-lr",
         label: "Premium Long Range AWD(사륜 구동)",
