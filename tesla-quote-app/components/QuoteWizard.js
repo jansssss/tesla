@@ -161,6 +161,28 @@ export default function QuoteWizard({ rows, regions }) {
   const loanPrincipal = Math.max(estimatedPrice - Number(downPayment || 0), 0);
   const monthly = monthlyPayment(loanPrincipal, Number(rate || 0), Number(months || 0));
 
+  // Helper functions for comparison mode (using useCallback to avoid dependency issues)
+  const getSubsidyForTrim = useCallback((trimId) => {
+    const model = MODEL_CATALOG.find(m => m.trims.some(t => t.id === trimId));
+    const trim = model?.trims.find(t => t.id === trimId);
+    if (!trim) return { national_subsidy_manwon: 0, local_subsidy_manwon: 0, total_subsidy_manwon: 0 };
+
+    return rows.find(
+      row => row.local_code === regionCode && row.model === trim.csvModel
+    ) || { national_subsidy_manwon: 0, local_subsidy_manwon: 0, total_subsidy_manwon: 0 };
+  }, [rows, regionCode]);
+
+  const getTrimById = useCallback((trimId) => {
+    const model = MODEL_CATALOG.find(m => m.trims.some(t => t.id === trimId));
+    return model?.trims.find(t => t.id === trimId);
+  }, []);
+
+  const getFullName = useCallback((modelId, trimId) => {
+    const model = MODEL_CATALOG.find(m => m.id === modelId);
+    const trim = model?.trims.find(t => t.id === trimId);
+    return `${model?.name} ${trim?.label}`;
+  }, []);
+
   // Comparison mode calculations
   const quoteA = useMemo(() => {
     if (mode !== "comparison") return null;
@@ -216,28 +238,6 @@ export default function QuoteWizard({ rows, regions }) {
     setModelId(id);
     setSelectedTrimId(nextModel.trims[0].id);
   };
-
-  // Helper functions for comparison mode (using useCallback to avoid dependency issues)
-  const getSubsidyForTrim = useCallback((trimId) => {
-    const model = MODEL_CATALOG.find(m => m.trims.some(t => t.id === trimId));
-    const trim = model?.trims.find(t => t.id === trimId);
-    if (!trim) return { national_subsidy_manwon: 0, local_subsidy_manwon: 0, total_subsidy_manwon: 0 };
-
-    return rows.find(
-      row => row.local_code === regionCode && row.model === trim.csvModel
-    ) || { national_subsidy_manwon: 0, local_subsidy_manwon: 0, total_subsidy_manwon: 0 };
-  }, [rows, regionCode]);
-
-  const getTrimById = useCallback((trimId) => {
-    const model = MODEL_CATALOG.find(m => m.trims.some(t => t.id === trimId));
-    return model?.trims.find(t => t.id === trimId);
-  }, []);
-
-  const getFullName = useCallback((modelId, trimId) => {
-    const model = MODEL_CATALOG.find(m => m.id === modelId);
-    const trim = model?.trims.find(t => t.id === trimId);
-    return `${model?.name} ${trim?.label}`;
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
