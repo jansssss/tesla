@@ -2,6 +2,16 @@
 
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import QuoteCard from "./QuoteCard";
+import ComparisonSummary from "./ComparisonSummary";
+import {
+  calculateQuote,
+  compareQuotes,
+  calculateUpgradeSuggestions,
+  formatWon,
+  formatNumber,
+  monthlyPayment
+} from "@/lib/quoteCalculations";
 
 const MODEL_CATALOG = [
   {
@@ -57,22 +67,6 @@ const MULTI_CHILD_BENEFIT_MAP = {
   4: 3000000
 };
 
-function formatWon(value) {
-  return `₩${Number(value || 0).toLocaleString("ko-KR")}`;
-}
-
-function formatNumber(value) {
-  return Number(value || 0).toLocaleString("ko-KR");
-}
-
-function monthlyPayment(principal, annualRatePct, months) {
-  if (principal <= 0 || months <= 0) return 0;
-  const monthlyRate = annualRatePct / 100 / 12;
-  if (monthlyRate === 0) return principal / months;
-  const factor = Math.pow(1 + monthlyRate, months);
-  return (principal * monthlyRate * factor) / (factor - 1);
-}
-
 export default function QuoteWizard({ rows, regions }) {
   const searchParams = useSearchParams();
 
@@ -107,8 +101,20 @@ export default function QuoteWizard({ rows, regions }) {
 
   const initialState = getInitialState();
 
+  // Mode state
+  const [mode, setMode] = useState("single"); // "single" | "comparison"
+
+  // Single mode state
   const [modelId, setModelId] = useState(initialState?.modelId || "model3");
   const [selectedTrimId, setSelectedTrimId] = useState(initialState?.selectedTrimId || "m3-rwd");
+
+  // Comparison mode state
+  const [modelIdA, setModelIdA] = useState("model3");
+  const [trimIdA, setTrimIdA] = useState("m3-rwd");
+  const [modelIdB, setModelIdB] = useState("modely");
+  const [trimIdB, setTrimIdB] = useState("my-rwd");
+
+  // Shared state (used in both modes)
   const [regionCode, setRegionCode] = useState(initialState?.regionCode || regions[0]?.code || "");
   const [isYouthBenefit, setIsYouthBenefit] = useState(initialState?.isYouthBenefit || false);
   const [isLowIncomeBenefit, setIsLowIncomeBenefit] = useState(initialState?.isLowIncomeBenefit || false);
@@ -155,6 +161,49 @@ export default function QuoteWizard({ rows, regions }) {
   const loanPrincipal = Math.max(estimatedPrice - Number(downPayment || 0), 0);
   const monthly = monthlyPayment(loanPrincipal, Number(rate || 0), Number(months || 0));
 
+  // Comparison mode calculations
+  const quoteA = useMemo(() => {
+    if (mode !== "comparison") return null;
+
+    const subsidyA = getSubsidyForTrim(trimIdA);
+    const trimA = getTrimById(trimIdA);
+    if (!trimA) return null;
+
+    return calculateQuote({
+      trim: trimA,
+      subsidy: subsidyA,
+      benefits: { isYouthBenefit, isLowIncomeBenefit, isEvConversionBenefit, multiChildCount },
+      financing: { downPayment, rate, months }
+    });
+  }, [mode, trimIdA, regionCode, isYouthBenefit, isLowIncomeBenefit,
+      isEvConversionBenefit, multiChildCount, downPayment, rate, months]);
+
+  const quoteB = useMemo(() => {
+    if (mode !== "comparison") return null;
+
+    const subsidyB = getSubsidyForTrim(trimIdB);
+    const trimB = getTrimById(trimIdB);
+    if (!trimB) return null;
+
+    return calculateQuote({
+      trim: trimB,
+      subsidy: subsidyB,
+      benefits: { isYouthBenefit, isLowIncomeBenefit, isEvConversionBenefit, multiChildCount },
+      financing: { downPayment, rate, months }
+    });
+  }, [mode, trimIdB, regionCode, isYouthBenefit, isLowIncomeBenefit,
+      isEvConversionBenefit, multiChildCount, downPayment, rate, months]);
+
+  const comparison = useMemo(() => {
+    if (!quoteA || !quoteB) return null;
+    return compareQuotes(quoteA, quoteB);
+  }, [quoteA, quoteB]);
+
+  const upgradeSuggestions = useMemo(() => {
+    if (!quoteA || !quoteB) return null;
+    return calculateUpgradeSuggestions(quoteA, quoteB, { downPayment, rate, months });
+  }, [quoteA, quoteB, downPayment, rate, months]);
+
   const handleDownPaymentChange = (value) => {
     const digits = String(value).replace(/[^\d]/g, "");
     const numeric = digits ? Number(digits) : 0;
@@ -166,6 +215,28 @@ export default function QuoteWizard({ rows, regions }) {
     const nextModel = MODEL_CATALOG.find((item) => item.id === id);
     setModelId(id);
     setSelectedTrimId(nextModel.trims[0].id);
+  };
+
+  // Helper functions for comparison mode
+  const getSubsidyForTrim = (trimId) => {
+    const model = MODEL_CATALOG.find(m => m.trims.some(t => t.id === trimId));
+    const trim = model?.trims.find(t => t.id === trimId);
+    if (!trim) return { national_subsidy_manwon: 0, local_subsidy_manwon: 0, total_subsidy_manwon: 0 };
+
+    return rows.find(
+      row => row.local_code === regionCode && row.model === trim.csvModel
+    ) || { national_subsidy_manwon: 0, local_subsidy_manwon: 0, total_subsidy_manwon: 0 };
+  };
+
+  const getTrimById = (trimId) => {
+    const model = MODEL_CATALOG.find(m => m.trims.some(t => t.id === trimId));
+    return model?.trims.find(t => t.id === trimId);
+  };
+
+  const getFullName = (modelId, trimId) => {
+    const model = MODEL_CATALOG.find(m => m.id === modelId);
+    const trim = model?.trims.find(t => t.id === trimId);
+    return `${model?.name} ${trim?.label}`;
   };
 
   useEffect(() => {
@@ -289,154 +360,188 @@ export default function QuoteWizard({ rows, regions }) {
           How much <span className="text-brandRed">Tesla</span>?
         </h1>
 
-        {/* Mobile Navigation - sticky below header */}
-        <nav className="sticky top-0 z-40 flex flex-wrap justify-center gap-2 bg-white py-3 shadow-md md:hidden" aria-label="견적 단계">
-          <a
-            href="#section-model"
-            className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
-              activeSection === "model"
-                ? "border-black bg-black text-white hover:bg-gray-900"
-                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+        {/* Mobile Mode Toggle - sticky tabs */}
+        <nav className="sticky top-0 z-40 flex bg-white shadow-md md:hidden" aria-label="모드 선택">
+          <button
+            className={`flex-1 py-3 text-sm font-bold transition-all ${
+              mode === "single"
+                ? "border-b-2 border-black bg-gray-50"
+                : "text-gray-500"
             }`}
+            onClick={() => setMode("single")}
           >
-            1. 모델
-          </a>
-          <a
-            href="#section-trim"
-            className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
-              activeSection === "trim"
-                ? "border-black bg-black text-white hover:bg-gray-900"
-                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+            견적 계산
+          </button>
+          <button
+            className={`flex-1 py-3 text-sm font-bold transition-all ${
+              mode === "comparison"
+                ? "border-b-2 border-black bg-gray-50"
+                : "text-gray-500"
             }`}
+            onClick={() => setMode("comparison")}
           >
-            2. 트림
-          </a>
-          <a
-            href="#section-region"
-            className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
-              activeSection === "region"
-                ? "border-black bg-black text-white hover:bg-gray-900"
-                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-            }`}
-          >
-            3. 지역
-          </a>
-          <a
-            href="#section-benefit"
-            className={`rounded-full border px-3.5 py-2 text-xs font-medium shadow-sm transition-all ${
-              activeSection === "benefit"
-                ? "border-black bg-black text-white hover:bg-gray-900"
-                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-            }`}
-          >
-            4. 혜택·금융
-          </a>
+            차량 비교
+          </button>
         </nav>
 
-        {/* Desktop Navigation - in header area */}
-        <nav className="hidden flex-wrap justify-start gap-2 md:flex" aria-label="견적 단계">
-          <a
-            href="#section-model"
-            className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
-              activeSection === "model"
-                ? "border-black bg-black text-white hover:bg-gray-900"
-                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+        {/* Desktop Mode Toggle */}
+        <div className="hidden md:flex gap-2">
+          <button
+            className={`rounded-full px-5 py-2.5 text-sm font-medium transition-all ${
+              mode === "single"
+                ? "bg-black text-white shadow-md"
+                : "bg-gray-100 text-gray-800 hover:bg-gray-200"
             }`}
+            onClick={() => setMode("single")}
           >
-            1. 모델
-          </a>
-          <a
-            href="#section-trim"
-            className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
-              activeSection === "trim"
-                ? "border-black bg-black text-white hover:bg-gray-900"
-                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+            견적 계산
+          </button>
+          <button
+            className={`rounded-full px-5 py-2.5 text-sm font-medium transition-all ${
+              mode === "comparison"
+                ? "bg-black text-white shadow-md"
+                : "bg-gray-100 text-gray-800 hover:bg-gray-200"
             }`}
+            onClick={() => setMode("comparison")}
           >
-            2. 트림
-          </a>
-          <a
-            href="#section-region"
-            className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
-              activeSection === "region"
-                ? "border-black bg-black text-white hover:bg-gray-900"
-                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-            }`}
-          >
-            3. 지역
-          </a>
-          <a
-            href="#section-benefit"
-            className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
-              activeSection === "benefit"
-                ? "border-black bg-black text-white hover:bg-gray-900"
-                : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-            }`}
-          >
-            4. 혜택·금융
-          </a>
-        </nav>
+            차량 비교
+          </button>
+        </div>
+
+        {/* Desktop Navigation - in header area (only show in single mode) */}
+        {mode === "single" && (
+          <nav className="hidden flex-wrap justify-start gap-2 md:flex" aria-label="견적 단계">
+            <a
+              href="#section-model"
+              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
+                activeSection === "model"
+                  ? "border-black bg-black text-white hover:bg-gray-900"
+                  : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+              }`}
+            >
+              1. 모델
+            </a>
+            <a
+              href="#section-trim"
+              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
+                activeSection === "trim"
+                  ? "border-black bg-black text-white hover:bg-gray-900"
+                  : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+              }`}
+            >
+              2. 트림
+            </a>
+            <a
+              href="#section-region"
+              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
+                activeSection === "region"
+                  ? "border-black bg-black text-white hover:bg-gray-900"
+                  : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+              }`}
+            >
+              3. 지역
+            </a>
+            <a
+              href="#section-benefit"
+              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
+                activeSection === "benefit"
+                  ? "border-black bg-black text-white hover:bg-gray-900"
+                  : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+              }`}
+            >
+              4. 혜택·금융
+            </a>
+          </nav>
+        )}
       </header>
 
       <div className="grid items-start gap-5 md:gap-8 lg:grid-cols-[1.8fr_1fr]">
         <div className="space-y-5 md:space-y-8">
-          <section id="section-model" className="overflow-hidden rounded-2xl bg-white shadow-lg md:rounded-3xl">
-            <div className="flex gap-2 border-b border-gray-200 p-4 md:gap-4 md:p-6">
-              {MODEL_CATALOG.map((item) => (
-                <button
-                  key={item.id}
-                  className={`flex-1 rounded-lg px-4 py-3 text-sm font-bold transition-all md:px-6 md:py-4 md:text-lg ${
-                    modelId === item.id
-                      ? "bg-black text-white shadow-md"
-                      : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                  }`}
-                  onClick={() => changeModel(item.id)}
-                >
-                  {item.name}
-                </button>
-              ))}
-            </div>
+          {/* Single Mode: Model and Trim Selection */}
+          {mode === "single" && (
+            <>
+              <section id="section-model" className="overflow-hidden rounded-2xl bg-white shadow-lg md:rounded-3xl">
+                <div className="flex gap-2 border-b border-gray-200 p-4 md:gap-4 md:p-6">
+                  {MODEL_CATALOG.map((item) => (
+                    <button
+                      key={item.id}
+                      className={`flex-1 rounded-lg px-4 py-3 text-sm font-bold transition-all md:px-6 md:py-4 md:text-lg ${
+                        modelId === item.id
+                          ? "bg-black text-white shadow-md"
+                          : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+                      }`}
+                      onClick={() => changeModel(item.id)}
+                    >
+                      {item.name}
+                    </button>
+                  ))}
+                </div>
 
-            <div className="bg-gradient-to-b from-gray-50 to-white p-5 md:p-12">
-              <img
-                className="h-[200px] w-full object-contain md:h-[480px]"
-                src={model.image}
-                alt={model.name}
-              />
+                <div className="bg-gradient-to-b from-gray-50 to-white p-5 md:p-12">
+                  <img
+                    className="h-[200px] w-full object-contain md:h-[480px]"
+                    src={model.image}
+                    alt={model.name}
+                  />
 
-              <h2 className="mt-6 text-center text-[32px] font-medium leading-none tracking-normal md:mt-12 md:text-[40px]">{model.name}</h2>
+                  <h2 className="mt-6 text-center text-[32px] font-medium leading-none tracking-normal md:mt-12 md:text-[40px]">{model.name}</h2>
 
-              <div className="mx-auto mt-6 grid grid-cols-3 gap-4 text-center md:mt-6 md:max-w-3xl md:gap-8">
-                {model.stats.map((item) => (
-                  <div key={item.label} className="px-1">
-                    <strong className="block text-[28px] font-medium leading-none tracking-tight md:text-[28px]">{item.value}</strong>
-                    <span className="mt-1 block text-[11px] font-normal leading-tight text-gray-500 md:mt-1.5 md:text-xs">{item.label}</span>
+                  <div className="mx-auto mt-6 grid grid-cols-3 gap-4 text-center md:mt-6 md:max-w-3xl md:gap-8">
+                    {model.stats.map((item) => (
+                      <div key={item.label} className="px-1">
+                        <strong className="block text-[28px] font-medium leading-none tracking-tight md:text-[28px]">{item.value}</strong>
+                        <span className="mt-1 block text-[11px] font-normal leading-tight text-gray-500 md:mt-1.5 md:text-xs">{item.label}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
-          </section>
+                </div>
+              </section>
 
-          <section id="section-trim" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-8">
-            <h3 className="mb-4 text-xl font-black md:mb-6 md:text-3xl">2. 트림 선택</h3>
-            <div className="grid gap-2.5 md:gap-3">
-              {model.trims.map((item) => (
-                <button
-                  key={item.id}
-                  className={`flex items-start justify-between gap-3 rounded-xl px-4 py-4 text-left transition-all md:items-center md:rounded-2xl md:px-6 md:py-5 ${
-                    selectedTrimId === item.id
-                      ? "bg-black text-white shadow-lg"
-                      : "bg-gray-50 text-gray-900 hover:bg-gray-100 hover:shadow-md"
-                  }`}
-                  onClick={() => setSelectedTrimId(item.id)}
-                >
-                  <span className="flex-1 pr-2 text-[13px] font-normal leading-snug md:text-xl md:font-semibold">{item.label}</span>
-                  <strong className="shrink-0 text-[17px] font-extrabold md:text-3xl">{formatWon(item.price)}</strong>
-                </button>
-              ))}
-            </div>
-          </section>
+              <section id="section-trim" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-8">
+                <h3 className="mb-4 text-xl font-black md:mb-6 md:text-3xl">2. 트림 선택</h3>
+                <div className="grid gap-2.5 md:gap-3">
+                  {model.trims.map((item) => (
+                    <button
+                      key={item.id}
+                      className={`flex items-start justify-between gap-3 rounded-xl px-4 py-4 text-left transition-all md:items-center md:rounded-2xl md:px-6 md:py-5 ${
+                        selectedTrimId === item.id
+                          ? "bg-black text-white shadow-lg"
+                          : "bg-gray-50 text-gray-900 hover:bg-gray-100 hover:shadow-md"
+                      }`}
+                      onClick={() => setSelectedTrimId(item.id)}
+                    >
+                      <span className="flex-1 pr-2 text-[13px] font-normal leading-snug md:text-xl md:font-semibold">{item.label}</span>
+                      <strong className="shrink-0 text-[17px] font-extrabold md:text-3xl">{formatWon(item.price)}</strong>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            </>
+          )}
 
+          {/* Comparison Mode: Two Vehicle Cards */}
+          {mode === "comparison" && (
+            <div className="grid gap-5 md:gap-8 md:grid-cols-2">
+              <QuoteCard
+                label="차량 A"
+                modelCatalog={MODEL_CATALOG}
+                selectedModelId={modelIdA}
+                onModelChange={setModelIdA}
+                selectedTrimId={trimIdA}
+                onTrimChange={setTrimIdA}
+              />
+              <QuoteCard
+                label="차량 B"
+                modelCatalog={MODEL_CATALOG}
+                selectedModelId={modelIdB}
+                onModelChange={setModelIdB}
+                selectedTrimId={trimIdB}
+                onTrimChange={setTrimIdB}
+              />
+            </div>
+          )}
+
+          {/* Shared Sections: Region, Benefits, Financing */}
           <section id="section-region" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-8">
             <h3 className="mb-4 text-xl font-black md:mb-6 md:text-3xl">3. 지역 선택</h3>
             <select
@@ -547,7 +652,9 @@ export default function QuoteWizard({ rows, regions }) {
           </section>
         </div>
 
-        <aside id="quote-summary" className="sticky top-4 self-start overflow-hidden rounded-2xl bg-black text-white shadow-2xl md:rounded-3xl">
+        {/* Single Mode: Quote Summary */}
+        {mode === "single" && (
+          <aside id="quote-summary" className="sticky top-4 self-start overflow-hidden rounded-2xl bg-black text-white shadow-2xl md:rounded-3xl">
           <div className="bg-gradient-to-br from-gray-900 to-black p-5 md:p-8">
             <h3 className="mb-5 text-2xl font-black md:mb-8 md:text-4xl">견적 요약</h3>
             <dl className="m-0 space-y-0.5">
@@ -628,6 +735,18 @@ export default function QuoteWizard({ rows, regions }) {
             </div>
           </div>
         </aside>
+        )}
+
+        {/* Comparison Mode: Comparison Summary */}
+        {mode === "comparison" && (
+          <ComparisonSummary
+            modelNameA={getFullName(modelIdA, trimIdA)}
+            modelNameB={getFullName(modelIdB, trimIdB)}
+            comparison={comparison}
+            upgradeSuggestions={upgradeSuggestions}
+            className="sticky top-4 self-start"
+          />
+        )}
       </div>
 
       {showScrollTop && (
