@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import QuoteCard from "./QuoteCard";
 import ComparisonSummary from "./ComparisonSummary";
@@ -176,7 +176,7 @@ export default function QuoteWizard({ rows, regions }) {
       financing: { downPayment, rate, months }
     });
   }, [mode, trimIdA, regionCode, isYouthBenefit, isLowIncomeBenefit,
-      isEvConversionBenefit, multiChildCount, downPayment, rate, months]);
+      isEvConversionBenefit, multiChildCount, downPayment, rate, months, getSubsidyForTrim, getTrimById]);
 
   const quoteB = useMemo(() => {
     if (mode !== "comparison") return null;
@@ -192,7 +192,7 @@ export default function QuoteWizard({ rows, regions }) {
       financing: { downPayment, rate, months }
     });
   }, [mode, trimIdB, regionCode, isYouthBenefit, isLowIncomeBenefit,
-      isEvConversionBenefit, multiChildCount, downPayment, rate, months]);
+      isEvConversionBenefit, multiChildCount, downPayment, rate, months, getSubsidyForTrim, getTrimById]);
 
   const comparison = useMemo(() => {
     if (!quoteA || !quoteB) return null;
@@ -217,8 +217,8 @@ export default function QuoteWizard({ rows, regions }) {
     setSelectedTrimId(nextModel.trims[0].id);
   };
 
-  // Helper functions for comparison mode
-  const getSubsidyForTrim = (trimId) => {
+  // Helper functions for comparison mode (using useCallback to avoid dependency issues)
+  const getSubsidyForTrim = useCallback((trimId) => {
     const model = MODEL_CATALOG.find(m => m.trims.some(t => t.id === trimId));
     const trim = model?.trims.find(t => t.id === trimId);
     if (!trim) return { national_subsidy_manwon: 0, local_subsidy_manwon: 0, total_subsidy_manwon: 0 };
@@ -226,18 +226,18 @@ export default function QuoteWizard({ rows, regions }) {
     return rows.find(
       row => row.local_code === regionCode && row.model === trim.csvModel
     ) || { national_subsidy_manwon: 0, local_subsidy_manwon: 0, total_subsidy_manwon: 0 };
-  };
+  }, [rows, regionCode]);
 
-  const getTrimById = (trimId) => {
+  const getTrimById = useCallback((trimId) => {
     const model = MODEL_CATALOG.find(m => m.trims.some(t => t.id === trimId));
     return model?.trims.find(t => t.id === trimId);
-  };
+  }, []);
 
-  const getFullName = (modelId, trimId) => {
+  const getFullName = useCallback((modelId, trimId) => {
     const model = MODEL_CATALOG.find(m => m.id === modelId);
     const trim = model?.trims.find(t => t.id === trimId);
     return `${model?.name} ${trim?.label}`;
-  };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -611,7 +611,7 @@ export default function QuoteWizard({ rows, regions }) {
               </label>
             </div>
 
-            <div className="mt-5 grid gap-3 md:mt-8 md:grid-cols-3 md:gap-4">
+            <div className="mt-5 grid gap-4 md:mt-8 md:grid-cols-[1.5fr_1fr_1fr] md:gap-6">
               <label className="grid gap-1.5 text-sm font-medium text-gray-700 md:gap-2">
                 <span className="text-sm font-bold md:text-lg">선수금</span>
                 <input
