@@ -31,12 +31,12 @@ export default function ComparisonSummary({
 
   return (
     <aside className={`overflow-hidden rounded-2xl bg-black text-white shadow-2xl md:rounded-3xl ${className}`}>
-      <div className="bg-gradient-to-br from-gray-900 to-black p-5 md:p-8">
-        <h3 className="mb-5 text-2xl font-black md:mb-8 md:text-4xl">모델 비교 결과</h3>
+      <div className="bg-gradient-to-br from-gray-900 to-black p-5 md:p-6">
+        <h3 className="mb-5 text-2xl font-black md:mb-6 md:text-2xl">모델 비교 결과</h3>
 
         {/* Model Names */}
         <div className="mb-6 text-center">
-          <p className="text-lg font-semibold md:text-xl">
+          <p className="text-lg font-semibold md:text-lg">
             {modelNameA} <span className="text-gray-400">vs</span> {modelNameB}
           </p>
         </div>
@@ -44,7 +44,7 @@ export default function ComparisonSummary({
         {/* Price Difference */}
         <div className="mb-6 rounded-xl bg-white/5 p-4 md:p-6">
           <p className="mb-2 text-sm font-medium text-gray-400 md:text-base">실구매가 차액</p>
-          <p className={`text-2xl font-black md:text-3xl ${Math.abs(priceDiff) > 0 ? 'text-brandRed' : 'text-green-400'}`}>
+          <p className={`text-2xl font-black md:text-xl ${Math.abs(priceDiff) > 0 ? 'text-brandRed' : 'text-green-400'}`}>
             {priceDiff > 0 ? '+' : priceDiff < 0 ? '-' : ''} {formatWon(Math.abs(priceDiff))}
           </p>
           <p className="mt-1 text-xs text-gray-400 md:text-sm">
@@ -55,7 +55,7 @@ export default function ComparisonSummary({
         {/* Monthly Payment Difference */}
         <div className="mb-8 rounded-xl bg-white/5 p-4 md:p-6">
           <p className="mb-2 text-sm font-medium text-gray-400 md:text-base">월 납입금 차액</p>
-          <p className={`text-2xl font-black md:text-3xl ${Math.abs(monthlyDiff) > 0 ? 'text-brandRed' : 'text-green-400'}`}>
+          <p className={`text-2xl font-black md:text-xl ${Math.abs(monthlyDiff) > 0 ? 'text-brandRed' : 'text-green-400'}`}>
             {monthlyDiff > 0 ? '+' : monthlyDiff < 0 ? '-' : ''} {formatWon(Math.abs(monthlyDiff))}/월
           </p>
           <p className="mt-1 text-xs text-gray-400 md:text-sm">
@@ -66,8 +66,8 @@ export default function ComparisonSummary({
         {/* Upgrade Suggestions - Only show if Model B is more expensive */}
         {isPricierB && priceDiff > 0 && (
           <div className="border-t border-white/20 pt-6 md:pt-8">
-            <h4 className="mb-4 flex items-center gap-2 text-lg font-bold md:mb-6 md:text-xl">
-              <span className="text-2xl">💡</span>
+            <h4 className="mb-4 flex items-center gap-2 text-lg font-bold md:mb-6 md:text-lg">
+              <span className="text-xl">💡</span>
               같은 월 납입금으로 이용하려면?
             </h4>
 
