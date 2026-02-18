@@ -28,4 +28,17 @@
   select {
     @apply cursor-pointer;
   }
+
+  /* Improved focus states for accessibility */
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  a:focus-visible {
+    @apply outline-none ring-2 ring-black ring-offset-2;
+  }
+
+  /* Ensure minimum contrast for text */
+  .text-gray-400 {
+    color: rgb(115 115 115) !important; /* Darker for better contrast */
+  }
 }

@@ -28,7 +28,7 @@ export default function VehicleQuoteSummary({
 
         {/* Final Price */}
         <div className="mb-3 border-b border-white/10 pb-3">
-          <p className="mb-1 text-xs text-gray-400">예상 실구매가</p>
+          <p className="mb-1 text-sm text-gray-400">예상 실구매가</p>
           <p className="text-base font-bold md:text-lg">
             {formatWon(quote.estimatedPrice)}
           </p>
@@ -36,14 +36,14 @@ export default function VehicleQuoteSummary({
 
         {/* Monthly Payment - Prominent */}
         <div className="mb-3 rounded-lg bg-white/5 p-3">
-          <p className="mb-1 text-xs text-gray-400">예상 월 납입금</p>
+          <p className="mb-1 text-sm text-gray-400">예상 월 납입금</p>
           <p className="text-lg font-black text-brandRed md:text-xl">
             {formatWon(Math.round(quote.monthly))}/월
           </p>
         </div>
 
         {/* Total Savings */}
-        <div className="flex items-center justify-between text-xs">
+        <div className="flex items-center justify-between text-sm">
           <span className="text-gray-400">총 할인</span>
           <span className="font-semibold text-green-400">
             {formatWon(totalSavings)}

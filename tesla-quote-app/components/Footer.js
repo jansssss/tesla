@@ -28,7 +28,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="text-center text-xs text-gray-500">
+        <div className="text-center text-sm text-gray-500">
           <p>© 2026 하우머치 테슬라. 본 사이트는 테슬라(Tesla, Inc.)와 공식적인 관계가 없는 독립적인 정보 제공 사이트입니다.</p>
         </div>
       </div>

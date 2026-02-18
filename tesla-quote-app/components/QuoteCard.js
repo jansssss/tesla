@@ -48,6 +48,8 @@ export default function QuoteCard({
                 : "bg-gray-100 text-gray-800 hover:bg-gray-200"
             }`}
             onClick={() => handleModelChange(item.id)}
+            aria-label={`${item.name} 모델 선택`}
+            aria-pressed={selectedModelId === item.id}
           >
             {item.name}
           </button>
@@ -72,7 +74,7 @@ export default function QuoteCard({
               <strong className="block text-lg font-medium leading-none tracking-tight md:text-xl">
                 {item.value}
               </strong>
-              <span className="mt-1 block text-[11px] font-normal leading-tight text-gray-500 md:mt-1.5 md:text-xs">
+              <span className="mt-1 block text-xs font-normal leading-tight text-gray-500 md:mt-1.5 md:text-sm">
                 {item.label}
               </span>
             </div>
@@ -90,8 +92,10 @@ export default function QuoteCard({
                   : "bg-white text-gray-900 hover:bg-gray-100 hover:shadow-md"
               }`}
               onClick={() => onTrimChange(item.id)}
+              aria-label={`${item.label} 트림 선택, 가격 ${formatWon(item.price)}`}
+              aria-pressed={selectedTrimId === item.id}
             >
-              <span className="flex-1 pr-2 text-xs font-normal leading-snug md:text-sm md:font-medium">
+              <span className="flex-1 pr-2 text-sm font-normal leading-snug md:text-base md:font-medium">
                 {item.label}
               </span>
               <strong className="shrink-0 text-base font-extrabold md:text-lg">

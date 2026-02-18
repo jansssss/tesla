@@ -370,6 +370,8 @@ export default function QuoteWizard({ rows, regions }) {
                 : "text-gray-500"
             }`}
             onClick={() => setMode("single")}
+            aria-label="견적 계산 모드"
+            aria-pressed={mode === "single"}
           >
             견적 계산
           </button>
@@ -380,6 +382,8 @@ export default function QuoteWizard({ rows, regions }) {
                 : "text-gray-500"
             }`}
             onClick={() => setMode("comparison")}
+            aria-label="차량 비교 모드"
+            aria-pressed={mode === "comparison"}
           >
             차량 비교
           </button>
@@ -394,6 +398,8 @@ export default function QuoteWizard({ rows, regions }) {
                 : "bg-gray-100 text-gray-800 hover:bg-gray-200"
             }`}
             onClick={() => setMode("single")}
+            aria-label="견적 계산 모드"
+            aria-pressed={mode === "single"}
           >
             견적 계산
           </button>
@@ -404,6 +410,8 @@ export default function QuoteWizard({ rows, regions }) {
                 : "bg-gray-100 text-gray-800 hover:bg-gray-200"
             }`}
             onClick={() => setMode("comparison")}
+            aria-label="차량 비교 모드"
+            aria-pressed={mode === "comparison"}
           >
             차량 비교
           </button>
@@ -472,6 +480,8 @@ export default function QuoteWizard({ rows, regions }) {
                           : "bg-gray-100 text-gray-800 hover:bg-gray-200"
                       }`}
                       onClick={() => changeModel(item.id)}
+                      aria-label={`${item.name} 모델 선택`}
+                      aria-pressed={modelId === item.id}
                     >
                       {item.name}
                     </button>
@@ -490,8 +500,8 @@ export default function QuoteWizard({ rows, regions }) {
                   <div className="mx-auto mt-6 grid grid-cols-3 gap-4 text-center md:mt-6 md:max-w-3xl md:gap-8">
                     {model.stats.map((item) => (
                       <div key={item.label} className="px-1">
-                        <strong className="block text-[28px] font-medium leading-none tracking-tight md:text-[28px]">{item.value}</strong>
-                        <span className="mt-1 block text-[11px] font-normal leading-tight text-gray-500 md:mt-1.5 md:text-xs">{item.label}</span>
+                        <strong className="block text-2xl font-medium leading-none tracking-tight md:text-3xl">{item.value}</strong>
+                        <span className="mt-1 block text-xs font-normal leading-tight text-gray-500 md:mt-1.5 md:text-sm">{item.label}</span>
                       </div>
                     ))}
                   </div>
@@ -510,9 +520,11 @@ export default function QuoteWizard({ rows, regions }) {
                           : "bg-gray-50 text-gray-900 hover:bg-gray-100 hover:shadow-md"
                       }`}
                       onClick={() => setSelectedTrimId(item.id)}
+                      aria-label={`${item.label} 트림 선택, 가격 ${formatWon(item.price)}`}
+                      aria-pressed={selectedTrimId === item.id}
                     >
-                      <span className="flex-1 pr-2 text-[13px] font-normal leading-snug md:text-xl md:font-semibold">{item.label}</span>
-                      <strong className="shrink-0 text-[17px] font-extrabold md:text-3xl">{formatWon(item.price)}</strong>
+                      <span className="flex-1 pr-2 text-sm font-normal leading-snug md:text-xl md:font-semibold">{item.label}</span>
+                      <strong className="shrink-0 text-lg font-extrabold md:text-3xl">{formatWon(item.price)}</strong>
                     </button>
                   ))}
                 </div>
@@ -565,9 +577,10 @@ export default function QuoteWizard({ rows, regions }) {
           <section id="section-region" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-6">
             <h3 className="mb-4 text-lg font-black md:mb-5 md:text-xl">3. 지역 선택</h3>
             <select
-              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-xs font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-3 md:text-sm"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-3 md:text-base"
               value={regionCode}
               onChange={(e) => setRegionCode(e.target.value)}
+              aria-label="지역 선택"
             >
               {regions.map((region) => (
                 <option key={region.code} value={region.code}>
@@ -576,7 +589,7 @@ export default function QuoteWizard({ rows, regions }) {
               ))}
             </select>
             <div className="mt-4 rounded-lg bg-gray-50 p-4 md:mt-6 md:rounded-xl md:p-5">
-              <p className="text-xs text-gray-700 md:text-sm">
+              <p className="text-sm text-gray-700 md:text-base">
                 보조금: <span className="font-semibold">국비 {subsidy.national_subsidy_manwon}만원</span> + <span className="font-semibold">지방비 {subsidy.local_subsidy_manwon}만원</span>
               </p>
               <p className="mt-1.5 text-sm font-black md:mt-2 md:text-lg">
@@ -595,8 +608,9 @@ export default function QuoteWizard({ rows, regions }) {
                   className="h-4 w-4 cursor-pointer rounded border-gray-300 md:h-5 md:w-5"
                   checked={isLowIncomeBenefit}
                   onChange={(e) => setIsLowIncomeBenefit(e.target.checked)}
+                  aria-label="차상위 이하 계층 혜택"
                 />
-                <span className="text-xs font-semibold md:text-base">차상위 이하 계층 (국비 20% 추가)</span>
+                <span className="text-sm font-semibold md:text-base">차상위 이하 계층 (국비 20% 추가)</span>
               </label>
               <label className="flex cursor-pointer items-center gap-2.5 rounded-lg bg-gray-50 px-4 py-3 transition-all hover:bg-gray-100 md:gap-3 md:rounded-xl md:px-5 md:py-4">
                 <input
@@ -604,8 +618,9 @@ export default function QuoteWizard({ rows, regions }) {
                   className="h-4 w-4 cursor-pointer rounded border-gray-300 md:h-5 md:w-5"
                   checked={isYouthBenefit}
                   onChange={(e) => setIsYouthBenefit(e.target.checked)}
+                  aria-label="청년 생애 첫차 혜택"
                 />
-                <span className="text-xs font-semibold md:text-base">청년 생애 첫차 (국비 20% 추가)</span>
+                <span className="text-sm font-semibold md:text-base">청년 생애 첫차 (국비 20% 추가)</span>
               </label>
               <label className="flex cursor-pointer items-center gap-2.5 rounded-lg bg-gray-50 px-4 py-3 transition-all hover:bg-gray-100 md:gap-3 md:rounded-xl md:px-5 md:py-4">
                 <input
@@ -613,15 +628,17 @@ export default function QuoteWizard({ rows, regions }) {
                   className="h-4 w-4 cursor-pointer rounded border-gray-300 md:h-5 md:w-5"
                   checked={isEvConversionBenefit}
                   onChange={(e) => setIsEvConversionBenefit(e.target.checked)}
+                  aria-label="전기차 전환지원금 혜택"
                 />
-                <span className="text-xs font-semibold md:text-base">전기차 전환지원금 (+100만원)</span>
+                <span className="text-sm font-semibold md:text-base">전기차 전환지원금 (+100만원)</span>
               </label>
               <label className="grid gap-1.5 text-sm font-medium text-gray-700 md:gap-2">
-                <span className="text-xs font-bold md:text-base">다자녀 자녀 수</span>
+                <span className="text-sm font-bold md:text-base">다자녀 자녀 수</span>
                 <select
                   className="rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-4 md:text-base"
                   value={multiChildCount}
                   onChange={(e) => setMultiChildCount(Number(e.target.value))}
+                  aria-label="다자녀 자녀 수 선택"
                 >
                   <option value={0}>해당 없음</option>
                   <option value={2}>2자녀 (+100만원)</option>
@@ -633,7 +650,7 @@ export default function QuoteWizard({ rows, regions }) {
 
             <div className="mt-5 grid gap-4 md:mt-8 md:grid-cols-[1.5fr_1fr_1fr] md:gap-6">
               <label className="grid gap-1.5 text-sm font-medium text-gray-700 md:gap-2">
-                <span className="text-xs font-bold md:text-base">선수금</span>
+                <span className="text-sm font-bold md:text-base">선수금</span>
                 <input
                   className="rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-4 md:text-base"
                   type="text"
@@ -641,10 +658,11 @@ export default function QuoteWizard({ rows, regions }) {
                   placeholder="예: 10,000,000"
                   value={downPaymentInput}
                   onChange={(e) => handleDownPaymentChange(e.target.value)}
+                  aria-label="선수금 입력"
                 />
               </label>
               <label className="grid gap-1.5 text-sm font-medium text-gray-700 md:gap-2">
-                <span className="text-xs font-bold md:text-base">할부금리(%)</span>
+                <span className="text-sm font-bold md:text-base">할부금리(%)</span>
                 <input
                   className="rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-4 md:text-base"
                   type="number"
@@ -652,14 +670,16 @@ export default function QuoteWizard({ rows, regions }) {
                   step="0.1"
                   value={rate}
                   onChange={(e) => setRate(Number(e.target.value || 0))}
+                  aria-label="할부금리 입력"
                 />
               </label>
               <label className="grid gap-1.5 text-sm font-medium text-gray-700 md:gap-2">
-                <span className="text-xs font-bold md:text-base">할부개월</span>
+                <span className="text-sm font-bold md:text-base">할부개월</span>
                 <select
                   className="rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-4 md:text-base"
                   value={months}
                   onChange={(e) => setMonths(Number(e.target.value))}
+                  aria-label="할부개월 선택"
                 >
                   {[24, 36, 48, 60, 72].map((m) => (
                     <option key={m} value={m}>
@@ -691,27 +711,27 @@ export default function QuoteWizard({ rows, regions }) {
             <h3 className="mb-5 text-xl font-black md:mb-6 md:text-2xl">견적 요약</h3>
             <dl className="m-0 space-y-0.5">
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
-                <dt className="text-xs font-medium text-gray-400 md:text-sm">모델</dt>
-                <dd className="m-0 text-right text-xs font-bold md:text-sm">{model.name}</dd>
+                <dt className="text-sm font-medium text-gray-400 md:text-base">모델</dt>
+                <dd className="m-0 text-right text-sm font-bold md:text-base">{model.name}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
-                <dt className="text-xs font-medium text-gray-400 md:text-sm">트림</dt>
-                <dd className="m-0 text-right text-xs font-bold md:text-sm">{trim.label}</dd>
+                <dt className="text-sm font-medium text-gray-400 md:text-base">트림</dt>
+                <dd className="m-0 text-right text-sm font-bold md:text-base">{trim.label}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
-                <dt className="text-xs font-medium text-gray-400 md:text-sm">지역</dt>
-                <dd className="m-0 text-right text-xs font-bold md:text-sm">{selectedRegion?.name || "-"}</dd>
+                <dt className="text-sm font-medium text-gray-400 md:text-base">지역</dt>
+                <dd className="m-0 text-right text-sm font-bold md:text-base">{selectedRegion?.name || "-"}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
-                <dt className="text-xs font-medium text-gray-400 md:text-sm">차량가</dt>
+                <dt className="text-sm font-medium text-gray-400 md:text-base">차량가</dt>
                 <dd className="m-0 text-right text-sm font-bold md:text-base">{formatWon(basePrice)}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
-                <dt className="text-xs font-medium text-gray-400 md:text-sm">보조금(국고+지자체)</dt>
+                <dt className="text-sm font-medium text-gray-400 md:text-base">보조금(국고+지자체)</dt>
                 <dd className="m-0 text-right text-base font-bold text-green-400 md:text-lg">- {formatWon(subsidyWon)}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
-                <dt className="text-xs font-medium text-gray-400 md:text-sm">추가 혜택</dt>
+                <dt className="text-sm font-medium text-gray-400 md:text-base">추가 혜택</dt>
                 <dd className="m-0 text-right text-base font-bold text-green-400 md:text-lg">- {formatWon(extraBenefitWon)}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b-2 border-white/20 py-3.5 md:gap-4 md:py-5">
@@ -719,7 +739,7 @@ export default function QuoteWizard({ rows, regions }) {
                 <dd className="m-0 text-right text-lg font-black md:text-xl">{formatWon(estimatedPrice)}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 pt-4 md:gap-4 md:py-4 md:pt-6">
-                <dt className="text-xs font-medium text-gray-400 md:text-sm">할부 원금</dt>
+                <dt className="text-sm font-medium text-gray-400 md:text-base">할부 원금</dt>
                 <dd className="m-0 text-right text-sm font-bold md:text-base">{formatWon(loanPrincipal)}</dd>
               </div>
               <div className="flex justify-between gap-3 rounded-xl bg-white/5 px-4 py-4 md:gap-4 md:rounded-2xl md:px-6 md:py-6">
@@ -730,15 +750,16 @@ export default function QuoteWizard({ rows, regions }) {
 
             {/* 공유 버튼 */}
             <div className="mt-6 border-t border-white/10 pt-6 md:mt-8 md:pt-8">
-              <p className="mb-3 text-xs font-medium text-gray-400 md:mb-4 md:text-sm">
+              <p className="mb-3 text-sm font-medium text-gray-400 md:mb-4 md:text-base">
                 견적 공유하기
               </p>
               <div className="grid gap-2 md:grid-cols-3 md:gap-3">
                 <button
                   onClick={copyUrlToClipboard}
-                  className="flex items-center justify-center gap-1.5 rounded-lg bg-white/10 px-3 py-2.5 text-xs font-semibold transition-all hover:bg-white/20 md:px-4 md:py-3"
+                  className="flex items-center justify-center gap-1.5 rounded-lg bg-white/10 px-3 py-2.5 text-sm font-semibold transition-all hover:bg-white/20 md:px-4 md:py-3"
+                  aria-label="견적 URL 복사하기"
                 >
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
                   <span className="whitespace-nowrap">{copied ? '복사됨!' : 'URL 복사'}</span>
@@ -746,9 +767,10 @@ export default function QuoteWizard({ rows, regions }) {
 
                 <button
                   onClick={shareToKakao}
-                  className="flex items-center justify-center gap-1.5 rounded-lg bg-[#FEE500] px-3 py-2.5 text-xs font-semibold text-black transition-all hover:bg-[#FDD835] md:px-4 md:py-3"
+                  className="flex items-center justify-center gap-1.5 rounded-lg bg-[#FEE500] px-3 py-2.5 text-sm font-semibold text-black transition-all hover:bg-[#FDD835] md:px-4 md:py-3"
+                  aria-label="카카오톡으로 견적 공유하기"
                 >
-                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.9 5.3 4.8 6.7-.2.8-.7 2.8-.8 3.2-.1.5.2.5.4.4.3-.1 3.5-2.3 4-2.7.5.1 1 .1 1.6.1 5.5 0 10-3.6 10-8S17.5 3 12 3z"/>
                   </svg>
                   <span className="whitespace-nowrap">카카오톡</span>
@@ -756,9 +778,10 @@ export default function QuoteWizard({ rows, regions }) {
 
                 <button
                   onClick={downloadAsImage}
-                  className="flex items-center justify-center gap-1.5 rounded-lg bg-white/10 px-3 py-2.5 text-xs font-semibold transition-all hover:bg-white/20 md:px-4 md:py-3"
+                  className="flex items-center justify-center gap-1.5 rounded-lg bg-white/10 px-3 py-2.5 text-sm font-semibold transition-all hover:bg-white/20 md:px-4 md:py-3"
+                  aria-label="견적서 이미지로 저장하기"
                 >
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                   <span className="whitespace-nowrap">이미지</span>
