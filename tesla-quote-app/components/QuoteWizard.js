@@ -3,6 +3,7 @@
 import { useMemo, useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import QuoteCard from "./QuoteCard";
+import VehicleQuoteSummary from "./VehicleQuoteSummary";
 import ComparisonSummary from "./ComparisonSummary";
 import {
   calculateQuote,
@@ -354,9 +355,9 @@ export default function QuoteWizard({ rows, regions }) {
   };
 
   return (
-    <div className="mx-auto grid max-w-[1400px] gap-5 px-4 py-5 md:gap-8 md:px-8 md:py-12">
+    <div className="mx-auto grid max-w-[1400px] gap-5 px-4 py-5 md:gap-6 md:px-8 md:py-12">
       <header className="space-y-4 md:space-y-6">
-        <h1 className="text-center font-logo text-3xl font-extrabold tracking-tight text-black md:text-5xl lg:text-6xl">
+        <h1 className="text-center font-logo text-2xl font-extrabold tracking-tight text-black md:text-4xl lg:text-5xl">
           How much <span className="text-brandRed">Tesla</span>?
         </h1>
 
@@ -455,7 +456,7 @@ export default function QuoteWizard({ rows, regions }) {
         )}
       </header>
 
-      <div className="grid items-start gap-5 md:gap-8 lg:grid-cols-[1.8fr_1fr]">
+      <div className={`grid items-start gap-5 md:gap-6 ${mode === 'single' ? 'lg:grid-cols-[1.8fr_1fr]' : ''}`}>
         <div className="space-y-5 md:space-y-8">
           {/* Single Mode: Model and Trim Selection */}
           {mode === "single" && (
@@ -465,7 +466,7 @@ export default function QuoteWizard({ rows, regions }) {
                   {MODEL_CATALOG.map((item) => (
                     <button
                       key={item.id}
-                      className={`flex-1 rounded-lg px-4 py-3 text-sm font-bold transition-all md:px-6 md:py-4 md:text-lg ${
+                      className={`flex-1 rounded-lg px-4 py-3 text-sm font-bold transition-all md:px-6 md:py-3 md:text-base ${
                         modelId === item.id
                           ? "bg-black text-white shadow-md"
                           : "bg-gray-100 text-gray-800 hover:bg-gray-200"
@@ -497,8 +498,8 @@ export default function QuoteWizard({ rows, regions }) {
                 </div>
               </section>
 
-              <section id="section-trim" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-8">
-                <h3 className="mb-4 text-xl font-black md:mb-6 md:text-3xl">2. 트림 선택</h3>
+              <section id="section-trim" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-6">
+                <h3 className="mb-4 text-lg font-black md:mb-5 md:text-xl">2. 트림 선택</h3>
                 <div className="grid gap-2.5 md:gap-3">
                   {model.trims.map((item) => (
                     <button
@@ -519,33 +520,52 @@ export default function QuoteWizard({ rows, regions }) {
             </>
           )}
 
-          {/* Comparison Mode: Two Vehicle Cards */}
+          {/* Comparison Mode: Two Vehicle Cards + Quote Summaries */}
           {mode === "comparison" && (
-            <div className="grid gap-5 md:gap-8 md:grid-cols-2">
-              <QuoteCard
-                label="차량 A"
-                modelCatalog={MODEL_CATALOG}
-                selectedModelId={modelIdA}
-                onModelChange={setModelIdA}
-                selectedTrimId={trimIdA}
-                onTrimChange={setTrimIdA}
-              />
-              <QuoteCard
-                label="차량 B"
-                modelCatalog={MODEL_CATALOG}
-                selectedModelId={modelIdB}
-                onModelChange={setModelIdB}
-                selectedTrimId={trimIdB}
-                onTrimChange={setTrimIdB}
-              />
+            <div className="grid gap-5 md:gap-6 md:grid-cols-2">
+              {/* Vehicle A Column */}
+              <div className="space-y-4">
+                <QuoteCard
+                  label="차량 A"
+                  modelCatalog={MODEL_CATALOG}
+                  selectedModelId={modelIdA}
+                  onModelChange={setModelIdA}
+                  selectedTrimId={trimIdA}
+                  onTrimChange={setTrimIdA}
+                />
+                {quoteA && (
+                  <VehicleQuoteSummary
+                    modelName={getFullName(modelIdA, trimIdA)}
+                    quote={quoteA}
+                  />
+                )}
+              </div>
+
+              {/* Vehicle B Column */}
+              <div className="space-y-4">
+                <QuoteCard
+                  label="차량 B"
+                  modelCatalog={MODEL_CATALOG}
+                  selectedModelId={modelIdB}
+                  onModelChange={setModelIdB}
+                  selectedTrimId={trimIdB}
+                  onTrimChange={setTrimIdB}
+                />
+                {quoteB && (
+                  <VehicleQuoteSummary
+                    modelName={getFullName(modelIdB, trimIdB)}
+                    quote={quoteB}
+                  />
+                )}
+              </div>
             </div>
           )}
 
           {/* Shared Sections: Region, Benefits, Financing */}
-          <section id="section-region" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-8">
-            <h3 className="mb-4 text-xl font-black md:mb-6 md:text-3xl">3. 지역 선택</h3>
+          <section id="section-region" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-6">
+            <h3 className="mb-4 text-lg font-black md:mb-5 md:text-xl">3. 지역 선택</h3>
             <select
-              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-4 md:text-lg"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-xs font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-3 md:text-sm"
               value={regionCode}
               onChange={(e) => setRegionCode(e.target.value)}
             >
@@ -556,17 +576,17 @@ export default function QuoteWizard({ rows, regions }) {
               ))}
             </select>
             <div className="mt-4 rounded-lg bg-gray-50 p-4 md:mt-6 md:rounded-xl md:p-5">
-              <p className="text-sm text-gray-700 md:text-lg">
+              <p className="text-xs text-gray-700 md:text-sm">
                 보조금: <span className="font-semibold">국비 {subsidy.national_subsidy_manwon}만원</span> + <span className="font-semibold">지방비 {subsidy.local_subsidy_manwon}만원</span>
               </p>
-              <p className="mt-1.5 text-lg font-black md:mt-2 md:text-2xl">
+              <p className="mt-1.5 text-sm font-black md:mt-2 md:text-lg">
                 총 {subsidy.total_subsidy_manwon}만원
               </p>
             </div>
           </section>
 
-          <section id="section-benefit" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-8">
-            <h3 className="mb-4 text-xl font-black md:mb-6 md:text-3xl">4. 혜택 · 금융</h3>
+          <section id="section-benefit" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-6">
+            <h3 className="mb-4 text-lg font-black md:mb-5 md:text-xl">4. 혜택 · 금융</h3>
 
             <div className="mt-4 grid gap-3 md:mt-6 md:gap-4">
               <label className="flex cursor-pointer items-center gap-2.5 rounded-lg bg-gray-50 px-4 py-3 transition-all hover:bg-gray-100 md:gap-3 md:rounded-xl md:px-5 md:py-4">
@@ -576,7 +596,7 @@ export default function QuoteWizard({ rows, regions }) {
                   checked={isLowIncomeBenefit}
                   onChange={(e) => setIsLowIncomeBenefit(e.target.checked)}
                 />
-                <span className="text-sm font-semibold md:text-lg">차상위 이하 계층 (국비 20% 추가)</span>
+                <span className="text-xs font-semibold md:text-base">차상위 이하 계층 (국비 20% 추가)</span>
               </label>
               <label className="flex cursor-pointer items-center gap-2.5 rounded-lg bg-gray-50 px-4 py-3 transition-all hover:bg-gray-100 md:gap-3 md:rounded-xl md:px-5 md:py-4">
                 <input
@@ -585,7 +605,7 @@ export default function QuoteWizard({ rows, regions }) {
                   checked={isYouthBenefit}
                   onChange={(e) => setIsYouthBenefit(e.target.checked)}
                 />
-                <span className="text-sm font-semibold md:text-lg">청년 생애 첫차 (국비 20% 추가)</span>
+                <span className="text-xs font-semibold md:text-base">청년 생애 첫차 (국비 20% 추가)</span>
               </label>
               <label className="flex cursor-pointer items-center gap-2.5 rounded-lg bg-gray-50 px-4 py-3 transition-all hover:bg-gray-100 md:gap-3 md:rounded-xl md:px-5 md:py-4">
                 <input
@@ -594,10 +614,10 @@ export default function QuoteWizard({ rows, regions }) {
                   checked={isEvConversionBenefit}
                   onChange={(e) => setIsEvConversionBenefit(e.target.checked)}
                 />
-                <span className="text-sm font-semibold md:text-lg">전기차 전환지원금 (+100만원)</span>
+                <span className="text-xs font-semibold md:text-base">전기차 전환지원금 (+100만원)</span>
               </label>
               <label className="grid gap-1.5 text-sm font-medium text-gray-700 md:gap-2">
-                <span className="text-sm font-bold md:text-lg">다자녀 자녀 수</span>
+                <span className="text-xs font-bold md:text-base">다자녀 자녀 수</span>
                 <select
                   className="rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-4 md:text-base"
                   value={multiChildCount}
@@ -613,7 +633,7 @@ export default function QuoteWizard({ rows, regions }) {
 
             <div className="mt-5 grid gap-4 md:mt-8 md:grid-cols-[1.5fr_1fr_1fr] md:gap-6">
               <label className="grid gap-1.5 text-sm font-medium text-gray-700 md:gap-2">
-                <span className="text-sm font-bold md:text-lg">선수금</span>
+                <span className="text-xs font-bold md:text-base">선수금</span>
                 <input
                   className="rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-4 md:text-base"
                   type="text"
@@ -624,7 +644,7 @@ export default function QuoteWizard({ rows, regions }) {
                 />
               </label>
               <label className="grid gap-1.5 text-sm font-medium text-gray-700 md:gap-2">
-                <span className="text-sm font-bold md:text-lg">할부금리(%)</span>
+                <span className="text-xs font-bold md:text-base">할부금리(%)</span>
                 <input
                   className="rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-4 md:text-base"
                   type="number"
@@ -635,7 +655,7 @@ export default function QuoteWizard({ rows, regions }) {
                 />
               </label>
               <label className="grid gap-1.5 text-sm font-medium text-gray-700 md:gap-2">
-                <span className="text-sm font-bold md:text-lg">할부개월</span>
+                <span className="text-xs font-bold md:text-base">할부개월</span>
                 <select
                   className="rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-4 md:text-base"
                   value={months}
@@ -650,49 +670,61 @@ export default function QuoteWizard({ rows, regions }) {
               </label>
             </div>
           </section>
+
+          {/* Comparison Mode: Full-Width Comparison Analysis */}
+          {mode === "comparison" && comparison && upgradeSuggestions && (
+            <ComparisonSummary
+              modelNameA={getFullName(modelIdA, trimIdA)}
+              modelNameB={getFullName(modelIdB, trimIdB)}
+              quoteA={quoteA}
+              quoteB={quoteB}
+              comparison={comparison}
+              upgradeSuggestions={upgradeSuggestions}
+            />
+          )}
         </div>
 
         {/* Single Mode: Quote Summary */}
         {mode === "single" && (
           <aside id="quote-summary" className="sticky top-4 self-start overflow-hidden rounded-2xl bg-black text-white shadow-2xl md:rounded-3xl">
-          <div className="bg-gradient-to-br from-gray-900 to-black p-5 md:p-8">
-            <h3 className="mb-5 text-2xl font-black md:mb-8 md:text-4xl">견적 요약</h3>
+          <div className="bg-gradient-to-br from-gray-900 to-black p-5 md:p-6">
+            <h3 className="mb-5 text-xl font-black md:mb-6 md:text-2xl">견적 요약</h3>
             <dl className="m-0 space-y-0.5">
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
-                <dt className="text-sm font-medium text-gray-400 md:text-base">모델</dt>
-                <dd className="m-0 text-right text-sm font-bold md:text-base">{model.name}</dd>
+                <dt className="text-xs font-medium text-gray-400 md:text-sm">모델</dt>
+                <dd className="m-0 text-right text-xs font-bold md:text-sm">{model.name}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
-                <dt className="text-sm font-medium text-gray-400 md:text-base">트림</dt>
-                <dd className="m-0 text-right text-sm font-bold md:text-base">{trim.label}</dd>
+                <dt className="text-xs font-medium text-gray-400 md:text-sm">트림</dt>
+                <dd className="m-0 text-right text-xs font-bold md:text-sm">{trim.label}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
-                <dt className="text-sm font-medium text-gray-400 md:text-base">지역</dt>
-                <dd className="m-0 text-right text-sm font-bold md:text-base">{selectedRegion?.name || "-"}</dd>
+                <dt className="text-xs font-medium text-gray-400 md:text-sm">지역</dt>
+                <dd className="m-0 text-right text-xs font-bold md:text-sm">{selectedRegion?.name || "-"}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
-                <dt className="text-sm font-medium text-gray-400 md:text-base">차량가</dt>
-                <dd className="m-0 text-right text-base font-bold md:text-lg">{formatWon(basePrice)}</dd>
+                <dt className="text-xs font-medium text-gray-400 md:text-sm">차량가</dt>
+                <dd className="m-0 text-right text-sm font-bold md:text-base">{formatWon(basePrice)}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
-                <dt className="text-sm font-medium text-gray-400 md:text-base">보조금(국고+지자체)</dt>
+                <dt className="text-xs font-medium text-gray-400 md:text-sm">보조금(국고+지자체)</dt>
                 <dd className="m-0 text-right text-base font-bold text-green-400 md:text-lg">- {formatWon(subsidyWon)}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
-                <dt className="text-sm font-medium text-gray-400 md:text-base">추가 혜택</dt>
+                <dt className="text-xs font-medium text-gray-400 md:text-sm">추가 혜택</dt>
                 <dd className="m-0 text-right text-base font-bold text-green-400 md:text-lg">- {formatWon(extraBenefitWon)}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b-2 border-white/20 py-3.5 md:gap-4 md:py-5">
-                <dt className="text-base font-bold md:text-lg">예상 실구매가</dt>
-                <dd className="m-0 text-right text-xl font-black md:text-2xl">{formatWon(estimatedPrice)}</dd>
+                <dt className="text-sm font-bold md:text-base">예상 실구매가</dt>
+                <dd className="m-0 text-right text-lg font-black md:text-xl">{formatWon(estimatedPrice)}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 pt-4 md:gap-4 md:py-4 md:pt-6">
-                <dt className="text-sm font-medium text-gray-400 md:text-base">할부 원금</dt>
-                <dd className="m-0 text-right text-base font-bold md:text-lg">{formatWon(loanPrincipal)}</dd>
+                <dt className="text-xs font-medium text-gray-400 md:text-sm">할부 원금</dt>
+                <dd className="m-0 text-right text-sm font-bold md:text-base">{formatWon(loanPrincipal)}</dd>
               </div>
               <div className="flex justify-between gap-3 rounded-xl bg-white/5 px-4 py-4 md:gap-4 md:rounded-2xl md:px-6 md:py-6">
-                <dt className="text-base font-bold md:text-lg">예상 월 납입금</dt>
-                <dd className="m-0 text-right text-2xl font-black text-brandRed md:text-3xl">{formatWon(Math.round(monthly))}</dd>
+                <dt className="text-sm font-bold md:text-base">예상 월 납입금</dt>
+                <dd className="m-0 text-right text-xl font-black text-brandRed md:text-2xl">{formatWon(Math.round(monthly))}</dd>
               </div>
             </dl>
 
@@ -735,17 +767,6 @@ export default function QuoteWizard({ rows, regions }) {
             </div>
           </div>
         </aside>
-        )}
-
-        {/* Comparison Mode: Comparison Summary */}
-        {mode === "comparison" && (
-          <ComparisonSummary
-            modelNameA={getFullName(modelIdA, trimIdA)}
-            modelNameB={getFullName(modelIdB, trimIdB)}
-            comparison={comparison}
-            upgradeSuggestions={upgradeSuggestions}
-            className="sticky top-4 self-start"
-          />
         )}
       </div>
 

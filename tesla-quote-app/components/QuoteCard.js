@@ -33,7 +33,7 @@ export default function QuoteCard({
       {/* Label for comparison mode */}
       {label && (
         <div className="border-b border-gray-200 bg-gray-50 px-4 py-3 md:px-6 md:py-4">
-          <h3 className="text-center text-lg font-black md:text-xl">{label}</h3>
+          <h3 className="text-center text-base font-black md:text-lg">{label}</h3>
         </div>
       )}
 
@@ -42,7 +42,7 @@ export default function QuoteCard({
         {modelCatalog.map((item) => (
           <button
             key={item.id}
-            className={`flex-1 rounded-lg px-4 py-3 text-sm font-bold transition-all md:px-6 md:py-4 md:text-lg ${
+            className={`flex-1 rounded-lg px-4 py-3 text-sm font-bold transition-all md:px-6 md:py-3 md:text-base ${
               selectedModelId === item.id
                 ? "bg-black text-white shadow-md"
                 : "bg-gray-100 text-gray-800 hover:bg-gray-200"
@@ -55,21 +55,21 @@ export default function QuoteCard({
       </div>
 
       {/* Model Image and Stats */}
-      <div className="bg-gradient-to-b from-gray-50 to-white p-5 md:p-8">
+      <div className="bg-gradient-to-b from-gray-50 to-white p-5 md:p-6">
         <img
-          className="h-[200px] w-full object-contain md:h-[320px]"
+          className="h-[200px] w-full object-contain md:h-[280px]"
           src={model.image}
           alt={model.name}
         />
 
-        <h2 className="mt-6 text-center text-[32px] font-medium leading-none tracking-normal md:mt-8 md:text-2xl">
+        <h2 className="mt-6 text-center text-xl font-medium leading-none tracking-normal md:mt-6 md:text-2xl">
           {model.name}
         </h2>
 
-        <div className="mx-auto mb-5 mt-6 grid grid-cols-3 gap-4 text-center md:mb-8 md:mt-6 md:max-w-3xl md:gap-8">
+        <div className="mx-auto mb-5 mt-6 grid grid-cols-3 gap-4 text-center md:mb-6 md:mt-6 md:max-w-3xl md:gap-8">
           {model.stats.map((item) => (
             <div key={item.label} className="px-1">
-              <strong className="block text-xl font-medium leading-none tracking-tight md:text-xl">
+              <strong className="block text-lg font-medium leading-none tracking-tight md:text-xl">
                 {item.value}
               </strong>
               <span className="mt-1 block text-[11px] font-normal leading-tight text-gray-500 md:mt-1.5 md:text-xs">
@@ -91,10 +91,10 @@ export default function QuoteCard({
               }`}
               onClick={() => onTrimChange(item.id)}
             >
-              <span className="flex-1 pr-2 text-[13px] font-normal leading-snug md:text-base md:font-semibold">
+              <span className="flex-1 pr-2 text-xs font-normal leading-snug md:text-sm md:font-medium">
                 {item.label}
               </span>
-              <strong className="shrink-0 text-[17px] font-extrabold md:text-xl">
+              <strong className="shrink-0 text-base font-extrabold md:text-lg">
                 {formatWon(item.price)}
               </strong>
             </button>
