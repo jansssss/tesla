@@ -302,37 +302,6 @@ export default function QuoteWizard({ rows, regions }) {
     }
   };
 
-  // 카카오톡 공유
-  const shareToKakao = () => {
-    if (typeof window === 'undefined' || !window.Kakao) return;
-
-    if (!window.Kakao.isInitialized()) {
-      window.Kakao.init('10836823db1cf5d613d24a19e229f8f9');
-    }
-
-    window.Kakao.Share.sendDefault({
-      objectType: 'feed',
-      content: {
-        title: '테슬라 견적 계산 완료!',
-        description: `${model.name} ${trim.label} - 실구매가 ${formatWon(estimatedPrice)}`,
-        imageUrl: 'https://paytesla.kr/logo.svg',
-        link: {
-          mobileWebUrl: generateShareUrl(),
-          webUrl: generateShareUrl(),
-        },
-      },
-      buttons: [
-        {
-          title: '내 견적 확인하기',
-          link: {
-            mobileWebUrl: generateShareUrl(),
-            webUrl: generateShareUrl(),
-          },
-        },
-      ],
-    });
-  };
-
   // 이미지로 저장
   const downloadAsImage = async () => {
     try {
@@ -763,17 +732,6 @@ export default function QuoteWizard({ rows, regions }) {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
                   <span className="whitespace-nowrap">{copied ? '복사됨!' : 'URL 복사'}</span>
-                </button>
-
-                <button
-                  onClick={shareToKakao}
-                  className="flex items-center justify-center gap-1.5 rounded-lg bg-[#FEE500] px-3 py-2.5 text-sm font-semibold text-black transition-all hover:bg-[#FDD835] md:px-4 md:py-3"
-                  aria-label="카카오톡으로 견적 공유하기"
-                >
-                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.9 5.3 4.8 6.7-.2.8-.7 2.8-.8 3.2-.1.5.2.5.4.4.3-.1 3.5-2.3 4-2.7.5.1 1 .1 1.6.1 5.5 0 10-3.6 10-8S17.5 3 12 3z"/>
-                  </svg>
-                  <span className="whitespace-nowrap">카카오톡</span>
                 </button>
 
                 <button
