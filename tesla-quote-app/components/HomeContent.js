@@ -59,7 +59,7 @@ export default function HomeContent() {
               서비스 소개
             </span>
             <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950 md:text-4xl">
-              계산기 아래에 실제 구매 판단에 필요한 설명을 붙였습니다
+              지역과 조건을 바꾸며 실구매가와 월 납입금을 직접 계산해볼 수 있습니다
             </h2>
             <div className="mt-6 space-y-4 text-sm leading-7 text-slate-700 md:text-base">
               <p>
@@ -154,7 +154,7 @@ export default function HomeContent() {
                 <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.24em] text-slate-200">
                   정보성 가이드
                 </span>
-                <h2 className="mt-4 text-3xl font-black tracking-tight md:text-4xl">
+                <h2 className="mt-4 text-2xl font-black tracking-tight md:text-3xl">
                   계산기만으로 부족한 설명은 별도 가이드에서 다룹니다
                 </h2>
               </div>
