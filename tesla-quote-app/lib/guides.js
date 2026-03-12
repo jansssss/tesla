@@ -5,8 +5,8 @@ const guides = [
     title: "수도권과 지방의 전기차 보조금 차이, 서울 vs 전남 나주 비교",
     description:
       "서울과 전남 나주를 예시로 2026년 테슬라 보조금 차이, 예산 흐름, 신청 타이밍을 비교한 지역별 분석 가이드입니다.",
-    publishedAt: "2026-03-12",
-    updatedAt: "2026-03-12",
+    publishedAt: "2026-03-10",
+    updatedAt: "2026-03-10",
     readTime: "7분",
     keyPoints: [
       "같은 차량이라도 지자체 예산과 우선순위에 따라 실구매가 차이가 크게 벌어진다.",
@@ -74,8 +74,8 @@ const guides = [
     title: "2026년 테슬라 모델3 vs 모델Y, 보조금 100% 기준 정리",
     description:
       "모델3와 모델Y의 가격대, 트림별 보조금 반영 차이, 실구매가 계산 시 주의점을 비교한 가이드입니다.",
-    publishedAt: "2026-03-12",
-    updatedAt: "2026-03-12",
+    publishedAt: "2026-03-03",
+    updatedAt: "2026-03-03",
     readTime: "8분",
     keyPoints: [
       "모델3와 모델Y는 같은 테슬라라도 트림 가격에 따라 보조금 체감이 크게 달라진다.",
@@ -138,8 +138,8 @@ const guides = [
     title: "보조금 외에 챙겨야 할 전기차 세제 혜택과 유지비 절약 팁",
     description:
       "취등록세, 자동차세, 충전비, 보험료까지 전기차 구매 후 실제 지출 구조를 정리한 유지비 가이드입니다.",
-    publishedAt: "2026-03-12",
-    updatedAt: "2026-03-12",
+    publishedAt: "2026-02-24",
+    updatedAt: "2026-02-24",
     readTime: "8분",
     keyPoints: [
       "보조금만 보면 초기 혜택은 보이지만 전체 보유비용은 놓치기 쉽다.",
@@ -197,8 +197,8 @@ const guides = [
     title: "보조금 확정부터 차량 인도까지, 초보자를 위한 테슬라 구매 가이드",
     description:
       "처음 테슬라를 사는 사용자를 위해 보조금 조회, 계약, 접수, 출고, 인도까지 순서를 정리한 구매 프로세스 가이드입니다.",
-    publishedAt: "2026-03-12",
-    updatedAt: "2026-03-12",
+    publishedAt: "2026-02-14",
+    updatedAt: "2026-02-14",
     readTime: "9분",
     keyPoints: [
       "구매 실패는 계산 미스보다 순서 착오에서 자주 발생한다.",
@@ -257,8 +257,8 @@ const guides = [
     title: "청년 생애 첫차와 저소득층 추가 지원금, 중복 적용 전에 확인할 것",
     description:
       "청년 생애 첫차, 저소득층, 전기차 전환지원, 다자녀 혜택을 해석할 때 주의할 점을 정리한 가이드입니다.",
-    publishedAt: "2026-03-12",
-    updatedAt: "2026-03-12",
+    publishedAt: "2026-02-05",
+    updatedAt: "2026-02-05",
     readTime: "7분",
     keyPoints: [
       "추가 지원금은 계산식보다 자격 판단이 더 중요하다.",
@@ -314,8 +314,8 @@ const guides = [
     title: "개인 구매와 법인 구매의 차이, 보조금과 세무 처리 포인트",
     description:
       "개인, 개인사업자, 법인 구매가 보조금 신청과 비용 처리에서 어떻게 달라지는지 정리한 가이드입니다.",
-    publishedAt: "2026-03-12",
-    updatedAt: "2026-03-12",
+    publishedAt: "2026-01-27",
+    updatedAt: "2026-01-27",
     readTime: "8분",
     keyPoints: [
       "개인과 법인은 보조금 자격, 서류, 일정 관리 포인트가 다르다.",
@@ -368,8 +368,8 @@ const guides = [
     title: "아파트 충전 환경이 구매 결정에 미치는 영향, 설치와 계약 체크리스트",
     description:
       "공동주택 거주자가 테슬라 구매 전에 반드시 확인해야 할 충전 환경과 설치 현실을 정리한 가이드입니다.",
-    publishedAt: "2026-03-12",
-    updatedAt: "2026-03-12",
+    publishedAt: "2026-01-19",
+    updatedAt: "2026-01-19",
     readTime: "7분",
     keyPoints: [
       "충전 환경이 불안정하면 전기차 만족도가 빠르게 떨어진다.",
@@ -428,8 +428,8 @@ const guides = [
     title: "보조금 예산 소진 전에 해야 할 일, 연초와 연말 신청 전략",
     description:
       "예산 소진 리스크를 줄이기 위해 연초, 상반기, 하반기마다 어떤 관점으로 접근해야 하는지 정리한 가이드입니다.",
-    publishedAt: "2026-03-12",
-    updatedAt: "2026-03-12",
+    publishedAt: "2026-01-08",
+    updatedAt: "2026-01-08",
     readTime: "7분",
     keyPoints: [
       "전기차 구매는 가격보다 타이밍이 더 중요해지는 순간이 있다.",
@@ -487,8 +487,8 @@ const guides = [
     title: "선수금과 할부 조건에 따라 월 납입금이 달라지는 방식",
     description:
       "같은 차량이라도 선수금과 할부개월, 금리에 따라 체감 부담이 어떻게 달라지는지 설명한 가이드입니다.",
-    publishedAt: "2026-03-12",
-    updatedAt: "2026-03-12",
+    publishedAt: "2025-12-29",
+    updatedAt: "2025-12-29",
     readTime: "6분",
     keyPoints: [
       "실구매가보다 월 납입금이 의사결정을 좌우하는 경우가 많다.",
@@ -546,8 +546,8 @@ const guides = [
     title: "테슬라 구매 전 꼭 확인해야 할 지역별 공고문 읽는 법",
     description:
       "지자체 공고문에서 보조금 신청 자격, 제외 대상, 증빙 서류를 효율적으로 확인하는 방법을 정리한 가이드입니다.",
-    publishedAt: "2026-03-12",
-    updatedAt: "2026-03-12",
+    publishedAt: "2025-12-17",
+    updatedAt: "2025-12-17",
     readTime: "7분",
     keyPoints: [
       "공고문은 처음부터 끝까지 읽기보다 체크 포인트를 잡고 읽어야 한다.",
@@ -605,8 +605,8 @@ const guides = [
     title: "테슬라 구매 전에 많이 하는 실수 7가지와 예방법",
     description:
       "보조금, 충전, 보험, 일정 관리에서 초보 구매자가 자주 하는 실수를 정리한 체크리스트형 가이드입니다.",
-    publishedAt: "2026-03-12",
-    updatedAt: "2026-03-12",
+    publishedAt: "2025-12-08",
+    updatedAt: "2025-12-08",
     readTime: "6분",
     keyPoints: [
       "실수는 정보 부족보다 준비 순서 오류에서 반복된다.",
