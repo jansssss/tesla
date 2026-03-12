@@ -1,4 +1,4 @@
-﻿import "./globals.css";
+import "./globals.css";
 import Footer from "@/components/Footer";
 import SiteNav from "@/components/SiteNav";
 

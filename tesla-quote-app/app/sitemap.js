@@ -1,4 +1,5 @@
 import { ALL_SLUGS } from '@/lib/regions';
+import { getAllGuides } from "@/lib/guides";
 
 export default function sitemap() {
   const baseUrl = 'https://paytesla.kr';
@@ -34,6 +35,16 @@ export default function sitemap() {
     { url: `${baseUrl}/compare/rwd-vs-awd`,         lastModified: currentDate, changeFrequency: 'weekly', priority: 0.8 },
   ];
 
-  // 총 27개 URL
-  return [...staticPages, ...regionPages, ...modelPages, ...comparePages];
+  // 가이드 페이지
+  const guidePages = [
+    { url: `${baseUrl}/guides`, lastModified: currentDate, changeFrequency: 'weekly', priority: 0.9 },
+    ...getAllGuides().map((guide) => ({
+      url: `${baseUrl}/guides/${guide.slug}`,
+      lastModified: guide.updatedAt,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    })),
+  ];
+
+  return [...staticPages, ...regionPages, ...modelPages, ...comparePages, ...guidePages];
 }

@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import HomeContent from "@/components/HomeContent";
 import QuoteWizard from "@/components/QuoteWizard";
 import QuoteWizardSkeleton from "@/components/QuoteWizardSkeleton";
 import { loadSubsidySnapshot } from "@/lib/subsidy";
@@ -10,6 +11,7 @@ export default function HomePage() {
       <Suspense fallback={<QuoteWizardSkeleton />}>
         <QuoteWizard rows={snapshot.rows} regions={snapshot.regions} />
       </Suspense>
+      <HomeContent />
     </main>
   );
 }
