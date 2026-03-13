@@ -1,7 +1,7 @@
 const guides = [
   {
     slug: "seoul-vs-naju-ev-subsidy-2026",
-    category: "지역별 보조금 분석",
+    category: "보조금 전략",
     title: "수도권과 지방의 전기차 보조금 차이, 서울 vs 전남 나주 비교",
     description:
       "서울과 전남 나주를 예시로 2026년 테슬라 보조금 차이, 예산 흐름, 신청 타이밍을 비교한 지역별 분석 가이드입니다.",
@@ -67,6 +67,7 @@ const guides = [
             ["Model Y RWD", "170만원", "51만원", "221만원", "170만원", "340만원", "▲119만원"],
             ["Model Y LR", "210만원", "63만원", "273만원", "210만원", "420만원", "▲147만원"],
             ["Model 3 RWD", "168만원", "50만원", "218만원", "168만원", "336만원", "▲118만원"],
+            ["Model 3 LR", "420만원", "126만원", "546만원", "420만원", "840만원", "▲294만원"],
             ["Model 3 Performance", "200만원", "60만원", "260만원", "200만원", "400만원", "▲140만원"]
           ]
         }
@@ -89,7 +90,7 @@ const guides = [
   },
   {
     slug: "model3-vs-modely-subsidy-threshold-2026",
-    category: "차종별 비교",
+    category: "차종·트림",
     title: "2026년 테슬라 모델3 vs 모델Y, 보조금 100% 기준 정리",
     description:
       "모델3와 모델Y의 가격대, 트림별 보조금 반영 차이, 실구매가 계산 시 주의점을 비교한 가이드입니다.",
@@ -145,6 +146,7 @@ const guides = [
           headers: ["차종·트림", "국고보조금", "서울 지방비", "서울 합계"],
           rows: [
             ["Model 3 RWD", "168만원", "50만원", "218만원"],
+            ["Model 3 LR", "420만원", "126만원", "546만원"],
             ["Model 3 Performance", "200만원", "60만원", "260만원"],
             ["Model Y RWD", "170만원", "51만원", "221만원"],
             ["Model Y LR", "210만원", "63만원", "273만원"]
@@ -171,7 +173,7 @@ const guides = [
   },
   {
     slug: "ev-tax-benefits-running-cost-guide",
-    category: "유지비 및 세제",
+    category: "유지비·세제",
     title: "보조금 외에 챙겨야 할 전기차 세제 혜택과 유지비 절약 팁",
     description:
       "취등록세, 자동차세, 충전비, 보험료까지 전기차 구매 후 실제 지출 구조를 정리한 유지비 가이드입니다.",
@@ -234,7 +236,7 @@ const guides = [
   },
   {
     slug: "tesla-purchase-process-for-beginners",
-    category: "구매 프로세스",
+    category: "구매 가이드",
     title: "보조금 확정부터 차량 인도까지, 초보자를 위한 테슬라 구매 가이드",
     description:
       "처음 테슬라를 사는 사용자를 위해 보조금 조회, 계약, 접수, 출고, 인도까지 순서를 정리한 구매 프로세스 가이드입니다.",
@@ -297,7 +299,7 @@ const guides = [
   },
   {
     slug: "youth-low-income-extra-benefit-guide",
-    category: "추가 혜택 해설",
+    category: "보조금 전략",
     title: "청년 생애 첫차와 저소득층 추가 지원금, 중복 적용 전에 확인할 것",
     description:
       "청년 생애 첫차, 저소득층, 전기차 전환지원, 다자녀 혜택을 해석할 때 주의할 점을 정리한 가이드입니다.",
@@ -358,7 +360,7 @@ const guides = [
   },
   {
     slug: "individual-vs-corporate-ev-purchase-guide",
-    category: "구매 유형 비교",
+    category: "구매 가이드",
     title: "개인 구매와 법인 구매의 차이, 보조금과 세무 처리 포인트",
     description:
       "개인, 개인사업자, 법인 구매가 보조금 신청과 비용 처리에서 어떻게 달라지는지 정리한 가이드입니다.",
@@ -416,7 +418,7 @@ const guides = [
   },
   {
     slug: "apartment-charging-checklist",
-    category: "충전 환경",
+    category: "충전",
     title: "아파트 충전 환경이 구매 결정에 미치는 영향, 설치와 계약 체크리스트",
     description:
       "공동주택 거주자가 테슬라 구매 전에 반드시 확인해야 할 충전 환경과 설치 현실을 정리한 가이드입니다.",
@@ -480,7 +482,7 @@ const guides = [
   },
   {
     slug: "subsidy-budget-timing-strategy",
-    category: "신청 전략",
+    category: "보조금 전략",
     title: "보조금 예산 소진 전에 해야 할 일, 연초와 연말 신청 전략",
     description:
       "예산 소진 리스크를 줄이기 위해 연초, 상반기, 하반기마다 어떤 관점으로 접근해야 하는지 정리한 가이드입니다.",
@@ -542,7 +544,7 @@ const guides = [
   },
   {
     slug: "down-payment-loan-scenario-guide",
-    category: "금융 시뮬레이션",
+    category: "금융·옵션",
     title: "선수금과 할부 조건에 따라 월 납입금이 달라지는 방식",
     description:
       "같은 차량이라도 선수금과 할부개월, 금리에 따라 체감 부담이 어떻게 달라지는지 설명한 가이드입니다.",
@@ -605,7 +607,7 @@ const guides = [
   },
   {
     slug: "how-to-read-local-subsidy-notice",
-    category: "공고문 해설",
+    category: "보조금 전략",
     title: "테슬라 구매 전 꼭 확인해야 할 지역별 공고문 읽는 법",
     description:
       "지자체 공고문에서 보조금 신청 자격, 제외 대상, 증빙 서류를 효율적으로 확인하는 방법을 정리한 가이드입니다.",
@@ -667,7 +669,7 @@ const guides = [
   },
   {
     slug: "tesla-buying-mistakes-checklist",
-    category: "구매 체크리스트",
+    category: "구매 가이드",
     title: "테슬라 구매 전에 많이 하는 실수 7가지와 예방법",
     description:
       "보조금, 충전, 보험, 일정 관리에서 초보 구매자가 자주 하는 실수를 정리한 체크리스트형 가이드입니다.",
@@ -722,7 +724,7 @@ const guides = [
   },
   {
     slug: "used-tesla-vs-new-tesla-guide",
-    category: "중고차 vs 신차",
+    category: "구매 가이드",
     title: "중고 테슬라 vs 신차, 실비용과 보조금 차이 완전 비교",
     description:
       "중고 테슬라와 신차를 실비용, 보조금 적용 여부, 보증 조건, 감가 구조 측면에서 비교한 구매 판단 가이드입니다.",
@@ -787,7 +789,7 @@ const guides = [
   },
   {
     slug: "model-y-rwd-vs-lr-real-comparison",
-    category: "트림 비교",
+    category: "차종·트림",
     title: "모델Y RWD vs 롱레인지, 실사용 조건에서 어떤 차이가 나는가",
     description:
       "모델Y 두 트림의 가격·보조금·주행가능거리·실생활 차이를 비교해 자신에게 맞는 트림을 선택하도록 돕는 가이드입니다.",
@@ -852,7 +854,7 @@ const guides = [
   },
   {
     slug: "autopilot-fsd-option-guide",
-    category: "옵션 선택",
+    category: "금융·옵션",
     title: "오토파일럿과 FSD, 테슬라 소프트웨어 옵션 선택 가이드",
     description:
       "오토파일럿 기본 기능과 FSD의 차이, 구매 시 선택 여부와 사후 구매 가능성을 정리한 옵션 선택 가이드입니다.",
@@ -907,7 +909,7 @@ const guides = [
   },
   {
     slug: "ev-battery-warranty-insurance-guide",
-    category: "보험 및 보증",
+    category: "유지비·세제",
     title: "전기차 배터리 보증과 보험, 테슬라 구매 전 확인할 것",
     description:
       "테슬라 배터리 보증 조건, 전기차 보험 특성, 수리비와 보험료 구조까지 보증·보험 관련 핵심을 정리한 가이드입니다.",
@@ -966,7 +968,7 @@ const guides = [
   },
   {
     slug: "moving-region-subsidy-strategy",
-    category: "이사·지역이전",
+    category: "보조금 전략",
     title: "이사 예정자의 보조금 전략, 주소 이전 시점이 결과를 바꾼다",
     description:
       "이사를 앞두고 테슬라 구매를 계획할 때 주소 이전 시점, 거주 요건, 지역별 보조금 차이를 어떻게 조율해야 하는지 정리한 가이드입니다.",
@@ -1021,7 +1023,7 @@ const guides = [
   },
   {
     slug: "family-name-vs-own-name-subsidy",
-    category: "명의 전략",
+    category: "보조금 전략",
     title: "가족 명의와 본인 명의, 보조금과 세금에서 달라지는 것",
     description:
       "배우자 또는 가족 명의로 테슬라를 구매할 때 보조금 자격, 세금 처리, 보험 구조가 어떻게 달라지는지 정리한 가이드입니다.",
@@ -1076,7 +1078,7 @@ const guides = [
   },
   {
     slug: "tesla-supercharger-charging-guide",
-    category: "충전 가이드",
+    category: "충전",
     title: "테슬라 슈퍼차저와 충전카드, 비용과 사용법 완전 정리",
     description:
       "테슬라 슈퍼차저 네트워크 특성, 충전 단가, 일반 급속 충전기와의 차이, 효율적인 이용 방법을 정리한 충전 가이드입니다.",
@@ -1135,7 +1137,7 @@ const guides = [
   },
   {
     slug: "subsidy-refund-ownership-period-guide",
-    category: "보조금 규정",
+    category: "보조금 전략",
     title: "보조금 반납 조건과 의무 보유기간, 위반하면 어떻게 되나",
     description:
       "전기차 보조금을 받은 후 차량을 처분하거나 이전할 때 발생하는 반납 의무, 의무 보유기간, 예외 조항을 정리한 가이드입니다.",
@@ -1259,7 +1261,8 @@ export function getGuideBySlug(slug) {
 }
 
 export function getFeaturedGuides() {
-  return guides.slice(0, 4);
+  const step = Math.floor(guides.length / 4);
+  return [guides[0], guides[step], guides[step * 2], guides[step * 3]];
 }
 
 export default guides;
