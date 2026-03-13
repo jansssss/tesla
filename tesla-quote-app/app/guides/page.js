@@ -3,6 +3,11 @@ import { getAllGuides } from "@/lib/guides";
 
 const guides = getAllGuides();
 
+function formatDate(dateStr) {
+  const [year, month, day] = dateStr.split("-");
+  return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
+}
+
 export const metadata = {
   title: "정보성 가이드 - 하우머치 테슬라",
   description:
@@ -41,12 +46,12 @@ export default function GuidesPage() {
                   {String(index + 1).padStart(2, "0")}
                 </span>
               </div>
-              <h2 className="mt-5 text-2xl font-black leading-tight tracking-tight text-slate-950 transition group-hover:text-blue-700">
+              <h2 className="mt-5 text-lg font-black leading-tight tracking-tight text-slate-950 transition group-hover:text-blue-700">
                 {guide.title}
               </h2>
               <p className="mt-4 text-sm leading-7 text-slate-600">{guide.description}</p>
               <div className="mt-6 flex items-center justify-between text-sm text-slate-500">
-                <span>{guide.updatedAt}</span>
+                <span>{formatDate(guide.updatedAt)}</span>
                 <span>{guide.readTime}</span>
               </div>
             </Link>

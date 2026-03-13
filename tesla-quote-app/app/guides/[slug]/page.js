@@ -2,6 +2,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllGuides, getGuideBySlug } from "@/lib/guides";
 
+const SITE_URL = "https://paytesla.kr";
+
+function formatDate(dateStr) {
+  const [year, month, day] = dateStr.split("-");
+  return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
+}
+
 export function generateStaticParams() {
   return getAllGuides().map((guide) => ({
     slug: guide.slug
@@ -34,8 +41,36 @@ export default function GuideDetailPage({ params }) {
     .filter((item) => item.slug !== guide.slug)
     .slice(0, 3);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: guide.title,
+    description: guide.description,
+    datePublished: guide.publishedAt,
+    dateModified: guide.updatedAt,
+    url: `${SITE_URL}/guides/${guide.slug}`,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/guides/${guide.slug}`
+    },
+    author: {
+      "@type": "Organization",
+      name: "하우머치 테슬라",
+      url: SITE_URL
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "하우머치 테슬라",
+      url: SITE_URL
+    }
+  };
+
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#eef2ff_0%,#f8fafc_22%,#ffffff_100%)] py-10 md:py-14">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="mx-auto grid max-w-5xl gap-8 px-4 md:px-8">
         <article className="overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_28px_80px_rgba(15,23,42,0.08)]">
           <header className="bg-[linear-gradient(135deg,#0f172a_0%,#172554_46%,#2563eb_100%)] px-6 py-10 text-white md:px-10 md:py-14">
@@ -44,7 +79,7 @@ export default function GuideDetailPage({ params }) {
             </Link>
             <div className="mt-6 flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-[0.22em] text-blue-100">
               <span className="rounded-full bg-white/10 px-3 py-1">{guide.category}</span>
-              <span>{guide.updatedAt}</span>
+              <span>{formatDate(guide.updatedAt)}</span>
               <span>{guide.readTime}</span>
             </div>
             <h1 className="mt-6 text-3xl font-black leading-tight tracking-tight md:text-5xl">
@@ -95,6 +130,28 @@ export default function GuideDetailPage({ params }) {
                       ))}
                     </ul>
                   ) : null}
+                  {section.table ? (
+                    <div className="mt-5 overflow-x-auto rounded-3xl border border-slate-200">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="bg-slate-950 text-white">
+                            {section.table.headers.map((h) => (
+                              <th key={h} className="px-4 py-3 text-left font-bold">{h}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {section.table.rows.map((row, i) => (
+                            <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-slate-50"}>
+                              {row.map((cell, j) => (
+                                <td key={j} className={`px-4 py-3 ${j === 0 ? "font-semibold text-slate-950" : "text-slate-700"}`}>{cell}</td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : null}
                   {section.callout ? (
                     <div className="mt-5 rounded-3xl bg-[linear-gradient(135deg,#1d4ed8_0%,#4338ca_100%)] p-5 text-sm leading-7 text-white md:text-base">
                       {section.callout}
@@ -103,8 +160,50 @@ export default function GuideDetailPage({ params }) {
                 </section>
               ))}
             </div>
+
+            {guide.sources && guide.sources.length > 0 ? (
+              <section className="border-t border-slate-200 pt-6">
+                <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">참고 출처</h2>
+                <ul className="mt-3 space-y-2">
+                  {guide.sources.map((source) => (
+                    <li key={source.url} className="flex items-center gap-2 text-sm text-slate-600">
+                      <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+                      <a
+                        href={source.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline"
+                      >
+                        {source.name}
+                      </a>
+                      {source.accessedAt ? (
+                        <span className="text-slate-400">({formatDate(source.accessedAt)} 기준)</span>
+                      ) : null}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
           </div>
         </article>
+
+        <section className="rounded-[32px] border border-slate-200 bg-[linear-gradient(135deg,#0f172a_0%,#1e3a8a_100%)] p-8 text-white shadow-[0_20px_60px_rgba(15,23,42,0.15)] md:p-10">
+          <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.24em] text-blue-100">
+            지역별 계산기
+          </span>
+          <h2 className="mt-4 text-2xl font-black tracking-tight md:text-3xl">
+            내 지역 보조금을 직접 계산해보세요
+          </h2>
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-blue-100 md:text-base">
+            전국 시·군·구 보조금 데이터를 기반으로, 거주 지역과 트림을 선택하면 실구매가와 월 납입금을 바로 확인할 수 있습니다.
+          </p>
+          <Link
+            href="/"
+            className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3 text-sm font-bold text-slate-950 transition hover:bg-blue-50"
+          >
+            계산기 바로가기 →
+          </Link>
+        </section>
 
         <section className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] md:p-10">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">

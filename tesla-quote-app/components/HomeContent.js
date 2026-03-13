@@ -176,7 +176,7 @@ export default function HomeContent() {
                     <span>{guide.category}</span>
                     <span>{guide.readTime}</span>
                   </div>
-                  <h3 className="mt-3 text-xl font-black leading-tight">{guide.title}</h3>
+                  <h3 className="mt-3 text-base font-black leading-tight">{guide.title}</h3>
                   <p className="mt-3 text-sm leading-7 text-slate-300">{guide.description}</p>
                 </Link>
               ))}
