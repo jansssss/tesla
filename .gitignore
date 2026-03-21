@@ -1,5 +1,11 @@
 .edge-profile/
 
+# env (API 키 포함 — 절대 커밋 금지)
+.env
+.env.local
+tesla-quote-app/.env
+tesla-quote-app/.env.local
+
 # scratch artifacts
 common.js
 decode_any.js
