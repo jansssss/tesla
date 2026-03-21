@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllGuides, getGuideBySlug } from "@/lib/guides";
+import { fetchGuideBySlug } from "@/lib/supabase-server";
 
 const SITE_URL = "https://paytesla.kr";
 
@@ -39,8 +40,8 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }) {
-  const guide = getGuideBySlug(params.slug);
+export async function generateMetadata({ params }) {
+  const guide = getGuideBySlug(params.slug) ?? await fetchGuideBySlug(params.slug);
 
   if (!guide) {
     return {
@@ -54,8 +55,8 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default function GuideDetailPage({ params }) {
-  const guide = getGuideBySlug(params.slug);
+export default async function GuideDetailPage({ params }) {
+  const guide = getGuideBySlug(params.slug) ?? await fetchGuideBySlug(params.slug);
 
   if (!guide) {
     notFound();
