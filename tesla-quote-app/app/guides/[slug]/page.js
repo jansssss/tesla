@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllGuides, getGuideBySlug } from "@/lib/guides";
 import { fetchGuideBySlug } from "@/lib/supabase-server";
+import GuideToc from "@/components/GuideToc";
 
 const SITE_URL = "https://paytesla.kr";
 
@@ -101,7 +102,11 @@ export default async function GuideDetailPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="mx-auto grid max-w-5xl gap-8 px-4 md:px-8">
+      <div className="mx-auto max-w-7xl px-4 md:px-8">
+      <div className="flex gap-8 xl:items-start">
+      <GuideToc sections={guide.sections} />
+      <div className="min-w-0 flex-1">
+      <div className="grid max-w-5xl gap-8">
         <article className="overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_28px_80px_rgba(15,23,42,0.08)]">
           <header className="bg-[linear-gradient(135deg,#0f172a_0%,#172554_46%,#2563eb_100%)] px-6 py-10 text-white md:px-10 md:py-14">
             <Link
@@ -147,7 +152,7 @@ export default async function GuideDetailPage({ params }) {
                     <span className="shrink-0 font-black tabular-nums text-blue-400" style={{ fontSize: "11px", letterSpacing: "0.15em" }}>
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <h2 className="text-xl font-black tracking-tight text-slate-950 md:text-2xl">{section.title}</h2>
+                    <h2 data-idx={index} className="text-xl font-black tracking-tight text-slate-950 md:text-2xl">{section.title}</h2>
                   </div>
                   <div className="mt-5 space-y-4 text-sm leading-8 text-slate-600 md:text-base">
                     {section.paragraphs.map((paragraph) => (
@@ -274,7 +279,10 @@ export default async function GuideDetailPage({ params }) {
             ))}
           </div>
         </section>
-      </div>
+      </div>{/* grid */}
+      </div>{/* flex-1 */}
+      </div>{/* flex */}
+      </div>{/* max-w-7xl */}
     </main>
   );
 }
