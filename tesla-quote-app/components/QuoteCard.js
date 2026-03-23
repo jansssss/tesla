@@ -68,13 +68,14 @@ export default function QuoteCard({
           {model.name}
         </h2>
 
-        <div className="mx-auto mb-5 mt-6 grid grid-cols-3 gap-4 text-center md:mb-6 md:mt-6 md:max-w-3xl md:gap-8">
-          {model.stats.map((item) => (
-            <div key={item.label} className="px-1">
+        <div className="mx-auto mb-5 mt-6 flex items-stretch justify-center divide-x divide-gray-200 text-center md:mb-6 md:mt-6 md:max-w-3xl">
+          {trim.stats.map((item) => (
+            <div key={item.label} className="flex-1 px-2 md:px-6">
               <strong className="block text-lg font-medium leading-none tracking-tight md:text-xl">
                 {item.value}
+                <span className="ml-0.5 text-xs font-normal md:text-sm">{item.unit}</span>
               </strong>
-              <span className="mt-1 block text-xs font-normal leading-tight text-gray-500 md:mt-1.5 md:text-sm">
+              <span className="mt-1 block text-[10px] font-normal leading-tight text-gray-500 md:mt-1.5 md:text-sm">
                 {item.label}
               </span>
             </div>
