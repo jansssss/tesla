@@ -19,7 +19,7 @@ export default function ShopBanner({ variant = "inline" }) {
           <div className="flex items-center gap-3">
             <span className="text-2xl">🛒</span>
             <div>
-              <p className="text-sm font-black text-slate-950">테슬라 꾸미기 구매 베스트</p>
+              <p className="whitespace-nowrap text-sm font-black text-slate-950">테슬라 꾸미기 구매 베스트</p>
               <p className="text-xs text-slate-500">커뮤니티 검증 TOP 8 액세서리 모음</p>
             </div>
           </div>
@@ -47,7 +47,7 @@ export default function ShopBanner({ variant = "inline" }) {
           <span className="inline-flex rounded-full bg-blue-50 border border-blue-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-blue-600">
             커뮤니티 검증
           </span>
-          <h2 className="mt-2.5 text-lg font-black tracking-tight text-slate-950 md:text-2xl">
+          <h2 className="mt-2.5 whitespace-nowrap text-lg font-black tracking-tight text-slate-950 md:text-2xl">
             테슬라 꾸미기 구매 베스트
           </h2>
           <p className="mt-1 text-xs text-slate-500 md:text-sm">

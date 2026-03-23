@@ -134,7 +134,7 @@ export default function ShopPage() {
             </span>
           </div>
 
-          <h1 className="text-4xl font-black tracking-tight md:text-5xl">
+          <h1 className="whitespace-nowrap text-4xl font-black tracking-tight md:text-5xl">
             테슬라 꾸미기 구매 베스트
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-blue-200 md:text-lg">
