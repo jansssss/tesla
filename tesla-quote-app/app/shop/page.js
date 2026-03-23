@@ -22,7 +22,7 @@ export const metadata = {
 function RankBadge({ rank, color }) {
   return (
     <span
-      className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-xs font-black ${color} shadow-sm`}
+      className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-xs font-black ${color} shadow-md`}
     >
       {rank}
     </span>

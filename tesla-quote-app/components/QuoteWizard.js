@@ -20,24 +20,39 @@ const MODEL_CATALOG = [
     id: "model3",
     name: "Model 3",
     image: "/model3.png",
-    stats: [
-      { label: "주행 가능 거리", value: "382 km" },
-      { label: "최고 속도", value: "201 km/h" },
-      { label: "0-100 km/h", value: "6.2 초" }
-    ],
     trims: [
-      { id: "m3-rwd", label: "RWD(후륜 구동)", price: 41990000, csvModel: "Model 3 RWD" },
+      {
+        id: "m3-rwd",
+        label: "RWD(후륜 구동)",
+        price: 41990000,
+        csvModel: "Model 3 RWD",
+        stats: [
+          { label: "주행 가능 거리", value: "382", unit: "km" },
+          { label: "최고 속도", value: "201", unit: "km/h" },
+          { label: "0-100 km/h", value: "6.2", unit: "초" }
+        ]
+      },
       {
         id: "m3-lr",
         label: "Premium Long Range RWD(후륜 구동)",
         price: 52990000,
-        csvModel: "Model 3 Premium Long Range RWD"
+        csvModel: "Model 3 Premium Long Range RWD",
+        stats: [
+          { label: "주행 가능 거리", value: "538", unit: "km" },
+          { label: "최고 속도", value: "201", unit: "km/h" },
+          { label: "0-100 km/h", value: "5.2", unit: "초" }
+        ]
       },
       {
         id: "m3-perf",
         label: "Performance AWD(사륜 구동)",
         price: 59990000,
-        csvModel: "Model 3 Performance"
+        csvModel: "Model 3 Performance",
+        stats: [
+          { label: "주행 가능 거리", value: "450", unit: "km" },
+          { label: "최고 속도", value: "261", unit: "km/h" },
+          { label: "0-100 km/h", value: "3.1", unit: "초" }
+        ]
       }
     ]
   },
@@ -45,18 +60,28 @@ const MODEL_CATALOG = [
     id: "modely",
     name: "Model Y",
     image: "/modely.png",
-    stats: [
-      { label: "주행 가능 거리", value: "400 km+" },
-      { label: "최고 속도", value: "217 km/h" },
-      { label: "0-100 km/h", value: "5.9 초" }
-    ],
     trims: [
-      { id: "my-rwd", label: "Premium RWD(후륜 구동)", price: 49990000, csvModel: "Model Y Premium RWD" },
+      {
+        id: "my-rwd",
+        label: "Premium RWD(후륜 구동)",
+        price: 49990000,
+        csvModel: "Model Y Premium RWD",
+        stats: [
+          { label: "주행 가능 거리", value: "400", unit: "km" },
+          { label: "최고 속도", value: "201", unit: "km/h" },
+          { label: "0-100 km/h", value: "5.9", unit: "초" }
+        ]
+      },
       {
         id: "my-lr",
         label: "Premium Long Range AWD(사륜 구동)",
         price: 59990000,
-        csvModel: "Model Y Premium Long Range"
+        csvModel: "Model Y Premium Long Range",
+        stats: [
+          { label: "주행 가능 거리", value: "505", unit: "km" },
+          { label: "최고 속도", value: "201", unit: "km/h" },
+          { label: "0-100 km/h", value: "4.8", unit: "초" }
+        ]
       }
     ]
   }
@@ -467,14 +492,23 @@ export default function QuoteWizard({ rows, regions }) {
 
                   <h2 className="mt-6 text-center text-[32px] font-medium leading-none tracking-normal md:mt-12 md:text-[40px]">{model.name}</h2>
 
-                  <div className="mx-auto mt-6 grid grid-cols-3 gap-4 text-center md:mt-6 md:max-w-3xl md:gap-8">
-                    {model.stats.map((item) => (
-                      <div key={item.label} className="px-1">
-                        <strong className="block text-2xl font-medium leading-none tracking-tight md:text-3xl">{item.value}</strong>
-                        <span className="mt-1 block text-xs font-normal leading-tight text-gray-500 md:mt-1.5 md:text-sm">{item.label}</span>
+                  {(() => {
+                    const trimStats = model.trims.find(t => t.id === selectedTrimId)?.stats
+                      ?? model.trims[0].stats;
+                    return (
+                      <div className="mx-auto mt-6 flex items-stretch justify-center divide-x divide-gray-200 text-center md:mt-8 md:max-w-2xl">
+                        {trimStats.map((item) => (
+                          <div key={item.label} className="flex-1 px-3 md:px-6">
+                            <strong className="block text-[28px] font-medium leading-none tracking-tight md:text-[36px]">
+                              {item.value}
+                              <span className="ml-0.5 text-base font-normal md:text-xl">{item.unit}</span>
+                            </strong>
+                            <span className="mt-2 block text-[11px] font-normal leading-tight text-gray-400 md:mt-2 md:text-sm">{item.label}</span>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    );
+                  })()}
                 </div>
               </section>
 
