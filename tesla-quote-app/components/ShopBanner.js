@@ -40,72 +40,70 @@ export default function ShopBanner({ variant = "inline" }) {
 
   // variant === "inline" (기본)
   return (
-    <section className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] md:p-8">
-      {/* 헤더 */}
-      <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+    <section className="rounded-[32px] border border-slate-200 bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.06)] md:p-8">
+      {/* 헤더 — 항상 한 줄 (좌: 뱃지+타이틀, 우: 전체보기) */}
+      <div className="flex items-start justify-between gap-3">
         <div>
-          <span className="inline-flex rounded-full bg-blue-50 border border-blue-100 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-blue-600">
+          <span className="inline-flex rounded-full bg-blue-50 border border-blue-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-blue-600">
             커뮤니티 검증
           </span>
-          <h2 className="mt-3 text-2xl font-black tracking-tight text-slate-950">
+          <h2 className="mt-2.5 text-lg font-black tracking-tight text-slate-950 md:text-2xl">
             테슬라 꾸미기 구매 베스트
           </h2>
-          <p className="mt-1.5 text-sm text-slate-500">
+          <p className="mt-1 text-xs text-slate-500 md:text-sm">
             실제 오너들이 가장 많이 구매한 액세서리 TOP 8
           </p>
         </div>
         <Link
           href="/shop"
-          className="inline-flex items-center gap-1 text-sm font-semibold text-blue-600 transition hover:text-blue-700 shrink-0"
+          className="shrink-0 mt-0.5 inline-flex items-center gap-1 whitespace-nowrap text-xs font-semibold text-blue-600 transition hover:text-blue-700 md:text-sm"
         >
           전체 보기
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M9 18l6-6-6-6" />
           </svg>
         </Link>
       </div>
 
       {/* 미니 제품 카드 4개 */}
-      <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="mt-4 grid grid-cols-2 gap-2.5 md:mt-6 md:grid-cols-4 md:gap-3">
         {top4.map((product) => (
           <a
             key={product.id}
             href={product.affiliate}
             target="_blank"
             rel="noopener noreferrer sponsored"
-            className="group relative flex flex-col gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-slate-200 hover:bg-white hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)]"
+            className="group relative flex flex-col gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-3 transition hover:-translate-y-0.5 hover:border-slate-200 hover:bg-white hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)] md:p-4"
           >
             {/* 랭크 배지 */}
             <span
-              className={`absolute -top-2 -left-1 inline-flex w-6 h-6 items-center justify-center rounded-full text-[10px] font-black shadow-sm ${product.badgeColor}`}
+              className={`absolute -top-2 -left-1 inline-flex w-5 h-5 items-center justify-center rounded-full text-[9px] font-black shadow-sm md:w-6 md:h-6 md:text-[10px] ${product.badgeColor}`}
             >
               {product.rank}
             </span>
 
-            <span className="text-2xl">{product.emoji}</span>
-            <p className="text-sm font-black leading-snug text-slate-950 transition group-hover:text-blue-700">
+            <span className="text-xl md:text-2xl">{product.emoji}</span>
+            <p className="line-clamp-2 text-xs font-black leading-snug text-slate-950 transition group-hover:text-blue-700 md:text-sm">
               {product.name}
             </p>
-            <p className="text-xs font-bold text-slate-400">₩ {product.price} ~</p>
+            <p className="text-[11px] font-bold text-slate-400 md:text-xs">₩{product.price}~</p>
           </a>
         ))}
       </div>
 
-      {/* 더보기 버튼 */}
-      <div className="mt-5 text-center">
-        <Link
-          href="/shop"
-          className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-6 py-3 text-sm font-bold text-white transition hover:bg-blue-700"
-        >
-          베스트 8개 전체 보기
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </Link>
-      </div>
+      {/* 더보기 버튼 — 모바일 full width */}
+      <Link
+        href="/shop"
+        className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-950 py-3 text-sm font-bold text-white transition hover:bg-blue-700 md:mt-5 md:w-auto md:px-6 md:mx-auto md:table"
+      >
+        베스트 8개 전체 보기
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="inline-block">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </Link>
 
       {/* 쿠팡 파트너스 고지 */}
-      <p className="mt-4 text-center text-[11px] text-slate-400 leading-5">
+      <p className="mt-3 text-center text-[11px] text-slate-400 leading-5">
         {COUPANG_PARTNERS_NOTICE}
       </p>
     </section>

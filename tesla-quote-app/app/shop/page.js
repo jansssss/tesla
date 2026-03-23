@@ -55,10 +55,10 @@ function ProductCard({ product }) {
         </div>
       )}
 
-      <div className="flex flex-col gap-3 p-5 pt-6">
-        {/* 이모지 */}
+      <div className="flex flex-col gap-2.5 p-4 pt-5 md:gap-3 md:p-5 md:pt-6">
+        {/* 이모지 + 카테고리 */}
         <div className="flex items-center gap-2">
-          <span className="text-3xl">{product.emoji}</span>
+          <span className="text-2xl md:text-3xl">{product.emoji}</span>
           <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">
             {product.category}
           </span>
@@ -66,17 +66,17 @@ function ProductCard({ product }) {
 
         {/* 제품명 */}
         <div>
-          <h3 className="text-base font-black leading-snug text-slate-950 transition group-hover:text-blue-700">
+          <h3 className="text-sm font-black leading-snug text-slate-950 transition group-hover:text-blue-700 md:text-base">
             {product.name}
           </h3>
-          <p className="mt-1 text-xs text-slate-400">{product.nameEn}</p>
+          <p className="mt-0.5 hidden text-xs text-slate-400 md:block">{product.nameEn}</p>
         </div>
 
-        {/* 설명 */}
-        <p className="text-sm leading-6 text-slate-600">{product.description}</p>
+        {/* 설명 — 데스크톱만 */}
+        <p className="hidden text-sm leading-6 text-slate-600 md:block">{product.description}</p>
 
-        {/* 태그 */}
-        <div className="flex flex-wrap gap-1.5">
+        {/* 태그 — 데스크톱만 */}
+        <div className="hidden flex-wrap gap-1.5 md:flex">
           {product.tags.map((tag) => (
             <span
               key={tag}
@@ -87,20 +87,21 @@ function ProductCard({ product }) {
           ))}
         </div>
 
-        {/* 가격 + 링크 */}
-        <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between">
-          <div>
-            <p className="text-lg font-black text-slate-950">
-              ₩ {product.price}
-              <span className="text-xs font-normal text-slate-400"> ~</span>
+        {/* 가격 + 버튼 */}
+        <div className="mt-auto flex items-center justify-between gap-2 border-t border-slate-100 pt-3">
+          <div className="min-w-0">
+            <p className="text-base font-black text-slate-950 md:text-lg">
+              ₩{product.price}
+              <span className="text-xs font-normal text-slate-400">~</span>
             </p>
-            <p className="text-[10px] text-slate-400">{product.priceNote}</p>
+            <p className="hidden text-[10px] text-slate-400 md:block">{product.priceNote}</p>
           </div>
-          <span className="inline-flex items-center gap-1 rounded-xl bg-slate-950 px-3 py-2 text-xs font-bold text-white transition group-hover:bg-blue-600">
-            구매하기
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          {/* 모바일: 아이콘만 / 데스크톱: 텍스트+아이콘 */}
+          <span className="shrink-0 inline-flex items-center justify-center gap-1 rounded-xl bg-slate-950 p-2.5 transition group-hover:bg-blue-600 md:px-3 md:py-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
+            <span className="hidden whitespace-nowrap text-xs font-bold text-white md:inline">구매하기</span>
           </span>
         </div>
       </div>

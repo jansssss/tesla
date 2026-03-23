@@ -4,11 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAV_ITEMS = [
-  { href: "/",                           label: "계산기",      match: (p) => p === "/" },
-  { href: "/models/model-3",             label: "모델",        match: (p) => p.startsWith("/models") },
-  { href: "/compare/model-3-vs-model-y", label: "비교",        match: (p) => p.startsWith("/compare") },
-  { href: "/subsidy/seoul",              label: "지역 보조금",  match: (p) => p.startsWith("/subsidy") },
-  { href: "/guides",                     label: "가이드",      match: (p) => p.startsWith("/guides") },
+  { href: "/",                           label: "계산기",   mobileLabel: "계산기", match: (p) => p === "/" },
+  { href: "/models/model-3",             label: "모델",     mobileLabel: "모델",   match: (p) => p.startsWith("/models") },
+  { href: "/compare/model-3-vs-model-y", label: "비교",     mobileLabel: "비교",   match: (p) => p.startsWith("/compare") },
+  { href: "/subsidy/seoul",              label: "지역 보조금", mobileLabel: "보조금", match: (p) => p.startsWith("/subsidy") },
+  { href: "/guides",                     label: "가이드",   mobileLabel: "가이드", match: (p) => p.startsWith("/guides") },
 ];
 
 export default function SiteHeader() {
@@ -28,13 +28,14 @@ export default function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition md:px-4 md:text-sm ${
+                className={`whitespace-nowrap rounded-full px-2.5 py-1.5 text-xs font-semibold transition md:px-4 md:text-sm ${
                   active
                     ? "bg-slate-950 text-white"
                     : "border border-slate-200 text-slate-600 hover:border-slate-400 hover:text-slate-950"
                 }`}
               >
-                {item.label}
+                <span className="md:hidden">{item.mobileLabel}</span>
+                <span className="hidden md:inline">{item.label}</span>
               </Link>
             );
           })}
