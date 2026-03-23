@@ -151,10 +151,6 @@ export default function ShopPage() {
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-400" />
               Model 3 · Model Y 호환 위주
             </span>
-            <span className="flex items-center gap-1.5">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-400" />
-              링크 클릭 시 쿠팡 이동 (추천 링크)
-            </span>
           </div>
         </div>
       </header>
