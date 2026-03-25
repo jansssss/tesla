@@ -17,6 +17,7 @@ export const SHOP_PRODUCTS = [
     tags: ["방수", "맞춤형", "필수"],
     emoji: "🧳",
     affiliate: "https://link.coupang.com/a/d9Jk9X",
+    keywords: new Set(["인테리어", "트렁크", "바닥", "매트", "방수", "Model 3", "Model Y", "구매", "필수품", "가이드", "구매 가이드", "보조금 전략", "가격 전략", "금융·옵션"]),
   },
   {
     rank: 2,
@@ -32,6 +33,7 @@ export const SHOP_PRODUCTS = [
     tags: ["튜닝", "익스테리어", "간단설치"],
     emoji: "⚫",
     affiliate: "https://link.coupang.com/a/d9JnWc",
+    keywords: new Set(["휠", "익스테리어", "튜닝", "Performance", "AWD", "RWD", "외관", "차종·트림", "rwd", "awd"]),
   },
   {
     rank: 3,
@@ -47,6 +49,7 @@ export const SHOP_PRODUCTS = [
     tags: ["충전", "편의", "고속"],
     emoji: "⚡",
     affiliate: "https://link.coupang.com/a/d9JpDz",
+    keywords: new Set(["충전", "전자기기", "콘솔", "스마트폰", "편의", "충전 인프라", "충전기", "급속충전"]),
   },
   {
     rank: 4,
@@ -62,6 +65,7 @@ export const SHOP_PRODUCTS = [
     tags: ["여름필수", "UV차단", "실내온도"],
     emoji: "☀️",
     affiliate: "https://link.coupang.com/a/d9Jq9X",
+    keywords: new Set(["여름", "자외선", "선케어", "유리루프", "Model Y", "SUV", "유지비", "유지비·세제"]),
   },
   {
     rank: 5,
@@ -77,6 +81,7 @@ export const SHOP_PRODUCTS = [
     tags: ["스크래치방지", "스테인리스", "심플"],
     emoji: "🛡️",
     affiliate: "https://link.coupang.com/a/d9JshO",
+    keywords: new Set(["스크래치", "보호", "도어", "유지비", "유지비·세제", "스크래치방지"]),
   },
   {
     rank: 6,
@@ -92,6 +97,7 @@ export const SHOP_PRODUCTS = [
     tags: ["가족", "어린이", "시트보호"],
     emoji: "👟",
     affiliate: "https://link.coupang.com/a/d9Jucv",
+    keywords: new Set(["가족", "패밀리", "어린이", "2열", "Model Y", "SUV", "뒷좌석"]),
   },
   {
     rank: 7,
@@ -107,6 +113,7 @@ export const SHOP_PRODUCTS = [
     tags: ["수납", "알루미늄", "정리"],
     emoji: "📦",
     affiliate: "https://link.coupang.com/a/d9Jvfr",
+    keywords: new Set(["수납", "인테리어", "콘솔", "정리", "편의", "금융·옵션", "구매 가이드"]),
   },
   {
     rank: 8,
@@ -122,6 +129,7 @@ export const SHOP_PRODUCTS = [
     tags: ["강화유리", "지문방지", "화면보호"],
     emoji: "📱",
     affiliate: "https://link.coupang.com/a/d9Jx3w",
+    keywords: new Set(["스크린", "화면", "디스플레이", "보호", "터치스크린", "차종·트림", "Model 3", "Model Y"]),
   },
 ];
 

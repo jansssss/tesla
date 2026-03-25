@@ -2,7 +2,29 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllGuides, getGuideBySlug } from "@/lib/guides";
 import { fetchGuideBySlug } from "@/lib/supabase-server";
-import ShopBanner from "@/components/ShopBanner";
+import ContextualShopCTA from "@/components/ContextualShopCTA";
+
+/**
+ * 가이드 카테고리 → 맥락 키워드 매핑
+ * 정적 guides.js 카테고리 + 파이프라인(researcher.py CATEGORIES) 카테고리 모두 커버
+ */
+const CATEGORY_KEYWORDS = {
+  // 정적 가이드 카테고리
+  "보조금 전략": ["보조금 전략", "구매", "필수품", "인테리어"],
+  "구매 가이드": ["구매 가이드", "구매", "필수품", "트렁크", "인테리어"],
+  "금융·옵션": ["금융·옵션", "콘솔", "편의", "수납", "인테리어"],
+  "유지비·세제": ["유지비·세제", "유지비", "보호", "스크래치", "도어"],
+  "차종·트림": ["차종·트림", "Model 3", "Model Y", "AWD", "RWD", "휠"],
+  "충전": ["충전", "충전기", "전자기기", "스마트폰"],
+  "가격 전략": ["가격 전략", "구매", "필수품", "인테리어"],
+  // 파이프라인 researcher.py CATEGORIES 값
+  "테슬라": ["Model 3", "Model Y", "AWD", "RWD", "차종·트림", "트렁크", "인테리어"],
+  "전기차": ["구매", "필수품", "트렁크", "인테리어"],
+  "보조금": ["구매", "필수품", "인테리어", "트렁크"],
+  "비교": ["Model 3", "Model Y", "AWD", "RWD", "차종·트림", "휠"],
+  "구매가이드": ["구매 가이드", "구매", "필수품", "트렁크", "인테리어"],
+  "자동차": ["인테리어", "보호", "스크래치", "도어", "유지비"],
+};
 
 const SITE_URL = "https://paytesla.kr";
 
@@ -242,7 +264,7 @@ export default async function GuideDetailPage({ params }) {
           </Link>
         </section>
 
-        <ShopBanner variant="inline" />
+        <ContextualShopCTA keywords={CATEGORY_KEYWORDS[guide.category] ?? ["구매", "인테리어"]} />
 
         <section className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] md:p-10">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">

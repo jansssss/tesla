@@ -757,7 +757,7 @@ export default function QuoteWizard({ rows, regions }) {
               <p className="mb-3 text-sm font-medium text-gray-400 md:mb-4 md:text-base">
                 견적 공유하기
               </p>
-              <div className="grid gap-2 md:grid-cols-3 md:gap-3">
+              <div className="grid gap-2 md:grid-cols-2 md:gap-3">
                 <button
                   onClick={copyUrlToClipboard}
                   className="flex items-center justify-center gap-1.5 rounded-lg bg-white/10 px-3 py-2.5 text-sm font-semibold transition-all hover:bg-white/20 md:px-4 md:py-3"

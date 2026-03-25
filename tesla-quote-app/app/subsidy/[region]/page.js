@@ -7,6 +7,7 @@ import RegionPresetButtons from "@/components/seo/RegionPresetButtons";
 import RegionFAQ from "@/components/seo/RegionFAQ";
 import RegionInternalLinks from "@/components/seo/RegionInternalLinks";
 import Link from "next/link";
+import ContextualShopCTA from "@/components/ContextualShopCTA";
 
 export async function generateStaticParams() {
   return ALL_SLUGS.map((slug) => ({ region: slug }));
@@ -93,7 +94,7 @@ export default function RegionSubsidyPage({ params }) {
       <RegionHero metro={metro} stats={stats} />
 
       {/* 메인 콘텐츠 */}
-      <div className="max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12 space-y-10">
+      <div className="max-w-4xl mx-auto px-4 md:px-8 py-8 md:py-12 space-y-10">
         {/* 보조금 현황 테이블 */}
         <RegionSubsidyTable stats={stats} metro={metro} />
 
@@ -140,17 +141,36 @@ export default function RegionSubsidyPage({ params }) {
         <RegionFAQ metro={metro} stats={stats} />
 
         {/* 계산기 CTA */}
-        <section className="text-center py-2">
-          <p className="text-sm text-gray-500 mb-3">
-            내 조건에 맞는 정확한 월 납입금이 궁금하다면?
-          </p>
-          <Link
-            href={`/?region=${repCode}`}
-            className="inline-block bg-black hover:bg-gray-800 text-white font-semibold px-8 py-3 rounded-full text-sm transition-colors"
-          >
-            {metro.shortName} 계산기 바로가기 →
-          </Link>
+        <section className="rounded-[32px] bg-[linear-gradient(135deg,#0f172a_0%,#1e3a8a_100%)] px-8 py-10 md:px-12 md:py-12 text-white">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div>
+              <span className="mb-3 inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.24em] text-blue-200">
+                지역별 계산기
+              </span>
+              <h2 className="mt-3 text-xl md:text-2xl font-black leading-tight">
+                내 조건으로 정확하게<br />
+                월 납입금을 계산해보세요
+              </h2>
+              <p className="mt-2 text-sm text-blue-100/70">
+                {metro.shortName} 보조금이 자동 적용됩니다. 선수금·할부 기간도 직접 설정 가능.
+              </p>
+            </div>
+            <div className="shrink-0">
+              <Link
+                href={`/?region=${repCode}`}
+                className="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3 text-sm font-bold text-slate-950 transition hover:bg-blue-50"
+              >
+                {metro.shortName} 계산기 바로가기
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+          </div>
         </section>
+
+        {/* 맥락 액세서리 CTA */}
+        <ContextualShopCTA keywords={["구매", "인테리어", "트렁크", "필수품", "보조금 전략"]} />
 
         {/* 내부 링크 */}
         <RegionInternalLinks currentSlug={params.region} />

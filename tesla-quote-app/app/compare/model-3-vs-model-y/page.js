@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { METRO_REGIONS } from "@/lib/regions";
+import ContextualShopCTA from "@/components/ContextualShopCTA";
 
 export const metadata = {
   title: "테슬라 Model 3 vs Model Y 비교 — 가격·보조금·월납입금 2026",
@@ -58,43 +59,73 @@ const SCENARIOS = [
   },
 ];
 
+const CTA_BUTTONS = [
+  {
+    label: "Model 3 RWD",
+    sub: "4,199만원~",
+    href: "/?model=model3&trim=m3-rwd&months=60&downPayment=10000000",
+    style: "bg-white text-slate-950 hover:bg-blue-50",
+  },
+  {
+    label: "Model 3 LR",
+    sub: "5,299만원~",
+    href: "/?model=model3&trim=m3-lr&months=60&downPayment=10000000",
+    style: "bg-white/10 text-white border border-white/20 hover:bg-white/20",
+  },
+  {
+    label: "Model Y RWD",
+    sub: "4,999만원~",
+    href: "/?model=modely&trim=my-rwd&months=60&downPayment=10000000",
+    style: "bg-blue-500 text-white hover:bg-blue-400",
+  },
+  {
+    label: "Model Y LR",
+    sub: "5,999만원~",
+    href: "/?model=modely&trim=my-lr&months=60&downPayment=10000000",
+    style: "bg-blue-500/30 text-white border border-blue-400/30 hover:bg-blue-500/50",
+  },
+];
+
 export default function Model3VsModelYPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero */}
-      <section className="bg-black text-white py-12 md:py-16">
-        <div className="max-w-4xl mx-auto px-4 md:px-6">
-          <nav className="text-xs text-gray-500 mb-5 flex items-center gap-1.5">
-            <Link href="/" className="hover:text-gray-300 transition-colors">홈</Link>
-            <span>/</span>
-            <span className="text-gray-400">모델 비교</span>
-            <span>/</span>
-            <span className="text-white">Model 3 vs Model Y</span>
-          </nav>
-          <h1 className="text-2xl md:text-4xl font-bold mb-3 leading-tight">
+      <section className="bg-[linear-gradient(135deg,#0f172a_0%,#172554_50%,#1d4ed8_100%)] text-white py-14 md:py-20">
+        <div className="max-w-4xl mx-auto px-4 md:px-8">
+          <div className="mb-4">
+            <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.24em] text-blue-200">
+              모델 비교
+            </span>
+          </div>
+          <h1 className="text-2xl md:text-4xl font-black mb-3 leading-tight">
             테슬라 Model 3 vs Model Y
-            <span className="block text-base md:text-xl font-normal text-gray-400 mt-2">
+            <span className="block text-base md:text-xl font-normal text-blue-200 mt-2">
               가격 · 보조금 · 월납입금 · 상황별 추천 (2026)
             </span>
           </h1>
         </div>
       </section>
 
-      <div className="max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12 space-y-10">
+      <div className="max-w-4xl mx-auto px-4 md:px-8 py-8 md:py-12 space-y-10">
 
         {/* 핵심 차이 요약 */}
         <section>
-          <h2 className="text-lg md:text-xl font-bold mb-4">핵심 차이 한눈에</h2>
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="grid grid-cols-3 bg-gray-50 border-b border-gray-100">
+          <div className="mb-3 flex items-center gap-3">
+            <span className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">
+              핵심 비교
+            </span>
+          </div>
+          <h2 className="text-lg md:text-xl font-black mb-4">핵심 차이 한눈에</h2>
+          <div className="bg-white rounded-[24px] shadow-[0_4px_24px_rgba(15,23,42,0.08)] border border-gray-100 overflow-hidden">
+            <div className="grid grid-cols-3 bg-slate-50 border-b border-gray-100">
               <div className="px-4 py-3 text-xs font-semibold text-gray-500">항목</div>
-              <div className="px-4 py-3 text-xs font-semibold text-center">Model 3</div>
-              <div className="px-4 py-3 text-xs font-semibold text-center">Model Y</div>
+              <div className="px-4 py-3 text-xs font-semibold text-center text-slate-700">Model 3</div>
+              <div className="px-4 py-3 text-xs font-semibold text-center text-blue-600">Model Y</div>
             </div>
             {COMPARE_DATA.map((row, i) => (
               <div
                 key={i}
-                className="grid grid-cols-3 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors"
+                className="grid grid-cols-3 border-b border-gray-50 last:border-0 hover:bg-blue-50/50 transition-colors"
               >
                 <div className="px-4 py-3 text-xs text-gray-500">{row.label}</div>
                 <div className="px-4 py-3 text-xs text-center font-medium">{row.model3}</div>
@@ -106,20 +137,40 @@ export default function Model3VsModelYPage() {
 
         {/* 상황별 추천 */}
         <section>
-          <h2 className="text-lg md:text-xl font-bold mb-4">상황별 추천</h2>
+          <div className="mb-3 flex items-center gap-3">
+            <span className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">
+              상황별 선택
+            </span>
+          </div>
+          <h2 className="text-lg md:text-xl font-black mb-4">상황별 추천</h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {SCENARIOS.map((s, i) => (
-              <div key={i} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
-                <div className="flex items-center gap-2 mb-2">
+              <div
+                key={i}
+                className="bg-white rounded-[24px] shadow-[0_4px_24px_rgba(15,23,42,0.08)] border border-gray-100 p-5 md:p-6"
+              >
+                <div className="flex items-center gap-2 mb-3">
                   <span className="text-xl">{s.icon}</span>
-                  <h3 className="font-semibold text-sm">{s.title}</h3>
+                  <h3 className="font-black text-sm">{s.title}</h3>
                 </div>
-                <p className="text-xs text-gray-600 leading-relaxed">{s.reason}</p>
+                <div className="mb-3">
+                  <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold ${
+                    s.winner === "model3"
+                      ? "bg-slate-950 text-white"
+                      : "bg-blue-600 text-white"
+                  }`}>
+                    {s.winner === "model3" ? "Model 3 추천" : "Model Y 추천"}
+                  </span>
+                </div>
+                <p className="text-xs text-gray-600 leading-relaxed mb-4">{s.reason}</p>
                 <Link
                   href={`/?model=${s.winner === "model3" ? "model3&trim=m3-rwd" : "modely&trim=my-rwd"}`}
-                  className="mt-3 inline-block text-xs text-red-500 font-semibold hover:text-red-700"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-200 transition-colors"
                 >
-                  {s.winner === "model3" ? "Model 3" : "Model Y"} 계산기로 →
+                  {s.winner === "model3" ? "Model 3" : "Model Y"} 월납입금 계산하기
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
                 </Link>
               </div>
             ))}
@@ -127,36 +178,44 @@ export default function Model3VsModelYPage() {
         </section>
 
         {/* 내 조건으로 직접 비교 CTA */}
-        <section className="bg-gray-900 text-white rounded-2xl p-6 md:p-8">
-          <h2 className="text-base md:text-lg font-bold mb-2">내 조건으로 직접 비교</h2>
-          <p className="text-sm text-gray-400 mb-5">
+        <section className="rounded-[32px] bg-[linear-gradient(135deg,#0f172a_0%,#1e3a8a_100%)] p-8 md:p-10 text-white">
+          <div className="mb-4">
+            <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.24em] text-blue-200">
+              직접 계산
+            </span>
+          </div>
+          <h2 className="text-lg md:text-xl font-black mb-2">내 조건으로 직접 비교</h2>
+          <p className="text-sm text-blue-100/70 mb-6">
             지역, 선수금, 할부 기간을 직접 입력하면 두 모델의 월납입금 차이를 바로 확인할 수 있습니다.
           </p>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <Link
-              href="/?model=model3&trim=m3-rwd&months=60&downPayment=10000000"
-              className="block text-center bg-white text-black font-semibold py-3 rounded-xl text-sm hover:bg-gray-100 transition-colors"
-            >
-              Model 3 계산하기
-            </Link>
-            <Link
-              href="/?model=modely&trim=my-rwd&months=60&downPayment=10000000"
-              className="block text-center bg-red-500 text-white font-semibold py-3 rounded-xl text-sm hover:bg-red-600 transition-colors"
-            >
-              Model Y 계산하기
-            </Link>
+          <div className="grid grid-cols-2 gap-3">
+            {CTA_BUTTONS.map((btn) => (
+              <Link
+                key={btn.href}
+                href={btn.href}
+                className={`flex flex-col items-center justify-center rounded-2xl px-4 py-4 text-sm font-bold transition-colors ${btn.style}`}
+              >
+                <span>{btn.label}</span>
+                <span className="mt-0.5 text-[11px] font-normal opacity-70">{btn.sub}</span>
+              </Link>
+            ))}
           </div>
         </section>
 
         {/* 지역별 보조금 링크 */}
         <section>
-          <h2 className="text-base font-bold mb-3 text-gray-700">지역별 보조금 확인</h2>
+          <div className="mb-3 flex items-center gap-3">
+            <span className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">
+              지역 보조금
+            </span>
+          </div>
+          <h2 className="text-base font-black mb-4 text-gray-800">지역별 보조금 확인</h2>
           <div className="flex flex-wrap gap-2">
             {METRO_REGIONS.slice(0, 10).map((r) => (
               <Link
                 key={r.slug}
                 href={`/subsidy/${r.slug}`}
-                className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-full text-xs font-medium transition-colors"
+                className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 rounded-full text-xs font-medium transition-colors"
               >
                 {r.shortName} 보조금
               </Link>
@@ -164,14 +223,25 @@ export default function Model3VsModelYPage() {
           </div>
         </section>
 
+        {/* 맥락 액세서리 CTA */}
+        <ContextualShopCTA keywords={["Model 3", "Model Y", "트렁크", "인테리어", "구매"]} />
+
         {/* 내부 링크 */}
-        <section className="border-t border-gray-100 pt-6">
+        <section className="rounded-[24px] bg-[linear-gradient(135deg,#0f172a_0%,#1e3a8a_100%)] p-6 md:p-8">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-300 mb-4">관련 페이지</p>
           <div className="flex flex-wrap gap-2">
-            <Link href="/models/model-3" className="px-3 py-1.5 bg-black text-white rounded-full text-xs font-medium hover:bg-gray-800 transition-colors">Model 3 상세</Link>
-            <Link href="/models/model-y" className="px-3 py-1.5 bg-black text-white rounded-full text-xs font-medium hover:bg-gray-800 transition-colors">Model Y 상세</Link>
-            <Link href="/compare/rwd-vs-awd" className="px-3 py-1.5 bg-gray-100 rounded-full text-xs font-medium hover:bg-gray-200 transition-colors">RWD vs AWD 비교</Link>
+            <Link href="/models/model-3" className="inline-flex items-center gap-1.5 rounded-xl bg-white/10 border border-white/10 px-4 py-2 text-xs font-semibold text-white hover:bg-white/20 transition-colors">
+              Model 3 상세
+            </Link>
+            <Link href="/models/model-y" className="inline-flex items-center gap-1.5 rounded-xl bg-white/10 border border-white/10 px-4 py-2 text-xs font-semibold text-white hover:bg-white/20 transition-colors">
+              Model Y 상세
+            </Link>
+            <Link href="/compare/rwd-vs-awd" className="inline-flex items-center gap-1.5 rounded-xl bg-white/10 border border-white/10 px-4 py-2 text-xs font-semibold text-white hover:bg-white/20 transition-colors">
+              RWD vs AWD 비교
+            </Link>
           </div>
         </section>
+
       </div>
     </main>
   );
