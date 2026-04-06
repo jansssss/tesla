@@ -1,9 +1,9 @@
 name: Auto Guide Publisher
 
 on:
-  # 매일 오전 9시 KST (UTC 00:00) 트리거 → 0~59분 랜덤 sleep 후 실행
+  # 8시간 간격 2회 트리거 (UTC 0/8시 = KST 9/17시) → 0~10분 랜덤 sleep 후 실행
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 0,8 * * *"
 
   # 수동 실행
   workflow_dispatch:
@@ -26,11 +26,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Random delay (0~59분, 수동 실행 시 생략)
+      - name: Random delay (0~10분, 수동 실행 시 생략)
         if: github.event_name == 'schedule'
         run: |
-          DELAY=$(( RANDOM % 60 ))
-          echo "⏱ ${DELAY}분 대기 후 실행 (KST 9:${DELAY:0:2}0x)"
+          DELAY=$(( RANDOM % 11 ))
+          echo "⏱ ${DELAY}분 대기 후 실행 (KST 9:0${DELAY})"
           sleep $(( DELAY * 60 ))
 
       - name: Checkout
