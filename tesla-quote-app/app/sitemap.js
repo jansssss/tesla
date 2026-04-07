@@ -12,7 +12,8 @@ export default function sitemap() {
     { url: `${baseUrl}/contact`,    lastModified: currentDate, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/privacy`,    lastModified: currentDate, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${baseUrl}/terms`,      lastModified: currentDate, changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${baseUrl}/disclaimer`, lastModified: currentDate, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${baseUrl}/disclaimer`,        lastModified: currentDate, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${baseUrl}/editorial-policy`, lastModified: currentDate, changeFrequency: 'monthly', priority: 0.6 },
   ];
 
   // 지역별 SEO 페이지 (17개)

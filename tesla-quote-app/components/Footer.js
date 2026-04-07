@@ -26,6 +26,10 @@ export default function Footer() {
             이용약관
           </Link>
           <span className="text-gray-600">|</span>
+          <Link href="/editorial-policy" className="hover:text-white transition-colors">
+            콘텐츠 정책
+          </Link>
+          <span className="text-gray-600">|</span>
           <a href="mailto:goooods@naver.com" className="hover:text-white transition-colors">
             goooods@naver.com
           </a>
