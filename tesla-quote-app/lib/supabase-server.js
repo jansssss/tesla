@@ -20,9 +20,9 @@ export async function fetchGuideBySlug(slug) {
       Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
     };
 
-    // 가이드 메타 조회
+    // 가이드 메타 조회 (content_html 포함)
     const guideRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/guides?slug=eq.${encodeURIComponent(slug)}&limit=1`,
+      `${SUPABASE_URL}/rest/v1/guides?slug=eq.${encodeURIComponent(slug)}&select=*&limit=1`,
       { headers, next: { revalidate: 3600 } }
     );
     if (!guideRes.ok) return null;
@@ -48,6 +48,7 @@ export async function fetchGuideBySlug(slug) {
       readTime: g.read_time,
       keyPoints: g.key_points ?? [],
       sources: g.sources ?? [],
+      contentHtml: g.content_html ?? null,
       sections: secRows.map((s) => ({
         title: s.title,
         paragraphs: s.paragraphs ?? [],

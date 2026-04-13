@@ -161,63 +161,71 @@ export default async function GuideDetailPage({ params }) {
               </ul>
             </section>
 
-            <div className="grid gap-5">
-              {guide.sections.map((section, index) => (
-                <section
-                  key={`${section.title}-${index}`}
-                  className="rounded-[24px] border border-slate-100 bg-white p-6 shadow-[0_8px_32px_rgba(15,23,42,0.04)]"
-                >
-                  <div className="flex items-baseline gap-3">
-                    <span className="shrink-0 font-black tabular-nums text-blue-400" style={{ fontSize: "11px", letterSpacing: "0.15em" }}>
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <h2 className="text-xl font-black tracking-tight text-slate-950 md:text-2xl">{section.title}</h2>
-                  </div>
-                  <div className="mt-5 space-y-4 text-sm leading-8 text-slate-600 md:text-base">
-                    {section.paragraphs.map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
-                    ))}
-                  </div>
-                  {section.bullets ? (
-                    <ul className="mt-5 space-y-2.5 rounded-2xl border border-slate-100 bg-slate-50 p-5 text-sm leading-7 text-slate-700 md:text-base">
-                      {section.bullets.map((bullet) => (
-                        <li key={bullet} className="flex items-start gap-3">
-                          <span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400" />
-                          <span>{bullet}</span>
-                        </li>
+            {guide.contentHtml ? (
+              /* 관리자가 HTML 편집한 경우 */
+              <div
+                className="guide-html-content rounded-[24px] border border-slate-100 bg-white p-6 shadow-[0_8px_32px_rgba(15,23,42,0.04)] md:p-8"
+                dangerouslySetInnerHTML={{ __html: guide.contentHtml }}
+              />
+            ) : (
+              <div className="grid gap-5">
+                {guide.sections.map((section, index) => (
+                  <section
+                    key={`${section.title}-${index}`}
+                    className="rounded-[24px] border border-slate-100 bg-white p-6 shadow-[0_8px_32px_rgba(15,23,42,0.04)]"
+                  >
+                    <div className="flex items-baseline gap-3">
+                      <span className="shrink-0 font-black tabular-nums text-blue-400" style={{ fontSize: "11px", letterSpacing: "0.15em" }}>
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <h2 className="text-xl font-black tracking-tight text-slate-950 md:text-2xl">{section.title}</h2>
+                    </div>
+                    <div className="mt-5 space-y-4 text-sm leading-8 text-slate-600 md:text-base">
+                      {section.paragraphs.map((paragraph) => (
+                        <p key={paragraph}>{paragraph}</p>
                       ))}
-                    </ul>
-                  ) : null}
-                  {section.table ? (
-                    <div className="mt-5 overflow-x-auto rounded-2xl border border-slate-200">
-                      <table className="w-full text-sm">
-                        <thead>
-                          <tr className="bg-slate-950 text-white">
-                            {section.table.headers.map((h) => (
-                              <th key={h} className="px-4 py-3 text-left text-xs font-bold uppercase tracking-[0.1em]">{h}</th>
-                            ))}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {section.table.rows.map((row, i) => (
-                            <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-slate-50"}>
-                              {row.map((cell, j) => (
-                                <td key={j} className={`px-4 py-3 ${j === 0 ? "font-semibold text-slate-900" : "text-slate-600"}`}>{cell}</td>
+                    </div>
+                    {section.bullets ? (
+                      <ul className="mt-5 space-y-2.5 rounded-2xl border border-slate-100 bg-slate-50 p-5 text-sm leading-7 text-slate-700 md:text-base">
+                        {section.bullets.map((bullet) => (
+                          <li key={bullet} className="flex items-start gap-3">
+                            <span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400" />
+                            <span>{bullet}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                    {section.table ? (
+                      <div className="mt-5 overflow-x-auto rounded-2xl border border-slate-200">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-slate-950 text-white">
+                              {section.table.headers.map((h) => (
+                                <th key={h} className="px-4 py-3 text-left text-xs font-bold uppercase tracking-[0.1em]">{h}</th>
                               ))}
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  ) : null}
-                  {section.callout ? (
-                    <div className="mt-5 rounded-2xl border-l-4 border-blue-500 bg-blue-50 p-5 text-sm leading-7 text-slate-700 md:text-base">
-                      {section.callout}
-                    </div>
-                  ) : null}
-                </section>
-              ))}
-            </div>
+                          </thead>
+                          <tbody>
+                            {section.table.rows.map((row, i) => (
+                              <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-slate-50"}>
+                                {row.map((cell, j) => (
+                                  <td key={j} className={`px-4 py-3 ${j === 0 ? "font-semibold text-slate-900" : "text-slate-600"}`}>{cell}</td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : null}
+                    {section.callout ? (
+                      <div className="mt-5 rounded-2xl border-l-4 border-blue-500 bg-blue-50 p-5 text-sm leading-7 text-slate-700 md:text-base">
+                        {section.callout}
+                      </div>
+                    ) : null}
+                  </section>
+                ))}
+              </div>
+            )}
 
             {guide.sources && guide.sources.length > 0 ? (
               <section className="border-t border-slate-100 pt-6">

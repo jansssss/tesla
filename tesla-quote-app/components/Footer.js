@@ -39,6 +39,17 @@ export default function Footer() {
         <div className="text-center text-sm text-gray-500">
           <p>© 2026 하우머치 테슬라. 본 사이트는 테슬라(Tesla, Inc.)와 공식적인 관계가 없는 독립적인 정보 제공 사이트입니다.</p>
         </div>
+
+        {/* 관리자 버튼 — 눈에 띄지 않게 */}
+        <div className="text-center mt-3">
+          <a
+            href="/admin/login"
+            className="text-xs text-gray-700 opacity-30 hover:opacity-60 transition-opacity select-none"
+            aria-label="관리자"
+          >
+            ·
+          </a>
+        </div>
       </div>
     </footer>
   );

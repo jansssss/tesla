@@ -4,6 +4,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 관리자 HTML 편집 콘텐츠 렌더링 스타일 */
+.guide-html-content h1 { font-size: 1.6rem; font-weight: 900; margin: 1.8rem 0 0.8rem; color: #0f172a; line-height: 1.3; }
+.guide-html-content h2 { font-size: 1.25rem; font-weight: 800; margin: 1.5rem 0 0.6rem; color: #0f172a; line-height: 1.35; }
+.guide-html-content h3 { font-size: 1.05rem; font-weight: 700; margin: 1.2rem 0 0.5rem; color: #1e293b; }
+.guide-html-content p  { font-size: 0.9375rem; line-height: 1.85; color: #374151; margin-bottom: 1rem; }
+.guide-html-content ul, .guide-html-content ol { padding-left: 1.4rem; margin-bottom: 1rem; }
+.guide-html-content li { font-size: 0.9rem; line-height: 1.8; color: #374151; margin-bottom: 0.4rem; }
+.guide-html-content blockquote {
+  border-left: 4px solid #2563eb;
+  padding: 0.8rem 1rem;
+  background: #eff6ff;
+  margin: 1.2rem 0;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.9rem;
+  color: #1e40af;
+  line-height: 1.7;
+}
+.guide-html-content table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.875rem; }
+.guide-html-content th { background: #0f172a; color: #fff; padding: 10px 12px; text-align: left; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+.guide-html-content td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; color: #374151; }
+.guide-html-content tr:nth-child(even) td { background: #f8fafc; }
+.guide-html-content strong { font-weight: 700; color: #0f172a; }
+.guide-html-content a { color: #2563eb; text-decoration: underline; }
+.guide-html-content hr { border: none; border-top: 1px solid #e2e8f0; margin: 1.5rem 0; }
+.guide-html-content code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; font-family: monospace; color: #0f172a; }
+
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;

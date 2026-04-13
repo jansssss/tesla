@@ -19,7 +19,8 @@ CREATE TABLE guides (
   sources      JSONB       NOT NULL DEFAULT '[]',    -- {name, url, accessedAt}[]
   published_at DATE        NOT NULL DEFAULT CURRENT_DATE,
   updated_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  content_html TEXT                                     -- 관리자 HTML 편집 콘텐츠 (있으면 sections 대신 렌더링)
 );
 
 CREATE INDEX idx_guides_slug        ON guides(slug);
