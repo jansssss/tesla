@@ -3,8 +3,8 @@
  * anon key로 공개 데이터 조회 (RLS: SELECT 전체 허용)
  */
 
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 /**
  * slug로 가이드 + 섹션 조회 → 정적 guides.js 포맷으로 변환

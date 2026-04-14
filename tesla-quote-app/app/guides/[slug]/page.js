@@ -57,10 +57,30 @@ function ChevronRight() {
   );
 }
 
-export function generateStaticParams() {
-  return getAllGuides().map((guide) => ({
-    slug: guide.slug
-  }));
+export async function generateStaticParams() {
+  const staticSlugs = getAllGuides().map((guide) => ({ slug: guide.slug }));
+
+  // Supabase에서 추가된 가이드 슬러그도 포함
+  try {
+    const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/guides?select=slug&order=created_at.desc`,
+        { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
+      );
+      if (res.ok) {
+        const rows = await res.json();
+        const staticSet = new Set(staticSlugs.map((s) => s.slug));
+        const supabaseSlugs = rows
+          .filter((r) => !staticSet.has(r.slug))
+          .map((r) => ({ slug: r.slug }));
+        return [...staticSlugs, ...supabaseSlugs];
+      }
+    }
+  } catch {}
+
+  return staticSlugs;
 }
 
 export async function generateMetadata({ params }) {
