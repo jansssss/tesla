@@ -16,7 +16,8 @@ export async function generateStaticParams() {
 export const revalidate = 604800; // 7일 ISR
 
 export async function generateMetadata({ params }) {
-  const metro = METRO_BY_SLUG[params.region];
+  const { region } = await params;
+  const metro = METRO_BY_SLUG[region];
   if (!metro) return {};
 
   const title = `2026 ${metro.name} 테슬라 보조금 실구매가 계산`;
@@ -28,19 +29,20 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title,
       description,
-      url: `https://paytesla.kr/subsidy/${params.region}`,
+      url: `https://paytesla.kr/subsidy/${region}`,
       siteName: "테슬라 얼마?",
       locale: "ko_KR",
       type: "website",
     },
     alternates: {
-      canonical: `https://paytesla.kr/subsidy/${params.region}`,
+      canonical: `https://paytesla.kr/subsidy/${region}`,
     },
   };
 }
 
-export default function RegionSubsidyPage({ params }) {
-  const metro = METRO_BY_SLUG[params.region];
+export default async function RegionSubsidyPage({ params }) {
+  const { region } = await params;
+  const metro = METRO_BY_SLUG[region];
   if (!metro) notFound();
 
   const snapshot = loadSubsidySnapshot();
@@ -79,7 +81,7 @@ export default function RegionSubsidyPage({ params }) {
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "홈", item: "https://paytesla.kr" },
       { "@type": "ListItem", position: 2, name: "지역별 보조금", item: "https://paytesla.kr/subsidy" },
-      { "@type": "ListItem", position: 3, name: metro.name, item: `https://paytesla.kr/subsidy/${params.region}` },
+      { "@type": "ListItem", position: 3, name: metro.name, item: `https://paytesla.kr/subsidy/${region}` },
     ],
   };
 
@@ -173,7 +175,7 @@ export default function RegionSubsidyPage({ params }) {
         <ContextualShopCTA keywords={["구매", "인테리어", "트렁크", "필수품", "보조금 전략"]} />
 
         {/* 내부 링크 */}
-        <RegionInternalLinks currentSlug={params.region} />
+        <RegionInternalLinks currentSlug={region} />
       </div>
     </main>
   );

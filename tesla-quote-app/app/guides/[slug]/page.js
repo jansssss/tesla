@@ -84,7 +84,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const guide = getGuideBySlug(params.slug) ?? await fetchGuideBySlug(params.slug);
+  const { slug } = await params;
+  const guide = getGuideBySlug(slug) ?? await fetchGuideBySlug(slug);
 
   if (!guide) {
     return {
@@ -99,7 +100,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function GuideDetailPage({ params }) {
-  const guide = getGuideBySlug(params.slug) ?? await fetchGuideBySlug(params.slug);
+  const { slug } = await params;
+  const guide = getGuideBySlug(slug) ?? await fetchGuideBySlug(slug);
 
   if (!guide) {
     notFound();

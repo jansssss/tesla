@@ -23,10 +23,10 @@ export async function GET(request, { params }) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { id } = params
+  const { id } = await params
   const supabase = getAdminClient()
 
-  const [{ data: guide, error: gErr }, { data: sections, error: sErr }] = await Promise.all([
+  const [{ data: guide, error: gErr }, { data: sections }] = await Promise.all([
     supabase.from('guides').select('*').eq('id', id).single(),
     supabase.from('guide_sections').select('*').eq('guide_id', id).order('order_index'),
   ])
@@ -41,7 +41,7 @@ export async function PATCH(request, { params }) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { id } = params
+  const { id } = await params
   const body = await request.json()
 
   const allowed = ['content_html', 'title', 'description', 'category', 'read_time']
