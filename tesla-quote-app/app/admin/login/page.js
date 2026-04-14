@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { supabase } from '@/lib/supabase'
 
 export default function AdminLoginPage() {
   const router = useRouter()
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -15,17 +17,19 @@ export default function AdminLoginPage() {
     setLoading(true)
 
     try {
-      const res = await fetch('/api/admin/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       })
 
-      if (res.ok) {
-        localStorage.setItem('adminToken', password)
+      if (authError) {
+        setError('이메일 또는 비밀번호가 올바르지 않습니다.')
+        return
+      }
+
+      if (data.session) {
+        localStorage.setItem('adminToken', data.session.access_token)
         router.push('/admin/editor')
-      } else {
-        setError('비밀번호가 올바르지 않습니다.')
       }
     } catch {
       setError('서버 오류가 발생했습니다.')
@@ -55,6 +59,26 @@ export default function AdminLoginPage() {
         </div>
 
         <form onSubmit={handleLogin}>
+          <div style={{ marginBottom: '14px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#374151', marginBottom: '6px' }}>
+              이메일
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="admin@example.com"
+              required
+              style={{
+                width: '100%', padding: '10px 12px', border: '1px solid #d1d5db',
+                borderRadius: '8px', fontSize: '14px', outline: 'none',
+                boxSizing: 'border-box', color: '#0f172a'
+              }}
+              onFocus={(e) => e.target.style.borderColor = '#2563eb'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+            />
+          </div>
+
           <div style={{ marginBottom: '16px' }}>
             <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#374151', marginBottom: '6px' }}>
               비밀번호
@@ -63,7 +87,7 @@ export default function AdminLoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="관리자 비밀번호"
+              placeholder="••••••••"
               required
               style={{
                 width: '100%', padding: '10px 12px', border: '1px solid #d1d5db',

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { supabase } from '@/lib/supabase'
 
 /* 기존 sections 구조 → HTML 변환 */
 function sectionsToHtml(guide) {
@@ -157,7 +158,8 @@ export default function AdminEditorPage() {
     }
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
     localStorage.removeItem('adminToken')
     router.push('/admin/login')
   }

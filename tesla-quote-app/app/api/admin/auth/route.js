@@ -1,13 +1,7 @@
-import { NextResponse } from 'next/server'
+// Supabase Auth 방식으로 교체됨 — 이 라우트는 더 이상 사용하지 않음
+// 로그인은 supabase.auth.signInWithPassword() 클라이언트 직접 호출로 처리
 
-export async function POST(request) {
-  try {
-    const { password } = await request.json()
-    if (password === process.env.ADMIN_PASSWORD) {
-      return NextResponse.json({ ok: true })
-    }
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  } catch {
-    return NextResponse.json({ error: 'Bad request' }, { status: 400 })
-  }
+import { NextResponse } from 'next/server'
+export async function GET() {
+  return NextResponse.json({ message: 'Use Supabase Auth directly' })
 }

@@ -1,37 +1,34 @@
 import { NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
 const SUPABASE_URL = process.env.SUPABASE_URL
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-function authHeaders() {
-  return {
-    apikey: SUPABASE_SERVICE_ROLE_KEY,
-    Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
-    'Content-Type': 'application/json',
-  }
+function getAdminClient() {
+  return createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 }
 
-function checkAuth(request) {
+async function checkAuth(request) {
   const auth = request.headers.get('Authorization') ?? ''
   const token = auth.replace('Bearer ', '')
-  return token === process.env.ADMIN_PASSWORD
+  if (!token) return false
+
+  const { data: { user }, error } = await getAdminClient().auth.getUser(token)
+  return !error && !!user
 }
 
 // GET /api/admin/guides — 가이드 목록
 export async function GET(request) {
-  if (!checkAuth(request)) {
+  if (!await checkAuth(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/guides?select=id,slug,title,category,description,read_time,published_at,updated_at,content_html&order=created_at.desc`,
-    { headers: authHeaders() }
-  )
+  const supabase = getAdminClient()
+  const { data, error } = await supabase
+    .from('guides')
+    .select('id,slug,title,category,description,read_time,published_at,updated_at,content_html')
+    .order('created_at', { ascending: false })
 
-  if (!res.ok) {
-    return NextResponse.json({ error: 'Supabase error' }, { status: 500 })
-  }
-
-  const data = await res.json()
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json(data)
 }

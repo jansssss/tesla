@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//f/개인/ework/scripts/**)",
+      "WebSearch"
+    ],
+    "additionalDirectories": [
+      "f:\\개인\\blog\\scripts",
+      "f:\\개인\\blog\\.github\\workflows",
+      "f:\\개인\\sureline\\scripts\\pipeline",
+      "f:\\개인\\sureline\\scripts",
+      "f:\\개인\\sureline\\.github\\workflows",
+      "f:\\개인\\ework\\scripts\\pipeline",
+      "f:\\개인\\ework\\scripts",
+      "f:\\개인\\ework\\.github\\workflows"
+    ]
+  }
+}
