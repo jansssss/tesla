@@ -71,7 +71,7 @@ export async function fetchRecentGuides(limit = 6) {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return [];
 
   try {
-    const url = `${SUPABASE_URL}/rest/v1/guides?select=slug,category,title,description,read_time,published_at&order=created_at.desc&limit=${limit}`;
+    const url = `${SUPABASE_URL}/rest/v1/guides?select=slug,category,title,description,read_time,published_at&order=published_at.desc&limit=${limit}`;
     const res = await fetch(url, {
       headers: {
         apikey: SUPABASE_ANON_KEY,
