@@ -40,14 +40,13 @@ export default function Footer() {
           <p>© 2026 하우머치 테슬라. 본 사이트는 테슬라(Tesla, Inc.)와 공식적인 관계가 없는 독립적인 정보 제공 사이트입니다.</p>
         </div>
 
-        {/* 관리자 버튼 — 눈에 띄지 않게 */}
-        <div className="text-center mt-3">
+        {/* 관리자 버튼 */}
+        <div className="flex justify-end mt-2 pr-1">
           <a
             href="/admin/login"
-            className="text-xs text-gray-700 opacity-30 hover:opacity-60 transition-opacity select-none"
-            aria-label="관리자"
+            className="text-[10px] font-mono text-gray-600 border border-gray-700 rounded px-2 py-0.5 hover:text-red-400 hover:border-red-800 transition-colors"
           >
-            ·
+            ADMIN
           </a>
         </div>
       </div>
