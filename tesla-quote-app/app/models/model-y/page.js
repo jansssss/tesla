@@ -38,6 +38,17 @@ const TRIMS = [
     accel: "5.0 초",
     highlight: false,
   },
+  {
+    id: "my-l-awd",
+    label: "Model Y L AWD",
+    sublabel: "사륜 구동",
+    price: 69990000,
+    range: "543 km",
+    speed: "201 km/h",
+    accel: "5.0 초",
+    highlight: false,
+    subsidyPending: true,
+  },
 ];
 
 function formatWon(amount) {
@@ -106,6 +117,9 @@ export default function ModelYPage() {
                 <div className="border-t border-gray-100 pt-3">
                   <p className="text-xs text-gray-400 mb-0.5">출고가</p>
                   <p className="text-base font-bold">{formatWon(trim.price)}</p>
+                  {trim.subsidyPending && (
+                    <p className="text-xs text-amber-600 mt-1 font-medium">보조금 데이터 준비중</p>
+                  )}
                 </div>
                 <Link
                   href={`/?model=modely&trim=${trim.id}`}

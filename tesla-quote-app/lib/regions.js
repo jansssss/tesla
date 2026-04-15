@@ -55,8 +55,9 @@ export const TRIM_CATALOG = [
   { trimId: 'm3-rwd',  modelId: 'model3', label: 'Model 3 RWD',         price: 41990000, csvModel: 'Model 3 RWD' },
   { trimId: 'm3-lr',   modelId: 'model3', label: 'Model 3 Long Range',   price: 52990000, csvModel: 'Model 3 Premium Long Range RWD' },
   { trimId: 'm3-perf', modelId: 'model3', label: 'Model 3 Performance',  price: 59990000, csvModel: 'Model 3 Performance' },
-  { trimId: 'my-rwd',  modelId: 'modely', label: 'Model Y RWD',          price: 49990000, csvModel: 'Model Y Premium RWD' },
+  { trimId: 'my-rwd',   modelId: 'modely', label: 'Model Y RWD',          price: 49990000, csvModel: 'Model Y Premium RWD' },
   { trimId: 'my-lr',   modelId: 'modely', label: 'Model Y Long Range',   price: 59990000, csvModel: 'Model Y Premium Long Range' },
+  { trimId: 'my-l-awd', modelId: 'modely', label: 'Model Y L AWD',       price: 69990000, csvModel: null, subsidyPending: true },
 ];
 
 /**
@@ -67,7 +68,10 @@ export const TRIM_CATALOG = [
 export function calcMetroSubsidyStats(rows, metro) {
   const districts = getDistrictsForMetro(rows, metro);
 
-  const statsByModel = TRIM_CATALOG.map(({ trimId, label, price, csvModel }) => {
+  const statsByModel = TRIM_CATALOG.map(({ trimId, label, price, csvModel, subsidyPending }) => {
+    if (subsidyPending) {
+      return { trimId, label, price, csvModel, min: 0, max: 0, avg: 0, repRow: null, repCode: null, subsidyPending: true };
+    }
     const matchingRows = rows.filter(
       (r) =>
         r.local_code.startsWith(metro.codePrefix) &&
