@@ -450,69 +450,67 @@ export default function QuoteWizard({ rows, regions }) {
         )}
       </header>
 
-      {/* ── Single Mode: Full-width car showcase ── */}
-      {mode === "single" && (
-        <section id="section-model" className="overflow-hidden rounded-2xl bg-white shadow-lg md:rounded-3xl">
-          {/* Model tabs */}
-          <div className="flex gap-2 border-b border-gray-200 px-4 py-3 md:gap-3 md:px-6 md:py-4">
-            {MODEL_CATALOG.map((item) => (
-              <button
-                key={item.id}
-                className={`rounded-lg px-5 py-2.5 text-sm font-bold transition-all md:px-8 md:py-3 md:text-base ${
-                  modelId === item.id
-                    ? "bg-black text-white shadow-md"
-                    : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                }`}
-                onClick={() => changeModel(item.id)}
-                aria-label={`${item.name} 모델 선택`}
-                aria-pressed={modelId === item.id}
-              >
-                {item.name}
-              </button>
-            ))}
-          </div>
-
-          {/* Car image — full width, 16:7 aspect ratio */}
-          <div className="bg-gradient-to-b from-gray-50 to-white px-4 pt-4 pb-0 md:px-8 md:pt-6">
-            <img
-              className="w-full object-contain"
-              style={{ aspectRatio: "16/7" }}
-              src={trim.image ?? model.image}
-              alt={trim.displayName ?? model.name}
-            />
-          </div>
-
-          {/* Model name + stats bar */}
-          <div className="bg-white px-4 pb-5 pt-3 md:px-8 md:pb-7 md:pt-4">
-            <h2 className="text-center text-2xl font-semibold leading-none tracking-tight md:text-[34px]">
-              {trim.displayName ?? model.name}
-            </h2>
-            {(() => {
-              const trimStats = model.trims.find(t => t.id === selectedTrimId)?.stats
-                ?? model.trims[0].stats;
-              return (
-                <div className="mx-auto mt-4 flex items-stretch justify-center divide-x divide-gray-200 text-center md:mt-5 md:max-w-2xl">
-                  {trimStats.map((stat) => (
-                    <div key={stat.label} className="flex-1 px-3 md:px-8">
-                      <strong className="block text-xl font-semibold leading-none tracking-tight md:text-3xl">
-                        {stat.value}
-                        <span className="ml-0.5 text-sm font-normal md:text-base">{stat.unit}</span>
-                      </strong>
-                      <span className="mt-1.5 block text-[10px] font-normal leading-tight text-gray-400 md:mt-2 md:text-xs">{stat.label}</span>
-                    </div>
+      <div className={`grid items-start gap-5 md:gap-6 ${mode === 'single' ? 'lg:grid-cols-[1.8fr_1fr]' : ''}`}>
+        <div className="space-y-5 md:space-y-6">
+          {/* Single Mode: Model showcase + Trim Selection */}
+          {mode === "single" && (
+            <>
+              <section id="section-model" className="overflow-hidden rounded-2xl bg-white shadow-lg md:rounded-3xl">
+                {/* Model tabs */}
+                <div className="flex gap-2 border-b border-gray-200 px-4 py-3 md:gap-3 md:px-6 md:py-4">
+                  {MODEL_CATALOG.map((item) => (
+                    <button
+                      key={item.id}
+                      className={`rounded-lg px-5 py-2.5 text-sm font-bold transition-all md:px-8 md:py-3 md:text-base ${
+                        modelId === item.id
+                          ? "bg-black text-white shadow-md"
+                          : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+                      }`}
+                      onClick={() => changeModel(item.id)}
+                      aria-label={`${item.name} 모델 선택`}
+                      aria-pressed={modelId === item.id}
+                    >
+                      {item.name}
+                    </button>
                   ))}
                 </div>
-              );
-            })()}
-          </div>
-        </section>
-      )}
 
-      <div className={`grid items-start gap-5 md:gap-6 ${mode === 'single' ? 'lg:grid-cols-[1.7fr_1fr]' : ''}`}>
-        <div className="space-y-5 md:space-y-6">
-          {/* Single Mode: Trim Selection */}
-          {mode === "single" && (
-            <section id="section-trim" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-6">
+                {/* Car image — 16:9 aspect ratio, fills column naturally */}
+                <div className="bg-gradient-to-b from-gray-50 to-white px-4 pt-4 pb-0 md:px-6 md:pt-6">
+                  <img
+                    className="w-full object-contain"
+                    style={{ aspectRatio: "16/9" }}
+                    src={trim.image ?? model.image}
+                    alt={trim.displayName ?? model.name}
+                  />
+                </div>
+
+                {/* Model name + stats */}
+                <div className="px-4 pb-5 pt-3 md:px-8 md:pb-7 md:pt-4">
+                  <h2 className="text-center text-2xl font-semibold leading-none tracking-tight md:text-[32px]">
+                    {trim.displayName ?? model.name}
+                  </h2>
+                  {(() => {
+                    const trimStats = model.trims.find(t => t.id === selectedTrimId)?.stats
+                      ?? model.trims[0].stats;
+                    return (
+                      <div className="mx-auto mt-4 flex items-stretch justify-center divide-x divide-gray-200 text-center md:mt-5">
+                        {trimStats.map((stat) => (
+                          <div key={stat.label} className="flex-1 px-3 md:px-6">
+                            <strong className="block text-lg font-semibold leading-none tracking-tight md:text-2xl">
+                              {stat.value}
+                              <span className="ml-0.5 text-xs font-normal md:text-sm">{stat.unit}</span>
+                            </strong>
+                            <span className="mt-1.5 block text-[10px] font-normal leading-tight text-gray-400 md:mt-2 md:text-xs">{stat.label}</span>
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  })()}
+                </div>
+              </section>
+
+              <section id="section-trim" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-6">
               <h3 className="mb-4 text-base font-black md:mb-5 md:text-lg">2. 트림 선택</h3>
               <div className="grid gap-2.5 md:gap-3">
                 {model.trims.map((item) => (
@@ -540,6 +538,7 @@ export default function QuoteWizard({ rows, regions }) {
                 ))}
               </div>
             </section>
+          </>
           )}
 
           {/* Comparison Mode: Two Vehicle Cards + Quote Summaries */}
