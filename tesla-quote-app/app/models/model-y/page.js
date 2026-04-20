@@ -2,13 +2,13 @@ import Link from "next/link";
 import { METRO_REGIONS } from "@/lib/regions";
 
 export const metadata = {
-  title: "2026 테슬라 Model Y 트림별 가격·보조금·월납입금",
+  title: "2026 테슬라 Model Y 트림별 가격·보조금·월납입금 (RWD·LR·L AWD)",
   description:
-    "테슬라 Model Y RWD·Long Range 트림 출고가, 지역별 보조금, 실구매가 및 할부 월납입금 계산. 패밀리카 추천 모델 2026년 최신 데이터.",
+    "테슬라 Model Y RWD·Long Range·L AWD 트림 출고가, 지역별 보조금, 실구매가 및 할부 월납입금 계산. 패밀리카 추천 모델 2026년 최신 데이터.",
   openGraph: {
     title: "2026 테슬라 Model Y 트림별 가격·보조금·월납입금",
     description:
-      "테슬라 Model Y RWD·Long Range 트림 출고가, 지역별 보조금, 실구매가 및 할부 월납입금 계산.",
+      "테슬라 Model Y RWD·Long Range·L AWD 트림 출고가, 지역별 보조금, 실구매가 및 할부 월납입금 계산.",
     url: "https://paytesla.kr/models/model-y",
     siteName: "테슬라 얼마?",
     locale: "ko_KR",
@@ -70,7 +70,7 @@ export default function ModelYPage() {
             <span className="md:ml-2">트림별 가격 · 보조금 · 월납입금</span>
           </h1>
           <p className="text-gray-400 text-sm md:text-base">
-            RWD · Long Range — 국내 최다 판매 전기 SUV, 지역 보조금 적용 실구매가 계산
+            RWD · Long Range · L AWD — 국내 최다 판매 전기 SUV, 지역 보조금 적용 실구매가 계산
           </p>
         </div>
       </section>
@@ -80,7 +80,7 @@ export default function ModelYPage() {
         {/* 트림 비교 */}
         <section>
           <h2 className="text-lg md:text-xl font-bold mb-4">트림별 스펙 · 출고가</h2>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {TRIMS.map((trim) => (
               <div
                 key={trim.id}
@@ -152,10 +152,10 @@ export default function ModelYPage() {
           <h2 className="text-base font-bold mb-3">Model Y 구매 가이드</h2>
           <div className="text-sm text-gray-600 space-y-2 leading-relaxed">
             <p>
-              테슬라 Model Y는 2026년 기준 <strong>RWD(4,999만원)</strong>와 <strong>Long Range AWD(5,999만원)</strong> 두 가지 트림으로 판매됩니다. 넉넉한 적재공간(최대 1,925L)과 높은 주행 안전성으로 패밀리카로 인기가 높습니다.
+              테슬라 Model Y는 2026년 기준 <strong>RWD(4,999만원)</strong>, <strong>Long Range AWD(5,999만원)</strong>, <strong>Model Y L AWD(6,999만원)</strong> 세 가지 트림으로 판매됩니다. 넉넉한 적재공간(최대 1,925L)과 높은 주행 안전성으로 패밀리카로 인기가 높습니다.
             </p>
             <p>
-              지역별 보조금을 적용하면 RWD 기준 실구매가가 크게 낮아지며, 다자녀 가구는 추가 혜택도 받을 수 있습니다. 정확한 월납입금은 위 계산기에서 선수금과 할부 기간을 직접 입력해 확인하세요.
+              Model Y L AWD는 기존 Model Y보다 더 넓은 실내 공간과 543km 주행거리를 제공하는 대형 7인승 SUV 트림입니다. 지역별 보조금을 적용하면 RWD 기준 실구매가가 크게 낮아지며, 다자녀 가구는 추가 혜택도 받을 수 있습니다. 정확한 월납입금은 위 계산기에서 선수금과 할부 기간을 직접 입력해 확인하세요.
             </p>
             <p className="text-xs text-gray-400 pt-1">
               업데이트: 2026년 · 가격 및 보조금은 변경될 수 있습니다.

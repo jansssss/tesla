@@ -17,19 +17,17 @@ export const metadata = {
   alternates: { canonical: "https://paytesla.kr/compare/model-3-vs-model-y" },
 };
 
-function formatWon(amount) {
-  return `₩${Number(amount).toLocaleString("ko-KR")}`;
-}
-
 const COMPARE_DATA = [
   { label: "차종", model3: "세단", modelY: "SUV (크로스오버)" },
+  { label: "트림 구성", model3: "RWD · LR · Performance", modelY: "RWD · Long Range · L AWD" },
   { label: "최저 출고가", model3: "4,199만원 (RWD)", modelY: "4,999만원 (RWD)" },
+  { label: "최고 출고가", model3: "5,999만원 (Performance)", modelY: "6,999만원 (L AWD)" },
   { label: "주행거리 (RWD)", model3: "682 km", modelY: "400 km+" },
+  { label: "최장 주행거리", model3: "713 km (LR)", modelY: "543 km (L AWD)" },
   { label: "0→100 km/h (RWD)", model3: "6.2 초", modelY: "5.9 초" },
-  { label: "최고속도", model3: "201 km/h", modelY: "217 km/h" },
   { label: "적재공간", model3: "594 L (트렁크)", modelY: "1,925 L (최대)" },
   { label: "국고보조금 (RWD)", model3: "168만원", modelY: "170만원" },
-  { label: "7인승 옵션", model3: "없음", modelY: "없음" },
+  { label: "7인승 (L AWD)", model3: "없음", modelY: "가능" },
 ];
 
 const SCENARIOS = [
@@ -43,7 +41,7 @@ const SCENARIOS = [
     title: "패밀리카 · 짐 많은 활동",
     icon: "👨‍👩‍👧",
     winner: "modelY",
-    reason: "Model Y 추천 — SUV 적재공간(최대 1,925L), 높은 시야, 안전성. 다자녀 혜택 적용 시 실구매가 차이 축소.",
+    reason: "Model Y 추천 — SUV 적재공간(최대 1,925L), 높은 시야, 안전성. 대가족이라면 L AWD(7인승, 6,999만원)도 고려. 다자녀 혜택 적용 시 실구매가 차이 축소.",
   },
   {
     title: "장거리 출장 · 고속도로 위주",
@@ -83,6 +81,12 @@ const CTA_BUTTONS = [
     sub: "5,999만원~",
     href: "/?model=modely&trim=my-lr&months=60&downPayment=10000000",
     style: "bg-blue-500/30 text-white border border-blue-400/30 hover:bg-blue-500/50",
+  },
+  {
+    label: "Model Y L AWD",
+    sub: "6,999만원~",
+    href: "/?model=modely&trim=my-l-awd&months=60&downPayment=10000000",
+    style: "bg-blue-700/40 text-white border border-blue-300/30 hover:bg-blue-700/60",
   },
 ];
 
@@ -188,7 +192,7 @@ export default function Model3VsModelYPage() {
           <p className="text-sm text-blue-100/70 mb-6">
             지역, 선수금, 할부 기간을 직접 입력하면 두 모델의 월납입금 차이를 바로 확인할 수 있습니다.
           </p>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {CTA_BUTTONS.map((btn) => (
               <Link
                 key={btn.href}

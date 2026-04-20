@@ -19,12 +19,12 @@ export const metadata = {
 
 const COMPARE_DATA = [
   { label: "구동방식", rwd: "후륜 구동 (RWD)", awd: "사륜 구동 (AWD)" },
-  { label: "Model 3 해당 트림", rwd: "RWD, Long Range", awd: "Performance" },
-  { label: "Model Y 해당 트림", rwd: "Premium RWD", awd: "Long Range" },
-  { label: "Model 3 가격 차이", rwd: "4,199만 / 5,299만", awd: "5,999만 (Performance)" },
-  { label: "Model Y 가격 차이", rwd: "4,999만", awd: "5,999만 (Long Range)" },
+  { label: "Model 3 해당 트림", rwd: "RWD · Long Range", awd: "Performance" },
+  { label: "Model Y 해당 트림", rwd: "Premium RWD", awd: "Long Range · L AWD" },
+  { label: "Model 3 가격", rwd: "4,199만 / 5,299만", awd: "5,999만 (Performance)" },
+  { label: "Model Y 가격", rwd: "4,999만", awd: "5,999만 (LR) / 6,999만 (L AWD)" },
   { label: "주행거리 (Model 3)", rwd: "682 km (RWD)", awd: "528 km (Perf)" },
-  { label: "주행거리 (Model Y)", rwd: "400 km+", awd: "533 km (LR)" },
+  { label: "주행거리 (Model Y)", rwd: "400 km+", awd: "533 km (LR) · 543 km (L AWD)" },
   { label: "0→100 km/h", rwd: "5.3~6.2 초", awd: "3.1~5.0 초" },
   { label: "겨울철 접지력", rwd: "보통", awd: "우수" },
   { label: "에너지 효율", rwd: "높음", awd: "약간 낮음" },
@@ -41,7 +41,7 @@ const SCENARIOS = [
     title: "강원·경북 등 눈길 많은 지역",
     icon: "❄️",
     winner: "awd",
-    reason: "AWD 추천 — 눈길·빗길 접지력이 확연히 우수. 특히 경사진 도로나 미끄러운 노면에서 안전성 차이 큼.",
+    reason: "AWD 추천 — 눈길·빗길 접지력이 확연히 우수. 특히 경사진 도로나 미끄러운 노면에서 안전성 차이 큼. Model Y L AWD는 대가족 눈길 장거리에도 최적.",
   },
   {
     title: "고속도로 장거리 위주",
@@ -81,6 +81,12 @@ const CTA_BUTTONS = [
     sub: "5,999만원~",
     href: "/?model=modely&trim=my-lr&months=60&downPayment=10000000",
     style: "bg-blue-500/30 text-white border border-blue-400/30 hover:bg-blue-500/50",
+  },
+  {
+    label: "Model Y L AWD",
+    sub: "6,999만원~",
+    href: "/?model=modely&trim=my-l-awd&months=60&downPayment=10000000",
+    style: "bg-blue-700/40 text-white border border-blue-300/30 hover:bg-blue-700/60",
   },
 ];
 
@@ -189,7 +195,7 @@ export default function RwdVsAwdPage() {
           <p className="text-sm text-blue-100/70 mb-6">
             선수금, 할부 기간, 지역을 입력하면 RWD와 AWD의 정확한 월납입금 차이를 확인할 수 있습니다.
           </p>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {CTA_BUTTONS.map((btn) => (
               <Link
                 key={btn.href}
