@@ -63,6 +63,29 @@ export async function fetchGuideBySlug(slug) {
 }
 
 /**
+ * sitemap용 전체 가이드 slug + 날짜 목록 조회 (limit 없음)
+ * @returns {Promise<Array<{slug: string, published_at: string, updated_at: string|null}>>}
+ */
+export async function fetchAllGuidesMeta() {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return [];
+
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/guides?select=slug,published_at,updated_at&order=published_at.desc`;
+    const res = await fetch(url, {
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      },
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) return [];
+    return await res.json();
+  } catch {
+    return [];
+  }
+}
+
+/**
  * 최근 발행된 가이드 목록 조회
  * @param {number} limit
  * @returns {Promise<Array>}
