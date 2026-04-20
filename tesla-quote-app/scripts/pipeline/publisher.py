@@ -30,12 +30,23 @@ class SupabasePublisher:
 
     def fetch_published_titles(self, limit: int = 60) -> list[str]:
         """기발행 가이드 제목 목록 반환 (중복 주제 회피용)"""
-        url = f"{self.base_url}/rest/v1/guides?select=title&order=created_at.desc&limit={limit}"
+        url = f"{self.base_url}/rest/v1/guides?select=title&order=published_at.desc&limit={limit}"
         req = request.Request(url, headers=self._headers)
         try:
             with request.urlopen(req, timeout=10) as resp:
                 rows = json.loads(resp.read().decode("utf-8"))
                 return [row["title"] for row in rows]
+        except Exception:
+            return []
+
+    def fetch_recent_categories(self, limit: int = 10) -> list[str]:
+        """최근 발행된 카테고리 목록 반환 (카테고리 편중 방지용)"""
+        url = f"{self.base_url}/rest/v1/guides?select=category&order=published_at.desc&limit={limit}"
+        req = request.Request(url, headers=self._headers)
+        try:
+            with request.urlopen(req, timeout=10) as resp:
+                rows = json.loads(resp.read().decode("utf-8"))
+                return [row["category"] for row in rows]
         except Exception:
             return []
 
@@ -132,6 +143,12 @@ class FilePublisher:
             text,
         )
         return titles[:limit]
+
+    def fetch_recent_categories(self, limit: int = 10) -> list[str]:
+        """guides.js에서 최근 category 목록 추출"""
+        text = self.path.read_text(encoding="utf-8")
+        categories = re.findall(r'category:\s*"([^"]+)"', text)
+        return categories[:limit]
 
     def _slug_exists(self, slug: str) -> bool:
         text = self.path.read_text(encoding="utf-8")

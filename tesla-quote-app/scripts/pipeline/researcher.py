@@ -22,6 +22,15 @@ CATEGORIES = [
 
 CATEGORY_STR = " | ".join(CATEGORIES)
 
+# 카테고리별 검색 쿼리 — 다양한 주제가 검색 결과에 포함되도록
+_SEARCH_QUERY_POOL = [
+    "테슬라 한국 최신 뉴스 이슈",
+    "현대 아이오닉 기아 EV 전기차 한국 최신",
+    "전기차 보조금 충전 인프라 한국 정책 최신",
+    "수입 전기차 BMW iX 벤츠 EQ 폭스바겐 ID 한국",
+    "전기차 자동차 구매 시장 동향 한국 최신",
+]
+
 
 class TavilyResearcher:
     TAVILY_URL = "https://api.tavily.com/search"
@@ -54,14 +63,20 @@ class TavilyResearcher:
             body = e.read().decode("utf-8")
             raise RuntimeError(f"Tavily HTTP {e.code}: {body}") from e
 
-    def research_today(self, published_topics: list[str] | None = None) -> dict:
+    def research_today(
+        self,
+        published_topics: list[str] | None = None,
+        recent_categories: list[str] | None = None,
+    ) -> dict:
         """
-        오늘의 테슬라/전기차/자동차 인기 이슈 1개 선정 + 심층 리서치
+        오늘의 전기차/자동차 인기 이슈 1개 선정 + 심층 리서치
         published_topics: 이미 발행된 제목 목록 (중복 회피용)
+        recent_categories: 최근 발행된 카테고리 목록 (카테고리 편중 방지용)
         Returns: { topic, category, background, key_data, impact_on_buyers, related_keywords }
         """
         today = date.today().strftime("%Y년 %m월 %d일")
 
+        # 중복 주제 제외 블록
         exclude_block = ""
         if published_topics:
             titles = "\n".join(f"- {t}" for t in published_topics)
@@ -72,8 +87,25 @@ class TavilyResearcher:
                 "카테고리가 같더라도 다른 각도나 세부 주제를 선택해야 합니다."
             )
 
-        # Step 1: Tavily 실시간 검색
-        query = f"테슬라 전기차 자동차 한국 최신 뉴스 이슈 {today}"
+        # 카테고리 편중 방지 블록
+        avoid_block = ""
+        if recent_categories:
+            from collections import Counter
+            counts = Counter(recent_categories)
+            # 최근 5건 중 3건 이상 차지한 카테고리는 이번에 피하도록 유도
+            overused = [cat for cat, cnt in counts.items() if cnt >= 3]
+            if overused:
+                avoid_block = (
+                    "\n\n【카테고리 균형 지침】\n"
+                    f"최근 발행된 카테고리: {', '.join(recent_categories)}\n"
+                    f"아래 카테고리가 과도하게 반복됐습니다: {', '.join(overused)}\n"
+                    "이번에는 반드시 다른 카테고리(전기차·보조금·충전·비교·구매가이드·자동차 중)에서 주제를 선정하세요."
+                )
+
+        # Step 1: Tavily 실시간 검색 — 날짜 기반으로 쿼리 풀 순환
+        day_of_year = date.today().timetuple().tm_yday
+        base_query = _SEARCH_QUERY_POOL[day_of_year % len(_SEARCH_QUERY_POOL)]
+        query = f"{base_query} {today}"
         search_results = self._tavily_search(query)
         answer = search_results.get("answer", "")
         snippets = "\n".join(
@@ -98,10 +130,10 @@ class TavilyResearcher:
                     "content": (
                         f"오늘({today}) 아래 검색 결과를 바탕으로 이슈 1개를 선정하고, "
                         "아래 형식의 JSON으로만 응답하세요. JSON 외 다른 텍스트는 출력하지 마세요.\n\n"
-                        "【주제 선정 우선순위】\n"
-                        "1순위 — 테슬라 관련: 신차·업데이트·가격 변동·보조금·FSD·충전·오너 이슈 등\n"
-                        "2순위 — 전기차 전반: 현대 아이오닉·기아 EV·BMW iX·벤츠 EQ 등\n"
-                        "3순위 — 자동차 전반: 내연기관차·하이브리드·자동차 정책·시장 동향\n\n"
+                        "【주제 선정 원칙】\n"
+                        "- 테슬라, 전기차(현대 아이오닉·기아 EV·BMW iX·벤츠 EQ 등), 보조금, 충전, 구매가이드, 자동차 시장 전반을 균형 있게 다룬다.\n"
+                        "- 특정 브랜드(테슬라 포함)가 연속으로 선정되지 않도록 다양한 카테고리를 순환하여 선택한다.\n"
+                        "- 검색 결과에 테슬라 기사가 많더라도, 다른 카테고리의 의미 있는 이슈가 있다면 그것을 우선 선택할 수 있다.\n\n"
                         f"[검색 결과]\n{context}\n\n"
                         "{\n"
                         '  "topic": "이슈 제목 (한국어, 50자 이내)",\n'
@@ -121,12 +153,13 @@ class TavilyResearcher:
                         "요구사항:\n"
                         "- key_data는 최소 3개 이상 (수치 또는 공식 발표 내용 필수)\n"
                         "- 추측이나 불확실한 내용 금지"
+                        f"{avoid_block}"
                         f"{exclude_block}"
                     ),
                 },
             ],
             "max_completion_tokens": 2000,
-            "temperature": 0.2,
+            "temperature": 0.4,
         }
 
         raw_body = json.dumps(payload).encode("utf-8")

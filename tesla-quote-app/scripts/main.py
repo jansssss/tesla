@@ -86,10 +86,13 @@ def main() -> None:
 
     # ── 발행 이력 조회 ───────────────────────────────
     published_titles: list[str] = []
+    recent_categories: list[str] = []
     if publisher:
         print("[PIPELINE] 발행 이력 조회 중...", flush=True)
         published_titles = publisher.fetch_published_titles()
+        recent_categories = publisher.fetch_recent_categories(limit=10)
         print(f"[PIPELINE] 기발행 가이드 {len(published_titles)}개 로드 완료", flush=True)
+        print(f"[PIPELINE] 최근 카테고리: {recent_categories[:5]}", flush=True)
 
     # ── 실행 ────────────────────────────────────────
     for i in range(count):
@@ -99,7 +102,10 @@ def main() -> None:
         # STEP 1: Tavily 리서치
         print("[STEP 1] Tavily 리서치 중...", flush=True)
         try:
-            research = researcher.research_today(published_topics=published_titles)
+            research = researcher.research_today(
+                published_topics=published_titles,
+                recent_categories=recent_categories,
+            )
             print(f"[STEP 1] 완료 - 주제: {research['topic']}", flush=True)
         except Exception as exc:
             print(f"[STEP 1] 실패: {exc}", flush=True)
