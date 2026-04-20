@@ -57,7 +57,7 @@ export const TRIM_CATALOG = [
   { trimId: 'm3-perf', modelId: 'model3', label: 'Model 3 Performance',  price: 59990000, csvModel: 'Model 3 Performance' },
   { trimId: 'my-rwd',   modelId: 'modely', label: 'Model Y RWD',          price: 49990000, csvModel: 'Model Y Premium RWD' },
   { trimId: 'my-lr',   modelId: 'modely', label: 'Model Y Long Range',   price: 59990000, csvModel: 'Model Y Premium Long Range' },
-  { trimId: 'my-l-awd', modelId: 'modely', label: 'Model Y L AWD',       price: 69990000, csvModel: null, subsidyPending: true },
+  { trimId: 'my-l-awd', modelId: 'modely', label: 'Model Y L AWD',       price: 69990000, csvModel: 'Model Y L AWD' },
 ];
 
 /**

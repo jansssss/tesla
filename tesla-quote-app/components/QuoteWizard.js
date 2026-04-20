@@ -87,8 +87,8 @@ const MODEL_CATALOG = [
         id: "my-l-awd",
         label: "L AWD(사륜 구동)",
         price: 69990000,
-        csvModel: null,
-        subsidyPending: true,
+        csvModel: "Model Y L AWD",
+        displayName: "Model Y L",
         stats: [
           { label: "주행 가능 거리", value: "543", unit: "km" },
           { label: "최고 속도", value: "201", unit: "km/h" },
@@ -179,14 +179,12 @@ export default function QuoteWizard({ rows, regions }) {
 
   const subsidy = useMemo(
     () =>
-      trim.subsidyPending
-        ? { national_subsidy_manwon: 0, local_subsidy_manwon: 0, total_subsidy_manwon: 0, pending: true }
-        : rows.find((row) => row.local_code === regionCode && row.model === trim.csvModel) || {
-            national_subsidy_manwon: 0,
-            local_subsidy_manwon: 0,
-            total_subsidy_manwon: 0
-          },
-    [rows, regionCode, trim.csvModel, trim.subsidyPending]
+      rows.find((row) => row.local_code === regionCode && row.model === trim.csvModel) || {
+        national_subsidy_manwon: 0,
+        local_subsidy_manwon: 0,
+        total_subsidy_manwon: 0
+      },
+    [rows, regionCode, trim.csvModel]
   );
 
   const selectedRegion = regions.find((item) => item.code === regionCode);
@@ -504,7 +502,9 @@ export default function QuoteWizard({ rows, regions }) {
                     alt={model.name}
                   />
 
-                  <h2 className="mt-6 text-center text-[32px] font-medium leading-none tracking-normal md:mt-12 md:text-[40px]">{model.name}</h2>
+                  <h2 className="mt-6 text-center text-[32px] font-medium leading-none tracking-normal md:mt-12 md:text-[40px]">
+                    {trim.displayName ?? model.name}
+                  </h2>
 
                   {(() => {
                     const trimStats = model.trims.find(t => t.id === selectedTrimId)?.stats
@@ -607,18 +607,12 @@ export default function QuoteWizard({ rows, regions }) {
               ))}
             </select>
             <div className="mt-4 rounded-lg bg-gray-50 p-4 md:mt-6 md:rounded-xl md:p-5">
-              {subsidy.pending ? (
-                <p className="text-sm font-semibold text-amber-600 md:text-base">보조금 데이터 준비중</p>
-              ) : (
-                <>
-                  <p className="text-sm text-gray-700 md:text-base">
-                    보조금: <span className="font-semibold">국비 {subsidy.national_subsidy_manwon}만원</span> + <span className="font-semibold">지방비 {subsidy.local_subsidy_manwon}만원</span>
-                  </p>
-                  <p className="mt-1.5 text-sm font-black md:mt-2 md:text-lg">
-                    총 {subsidy.total_subsidy_manwon}만원
-                  </p>
-                </>
-              )}
+              <p className="text-sm text-gray-700 md:text-base">
+                보조금: <span className="font-semibold">국비 {subsidy.national_subsidy_manwon}만원</span> + <span className="font-semibold">지방비 {subsidy.local_subsidy_manwon}만원</span>
+              </p>
+              <p className="mt-1.5 text-sm font-black md:mt-2 md:text-lg">
+                총 {subsidy.total_subsidy_manwon}만원
+              </p>
             </div>
           </section>
 
@@ -752,9 +746,7 @@ export default function QuoteWizard({ rows, regions }) {
               </div>
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
                 <dt className="text-sm font-medium text-gray-400 md:text-base">보조금(국고+지자체)</dt>
-                <dd className="m-0 text-right text-base font-bold text-green-400 md:text-lg">
-                  {subsidy.pending ? <span className="text-amber-400 text-sm">준비중</span> : `- ${formatWon(subsidyWon)}`}
-                </dd>
+                <dd className="m-0 text-right text-base font-bold text-green-400 md:text-lg">- {formatWon(subsidyWon)}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 md:gap-4 md:py-4">
                 <dt className="text-sm font-medium text-gray-400 md:text-base">추가 혜택</dt>
