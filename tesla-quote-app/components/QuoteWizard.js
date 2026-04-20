@@ -363,8 +363,8 @@ export default function QuoteWizard({ rows, regions }) {
   };
 
   return (
-    <div className="mx-auto grid max-w-[1400px] gap-5 px-4 py-5 md:gap-6 md:px-8 md:py-12">
-      <header className="space-y-4 md:space-y-6">
+    <div className="mx-auto max-w-[1400px] space-y-5 px-4 py-5 md:space-y-6 md:px-8 md:py-10">
+      <header className="space-y-3 md:space-y-5">
         <h1 className="text-center font-logo text-2xl font-extrabold tracking-tight text-black md:text-4xl lg:text-5xl">
           How much <span className="text-brandRed">Tesla</span>?
         </h1>
@@ -425,130 +425,121 @@ export default function QuoteWizard({ rows, regions }) {
           </button>
         </div>
 
-        {/* Desktop Navigation - in header area (only show in single mode) */}
+        {/* Desktop Navigation (only show in single mode) */}
         {mode === "single" && (
           <nav className="hidden flex-wrap justify-start gap-2 md:flex" aria-label="견적 단계">
-            <a
-              href="#section-model"
-              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
-                activeSection === "model"
-                  ? "border-black bg-black text-white hover:bg-gray-900"
-                  : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-              }`}
-            >
-              1. 모델
-            </a>
-            <a
-              href="#section-trim"
-              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
-                activeSection === "trim"
-                  ? "border-black bg-black text-white hover:bg-gray-900"
-                  : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-              }`}
-            >
-              2. 트림
-            </a>
-            <a
-              href="#section-region"
-              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
-                activeSection === "region"
-                  ? "border-black bg-black text-white hover:bg-gray-900"
-                  : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-              }`}
-            >
-              3. 지역
-            </a>
-            <a
-              href="#section-benefit"
-              className={`rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all ${
-                activeSection === "benefit"
-                  ? "border-black bg-black text-white hover:bg-gray-900"
-                  : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
-              }`}
-            >
-              4. 혜택·금융
-            </a>
+            {[
+              { id: "model", label: "1. 모델" },
+              { id: "trim", label: "2. 트림" },
+              { id: "region", label: "3. 지역" },
+              { id: "benefit", label: "4. 혜택·금융" },
+            ].map(({ id, label }) => (
+              <a
+                key={id}
+                href={`#section-${id}`}
+                className={`rounded-full border px-5 py-2 text-sm font-medium shadow-sm transition-all ${
+                  activeSection === id
+                    ? "border-black bg-black text-white hover:bg-gray-900"
+                    : "border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow"
+                }`}
+              >
+                {label}
+              </a>
+            ))}
           </nav>
         )}
       </header>
 
-      <div className={`grid items-start gap-5 md:gap-6 ${mode === 'single' ? 'lg:grid-cols-[1.8fr_1fr]' : ''}`}>
-        <div className="space-y-5 md:space-y-8">
-          {/* Single Mode: Model and Trim Selection */}
+      {/* ── Single Mode: Full-width car showcase ── */}
+      {mode === "single" && (
+        <section id="section-model" className="overflow-hidden rounded-2xl bg-white shadow-lg md:rounded-3xl">
+          {/* Model tabs */}
+          <div className="flex gap-2 border-b border-gray-200 px-4 py-3 md:gap-3 md:px-6 md:py-4">
+            {MODEL_CATALOG.map((item) => (
+              <button
+                key={item.id}
+                className={`rounded-lg px-5 py-2.5 text-sm font-bold transition-all md:px-8 md:py-3 md:text-base ${
+                  modelId === item.id
+                    ? "bg-black text-white shadow-md"
+                    : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+                }`}
+                onClick={() => changeModel(item.id)}
+                aria-label={`${item.name} 모델 선택`}
+                aria-pressed={modelId === item.id}
+              >
+                {item.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Car image — full width, 16:7 aspect ratio */}
+          <div className="bg-gradient-to-b from-gray-50 to-white px-4 pt-4 pb-0 md:px-8 md:pt-6">
+            <img
+              className="w-full object-contain"
+              style={{ aspectRatio: "16/7" }}
+              src={trim.image ?? model.image}
+              alt={trim.displayName ?? model.name}
+            />
+          </div>
+
+          {/* Model name + stats bar */}
+          <div className="bg-white px-4 pb-5 pt-3 md:px-8 md:pb-7 md:pt-4">
+            <h2 className="text-center text-2xl font-semibold leading-none tracking-tight md:text-[34px]">
+              {trim.displayName ?? model.name}
+            </h2>
+            {(() => {
+              const trimStats = model.trims.find(t => t.id === selectedTrimId)?.stats
+                ?? model.trims[0].stats;
+              return (
+                <div className="mx-auto mt-4 flex items-stretch justify-center divide-x divide-gray-200 text-center md:mt-5 md:max-w-2xl">
+                  {trimStats.map((stat) => (
+                    <div key={stat.label} className="flex-1 px-3 md:px-8">
+                      <strong className="block text-xl font-semibold leading-none tracking-tight md:text-3xl">
+                        {stat.value}
+                        <span className="ml-0.5 text-sm font-normal md:text-base">{stat.unit}</span>
+                      </strong>
+                      <span className="mt-1.5 block text-[10px] font-normal leading-tight text-gray-400 md:mt-2 md:text-xs">{stat.label}</span>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
+        </section>
+      )}
+
+      <div className={`grid items-start gap-5 md:gap-6 ${mode === 'single' ? 'lg:grid-cols-[1.7fr_1fr]' : ''}`}>
+        <div className="space-y-5 md:space-y-6">
+          {/* Single Mode: Trim Selection */}
           {mode === "single" && (
-            <>
-              <section id="section-model" className="overflow-hidden rounded-2xl bg-white shadow-lg md:rounded-3xl">
-                <div className="flex gap-2 border-b border-gray-200 p-4 md:gap-4 md:p-6">
-                  {MODEL_CATALOG.map((item) => (
-                    <button
-                      key={item.id}
-                      className={`flex-1 rounded-lg px-4 py-3 text-sm font-bold transition-all md:px-6 md:py-3 md:text-base ${
-                        modelId === item.id
-                          ? "bg-black text-white shadow-md"
-                          : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                      }`}
-                      onClick={() => changeModel(item.id)}
-                      aria-label={`${item.name} 모델 선택`}
-                      aria-pressed={modelId === item.id}
-                    >
-                      {item.name}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="bg-gradient-to-b from-gray-50 to-white p-5 md:p-12">
-                  <img
-                    className="h-[200px] w-full object-contain md:h-[480px]"
-                    src={trim.image ?? model.image}
-                    alt={trim.displayName ?? model.name}
-                  />
-
-                  <h2 className="mt-6 text-center text-[32px] font-medium leading-none tracking-normal md:mt-12 md:text-[40px]">
-                    {trim.displayName ?? model.name}
-                  </h2>
-
-                  {(() => {
-                    const trimStats = model.trims.find(t => t.id === selectedTrimId)?.stats
-                      ?? model.trims[0].stats;
-                    return (
-                      <div className="mx-auto mt-6 flex items-stretch justify-center divide-x divide-gray-200 text-center md:mt-8 md:max-w-2xl">
-                        {trimStats.map((item) => (
-                          <div key={item.label} className="flex-1 px-3 md:px-6">
-                            <strong className="block text-[28px] font-medium leading-none tracking-tight md:text-[36px]">
-                              {item.value}
-                              <span className="ml-0.5 text-base font-normal md:text-xl">{item.unit}</span>
-                            </strong>
-                            <span className="mt-2 block text-[11px] font-normal leading-tight text-gray-400 md:mt-2 md:text-sm">{item.label}</span>
-                          </div>
-                        ))}
-                      </div>
-                    );
-                  })()}
-                </div>
-              </section>
-
-              <section id="section-trim" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-6">
-                <h3 className="mb-4 text-lg font-black md:mb-5 md:text-xl">2. 트림 선택</h3>
-                <div className="grid gap-2.5 md:gap-3">
-                  {model.trims.map((item) => (
-                    <button
-                      key={item.id}
-                      className={`flex items-start justify-between gap-3 rounded-xl px-4 py-4 text-left transition-all md:items-center md:rounded-2xl md:px-6 md:py-5 ${
-                        selectedTrimId === item.id
-                          ? "bg-black text-white shadow-lg"
-                          : "bg-gray-50 text-gray-900 hover:bg-gray-100 hover:shadow-md"
-                      }`}
-                      onClick={() => setSelectedTrimId(item.id)}
-                      aria-label={`${item.label} 트림 선택, 가격 ${formatWon(item.price)}`}
-                      aria-pressed={selectedTrimId === item.id}
-                    >
-                      <span className="flex-1 pr-2 text-sm font-normal leading-snug md:text-xl md:font-semibold">{item.label}</span>
-                      <strong className="shrink-0 text-lg font-extrabold md:text-3xl">{formatWon(item.price)}</strong>
-                    </button>
-                  ))}
-                </div>
-              </section>
-            </>
+            <section id="section-trim" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-6">
+              <h3 className="mb-4 text-base font-black md:mb-5 md:text-lg">2. 트림 선택</h3>
+              <div className="grid gap-2.5 md:gap-3">
+                {model.trims.map((item) => (
+                  <button
+                    key={item.id}
+                    className={`flex items-center justify-between gap-3 rounded-xl px-4 py-4 text-left transition-all md:rounded-2xl md:px-6 md:py-5 ${
+                      selectedTrimId === item.id
+                        ? "bg-black text-white shadow-lg"
+                        : "bg-gray-50 text-gray-900 hover:bg-gray-100 hover:shadow-md"
+                    }`}
+                    onClick={() => setSelectedTrimId(item.id)}
+                    aria-label={`${item.label} 트림 선택, 가격 ${formatWon(item.price)}`}
+                    aria-pressed={selectedTrimId === item.id}
+                  >
+                    <div className="min-w-0 flex-1">
+                      <span className="block text-sm font-semibold leading-snug md:text-base">{item.label}</span>
+                      {item.stats && (
+                        <span className={`mt-0.5 block text-xs leading-tight ${selectedTrimId === item.id ? "text-gray-300" : "text-gray-400"}`}>
+                          {item.stats[0].value}{item.stats[0].unit} · {item.stats[2].value}{item.stats[2].unit}
+                        </span>
+                      )}
+                    </div>
+                    <strong className="shrink-0 text-base font-extrabold md:text-xl">{formatWon(item.price)}</strong>
+                  </button>
+                ))}
+              </div>
+            </section>
           )}
 
           {/* Comparison Mode: Two Vehicle Cards + Quote Summaries */}
