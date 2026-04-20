@@ -89,6 +89,7 @@ const MODEL_CATALOG = [
         price: 69990000,
         csvModel: "Model Y L AWD",
         displayName: "Model Y L",
+        image: "/modely-l.png",
         stats: [
           { label: "주행 가능 거리", value: "543", unit: "km" },
           { label: "최고 속도", value: "201", unit: "km/h" },
@@ -498,8 +499,8 @@ export default function QuoteWizard({ rows, regions }) {
                 <div className="bg-gradient-to-b from-gray-50 to-white p-5 md:p-12">
                   <img
                     className="h-[200px] w-full object-contain md:h-[480px]"
-                    src={model.image}
-                    alt={model.name}
+                    src={trim.image ?? model.image}
+                    alt={trim.displayName ?? model.name}
                   />
 
                   <h2 className="mt-6 text-center text-[32px] font-medium leading-none tracking-normal md:mt-12 md:text-[40px]">
