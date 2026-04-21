@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 
@@ -271,6 +271,7 @@ function Toolbar({ editorRef, token, onUploadStart, onUploadDone, onUploadError 
 
 export default function AdminEditorPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [token, setToken] = useState('')
   const [guides, setGuides] = useState([])
   const [selected, setSelected] = useState(null)
@@ -300,6 +301,15 @@ export default function AdminEditorPage() {
   }, [router])
 
   useEffect(() => { if (token) loadGuides(token) }, [token, loadGuides])
+
+  // ?slug= 쿼리로 진입 시 해당 가이드 자동 선택
+  useEffect(() => {
+    const slugParam = searchParams.get('slug')
+    if (!slugParam || !guides.length || selected) return
+    const match = guides.find((g) => g.slug === slugParam)
+    if (match) selectGuide(match)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [guides, searchParams])
 
   const selectGuide = async (guide) => {
     setLoadingGuide(true)

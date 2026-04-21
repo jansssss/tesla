@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getAllGuides, getGuideBySlug } from "@/lib/guides";
 import { fetchGuideBySlug } from "@/lib/supabase-server";
 import ContextualShopCTA from "@/components/ContextualShopCTA";
+import AdminEditButton from "@/components/AdminEditButton";
 
 /**
  * 가이드 카테고리 → 맥락 키워드 매핑
@@ -150,13 +151,16 @@ export default async function GuideDetailPage({ params }) {
       <div className="grid gap-8">
         <article className="overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_28px_80px_rgba(15,23,42,0.08)]">
           <header className="bg-[linear-gradient(135deg,#0f172a_0%,#172554_46%,#2563eb_100%)] px-6 py-10 text-white md:px-10 md:py-14">
-            <Link
-              href="/guides"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-200 transition hover:text-white"
-            >
-              <ChevronLeft />
-              정보성 가이드 목록
-            </Link>
+            <div className="flex items-center justify-between">
+              <Link
+                href="/guides"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-200 transition hover:text-white"
+              >
+                <ChevronLeft />
+                정보성 가이드 목록
+              </Link>
+              <AdminEditButton slug={guide.slug} />
+            </div>
             <div className="mt-6 flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-[0.22em] text-blue-200">
               <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">{guide.category}</span>
               <span className="text-blue-300">{formatDate(guide.updatedAt)}</span>

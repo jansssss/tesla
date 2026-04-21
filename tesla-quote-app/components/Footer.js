@@ -1,6 +1,25 @@
-import Link from 'next/link';
+'use client'
+
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
+import { useRouter } from 'next/navigation'
 
 export default function Footer() {
+  const router = useRouter()
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  useEffect(() => {
+    setIsAdmin(!!localStorage.getItem('adminToken'))
+  }, [])
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    localStorage.removeItem('adminToken')
+    setIsAdmin(false)
+    router.refresh()
+  }
+
   return (
     <footer className="bg-gray-900 text-gray-300 mt-auto py-6">
       <div className="max-w-7xl mx-auto px-4">
@@ -42,14 +61,31 @@ export default function Footer() {
 
         {/* 관리자 버튼 */}
         <div className="flex justify-end mt-2 pr-1">
-          <a
-            href="/admin/login"
-            className="text-[10px] font-mono text-gray-600 border border-gray-700 rounded px-2 py-0.5 hover:text-red-400 hover:border-red-800 transition-colors"
-          >
-            ADMIN
-          </a>
+          {isAdmin ? (
+            <div className="flex items-center gap-2">
+              <Link
+                href="/admin/editor"
+                className="text-[10px] font-mono text-blue-500 border border-blue-800 rounded px-2 py-0.5 hover:text-blue-300 hover:border-blue-600 transition-colors"
+              >
+                EDITOR
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="text-[10px] font-mono text-red-500 border border-red-800 rounded px-2 py-0.5 hover:text-red-300 hover:border-red-600 transition-colors"
+              >
+                LOGOUT
+              </button>
+            </div>
+          ) : (
+            <a
+              href="/admin/login"
+              className="text-[10px] font-mono text-gray-600 border border-gray-700 rounded px-2 py-0.5 hover:text-red-400 hover:border-red-800 transition-colors"
+            >
+              ADMIN
+            </a>
+          )}
         </div>
       </div>
     </footer>
-  );
+  )
 }
