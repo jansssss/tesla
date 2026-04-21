@@ -350,6 +350,13 @@ export default function AdminEditorPage() {
         setSavedMsg('저장 완료!')
         setTimeout(() => setSavedMsg(''), 2500)
         loadGuides(token)
+        if (selected.slug) {
+          fetch('/api/admin/revalidate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ slug: selected.slug }),
+          }).catch(() => {})
+        }
       } else {
         alert('저장 실패')
       }
