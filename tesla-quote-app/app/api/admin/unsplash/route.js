@@ -1,17 +1,20 @@
 import { NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
-const SUPABASE_URL = process.env.SUPABASE_URL
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
+const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
 const UNSPLASH_KEY = process.env.UNSPLASH_ACCESS_KEY
+
+function getAdminClient() {
+  return createClient(SUPABASE_URL, SERVICE_KEY)
+}
 
 async function verifyToken(request) {
   const auth = request.headers.get('Authorization') ?? ''
-  if (!auth.startsWith('Bearer ')) return false
-  const token = auth.slice(7)
-  const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
-    headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${token}` },
-  })
-  return res.ok
+  const token = auth.replace('Bearer ', '')
+  if (!token) return false
+  const { data: { user }, error } = await getAdminClient().auth.getUser(token)
+  return !error && !!user
 }
 
 export async function GET(request) {
