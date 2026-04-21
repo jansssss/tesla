@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 const SUPABASE_URL = process.env.SUPABASE_URL
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
-const BUCKET = 'guide-images'
+const BUCKET = 'images'
 
 async function verifyToken(request) {
   const auth = request.headers.get('Authorization') ?? ''
