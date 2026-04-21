@@ -56,25 +56,102 @@ const SHARED_CSS = `
   .doc a{color:#2563eb;text-decoration:underline}
   .doc hr{border:none;border-top:1px solid #e2e8f0;margin:1.5rem 0}
   .doc code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.85em;font-family:monospace;color:#0f172a}
+  .doc img{max-width:100%;height:auto;border-radius:8px;margin:1rem 0}
   /* 에디터 전용 */
   .doc-edit{outline:none;min-height:200px}
   .doc-edit:focus{outline:none}
 `
 
-// 툴바 버튼 정의
 const TOOLBAR = [
-  { label: 'B',        title: '굵게',       cmd: 'bold' },
-  { label: 'I',        title: '기울임',     cmd: 'italic' },
-  { label: 'H2',       title: '소제목',     cmd: 'formatBlock', val: 'h2' },
-  { label: 'H3',       title: '작은 제목',  cmd: 'formatBlock', val: 'h3' },
-  { label: 'P',        title: '본문 단락',  cmd: 'formatBlock', val: 'p' },
-  { label: '≡',        title: '목록',       cmd: 'insertUnorderedList' },
-  { label: '❝',        title: '인용',       cmd: 'formatBlock', val: 'blockquote' },
-  { label: '─',        title: '구분선',     cmd: 'insertHorizontalRule' },
-  { label: '🔗',       title: '링크',       cmd: 'link' },
+  { label: 'B',   title: '굵게',      cmd: 'bold' },
+  { label: 'I',   title: '기울임',    cmd: 'italic' },
+  { label: 'H2',  title: '소제목',    cmd: 'formatBlock', val: 'h2' },
+  { label: 'H3',  title: '작은 제목', cmd: 'formatBlock', val: 'h3' },
+  { label: 'P',   title: '본문 단락', cmd: 'formatBlock', val: 'p' },
+  { label: '≡',   title: '목록',      cmd: 'insertUnorderedList' },
+  { label: '❝',   title: '인용',      cmd: 'formatBlock', val: 'blockquote' },
+  { label: '─',   title: '구분선',    cmd: 'insertHorizontalRule' },
+  { label: '🔗',  title: '링크',      cmd: 'link' },
 ]
 
-function Toolbar({ editorRef }) {
+function UnsplashModal({ token, onInsert, onClose }) {
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  const search = async () => {
+    if (!query.trim()) return
+    setLoading(true)
+    setError('')
+    try {
+      const res = await fetch(`/api/admin/unsplash?q=${encodeURIComponent(query)}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      const data = await res.json()
+      if (!res.ok) { setError(data.error || '검색 실패'); return }
+      setResults(data.results || [])
+    } catch {
+      setError('네트워크 오류')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={onClose}>
+      <div style={{ background: 'white', borderRadius: '12px', width: '720px', maxWidth: '95vw', maxHeight: '80vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }} onClick={e => e.stopPropagation()}>
+        <div style={{ padding: '16px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span style={{ fontWeight: '700', fontSize: '14px', color: '#0f172a' }}>Unsplash 이미지 검색</span>
+          <div style={{ flex: 1, display: 'flex', gap: '8px' }}>
+            <input
+              autoFocus
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && search()}
+              placeholder="키워드 입력 (영문 권장)"
+              style={{ flex: 1, padding: '6px 12px', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '13px', outline: 'none', color: '#0f172a' }}
+            />
+            <button
+              onClick={search}
+              disabled={loading}
+              style={{ padding: '6px 16px', borderRadius: '6px', border: 'none', background: '#2563eb', color: 'white', fontSize: '13px', fontWeight: '700', cursor: loading ? 'not-allowed' : 'pointer' }}
+            >
+              {loading ? '검색 중…' : '검색'}
+            </button>
+          </div>
+          <button onClick={onClose} style={{ padding: '4px 10px', border: '1px solid #e2e8f0', borderRadius: '6px', background: 'white', cursor: 'pointer', fontSize: '13px', color: '#64748b' }}>✕</button>
+        </div>
+        <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px' }}>
+          {error && <p style={{ color: '#dc2626', fontSize: '13px' }}>{error}</p>}
+          {results.length === 0 && !loading && !error && (
+            <p style={{ color: '#94a3b8', fontSize: '13px', textAlign: 'center', marginTop: '40px' }}>검색어를 입력하세요</p>
+          )}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+            {results.map(img => (
+              <div key={img.id} style={{ position: 'relative', cursor: 'pointer', borderRadius: '8px', overflow: 'hidden', border: '2px solid transparent' }}
+                onClick={() => onInsert(img)}
+                onMouseEnter={e => e.currentTarget.style.borderColor = '#2563eb'}
+                onMouseLeave={e => e.currentTarget.style.borderColor = 'transparent'}
+              >
+                <img src={img.thumb} alt={img.alt} style={{ width: '100%', height: '140px', objectFit: 'cover', display: 'block' }} />
+                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.55)', padding: '4px 8px', fontSize: '10px', color: 'white' }}>
+                  {img.author}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Toolbar({ editorRef, token, onUploadStart, onUploadDone, onUploadError }) {
+  const fileInputRef = useRef(null)
+  const [showUnsplash, setShowUnsplash] = useState(false)
+  const savedRangeRef = useRef(null)
+
   const exec = (cmd, val) => {
     if (cmd === 'link') {
       const url = window.prompt('URL 입력', 'https://')
@@ -85,25 +162,110 @@ function Toolbar({ editorRef }) {
     editorRef.current?.focus()
   }
 
+  const saveRange = () => {
+    const sel = window.getSelection()
+    if (sel && sel.rangeCount > 0) savedRangeRef.current = sel.getRangeAt(0).cloneRange()
+  }
+
+  const insertImageUrl = (url, alt) => {
+    const el = editorRef.current
+    if (!el) return
+    el.focus()
+    const sel = window.getSelection()
+    if (savedRangeRef.current) {
+      sel.removeAllRanges()
+      sel.addRange(savedRangeRef.current)
+    }
+    const img = document.createElement('img')
+    img.src = url
+    img.alt = alt || ''
+    img.style.maxWidth = '100%'
+    const range = sel.rangeCount > 0 ? sel.getRangeAt(0) : null
+    if (range) {
+      range.collapse(false)
+      range.insertNode(img)
+      range.setStartAfter(img)
+      range.setEndAfter(img)
+      sel.removeAllRanges()
+      sel.addRange(range)
+    } else {
+      el.appendChild(img)
+    }
+  }
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    e.target.value = ''
+    onUploadStart()
+    try {
+      const form = new FormData()
+      form.append('file', file)
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: form,
+      })
+      const data = await res.json()
+      if (!res.ok) { onUploadError(data.error || '업로드 실패'); return }
+      insertImageUrl(data.url, file.name)
+      onUploadDone()
+    } catch {
+      onUploadError('네트워크 오류')
+    }
+  }
+
+  const handleUnsplashInsert = (img) => {
+    insertImageUrl(img.full, img.alt)
+    setShowUnsplash(false)
+  }
+
+  const btnStyle = {
+    padding: '4px 10px', border: '1px solid #e2e8f0', borderRadius: '5px',
+    background: 'white', cursor: 'pointer', fontSize: '12px', fontWeight: '700',
+    color: '#374151', minWidth: '32px',
+  }
+
   return (
-    <div style={{ display: 'flex', gap: '2px', padding: '6px 12px', borderBottom: '1px solid #e2e8f0', background: '#f8fafc', flexWrap: 'wrap' }}>
-      {TOOLBAR.map(({ label, title, cmd, val }) => (
+    <>
+      <div style={{ display: 'flex', gap: '2px', padding: '6px 12px', borderBottom: '1px solid #e2e8f0', background: '#f8fafc', flexWrap: 'wrap', alignItems: 'center' }}>
+        {TOOLBAR.map(({ label, title, cmd, val }) => (
+          <button
+            key={label}
+            title={title}
+            onMouseDown={(e) => { e.preventDefault(); exec(cmd, val) }}
+            style={btnStyle}
+            onMouseEnter={e => e.currentTarget.style.background = '#eff6ff'}
+            onMouseLeave={e => e.currentTarget.style.background = 'white'}
+          >
+            {label}
+          </button>
+        ))}
+        <div style={{ width: '1px', height: '20px', background: '#e2e8f0', margin: '0 4px' }} />
         <button
-          key={label}
-          title={title}
-          onMouseDown={(e) => { e.preventDefault(); exec(cmd, val) }}
-          style={{
-            padding: '4px 10px', border: '1px solid #e2e8f0', borderRadius: '5px',
-            background: 'white', cursor: 'pointer', fontSize: '12px', fontWeight: '700',
-            color: '#374151', minWidth: '32px',
-          }}
+          title="이미지 업로드"
+          onMouseDown={(e) => { e.preventDefault(); saveRange(); fileInputRef.current?.click() }}
+          style={btnStyle}
           onMouseEnter={e => e.currentTarget.style.background = '#eff6ff'}
           onMouseLeave={e => e.currentTarget.style.background = 'white'}
         >
-          {label}
+          📁
         </button>
-      ))}
-    </div>
+        <button
+          title="Unsplash 이미지 검색"
+          onMouseDown={(e) => { e.preventDefault(); saveRange(); setShowUnsplash(true) }}
+          style={btnStyle}
+          onMouseEnter={e => e.currentTarget.style.background = '#eff6ff'}
+          onMouseLeave={e => e.currentTarget.style.background = 'white'}
+        >
+          🖼
+        </button>
+        <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleFileChange} />
+      </div>
+      {showUnsplash && (
+        <UnsplashModal token={token} onInsert={handleUnsplashInsert} onClose={() => setShowUnsplash(false)} />
+      )}
+    </>
   )
 }
 
@@ -113,12 +275,13 @@ export default function AdminEditorPage() {
   const [guides, setGuides] = useState([])
   const [selected, setSelected] = useState(null)
   const [htmlContent, setHtmlContent] = useState('')
-  const [tab, setTab] = useState('editor') // 'editor' | 'html' | 'preview'
+  const [tab, setTab] = useState('editor')
   const [saving, setSaving] = useState(false)
   const [loadingList, setLoadingList] = useState(false)
   const [loadingGuide, setLoadingGuide] = useState(false)
   const [search, setSearch] = useState('')
   const [savedMsg, setSavedMsg] = useState('')
+  const [uploadMsg, setUploadMsg] = useState('')
   const editorRef = useRef(null)
 
   useEffect(() => {
@@ -150,31 +313,26 @@ export default function AdminEditorPage() {
         const html = data.content_html || sectionsToHtml(data)
         setHtmlContent(html)
         setTab('editor')
-        // contenteditable에 초기값 주입은 useEffect에서 처리
       }
     } finally { setLoadingGuide(false) }
   }
 
-  // 탭 전환 시 에디터 ↔ HTML 동기화
   const switchTab = (next) => {
     if (tab === 'editor' && editorRef.current) {
-      // 에디터 → HTML/미리보기로 갈 때: innerHTML 저장
       setHtmlContent(editorRef.current.innerHTML)
     }
     setTab(next)
   }
 
-  // editor 탭 활성화 시 contenteditable에 HTML 주입
   useEffect(() => {
     if (tab === 'editor' && editorRef.current && htmlContent !== undefined) {
       if (editorRef.current.innerHTML !== htmlContent) {
         editorRef.current.innerHTML = htmlContent
       }
     }
-  }, [tab, selected]) // selected가 바뀔 때도 초기화
+  }, [tab, selected])
 
   const handleSave = async () => {
-    // 저장 전 에디터에서 최신 내용 가져오기
     const content = tab === 'editor' && editorRef.current
       ? editorRef.current.innerHTML
       : htmlContent
@@ -318,6 +476,7 @@ export default function AdminEditorPage() {
                 ))}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                {uploadMsg && <span style={{ fontSize: '12px', color: '#f59e0b', fontWeight: '600' }}>{uploadMsg}</span>}
                 {savedMsg && <span style={{ fontSize: '12px', color: '#16a34a', fontWeight: '600' }}>{savedMsg}</span>}
                 <button
                   onClick={handleSave}
@@ -336,7 +495,13 @@ export default function AdminEditorPage() {
 
             {/* ── 에디터 탭 ── */}
             <div style={{ flex: 1, display: tab === 'editor' ? 'flex' : 'none', flexDirection: 'column', overflow: 'hidden', background: 'white' }}>
-              <Toolbar editorRef={editorRef} />
+              <Toolbar
+                editorRef={editorRef}
+                token={token}
+                onUploadStart={() => setUploadMsg('업로드 중…')}
+                onUploadDone={() => { setUploadMsg('업로드 완료!'); setTimeout(() => setUploadMsg(''), 2500) }}
+                onUploadError={(msg) => { setUploadMsg(msg); setTimeout(() => setUploadMsg(''), 3000) }}
+              />
               <div style={{ flex: 1, overflowY: 'auto', padding: '24px 32px' }}>
                 <div
                   ref={editorRef}
