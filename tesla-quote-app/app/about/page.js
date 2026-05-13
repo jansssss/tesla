@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export const metadata = {
   title: '사이트 소개 | 하우머치 테슬라',
-  description: '테슬라 실구매자 5년 경력 박준하가 운영하는 보조금·실구매가 계산 정보 사이트. 직접 겪은 구매 과정을 바탕으로 정확한 데이터를 제공합니다.',
+  description: '하우머치 테슬라는 환경부·지자체 보조금 공고를 분석해 테슬라 실구매가를 지역별로 계산해주는 정보 사이트입니다.',
   alternates: { canonical: 'https://paytesla.kr/about' },
 };
 
@@ -22,63 +22,18 @@ export default function AboutPage() {
             사이트 소개
           </h1>
 
-          {/* 운영자 카드 */}
-          <section className="rounded-2xl border border-red-100 bg-red-50 p-6 flex gap-5 items-start flex-wrap">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-red-500 to-red-800 flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
-              박
-            </div>
-            <div className="flex-1 min-w-[200px]">
-              <div className="flex items-center gap-3 flex-wrap mb-2">
-                <span className="text-lg font-bold text-gray-900">박준하</span>
-                <span className="text-xs font-bold bg-red-600 text-white px-3 py-1 rounded-full">
-                  테슬라 실구매자 · EV 정보 분석가
-                </span>
-              </div>
-              <p className="text-sm text-red-700 font-semibold mb-3">
-                테슬라 구매 경험 5년 | 보조금 분석 블로거 | paytesla.kr 운영자
-              </p>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                2019년 Model 3를 첫 구매한 이후 현재까지 테슬라 커뮤니티에서 보조금 정보를 분석·공유해 왔습니다.
-                매년 보조금 공고문이 나올 때마다 직접 파싱하고 지역별 데이터를 정리하다 보니,
-                아예 계산 도구를 만들어 공개하는 것이 더 낫겠다고 판단했습니다.
-              </p>
-            </div>
-          </section>
-
-          {/* 경력 하이라이트 */}
+          {/* 사이트 소개 */}
           <section>
-            <h2 className="text-xl font-bold text-gray-800 mb-4">경력 하이라이트</h2>
-            <ul className="space-y-3 text-sm text-gray-700">
-              {[
-                "테슬라 Model 3 RWD (2019), Model Y Long Range (2022), Model 3 Highland (2024) 직접 구매 경험",
-                "테슬라 오너스 클럽 커뮤니티 보조금 분석 게시물 누적 조회 50만+",
-                "환경부·지자체 전기차 보조금 공고문 분석 5년 연속 (2020~2024)",
-                "17개 광역시도 × 보조금 구조 직접 데이터베이스화 및 연도별 추이 분석",
-                "청년·다자녀·전기차 전환 보조금 중복 수령 조건 커뮤니티 검증 참여",
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-2">
-                  <span className="text-red-600 mt-0.5 flex-shrink-0 font-bold">▸</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {/* 왜 이 사이트를 만들었나 */}
-          <section className="prose prose-sm text-gray-700 max-w-none">
-            <h2 className="text-xl font-bold text-gray-800 mb-4 not-prose">왜 이 사이트를 만들었나</h2>
-            <p className="leading-relaxed mb-4">
-              테슬라를 처음 살 때 제일 어려웠던 게 <strong>"내가 실제로 얼마를 내야 하는가"</strong>를 아는 것이었습니다.
-              국고보조금과 지방보조금이 따로 있고, 지방보조금은 시·군·구마다 다 달랐습니다.
+            <h2 className="text-xl font-bold text-gray-800 mb-4">하우머치 테슬라는 어떤 사이트인가요</h2>
+            <p className="text-sm text-gray-700 leading-relaxed mb-4">
+              테슬라를 구매할 때 가장 어려운 부분은 <strong>"내가 실제로 얼마를 내야 하는가"</strong>를 파악하는 것입니다.
+              국고보조금과 지방보조금이 따로 있고, 지방보조금은 시·군·구마다 다 다릅니다.
               여기에 청년·다자녀 가산 혜택까지 붙으면 계산이 복잡해집니다.
             </p>
-            <p className="leading-relaxed mb-4">
-              구매 당시 보조금 공고문을 직접 읽어가며 엑셀로 정리했는데, 그 엑셀이 커뮤니티에서 퍼지면서
-              수천 명이 활용하는 걸 봤습니다. <em>"그럼 제대로 웹으로 만들어보자"</em>는 생각에 시작했습니다.
-            </p>
-            <p className="leading-relaxed">
-              지금은 매년 보조금 공고문이 나오면 데이터를 업데이트하고,
-              공고 전 추정값과 공고 후 실제값을 비교하는 분석을 함께 제공하고 있습니다.
+            <p className="text-sm text-gray-700 leading-relaxed">
+              하우머치 테슬라는 환경부와 각 지자체가 공개한 보조금 공고문을 분석해
+              모델별·지역별 실구매가를 계산해주는 사이트입니다.
+              공고 전 추정값과 공고 후 실제값을 비교하는 분석도 함께 제공합니다.
             </p>
           </section>
 
@@ -106,6 +61,23 @@ export default function AboutPage() {
               ].map(({ title, desc }) => (
                 <li key={title} className="flex items-start gap-2">
                   <span className="text-red-600 mt-0.5 font-bold flex-shrink-0">•</span>
+                  <span><strong>{title}</strong> — {desc}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* 운영 원칙 */}
+          <section>
+            <h2 className="text-xl font-bold text-gray-800 mb-4">운영 원칙</h2>
+            <ul className="space-y-3 text-sm text-gray-700">
+              {[
+                { title: "공고 기반", desc: "계산 데이터는 공개된 공고문을 근거로 하며, 출처를 확인할 수 있습니다." },
+                { title: "정기 업데이트", desc: "보조금 공고가 나오면 데이터를 갱신하고, 업데이트 시점을 표기합니다." },
+                { title: "오류 수정", desc: "잘못된 수치나 누락이 있으면 제보를 받아 즉시 수정합니다." },
+              ].map(({ title, desc }) => (
+                <li key={title} className="flex items-start gap-2">
+                  <span className="text-red-600 mt-0.5 font-bold flex-shrink-0">▸</span>
                   <span><strong>{title}</strong> — {desc}</span>
                 </li>
               ))}
