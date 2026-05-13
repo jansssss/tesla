@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { Suspense, useState, useEffect, useCallback, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
@@ -269,7 +269,7 @@ function Toolbar({ editorRef, token, onUploadStart, onUploadDone, onUploadError 
   )
 }
 
-export default function AdminEditorPage() {
+function AdminEditorContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [token, setToken] = useState('')
@@ -572,5 +572,13 @@ export default function AdminEditorPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function AdminEditorPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f1f5f9', fontSize: '14px', color: '#64748b' }}>로딩 중…</div>}>
+      <AdminEditorContent />
+    </Suspense>
   )
 }
