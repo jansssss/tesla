@@ -1255,8 +1255,8 @@ const guides = [
     category: "보조금 전략",
     title: "2026년 7월 보조금 개편: 달라지는 내용과 대응 전략",
     description: "2026년 하반기 전기차 보조금 개편으로 무엇이 바뀌고, 구매 계획에 어떤 영향이 생기는지 정리한 가이드입니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-14",
+    updatedAt: "2026-05-14",
     readTime: "6분",
     sources: [
       { name: "환경부 — 2026년 전기차 보급사업 공고", url: "https://www.me.go.kr", accessedAt: "2026-05-13" },
@@ -1319,8 +1319,8 @@ const guides = [
     category: "차량 비교",
     title: "Model Y RWD vs LR vs 7인승: 트림별 실구매가와 선택 기준 2026",
     description: "2026년 기준 Model Y 세 가지 트림의 보조금 적용 실구매가, 성능 차이, 그리고 상황별 선택 기준을 비교합니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-14",
+    updatedAt: "2026-05-14",
     readTime: "7분",
     sources: [
       { name: "테슬라 코리아 공식 주문 페이지", url: "https://www.tesla.com/ko_kr", accessedAt: "2026-05-13" },
@@ -1533,8 +1533,8 @@ const guides = [
     category: "구매·금융",
     title: "테슬라 자동차보험 절약 완벽 가이드: 다이렉트·특약 비교",
     description: "테슬라 보험료가 비싼 이유와 다이렉트 보험, 수리비 특약으로 실제 보험료를 낮추는 방법을 정리한 가이드입니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-12",
+    updatedAt: "2026-05-12",
     readTime: "6분",
     sources: [
       { name: "금융감독원 — 자동차보험 비교 공시", url: "https://www.fss.or.kr", accessedAt: "2026-05-13" },
@@ -1601,8 +1601,8 @@ const guides = [
     category: "구매·금융",
     title: "테슬라 3년 총소유비용(TCO) 계산: 기름값 vs 전기값 실제 차이",
     description: "테슬라 구매 후 3년간 실제로 들어가는 비용을 유지비, 충전비, 보험료, 감가상각으로 나눠 계산한 가이드입니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-12",
+    updatedAt: "2026-05-12",
     readTime: "7분",
     sources: [
       { name: "한국에너지공단 — 전기차 운행비용 통계", url: "https://www.kemco.or.kr", accessedAt: "2026-05-13" },
@@ -1667,8 +1667,8 @@ const guides = [
     category: "충전·인프라",
     title: "가정용 전기차 충전기 설치 완벽 가이드: 공동주택·단독주택",
     description: "아파트, 빌라, 단독주택에서 전기차 충전기를 설치하는 방법, 비용, 보조금을 정리한 실용 가이드입니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-11",
+    updatedAt: "2026-05-11",
     readTime: "7분",
     sources: [
       { name: "환경부 — 전기차 충전인프라 보조금 안내", url: "https://www.me.go.kr", accessedAt: "2026-05-13" },
@@ -1739,8 +1739,8 @@ const guides = [
     category: "지역별 보조금",
     title: "2026년 보조금 가장 많이 주는 지역 TOP 5",
     description: "2026년 전기차 보조금이 가장 많은 지역 5곳을 선정하고, 지역별 보조금 구조와 신청 조건을 비교한 가이드입니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-10",
+    updatedAt: "2026-05-10",
     readTime: "6분",
     sources: [
       { name: "무공해차 통합누리집 — 지역별 보조금 조회", url: "https://www.ev.or.kr", accessedAt: "2026-05-13" },
@@ -1806,8 +1806,8 @@ const guides = [
     category: "충전·인프라",
     title: "전기차 공공 급속충전 네트워크 비교: 어떤 카드가 가장 유리할까",
     description: "환경부, 한국전력, 민간 충전사의 급속충전 요금과 속도를 비교하고, 실제 충전 비용을 줄이는 방법을 정리합니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-10",
+    updatedAt: "2026-05-10",
     readTime: "6분",
     sources: [
       { name: "한국전력 — 전기차 충전 서비스 안내", url: "https://kepco.co.kr", accessedAt: "2026-05-13" },
@@ -1879,8 +1879,8 @@ const guides = [
     category: "보조금 전략",
     title: "전기차 보조금 신청 절차 완벽 가이드: 서류부터 지급까지",
     description: "전기차 구매 시 보조금 신청 방법, 필요 서류, 출고 후 지급까지 전체 프로세스를 단계별로 정리한 가이드입니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-09",
+    updatedAt: "2026-05-09",
     readTime: "7분",
     sources: [
       { name: "무공해차 통합누리집 — 보조금 신청 안내", url: "https://www.ev.or.kr", accessedAt: "2026-05-13" },
@@ -1945,8 +1945,8 @@ const guides = [
     category: "구매·금융",
     title: "중고 테슬라 시세 분석 2026: 적정가 판단 기준과 주의 사항",
     description: "2026년 중고 테슬라 시세 수준과 구매 시 확인해야 할 배터리 상태, 주행거리, FSD 포함 여부를 정리한 가이드입니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-08",
+    updatedAt: "2026-05-08",
     readTime: "6분",
     sources: [
       { name: "테슬라 코리아 인증 중고차 페이지", url: "https://www.tesla.com/ko_kr", accessedAt: "2026-05-13" },
@@ -2018,8 +2018,8 @@ const guides = [
     category: "구매·금융",
     title: "테슬라 계약 취소·변경 완벽 가이드: 위약금과 조건 정리",
     description: "테슬라 주문 후 계약 취소, 트림 변경, 출고 지연 시 대응 방법을 정리한 실용 가이드입니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-08",
+    updatedAt: "2026-05-08",
     readTime: "5분",
     sources: [
       { name: "테슬라 코리아 공식 주문 약관", url: "https://www.tesla.com/ko_kr", accessedAt: "2026-05-13" },
@@ -2082,8 +2082,8 @@ const guides = [
     category: "구매·금융",
     title: "FSD 구독·양도·환불 완벽 가이드 2026",
     description: "테슬라 FSD(완전 자율주행) 구독과 일시불 구매, 차량 양도 시 FSD 처리 방법을 정리한 가이드입니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-07",
+    updatedAt: "2026-05-07",
     readTime: "5분",
     sources: [
       { name: "테슬라 코리아 공식 FSD 안내", url: "https://www.tesla.com/ko_kr", accessedAt: "2026-05-13" }
@@ -2134,8 +2134,8 @@ const guides = [
     category: "보조금 전략",
     title: "노후 차량 폐차 후 전기차 전환 지원금 2026: 받는 방법과 조건",
     description: "노후 내연기관차를 폐차하고 전기차로 전환할 때 받을 수 있는 추가 지원금 종류와 신청 방법을 정리한 가이드입니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-06",
+    updatedAt: "2026-05-06",
     readTime: "6분",
     sources: [
       { name: "환경부 — 노후 경유차 조기 폐차 지원 안내", url: "https://www.me.go.kr", accessedAt: "2026-05-13" },
@@ -2196,8 +2196,8 @@ const guides = [
     category: "차량 비교",
     title: "테슬라 Model Y vs 아이오닉5 vs EV6: 2026년 실구매가·성능 비교",
     description: "2026년 기준 테슬라 Model Y, 현대 아이오닉5, 기아 EV6 세 모델의 보조금 후 실구매가, 주행거리, 충전 인프라를 비교합니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-06",
+    updatedAt: "2026-05-06",
     readTime: "7분",
     sources: [
       { name: "무공해차 통합누리집 — 보조금 조회", url: "https://www.ev.or.kr", accessedAt: "2026-05-13" },
@@ -2266,8 +2266,8 @@ const guides = [
     category: "보조금 전략",
     title: "전기차 보조금 잔여 대수 확인하는 방법과 타이밍 전략",
     description: "내가 사는 지역의 전기차 보조금 잔여 대수를 실시간으로 확인하는 방법과 소진 전 신청하는 전략을 정리합니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-05",
+    updatedAt: "2026-05-05",
     readTime: "5분",
     sources: [
       { name: "무공해차 통합누리집 — 보조금 현황", url: "https://www.ev.or.kr", accessedAt: "2026-05-13" },
@@ -2332,8 +2332,8 @@ const guides = [
     category: "차량 비교",
     title: "신형 Model 3 Highland 2026: 변경사항과 실구매가 분석",
     description: "Model 3 Highland 리뉴얼 주요 변경사항과 2026년 보조금 적용 실구매가, 기존 모델과의 차이를 정리한 가이드입니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-04",
+    updatedAt: "2026-05-04",
     readTime: "6분",
     sources: [
       { name: "테슬라 코리아 공식 주문 페이지", url: "https://www.tesla.com/ko_kr", accessedAt: "2026-05-13" },
@@ -2390,8 +2390,8 @@ const guides = [
     category: "차량 비교",
     title: "Model Y Juniper 2026: 변경사항과 기존 모델 대비 차이",
     description: "Model Y Juniper 주요 업데이트 내용과 2026년 실구매가, 이전 세대와의 체감 차이를 정리한 가이드입니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-04",
+    updatedAt: "2026-05-04",
     readTime: "6분",
     sources: [
       { name: "테슬라 코리아 공식 주문 페이지", url: "https://www.tesla.com/ko_kr", accessedAt: "2026-05-13" }
@@ -2445,8 +2445,8 @@ const guides = [
     category: "구매·금융",
     title: "전기차 자동차 대출 완벽 가이드 2026: 금리·조건 비교",
     description: "2026년 전기차 구매 시 활용 가능한 정책 금융, 캐피탈 할부, 시중은행 대출의 금리와 조건을 비교한 가이드입니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-03",
+    updatedAt: "2026-05-03",
     readTime: "6분",
     sources: [
       { name: "금융감독원 — 자동차 금융 안내", url: "https://www.fss.or.kr", accessedAt: "2026-05-13" }
@@ -2501,8 +2501,8 @@ const guides = [
     category: "보조금 전략",
     title: "전기차 취득세·개소세 감면 완벽 정리: 세금 혜택 총정리 2026",
     description: "전기차 구매 시 보조금 외에 받을 수 있는 취득세·개소세 감면 혜택과 실제 절약액을 계산한 가이드입니다.",
-    publishedAt: "2026-05-13",
-    updatedAt: "2026-05-13",
+    publishedAt: "2026-05-02",
+    updatedAt: "2026-05-02",
     readTime: "6분",
     sources: [
       { name: "국세청 — 자동차 개별소비세 안내", url: "https://www.nts.go.kr", accessedAt: "2026-05-13" },
