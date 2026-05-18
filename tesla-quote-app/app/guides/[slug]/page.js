@@ -111,11 +111,20 @@ export default async function GuideDetailPage({ params }) {
   const allGuides = getAllGuides();
   const currentIdx = allGuides.findIndex((g) => g.slug === guide.slug);
   const total = allGuides.length;
-  const relatedGuides = [
-    allGuides[(currentIdx + Math.floor(total / 4)) % total],
-    allGuides[(currentIdx + Math.floor(total / 2)) % total],
-    allGuides[(currentIdx + Math.floor((3 * total) / 4)) % total]
-  ].filter((g) => g.slug !== guide.slug);
+  let relatedGuides;
+  if (guide.relatedSlugs && guide.relatedSlugs.length > 0) {
+    relatedGuides = guide.relatedSlugs
+      .map((s) => allGuides.find((g) => g.slug === s))
+      .filter(Boolean)
+      .filter((g) => g.slug !== guide.slug)
+      .slice(0, 3);
+  } else {
+    relatedGuides = [
+      allGuides[(currentIdx + Math.floor(total / 4)) % total],
+      allGuides[(currentIdx + Math.floor(total / 2)) % total],
+      allGuides[(currentIdx + Math.floor((3 * total) / 4)) % total]
+    ].filter((g) => g.slug !== guide.slug);
+  }
 
   const jsonLd = {
     "@context": "https://schema.org",
