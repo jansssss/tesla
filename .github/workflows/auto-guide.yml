@@ -1,9 +1,9 @@
 name: Auto Guide Publisher
 
 on:
-  # 3일 1회 트리거 (UTC 0시 = KST 9시) → 0~10분 랜덤 sleep 후 실행
+  # 2일 1회 트리거 (UTC 0시 = KST 9시) → 0~10분 랜덤 sleep 후 실행
   schedule:
-    - cron: "0 0 */3 * *"
+    - cron: "0 0 */2 * *"
 
   # 수동 실행
   workflow_dispatch:
