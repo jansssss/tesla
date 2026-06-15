@@ -107,8 +107,16 @@ const MULTI_CHILD_BENEFIT_MAP = {
   4: 3000000
 };
 
-export default function QuoteWizard({ rows, regions }) {
+function formatDataDate(dataDate) {
+  if (!dataDate) return null;
+  const m = String(dataDate).match(/(\d{4})-(\d{2})-(\d{2})/);
+  if (!m) return null;
+  return `${m[1]}년 ${parseInt(m[2], 10)}월 ${parseInt(m[3], 10)}일`;
+}
+
+export default function QuoteWizard({ rows, regions, dataDate }) {
   const searchParams = useSearchParams();
+  const dataDateLabel = formatDataDate(dataDate);
 
   // URL 파라미터에서 초기값 가져오기
   const getInitialState = () => {
@@ -369,6 +377,15 @@ export default function QuoteWizard({ rows, regions }) {
           How much <span className="text-brandRed">Tesla</span>?
         </h1>
 
+        {dataDateLabel && (
+          <div className="flex justify-center">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              보조금 데이터 {dataDateLabel} 기준 최신
+            </span>
+          </div>
+        )}
+
         {/* Mobile Mode Toggle - sticky tabs */}
         <nav className="sticky top-0 z-40 flex bg-white shadow-md md:hidden" aria-label="모드 선택">
           <button
@@ -604,6 +621,11 @@ export default function QuoteWizard({ rows, regions }) {
               <p className="mt-1.5 text-sm font-black md:mt-2 md:text-lg">
                 총 {subsidy.total_subsidy_manwon}만원
               </p>
+              {dataDateLabel && (
+                <p className="mt-2 text-[11px] text-gray-400 md:text-xs">
+                  출처: 무공해차 통합누리집(ev.or.kr) · {dataDateLabel} 기준
+                </p>
+              )}
             </div>
           </section>
 

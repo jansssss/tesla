@@ -26,7 +26,7 @@ export default function HomePage() {
   return (
     <main className="page">
       <Suspense fallback={<QuoteWizardSkeleton />}>
-        <QuoteWizard rows={snapshot.rows} regions={snapshot.regions} />
+        <QuoteWizard rows={snapshot.rows} regions={snapshot.regions} dataDate={snapshot.dataDate} />
       </Suspense>
       <div className="border-b border-slate-100" />
       <Suspense fallback={<RecentGuidesSkeleton />}>

@@ -24,6 +24,37 @@ function resolveCsvPath() {
   );
 }
 
+const APP_DATA_META = path.join(APP_DATA_DIR, "subsidy-meta.json");
+
+// 보조금 데이터 기준일(YYYY-MM-DD)을 산출한다.
+// 1) sync-subsidy가 기록한 subsidy-meta.json
+// 2) ../보조금 폴더의 최신 dated CSV 파일명(tesla_subsidy_by_local_YYYYMMDD.csv)
+// 3) latest.csv 파일 수정시각
+function resolveDataDate() {
+  try {
+    if (fs.existsSync(APP_DATA_META)) {
+      const meta = JSON.parse(fs.readFileSync(APP_DATA_META, "utf8"));
+      if (meta && meta.dataDate) return meta.dataDate;
+    }
+  } catch {}
+
+  const latestShared = findLatestCsvFile(SHARED_DATA_DIR);
+  if (latestShared) {
+    const m = path.basename(latestShared).match(/(\d{4})(\d{2})(\d{2})/);
+    if (m) return `${m[1]}-${m[2]}-${m[3]}`;
+  }
+
+  try {
+    if (fs.existsSync(APP_DATA_CSV)) {
+      const d = fs.statSync(APP_DATA_CSV).mtime;
+      const ymd = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      return ymd;
+    }
+  } catch {}
+
+  return null;
+}
+
 function parseCsvLine(line) {
   const out = [];
   let cur = "";
@@ -94,6 +125,7 @@ export function loadSubsidySnapshot() {
     rows,
     regions: [...regionMap.values()].sort((a, b) =>
       a.name.localeCompare(b.name, "ko")
-    )
+    ),
+    dataDate: resolveDataDate()
   };
 }
