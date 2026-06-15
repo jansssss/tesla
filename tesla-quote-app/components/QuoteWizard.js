@@ -379,8 +379,8 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
 
         {dataDateLabel && (
           <div className="flex justify-center">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-medium text-gray-600">
+              <span className="h-1.5 w-1.5 rounded-full bg-brandRed" />
               보조금 데이터 {dataDateLabel} 기준 최신
             </span>
           </div>
@@ -472,7 +472,7 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
           {/* Single Mode: Model showcase + Trim Selection */}
           {mode === "single" && (
             <>
-              <section id="section-model" className="overflow-hidden rounded-2xl bg-white shadow-lg md:rounded-3xl">
+              <section id="section-model" className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
                 {/* Model tabs */}
                 <div className="flex gap-2 border-b border-gray-200 px-4 py-3 md:gap-3 md:px-6 md:py-4">
                   {MODEL_CATALOG.map((item) => (
@@ -527,8 +527,8 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
                 </div>
               </section>
 
-              <section id="section-trim" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-6">
-              <h3 className="mb-4 text-base font-black md:mb-5 md:text-lg">2. 트림 선택</h3>
+              <section id="section-trim" className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 shadow-sm md:p-6">
+              <h3 className="mb-4 text-base font-bold md:mb-5 md:text-lg">2. 트림 선택</h3>
               <div className="grid gap-2.5 md:gap-3">
                 {model.trims.map((item) => (
                   <button
@@ -600,8 +600,8 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
           )}
 
           {/* Shared Sections: Region, Benefits, Financing */}
-          <section id="section-region" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-6">
-            <h3 className="mb-4 text-lg font-black md:mb-5 md:text-xl">3. 지역 선택</h3>
+          <section id="section-region" className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 shadow-sm md:p-6">
+            <h3 className="mb-4 text-lg font-bold md:mb-5 md:text-xl">3. 지역 선택</h3>
             <select
               className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-all hover:border-gray-400 md:rounded-xl md:px-5 md:py-3 md:text-base"
               value={regionCode}
@@ -629,8 +629,8 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
             </div>
           </section>
 
-          <section id="section-benefit" className="overflow-hidden rounded-2xl bg-white p-5 shadow-lg md:rounded-3xl md:p-6">
-            <h3 className="mb-4 text-lg font-black md:mb-5 md:text-xl">4. 혜택 · 금융</h3>
+          <section id="section-benefit" className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 shadow-sm md:p-6">
+            <h3 className="mb-4 text-lg font-bold md:mb-5 md:text-xl">4. 혜택 · 금융</h3>
 
             <div className="mt-4 grid gap-3 md:mt-6 md:gap-4">
               <label className="flex cursor-pointer items-center gap-2.5 rounded-lg bg-gray-50 px-4 py-3 transition-all hover:bg-gray-100 md:gap-3 md:rounded-xl md:px-5 md:py-4">
@@ -737,7 +737,7 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
 
         {/* Single Mode: Quote Summary */}
         {mode === "single" && (
-          <aside id="quote-summary" className="sticky top-4 self-start overflow-hidden rounded-2xl bg-black text-white shadow-2xl md:rounded-3xl">
+          <aside id="quote-summary" className="sticky top-4 self-start overflow-hidden rounded-2xl bg-black text-white shadow-xl">
           <div className="bg-gradient-to-br from-gray-900 to-black p-5 md:p-6">
             <h3 className="mb-5 text-xl font-black md:mb-6 md:text-2xl">견적 요약</h3>
             <dl className="m-0 space-y-0.5">
@@ -818,10 +818,45 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
         <ShopBanner variant="compact" />
       </div>
 
+      {/* 모바일 하단 고정 결과 바 — 견적 계산 모드 전용 */}
+      {mode === "single" && (
+        <>
+          <div className="fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white/95 px-4 py-2.5 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] backdrop-blur md:hidden">
+            <button
+              onClick={() =>
+                document
+                  .getElementById("quote-summary")
+                  ?.scrollIntoView({ behavior: "smooth", block: "center" })
+              }
+              className="flex w-full items-center justify-between gap-3"
+              aria-label="견적 요약 자세히 보기"
+            >
+              <span className="flex flex-col items-start leading-none">
+                <span className="text-[10px] font-medium text-gray-400">예상 실구매가</span>
+                <span className="mt-1 text-sm font-bold text-black">{formatWon(estimatedPrice)}</span>
+              </span>
+              <span className="flex items-center gap-2.5">
+                <span className="flex flex-col items-end leading-none">
+                  <span className="text-[10px] font-medium text-gray-400">월 납입금</span>
+                  <span className="mt-1 text-base font-extrabold text-brandRed">{formatWon(Math.round(monthly))}</span>
+                </span>
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-black text-white">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M18 15l-6-6-6 6" />
+                  </svg>
+                </span>
+              </span>
+            </button>
+          </div>
+          {/* 고정 바 높이만큼 여백 확보 */}
+          <div className="h-16 md:hidden" />
+        </>
+      )}
+
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-black text-white shadow-2xl transition-all hover:bg-gray-800 md:h-14 md:w-14"
+          className="fixed bottom-20 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-black text-white shadow-xl transition-all hover:bg-gray-800 md:bottom-6 md:right-6 md:h-14 md:w-14"
           aria-label="맨 위로 가기"
         >
           <svg
