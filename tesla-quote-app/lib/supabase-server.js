@@ -86,6 +86,39 @@ export async function fetchAllGuidesMeta() {
 }
 
 /**
+ * 전체 가이드 목록 조회 → 정적 guides.js 카드 포맷으로 변환
+ * (/guides 목록 페이지에서 정적 가이드와 병합해 노출)
+ * @returns {Promise<Array<{slug,category,title,description,readTime,publishedAt,updatedAt}>>}
+ */
+export async function fetchAllGuidesForList() {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return [];
+
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/guides?select=slug,category,title,description,read_time,published_at,updated_at&order=published_at.desc`;
+    const res = await fetch(url, {
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      },
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) return [];
+    const rows = await res.json();
+    return rows.map((g) => ({
+      slug: g.slug,
+      category: g.category,
+      title: g.title,
+      description: g.description,
+      readTime: g.read_time || '5분',
+      publishedAt: (g.published_at || '').slice(0, 10),
+      updatedAt: (g.updated_at || g.published_at || '').slice(0, 10),
+    }));
+  } catch {
+    return [];
+  }
+}
+
+/**
  * 최근 발행된 가이드 목록 조회
  * @param {number} limit
  * @returns {Promise<Array>}

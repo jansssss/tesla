@@ -1,9 +1,22 @@
 import Link from "next/link";
 import { getAllGuides } from "@/lib/guides";
+import { fetchAllGuidesForList } from "@/lib/supabase-server";
 
-const guides = getAllGuides();
+// 정적 가이드 + Supabase 가이드(관리자 작성 글) 병합
+async function getMergedGuides() {
+  const staticGuides = getAllGuides();
+  const staticSlugs = new Set(staticGuides.map((g) => g.slug));
+  const supabaseGuides = await fetchAllGuidesForList();
+  // 정적에 없는 Supabase 글만 추가
+  const extra = supabaseGuides.filter((g) => !staticSlugs.has(g.slug));
+  // 최신순 정렬 (updatedAt 기준)
+  return [...extra, ...staticGuides].sort((a, b) =>
+    (b.updatedAt || "").localeCompare(a.updatedAt || "")
+  );
+}
 
 function formatDate(dateStr) {
+  if (!dateStr) return "";
   const [year, month, day] = dateStr.split("-");
   return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
 }
@@ -14,7 +27,8 @@ export const metadata = {
     "테슬라 구매, 지역별 보조금, 세제 혜택, 충전 환경, 신청 전략을 깊이 있게 정리한 정보성 가이드 모음입니다."
 };
 
-export default function GuidesPage() {
+export default async function GuidesPage() {
+  const guides = await getMergedGuides();
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#eff6ff_0%,#f8fafc_28%,#ffffff_100%)] py-12 md:py-16">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 md:px-8">

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { createClient } from '@supabase/supabase-js'
 
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -44,10 +45,10 @@ export async function PATCH(request, { params }) {
   const { id } = await params
   const body = await request.json()
 
-  const allowed = ['content_html', 'title', 'description', 'category', 'read_time']
+  const allowed = ['content_html', 'title', 'description', 'category', 'read_time', 'slug', 'key_points', 'sources']
   const updateData = {}
   for (const key of allowed) {
-    if (key in body) updateData[key] = body[key]
+    if (key in body && body[key] !== undefined) updateData[key] = body[key]
   }
 
   if (!Object.keys(updateData).length) {
@@ -62,6 +63,41 @@ export async function PATCH(request, { params }) {
     .select()
     .single()
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (error) {
+    const isDup = error.code === '23505'
+    return NextResponse.json(
+      { error: isDup ? '이미 존재하는 슬러그입니다.' : error.message },
+      { status: isDup ? 409 : 500 }
+    )
+  }
+
+  try {
+    revalidatePath('/guides')
+    if (data?.slug) revalidatePath(`/guides/${data.slug}`)
+  } catch {}
+
   return NextResponse.json(data)
+}
+
+// DELETE /api/admin/guides/[id] — 가이드 삭제
+export async function DELETE(request, { params }) {
+  if (!await checkAuth(request)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  const { id } = await params
+  const supabase = getAdminClient()
+
+  // revalidate용 slug 확보
+  const { data: existing } = await supabase.from('guides').select('slug').eq('id', id).single()
+
+  const { error } = await supabase.from('guides').delete().eq('id', id)
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  try {
+    revalidatePath('/guides')
+    if (existing?.slug) revalidatePath(`/guides/${existing.slug}`)
+  } catch {}
+
+  return NextResponse.json({ deleted: true })
 }

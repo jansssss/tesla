@@ -1,17 +1,14 @@
 'use client'
 
-import { Suspense, useState, useEffect, useCallback, useRef } from 'react'
+import { Suspense, useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 
+const CATEGORIES = ['테슬라', '전기차', '보조금', '충전', '비교', '구매가이드', '자동차']
+
 function sectionsToHtml(guide) {
   let html = ''
-  if (guide.key_points?.length) {
-    html += '<h2>핵심 요약</h2>\n<ul>\n'
-    for (const pt of guide.key_points) html += `  <li>${pt}</li>\n`
-    html += '</ul>\n\n'
-  }
   for (const [i, sec] of (guide.sections || []).entries()) {
     html += `<h2>${String(i + 1).padStart(2, '0')}. ${sec.title}</h2>\n`
     for (const p of sec.paragraphs || []) html += `<p>${p}</p>\n`
@@ -30,12 +27,6 @@ function sectionsToHtml(guide) {
       html += '</tbody></table>\n'
     }
     html += '\n'
-  }
-  if (guide.sources?.length) {
-    html += '<hr>\n<h3>참고 출처</h3>\n<ul>\n'
-    for (const s of guide.sources)
-      html += `  <li><a href="${s.url}" target="_blank" rel="noopener">${s.name}</a></li>\n`
-    html += '</ul>\n'
   }
   return html.trim()
 }
@@ -57,21 +48,20 @@ const SHARED_CSS = `
   .doc hr{border:none;border-top:1px solid #e2e8f0;margin:1.5rem 0}
   .doc code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.85em;font-family:monospace;color:#0f172a}
   .doc img{max-width:100%;height:auto;border-radius:8px;margin:1rem 0}
-  /* 에디터 전용 */
-  .doc-edit{outline:none;min-height:200px}
+  .doc-edit{outline:none;min-height:340px}
   .doc-edit:focus{outline:none}
 `
 
 const TOOLBAR = [
-  { label: 'B',   title: '굵게',      cmd: 'bold' },
-  { label: 'I',   title: '기울임',    cmd: 'italic' },
-  { label: 'H2',  title: '소제목',    cmd: 'formatBlock', val: 'h2' },
-  { label: 'H3',  title: '작은 제목', cmd: 'formatBlock', val: 'h3' },
-  { label: 'P',   title: '본문 단락', cmd: 'formatBlock', val: 'p' },
-  { label: '≡',   title: '목록',      cmd: 'insertUnorderedList' },
-  { label: '❝',   title: '인용',      cmd: 'formatBlock', val: 'blockquote' },
-  { label: '─',   title: '구분선',    cmd: 'insertHorizontalRule' },
-  { label: '🔗',  title: '링크',      cmd: 'link' },
+  { label: 'B', title: '굵게', cmd: 'bold' },
+  { label: 'I', title: '기울임', cmd: 'italic' },
+  { label: 'H2', title: '소제목', cmd: 'formatBlock', val: 'h2' },
+  { label: 'H3', title: '작은 제목', cmd: 'formatBlock', val: 'h3' },
+  { label: 'P', title: '본문 단락', cmd: 'formatBlock', val: 'p' },
+  { label: '≡', title: '목록', cmd: 'insertUnorderedList' },
+  { label: '❝', title: '인용', cmd: 'formatBlock', val: 'blockquote' },
+  { label: '─', title: '구분선', cmd: 'insertHorizontalRule' },
+  { label: '🔗', title: '링크', cmd: 'link' },
 ]
 
 function UnsplashModal({ token, onInsert, onClose }) {
@@ -99,45 +89,36 @@ function UnsplashModal({ token, onInsert, onClose }) {
   }
 
   return (
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={onClose}>
-      <div style={{ background: 'white', borderRadius: '12px', width: '720px', maxWidth: '95vw', maxHeight: '80vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }} onClick={e => e.stopPropagation()}>
-        <div style={{ padding: '16px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <span style={{ fontWeight: '700', fontSize: '14px', color: '#0f172a' }}>Unsplash 이미지 검색</span>
-          <div style={{ flex: 1, display: 'flex', gap: '8px' }}>
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/60" onClick={onClose}>
+      <div className="flex max-h-[80vh] w-[720px] max-w-[95vw] flex-col overflow-hidden rounded-xl bg-white" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center gap-2.5 border-b border-slate-200 px-5 py-4">
+          <span className="text-sm font-bold text-slate-900">Unsplash 이미지</span>
+          <div className="flex flex-1 gap-2">
             <input
               autoFocus
               value={query}
               onChange={e => setQuery(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && search()}
               placeholder="키워드 입력 (영문 권장)"
-              style={{ flex: 1, padding: '6px 12px', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '13px', outline: 'none', color: '#0f172a' }}
+              className="flex-1 rounded-md border border-slate-200 px-3 py-1.5 text-[13px] text-slate-900 outline-none"
             />
-            <button
-              onClick={search}
-              disabled={loading}
-              style={{ padding: '6px 16px', borderRadius: '6px', border: 'none', background: '#2563eb', color: 'white', fontSize: '13px', fontWeight: '700', cursor: loading ? 'not-allowed' : 'pointer' }}
-            >
+            <button onClick={search} disabled={loading} className="rounded-md bg-blue-600 px-4 py-1.5 text-[13px] font-bold text-white disabled:opacity-60">
               {loading ? '검색 중…' : '검색'}
             </button>
           </div>
-          <button onClick={onClose} style={{ padding: '4px 10px', border: '1px solid #e2e8f0', borderRadius: '6px', background: 'white', cursor: 'pointer', fontSize: '13px', color: '#64748b' }}>✕</button>
+          <button onClick={onClose} className="rounded-md border border-slate-200 px-2.5 py-1 text-[13px] text-slate-500">✕</button>
         </div>
-        <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px' }}>
-          {error && <p style={{ color: '#dc2626', fontSize: '13px' }}>{error}</p>}
+        <div className="flex-1 overflow-y-auto px-5 py-4">
+          {error && <p className="text-[13px] text-red-600">{error}</p>}
           {results.length === 0 && !loading && !error && (
-            <p style={{ color: '#94a3b8', fontSize: '13px', textAlign: 'center', marginTop: '40px' }}>검색어를 입력하세요</p>
+            <p className="mt-10 text-center text-[13px] text-slate-400">검색어를 입력하세요</p>
           )}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+          <div className="grid grid-cols-3 gap-2.5">
             {results.map(img => (
-              <div key={img.id} style={{ position: 'relative', cursor: 'pointer', borderRadius: '8px', overflow: 'hidden', border: '2px solid transparent' }}
-                onClick={() => onInsert(img)}
-                onMouseEnter={e => e.currentTarget.style.borderColor = '#2563eb'}
-                onMouseLeave={e => e.currentTarget.style.borderColor = 'transparent'}
-              >
-                <img src={img.thumb} alt={img.alt} style={{ width: '100%', height: '140px', objectFit: 'cover', display: 'block' }} />
-                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.55)', padding: '4px 8px', fontSize: '10px', color: 'white' }}>
-                  {img.author}
-                </div>
+              <div key={img.id} className="relative cursor-pointer overflow-hidden rounded-lg border-2 border-transparent hover:border-blue-600"
+                onClick={() => onInsert(img)}>
+                <img src={img.thumb} alt={img.alt} className="block h-[140px] w-full object-cover" />
+                <div className="absolute inset-x-0 bottom-0 bg-black/55 px-2 py-1 text-[10px] text-white">{img.author}</div>
               </div>
             ))}
           </div>
@@ -220,51 +201,22 @@ function Toolbar({ editorRef, token, onUploadStart, onUploadDone, onUploadError 
     setShowUnsplash(false)
   }
 
-  const btnStyle = {
-    padding: '4px 10px', border: '1px solid #e2e8f0', borderRadius: '5px',
-    background: 'white', cursor: 'pointer', fontSize: '12px', fontWeight: '700',
-    color: '#374151', minWidth: '32px',
-  }
+  const btnClass = 'min-w-[32px] rounded-md border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 hover:bg-blue-50'
 
   return (
     <>
-      <div style={{ display: 'flex', gap: '2px', padding: '6px 12px', borderBottom: '1px solid #e2e8f0', background: '#f8fafc', flexWrap: 'wrap', alignItems: 'center' }}>
+      <div className="flex flex-wrap items-center gap-0.5 rounded-t-xl border-b border-slate-200 bg-slate-50 px-3 py-1.5">
         {TOOLBAR.map(({ label, title, cmd, val }) => (
-          <button
-            key={label}
-            title={title}
-            onMouseDown={(e) => { e.preventDefault(); exec(cmd, val) }}
-            style={btnStyle}
-            onMouseEnter={e => e.currentTarget.style.background = '#eff6ff'}
-            onMouseLeave={e => e.currentTarget.style.background = 'white'}
-          >
+          <button key={label} title={title} onMouseDown={(e) => { e.preventDefault(); exec(cmd, val) }} className={btnClass}>
             {label}
           </button>
         ))}
-        <div style={{ width: '1px', height: '20px', background: '#e2e8f0', margin: '0 4px' }} />
-        <button
-          title="이미지 업로드"
-          onMouseDown={(e) => { e.preventDefault(); saveRange(); fileInputRef.current?.click() }}
-          style={btnStyle}
-          onMouseEnter={e => e.currentTarget.style.background = '#eff6ff'}
-          onMouseLeave={e => e.currentTarget.style.background = 'white'}
-        >
-          📁
-        </button>
-        <button
-          title="Unsplash 이미지 검색"
-          onMouseDown={(e) => { e.preventDefault(); saveRange(); setShowUnsplash(true) }}
-          style={btnStyle}
-          onMouseEnter={e => e.currentTarget.style.background = '#eff6ff'}
-          onMouseLeave={e => e.currentTarget.style.background = 'white'}
-        >
-          🖼
-        </button>
-        <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleFileChange} />
+        <div className="mx-1 h-5 w-px bg-slate-200" />
+        <button title="이미지 업로드" onMouseDown={(e) => { e.preventDefault(); saveRange(); fileInputRef.current?.click() }} className={btnClass}>📁</button>
+        <button title="Unsplash 이미지" onMouseDown={(e) => { e.preventDefault(); saveRange(); setShowUnsplash(true) }} className={btnClass}>🖼</button>
+        <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
       </div>
-      {showUnsplash && (
-        <UnsplashModal token={token} onInsert={handleUnsplashInsert} onClose={() => setShowUnsplash(false)} />
-      )}
+      {showUnsplash && <UnsplashModal token={token} onInsert={handleUnsplashInsert} onClose={() => setShowUnsplash(false)} />}
     </>
   )
 }
@@ -272,18 +224,30 @@ function Toolbar({ editorRef, token, onUploadStart, onUploadDone, onUploadError 
 function AdminEditorContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const editorRef = useRef(null)
+
   const [token, setToken] = useState('')
-  const [guides, setGuides] = useState([])
-  const [selected, setSelected] = useState(null)
-  const [htmlContent, setHtmlContent] = useState('')
-  const [tab, setTab] = useState('editor')
+  const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [loadingList, setLoadingList] = useState(false)
-  const [loadingGuide, setLoadingGuide] = useState(false)
-  const [search, setSearch] = useState('')
+
+  // 글 데이터
+  const [editId, setEditId] = useState(null)
+  const [title, setTitle] = useState('')
+  const [slug, setSlug] = useState('')
+  const [description, setDescription] = useState('')
+  const [category, setCategory] = useState('테슬라')
+  const [readTime, setReadTime] = useState('5분')
+  const [keyPointsText, setKeyPointsText] = useState('')
+  const [content, setContent] = useState('')
+
+  // UI
+  const [bodyMode, setBodyMode] = useState('rich') // rich | html
+  const [showPreview, setShowPreview] = useState(false)
+  const [previewDevice, setPreviewDevice] = useState('mobile')
   const [savedMsg, setSavedMsg] = useState('')
   const [uploadMsg, setUploadMsg] = useState('')
-  const editorRef = useRef(null)
+
+  const isEditMode = !!editId
 
   useEffect(() => {
     const t = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : ''
@@ -291,86 +255,132 @@ function AdminEditorContent() {
     setToken(t)
   }, [router])
 
-  const loadGuides = useCallback(async (tk) => {
-    setLoadingList(true)
+  // 진입 파라미터 처리 (id 또는 slug → 편집 / 없으면 새 글)
+  useEffect(() => {
+    if (!token) return
+    const idParam = searchParams.get('id')
+    const slugParam = searchParams.get('slug')
+    if (idParam) {
+      loadGuideById(idParam, token)
+    } else if (slugParam) {
+      resolveSlug(slugParam, token)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token])
+
+  const resolveSlug = async (slugParam, tk) => {
     try {
       const res = await fetch('/api/admin/guides', { headers: { Authorization: `Bearer ${tk}` } })
       if (res.status === 401) { localStorage.removeItem('adminToken'); router.push('/admin/login'); return }
-      if (res.ok) setGuides(await res.json())
-    } finally { setLoadingList(false) }
-  }, [router])
+      if (!res.ok) return
+      const list = await res.json()
+      const match = list.find((g) => g.slug === slugParam)
+      if (match) loadGuideById(match.id, tk)
+    } catch {}
+  }
 
-  useEffect(() => { if (token) loadGuides(token) }, [token, loadGuides])
-
-  // ?slug= 쿼리로 진입 시 해당 가이드 자동 선택
-  useEffect(() => {
-    const slugParam = searchParams.get('slug')
-    if (!slugParam || !guides.length || selected) return
-    const match = guides.find((g) => g.slug === slugParam)
-    if (match) selectGuide(match)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [guides, searchParams])
-
-  const selectGuide = async (guide) => {
-    setLoadingGuide(true)
-    setSelected(null)
-    setHtmlContent('')
+  const loadGuideById = async (id, tk) => {
+    setLoading(true)
     try {
-      const res = await fetch(`/api/admin/guides/${guide.id}`, { headers: { Authorization: `Bearer ${token}` } })
-      if (res.ok) {
-        const data = await res.json()
-        setSelected(data)
-        const html = data.content_html || sectionsToHtml(data)
-        setHtmlContent(html)
-        setTab('editor')
-      }
-    } finally { setLoadingGuide(false) }
-  }
-
-  const switchTab = (next) => {
-    if (tab === 'editor' && editorRef.current) {
-      setHtmlContent(editorRef.current.innerHTML)
+      const res = await fetch(`/api/admin/guides/${id}`, { headers: { Authorization: `Bearer ${tk}` } })
+      if (res.status === 401) { localStorage.removeItem('adminToken'); router.push('/admin/login'); return }
+      if (!res.ok) return
+      const data = await res.json()
+      setEditId(data.id)
+      setTitle(data.title || '')
+      setSlug(data.slug || '')
+      setDescription(data.description || '')
+      setCategory(data.category || '테슬라')
+      setReadTime(data.read_time || '5분')
+      setKeyPointsText(Array.isArray(data.key_points) ? data.key_points.join('\n') : '')
+      const html = data.content_html || sectionsToHtml(data)
+      setContent(html)
+    } finally {
+      setLoading(false)
     }
-    setTab(next)
   }
 
+  // 리치 에디터에 콘텐츠 주입 (rich 모드 진입/로드 시)
   useEffect(() => {
-    if (tab === 'editor' && editorRef.current && htmlContent !== undefined) {
-      if (editorRef.current.innerHTML !== htmlContent) {
-        editorRef.current.innerHTML = htmlContent
-      }
+    if (bodyMode === 'rich' && editorRef.current && editorRef.current.innerHTML !== content) {
+      editorRef.current.innerHTML = content
     }
-  }, [tab, selected])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bodyMode, content, loading])
+
+  const switchBodyMode = (next) => {
+    if (bodyMode === 'rich' && editorRef.current) {
+      setContent(editorRef.current.innerHTML)
+    }
+    setBodyMode(next)
+  }
+
+  const currentContent = () =>
+    bodyMode === 'rich' && editorRef.current ? editorRef.current.innerHTML : content
 
   const handleSave = async () => {
-    const content = tab === 'editor' && editorRef.current
-      ? editorRef.current.innerHTML
-      : htmlContent
+    if (!title.trim() || !description.trim()) {
+      alert('제목과 요약은 필수입니다.')
+      return
+    }
+    const html = currentContent()
+    const keyPoints = keyPointsText.split('\n').map(s => s.trim()).filter(Boolean)
 
-    if (!selected) return
     setSaving(true)
     try {
-      const res = await fetch(`/api/admin/guides/${selected.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ content_html: content }),
-      })
-      if (res.ok) {
-        setHtmlContent(content)
+      if (isEditMode) {
+        const res = await fetch(`/api/admin/guides/${editId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          body: JSON.stringify({
+            title: title.trim(),
+            description: description.trim(),
+            category,
+            read_time: readTime.trim() || '5분',
+            slug: slug.trim() || undefined,
+            key_points: keyPoints,
+            content_html: html,
+          }),
+        })
+        const data = await res.json()
+        if (!res.ok) { alert(`저장 실패: ${data.error || ''}`); return }
+        setContent(html)
         setSavedMsg('저장 완료!')
         setTimeout(() => setSavedMsg(''), 2500)
-        loadGuides(token)
-        if (selected.slug) {
+        if (data.slug) {
           fetch('/api/admin/revalidate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-            body: JSON.stringify({ slug: selected.slug }),
+            body: JSON.stringify({ slug: data.slug }),
           }).catch(() => {})
         }
       } else {
-        alert('저장 실패')
+        const res = await fetch('/api/admin/guides', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          body: JSON.stringify({
+            title: title.trim(),
+            description: description.trim(),
+            category,
+            read_time: readTime.trim() || '5분',
+            slug: slug.trim() || undefined,
+            key_points: keyPoints,
+            content_html: html,
+          }),
+        })
+        const data = await res.json()
+        if (!res.ok) { alert(`저장 실패: ${data.error || ''}`); return }
+        setEditId(data.id)
+        setSlug(data.slug)
+        setContent(html)
+        setSavedMsg('발행 완료!')
+        setTimeout(() => setSavedMsg(''), 2500)
+        // URL을 편집 모드로 교체 (새로고침해도 같은 글)
+        router.replace(`/admin/editor?id=${data.id}`)
       }
-    } finally { setSaving(false) }
+    } finally {
+      setSaving(false)
+    }
   }
 
   const handleLogout = async () => {
@@ -379,205 +389,172 @@ function AdminEditorContent() {
     router.push('/admin/login')
   }
 
-  const filtered = guides.filter(
-    (g) => g.title?.includes(search) || g.slug?.includes(search) || g.category?.includes(search)
-  )
-
-  const TABS = [
-    { id: 'editor',  label: '✏️ 에디터' },
-    { id: 'html',    label: '⌨️ HTML 소스' },
-    { id: 'preview', label: '👁 미리보기' },
-  ]
+  const previewWidth = previewDevice === 'mobile' ? '390px' : previewDevice === 'tablet' ? '768px' : '100%'
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', fontFamily: "'Noto Sans KR', system-ui, sans-serif", display: 'flex', flexDirection: 'column' }}>
+    <div className="min-h-screen bg-slate-100" style={{ fontFamily: "'Noto Sans KR', system-ui, sans-serif" }}>
       <style dangerouslySetInnerHTML={{ __html: SHARED_CSS }} />
 
-      {/* 상단 헤더 */}
-      <div style={{ background: '#0f172a', color: 'white', padding: '0 20px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}>
-          <Link href="/" style={{ color: '#64748b', textDecoration: 'none', fontSize: '13px', flexShrink: 0 }}>← 홈</Link>
-          <span style={{ color: '#334155', fontSize: '13px', fontWeight: '700', flexShrink: 0 }}>가이드 편집기</span>
-          {selected && (
-            <span style={{ color: '#475569', fontSize: '12px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              / {selected.title}
-            </span>
-          )}
+      {/* 헤더 */}
+      <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-slate-800 bg-slate-900 px-4 text-white md:px-6">
+        <div className="flex min-w-0 items-center gap-3">
+          <Link href="/admin/posts" className="flex-shrink-0 text-[13px] text-slate-400 hover:text-white">← 글 관리</Link>
+          <span className="hidden text-[13px] font-bold text-slate-500 sm:inline">/</span>
+          <span className="truncate text-[15px] font-bold">{isEditMode ? '글 수정' : '새 글 작성'}</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-          {savedMsg && <span style={{ fontSize: '12px', color: '#4ade80', fontWeight: '600' }}>{savedMsg}</span>}
-          <button onClick={handleLogout} style={{ padding: '5px 12px', borderRadius: '6px', border: '1px solid #334155', background: 'transparent', color: '#94a3b8', cursor: 'pointer', fontSize: '12px' }}>
-            로그아웃
+        <div className="flex flex-shrink-0 items-center gap-2">
+          {savedMsg && <span className="text-xs font-semibold text-emerald-400">{savedMsg}</span>}
+          <button onClick={() => setShowPreview(true)} className="rounded-lg border border-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:bg-slate-800">👁 미리보기</button>
+          <button onClick={handleSave} disabled={saving} className="rounded-lg bg-blue-600 px-4 py-1.5 text-xs font-bold text-white hover:bg-blue-500 disabled:opacity-60">
+            {saving ? '저장 중…' : (isEditMode ? '저장' : '발행')}
           </button>
+          <button onClick={handleLogout} className="rounded-lg border border-slate-700 px-3 py-1.5 text-xs text-slate-400 hover:bg-slate-800">로그아웃</button>
         </div>
-      </div>
+      </header>
 
-      {/* 본문 */}
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden', height: 'calc(100vh - 48px)' }}>
+      {loading ? (
+        <div className="flex h-[60vh] items-center justify-center text-sm text-slate-500">불러오는 중…</div>
+      ) : (
+        <div className="mx-auto grid max-w-6xl gap-6 px-4 py-8 md:px-6 lg:grid-cols-[1fr_340px]">
+          {/* 본문 영역 */}
+          <div className="space-y-5">
+            {/* 제목 */}
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">제목</label>
+              <input
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+                placeholder="글 제목을 입력하세요"
+                className="w-full border-0 p-0 text-2xl font-black text-slate-900 outline-none placeholder:text-slate-300"
+              />
+            </div>
 
-        {/* 좌측 가이드 목록 */}
-        <div style={{ width: '260px', background: 'white', borderRight: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
-          <div style={{ padding: '10px 12px', borderBottom: '1px solid #f1f5f9' }}>
-            <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="제목·카테고리 검색"
-              style={{ width: '100%', padding: '6px 10px', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', outline: 'none', boxSizing: 'border-box', color: '#0f172a' }}
-            />
-          </div>
-          <div style={{ flex: 1, overflowY: 'auto' }}>
-            {loadingList ? (
-              <div style={{ padding: '24px', textAlign: 'center', color: '#94a3b8', fontSize: '13px' }}>로딩 중…</div>
-            ) : filtered.length === 0 ? (
-              <div style={{ padding: '24px', textAlign: 'center', color: '#94a3b8', fontSize: '13px' }}>가이드 없음</div>
-            ) : (
-              filtered.map((guide) => (
-                <div
-                  key={guide.id}
-                  onClick={() => selectGuide(guide)}
-                  style={{
-                    padding: '10px 14px', borderBottom: '1px solid #f8fafc', cursor: 'pointer',
-                    background: selected?.id === guide.id ? '#eff6ff' : 'white',
-                    borderLeft: `3px solid ${selected?.id === guide.id ? '#2563eb' : 'transparent'}`,
-                  }}
-                  onMouseEnter={(e) => { if (selected?.id !== guide.id) e.currentTarget.style.background = '#f8fafc' }}
-                  onMouseLeave={(e) => { if (selected?.id !== guide.id) e.currentTarget.style.background = 'white' }}
-                >
-                  <div style={{ fontSize: '10px', color: '#64748b', marginBottom: '2px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    {guide.category}
-                  </div>
-                  <div style={{ fontSize: '12px', fontWeight: '600', color: '#1e293b', lineHeight: '1.4' }}>
-                    {guide.title}
-                  </div>
-                  <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '3px' }}>
-                    {guide.content_html ? '✅ HTML 편집됨' : '📄 원본'} · {(guide.updated_at || guide.published_at || '').slice(0, 10)}
+            {/* 요약 */}
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">요약</label>
+              <textarea
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                rows={2}
+                placeholder="목록·검색·메타 설명에 사용되는 한 줄 요약"
+                className="w-full resize-y rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none focus:border-blue-400"
+              />
+            </div>
+
+            {/* 본문 */}
+            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <div className="flex items-center justify-between border-b border-slate-100 px-5 py-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">본문</span>
+                <div className="flex gap-1 rounded-lg bg-slate-100 p-0.5">
+                  <button onClick={() => switchBodyMode('rich')} className={`rounded-md px-3 py-1 text-xs font-semibold ${bodyMode === 'rich' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500'}`}>✏️ 에디터</button>
+                  <button onClick={() => switchBodyMode('html')} className={`rounded-md px-3 py-1 text-xs font-semibold ${bodyMode === 'html' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500'}`}>⌨️ HTML</button>
+                </div>
+              </div>
+
+              {bodyMode === 'rich' ? (
+                <div>
+                  <Toolbar
+                    editorRef={editorRef}
+                    token={token}
+                    onUploadStart={() => setUploadMsg('업로드 중…')}
+                    onUploadDone={() => { setUploadMsg(''); }}
+                    onUploadError={(msg) => { setUploadMsg(msg); setTimeout(() => setUploadMsg(''), 3000) }}
+                  />
+                  {uploadMsg && <div className="bg-amber-50 px-5 py-1.5 text-xs font-semibold text-amber-600">{uploadMsg}</div>}
+                  <div className="px-6 py-5">
+                    <div ref={editorRef} contentEditable suppressContentEditableWarning className="doc doc-edit" />
                   </div>
                 </div>
-              ))
-            )}
+              ) : (
+                <div>
+                  <textarea
+                    value={content}
+                    onChange={e => setContent(e.target.value)}
+                    spellCheck={false}
+                    className="block h-[460px] w-full resize-none bg-slate-900 p-5 font-mono text-[13px] leading-7 text-slate-100 outline-none"
+                  />
+                  <div className="flex gap-4 bg-slate-950 px-5 py-1.5 text-[11px] text-slate-500">
+                    <span>{content.length.toLocaleString()} chars</span>
+                    <span>{content.split('\n').length} lines</span>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-          <div style={{ padding: '6px 14px', borderTop: '1px solid #e2e8f0', fontSize: '11px', color: '#94a3b8' }}>
-            총 {filtered.length}개
-          </div>
+
+          {/* 사이드바 */}
+          <aside className="space-y-5">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <h3 className="mb-4 text-sm font-bold text-slate-900">발행 설정</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="mb-1.5 block text-xs font-semibold text-slate-600">카테고리</label>
+                  <select value={category} onChange={e => setCategory(e.target.value)} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-800 outline-none focus:border-blue-400">
+                    {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-xs font-semibold text-slate-600">읽기 시간</label>
+                  <input value={readTime} onChange={e => setReadTime(e.target.value)} placeholder="5분" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-800 outline-none focus:border-blue-400" />
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <h3 className="mb-3 text-sm font-bold text-slate-900">URL 슬러그</h3>
+              <input value={slug} onChange={e => setSlug(e.target.value)} placeholder="비우면 자동 생성" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-800 outline-none focus:border-blue-400" />
+              <p className="mt-2 text-xs text-slate-400">/guides/{slug.trim() || '자동생성'}</p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <h3 className="mb-1 text-sm font-bold text-slate-900">핵심 요약</h3>
+              <p className="mb-3 text-xs text-slate-400">한 줄에 하나씩. 글 상단 &quot;핵심 요약&quot; 박스에 표시됩니다.</p>
+              <textarea
+                value={keyPointsText}
+                onChange={e => setKeyPointsText(e.target.value)}
+                rows={5}
+                placeholder={'예) 보조금은 지자체별로 다릅니다\n접수 시점이 중요합니다'}
+                className="w-full resize-y rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none focus:border-blue-400"
+              />
+            </div>
+          </aside>
         </div>
+      )}
 
-        {/* 우측 편집 영역 */}
-        {!selected ? (
-          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', flexDirection: 'column', gap: '12px' }}>
-            {loadingGuide
-              ? <><div style={{ fontSize: '32px' }}>⏳</div><p style={{ fontSize: '14px' }}>불러오는 중…</p></>
-              : <><div style={{ fontSize: '48px' }}>📝</div><p style={{ fontSize: '14px' }}>좌측에서 가이드를 선택하세요</p></>
-            }
-          </div>
-        ) : (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-
-            {/* 탭 바 + 저장 */}
-            <div style={{ background: 'white', borderBottom: '1px solid #e2e8f0', padding: '0 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '44px', flexShrink: 0 }}>
-              <div style={{ display: 'flex', height: '100%', gap: '2px' }}>
-                {TABS.map(({ id, label }) => (
-                  <button
-                    key={id}
-                    onClick={() => switchTab(id)}
-                    style={{
-                      padding: '0 16px', height: '100%', border: 'none',
-                      borderBottom: tab === id ? '2px solid #2563eb' : '2px solid transparent',
-                      background: 'transparent',
-                      color: tab === id ? '#2563eb' : '#64748b',
-                      fontWeight: tab === id ? '700' : '500',
-                      fontSize: '13px', cursor: 'pointer',
-                    }}
-                  >
-                    {label}
-                  </button>
+      {/* 미리보기 모달 */}
+      {showPreview && (
+        <div className="fixed inset-0 z-50 flex flex-col bg-black/70">
+          <div className="flex items-center justify-between bg-slate-900 px-4 py-3 text-white">
+            <div className="flex items-center gap-2">
+              <span className="mr-2 text-sm font-medium">미리보기</span>
+              <div className="flex gap-1 rounded-lg bg-slate-700 p-1">
+                {[['mobile', '모바일'], ['tablet', '태블릿'], ['desktop', '데스크톱']].map(([id, label]) => (
+                  <button key={id} onClick={() => setPreviewDevice(id)} className={`rounded px-3 py-1.5 text-xs font-medium ${previewDevice === id ? 'bg-white text-slate-900' : 'text-slate-300 hover:text-white'}`}>{label}</button>
                 ))}
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                {uploadMsg && <span style={{ fontSize: '12px', color: '#f59e0b', fontWeight: '600' }}>{uploadMsg}</span>}
-                {savedMsg && <span style={{ fontSize: '12px', color: '#16a34a', fontWeight: '600' }}>{savedMsg}</span>}
-                <button
-                  onClick={handleSave}
-                  disabled={saving}
-                  style={{
-                    padding: '6px 20px', borderRadius: '6px', border: 'none',
-                    background: saving ? '#94a3b8' : '#2563eb',
-                    color: 'white', cursor: saving ? 'not-allowed' : 'pointer',
-                    fontSize: '13px', fontWeight: '700',
-                  }}
-                >
-                  {saving ? '저장 중…' : '저장'}
-                </button>
-              </div>
+              <span className="ml-2 text-xs text-slate-400">{previewWidth}</span>
             </div>
-
-            {/* ── 에디터 탭 ── */}
-            <div style={{ flex: 1, display: tab === 'editor' ? 'flex' : 'none', flexDirection: 'column', overflow: 'hidden', background: 'white' }}>
-              <Toolbar
-                editorRef={editorRef}
-                token={token}
-                onUploadStart={() => setUploadMsg('업로드 중…')}
-                onUploadDone={() => { setUploadMsg('업로드 완료!'); setTimeout(() => setUploadMsg(''), 2500) }}
-                onUploadError={(msg) => { setUploadMsg(msg); setTimeout(() => setUploadMsg(''), 3000) }}
-              />
-              <div style={{ flex: 1, overflowY: 'auto', padding: '24px 32px' }}>
-                <div
-                  ref={editorRef}
-                  contentEditable
-                  suppressContentEditableWarning
-                  className="doc doc-edit"
-                  style={{ minHeight: '100%' }}
-                />
-              </div>
-            </div>
-
-            {/* ── HTML 소스 탭 ── */}
-            {tab === 'html' && (
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-                <textarea
-                  value={htmlContent}
-                  onChange={(e) => setHtmlContent(e.target.value)}
-                  style={{
-                    flex: 1, width: '100%', padding: '20px 24px',
-                    border: 'none', outline: 'none', resize: 'none',
-                    fontFamily: '"Fira Code","Consolas","Courier New",monospace',
-                    fontSize: '13px', lineHeight: '1.8',
-                    background: '#1e293b', color: '#e2e8f0',
-                    boxSizing: 'border-box', tabSize: 2,
-                  }}
-                  spellCheck={false}
-                />
-                <div style={{ padding: '5px 20px', background: '#0f172a', color: '#475569', fontSize: '11px', display: 'flex', gap: '16px' }}>
-                  <span>{htmlContent.length.toLocaleString()} chars</span>
-                  <span>{htmlContent.split('\n').length} lines</span>
-                  <span style={{ marginLeft: 'auto' }}>저장 후 사이트에 반영됩니다</span>
-                </div>
-              </div>
-            )}
-
-            {/* ── 미리보기 탭 ── */}
-            {tab === 'preview' && (
-              <div style={{ flex: 1, overflow: 'auto', background: '#f1f5f9', padding: '24px' }}>
-                <div style={{ maxWidth: '760px', margin: '0 auto', background: 'white', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(15,23,42,0.08)' }}>
-                  <div style={{ background: 'linear-gradient(135deg,#0f172a 0%,#172554 46%,#2563eb 100%)', padding: '28px 32px', color: 'white' }}>
-                    <div style={{ fontSize: '10px', fontWeight: '700', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#bfdbfe', marginBottom: '6px' }}>{selected.category}</div>
-                    <h1 style={{ fontSize: '22px', fontWeight: '900', margin: '0 0 8px', lineHeight: '1.3' }}>{selected.title}</h1>
-                    <p style={{ fontSize: '13px', color: '#bfdbfe', margin: 0, lineHeight: '1.6' }}>{selected.description}</p>
-                  </div>
-                  <div className="doc" style={{ padding: '32px' }} dangerouslySetInnerHTML={{ __html: htmlContent }} />
-                </div>
-              </div>
-            )}
-
+            <button onClick={() => setShowPreview(false)} className="rounded-lg p-2 hover:bg-slate-700">✕</button>
           </div>
-        )}
-      </div>
+          <div className="flex flex-1 justify-center overflow-y-auto bg-slate-100 p-4 md:p-8">
+            <div className="overflow-hidden rounded-2xl bg-white shadow-2xl transition-all" style={{ width: previewWidth, maxWidth: '100%', minHeight: '100%' }}>
+              <div className="px-6 py-8 text-white" style={{ background: 'linear-gradient(135deg,#0f172a 0%,#172554 46%,#2563eb 100%)' }}>
+                <div className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-blue-200">{category}</div>
+                <h1 className="mb-2 text-2xl font-black leading-tight">{title || '제목을 입력하세요'}</h1>
+                <p className="text-sm leading-6 text-blue-100">{description}</p>
+              </div>
+              <div className="doc px-7 py-7" dangerouslySetInnerHTML={{ __html: currentContent() || '<p style="color:#94a3b8">본문을 입력하세요</p>' }} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
 
 export default function AdminEditorPage() {
   return (
-    <Suspense fallback={<div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f1f5f9', fontSize: '14px', color: '#64748b' }}>로딩 중…</div>}>
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-slate-100 text-sm text-slate-500">로딩 중…</div>}>
       <AdminEditorContent />
     </Suspense>
   )

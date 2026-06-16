@@ -29,7 +29,7 @@ export default function AdminLoginPage() {
 
       if (data.session) {
         localStorage.setItem('adminToken', data.session.access_token)
-        router.push('/admin/editor')
+        router.push('/admin/posts')
       }
     } catch {
       setError('서버 오류가 발생했습니다.')
