@@ -25,6 +25,8 @@ export async function POST(request) {
   const { slug } = await request.json()
   if (!slug) return NextResponse.json({ error: 'slug required' }, { status: 400 })
 
+  revalidatePath('/')
+  revalidatePath('/guides')
   revalidatePath(`/guides/${slug}`)
   return NextResponse.json({ revalidated: true, slug })
 }

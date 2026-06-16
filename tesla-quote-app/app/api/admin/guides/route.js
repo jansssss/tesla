@@ -104,6 +104,7 @@ export async function POST(request) {
   }
 
   try {
+    revalidatePath('/')
     revalidatePath('/guides')
     revalidatePath(`/guides/${slug}`)
   } catch {}

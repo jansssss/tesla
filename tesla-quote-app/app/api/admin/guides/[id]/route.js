@@ -72,6 +72,7 @@ export async function PATCH(request, { params }) {
   }
 
   try {
+    revalidatePath('/')
     revalidatePath('/guides')
     if (data?.slug) revalidatePath(`/guides/${data.slug}`)
   } catch {}
@@ -95,6 +96,7 @@ export async function DELETE(request, { params }) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   try {
+    revalidatePath('/')
     revalidatePath('/guides')
     if (existing?.slug) revalidatePath(`/guides/${existing.slug}`)
   } catch {}
