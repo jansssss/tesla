@@ -7,6 +7,13 @@ import { supabase } from '@/lib/supabase'
 
 const CATEGORIES = ['테슬라', '전기차', '보조금', '충전', '비교', '구매가이드', '자동차']
 
+// 매 요청 직전 Supabase가 자동 갱신해주는 최신 access_token을 가져온다
+// (로그인 시점에 저장한 토큰은 1시간 뒤 만료되어 장시간 작성 중 업로드/저장이 401로 실패할 수 있음)
+async function getFreshToken() {
+  const { data } = await supabase.auth.getSession()
+  return data.session?.access_token ?? null
+}
+
 function sectionsToHtml(guide) {
   let html = ''
   for (const [i, sec] of (guide.sections || []).entries()) {
@@ -64,7 +71,8 @@ const TOOLBAR = [
   { label: '🔗', title: '링크', cmd: 'link' },
 ]
 
-function UnsplashModal({ token, onInsert, onClose }) {
+function UnsplashModal({ onInsert, onClose }) {
+  const router = useRouter()
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
@@ -75,9 +83,12 @@ function UnsplashModal({ token, onInsert, onClose }) {
     setLoading(true)
     setError('')
     try {
+      const tk = await getFreshToken()
+      if (!tk) { localStorage.removeItem('adminToken'); router.push('/admin/login'); return }
       const res = await fetch(`/api/admin/unsplash?q=${encodeURIComponent(query)}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${tk}` },
       })
+      if (res.status === 401) { localStorage.removeItem('adminToken'); router.push('/admin/login'); return }
       const data = await res.json()
       if (!res.ok) { setError(data.error || '검색 실패'); return }
       setResults(data.results || [])
@@ -128,7 +139,8 @@ function UnsplashModal({ token, onInsert, onClose }) {
   )
 }
 
-function Toolbar({ editorRef, token, onUploadStart, onUploadDone, onUploadError }) {
+function Toolbar({ editorRef, onUploadStart, onUploadDone, onUploadError }) {
+  const router = useRouter()
   const fileInputRef = useRef(null)
   const [showUnsplash, setShowUnsplash] = useState(false)
   const savedRangeRef = useRef(null)
@@ -180,13 +192,16 @@ function Toolbar({ editorRef, token, onUploadStart, onUploadDone, onUploadError 
     e.target.value = ''
     onUploadStart()
     try {
+      const tk = await getFreshToken()
+      if (!tk) { localStorage.removeItem('adminToken'); router.push('/admin/login'); return }
       const form = new FormData()
       form.append('file', file)
       const res = await fetch('/api/admin/upload', {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${tk}` },
         body: form,
       })
+      if (res.status === 401) { localStorage.removeItem('adminToken'); router.push('/admin/login'); return }
       const data = await res.json()
       if (!res.ok) { onUploadError(data.error || '업로드 실패'); return }
       insertImageUrl(data.url, file.name)
@@ -216,7 +231,7 @@ function Toolbar({ editorRef, token, onUploadStart, onUploadDone, onUploadError 
         <button title="Unsplash 이미지" onMouseDown={(e) => { e.preventDefault(); saveRange(); setShowUnsplash(true) }} className={btnClass}>🖼</button>
         <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
       </div>
-      {showUnsplash && <UnsplashModal token={token} onInsert={handleUnsplashInsert} onClose={() => setShowUnsplash(false)} />}
+      {showUnsplash && <UnsplashModal onInsert={handleUnsplashInsert} onClose={() => setShowUnsplash(false)} />}
     </>
   )
 }
@@ -328,10 +343,12 @@ function AdminEditorContent() {
 
     setSaving(true)
     try {
+      const tk = await getFreshToken()
+      if (!tk) { localStorage.removeItem('adminToken'); router.push('/admin/login'); return }
       if (isEditMode) {
         const res = await fetch(`/api/admin/guides/${editId}`, {
           method: 'PATCH',
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${tk}` },
           body: JSON.stringify({
             title: title.trim(),
             description: description.trim(),
@@ -350,14 +367,14 @@ function AdminEditorContent() {
         if (data.slug) {
           fetch('/api/admin/revalidate', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${tk}` },
             body: JSON.stringify({ slug: data.slug }),
           }).catch(() => {})
         }
       } else {
         const res = await fetch('/api/admin/guides', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${tk}` },
           body: JSON.stringify({
             title: title.trim(),
             description: description.trim(),
@@ -455,7 +472,6 @@ function AdminEditorContent() {
                 <div>
                   <Toolbar
                     editorRef={editorRef}
-                    token={token}
                     onUploadStart={() => setUploadMsg('업로드 중…')}
                     onUploadDone={() => { setUploadMsg(''); }}
                     onUploadError={(msg) => { setUploadMsg(msg); setTimeout(() => setUploadMsg(''), 3000) }}
