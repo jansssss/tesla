@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import QuoteCard from "./QuoteCard";
 import VehicleQuoteSummary from "./VehicleQuoteSummary";
 import ComparisonSummary from "./ComparisonSummary";
-import ShopBanner from "./ShopBanner";
 import {
   calculateQuote,
   compareQuotes,
@@ -811,11 +810,6 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
           </div>
         </aside>
         )}
-      </div>
-
-      {/* 쇼핑 배너 — 모바일 전용 */}
-      <div className="mt-2 md:hidden">
-        <ShopBanner variant="compact" />
       </div>
 
       {/* 모바일 하단 고정 결과 바 — 견적 계산 모드 전용 */}

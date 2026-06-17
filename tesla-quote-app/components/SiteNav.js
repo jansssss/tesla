@@ -20,8 +20,6 @@ const NAV_ITEMS = [
   // 비교
   { label: "Model 3 vs Y", href: "/compare/model-3-vs-model-y" },
   { label: "RWD vs AWD", href: "/compare/rwd-vs-awd" },
-  // 쇼핑
-  { label: "액세서리 베스트", href: "/shop" },
 ];
 
 export default function SiteNav() {

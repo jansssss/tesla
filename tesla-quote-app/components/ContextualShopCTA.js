@@ -1,31 +1,20 @@
 /**
  * ContextualShopCTA
  *
- * blogger의 _pick_products + _build_cta_section 패턴을 Tesla에 적용.
- * 페이지 컨텍스트 키워드(keywords)와 가장 많이 겹치는 상품 2개를 자동 선택해
- * 직접 구매 카드로 노출합니다.
+ * 글 "본문" 맥락에 맞는 상품을 추천하는 쿠팡 파트너스 CTA.
+ * text(본문 전체)에서 상품 트리거 키워드를 찾아 가장 잘 맞는 2개를 노출하고,
+ * 본문 매칭이 부족하면 베스트 랭킹으로 폴백합니다.
  *
  * Usage:
- *   <ContextualShopCTA keywords={["충전", "전자기기"]} />
- *   <ContextualShopCTA keywords={["차종·트림", "AWD", "RWD"]} />
+ *   <ContextualShopCTA text={본문문자열} />            // 가이드 상세 (권장)
+ *   <ContextualShopCTA keywords={["충전", "전자기기"]} /> // 본문이 없는 페이지(비교/지역)
  */
-import Link from "next/link";
-import { SHOP_PRODUCTS, COUPANG_PARTNERS_NOTICE } from "@/data/shop-products";
+import { COUPANG_PARTNERS_NOTICE, pickProductsByText } from "@/data/shop-products";
 
-/** keywords 배열과 가장 많이 겹치는 상품 최대 2개 반환. 매칭 0이면 rank 1·2 기본. */
-function pickProducts(keywords) {
-  const kSet = new Set(keywords.map((k) => k.toLowerCase()));
-  const scored = SHOP_PRODUCTS.map((p) => {
-    const overlap = [...p.keywords].filter((k) => kSet.has(k.toLowerCase())).length;
-    return { product: p, score: overlap };
-  });
-  scored.sort((a, b) => b.score - a.score || a.product.rank - b.product.rank);
-  const top = scored.slice(0, 2).filter((x) => x.score > 0).map((x) => x.product);
-  return top.length > 0 ? top : SHOP_PRODUCTS.slice(0, 2);
-}
-
-export default function ContextualShopCTA({ keywords = [] }) {
-  const products = pickProducts(keywords);
+export default function ContextualShopCTA({ keywords = [], text = "" }) {
+  // 본문(text) 우선, 없으면 keywords 모음을 매칭 대상 텍스트로 사용
+  const haystack = [text, ...(Array.isArray(keywords) ? keywords : [])].join(" ");
+  const products = pickProductsByText(haystack);
 
   return (
     <section className="rounded-[32px] bg-[linear-gradient(135deg,#eef2ff_0%,#fdf4ff_100%)] border border-slate-200 p-6 md:p-8">
@@ -83,17 +72,8 @@ export default function ContextualShopCTA({ keywords = [] }) {
         ))}
       </div>
 
-      {/* 전체보기 + 고지문 */}
-      <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <Link
-          href="/shop"
-          className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 transition hover:text-blue-700"
-        >
-          베스트 8개 전체 보기
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M9 18l6-6-6-6" />
-          </svg>
-        </Link>
+      {/* 고지문 */}
+      <div className="mt-4">
         <p className="text-[11px] leading-5 text-slate-400">
           ※ {COUPANG_PARTNERS_NOTICE}
         </p>

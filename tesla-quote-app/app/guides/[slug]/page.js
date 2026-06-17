@@ -32,6 +32,22 @@ const CATEGORY_KEYWORDS = {
 
 const SITE_URL = "https://paytesla.kr";
 
+/** 가이드 본문(제목·요약·핵심포인트·섹션·HTML)을 합쳐 맥락 매칭용 텍스트로 변환 */
+function buildGuideText(guide) {
+  const parts = [guide.title, guide.description, guide.category];
+  if (Array.isArray(guide.keyPoints)) parts.push(...guide.keyPoints);
+  if (Array.isArray(guide.sections)) {
+    for (const s of guide.sections) {
+      parts.push(s.title);
+      if (Array.isArray(s.paragraphs)) parts.push(...s.paragraphs);
+      if (Array.isArray(s.bullets)) parts.push(...s.bullets);
+      if (s.callout) parts.push(s.callout);
+    }
+  }
+  if (guide.contentHtml) parts.push(guide.contentHtml.replace(/<[^>]+>/g, " "));
+  return parts.filter(Boolean).join(" ");
+}
+
 function formatDate(dateStr) {
   const [year, month, day] = dateStr.split("-");
   return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
@@ -322,7 +338,10 @@ export default async function GuideDetailPage({ params }) {
           </Link>
         </section>
 
-        <ContextualShopCTA keywords={CATEGORY_KEYWORDS[guide.category] ?? ["구매", "인테리어"]} />
+        <ContextualShopCTA
+          text={buildGuideText(guide)}
+          keywords={CATEGORY_KEYWORDS[guide.category] ?? ["구매", "인테리어"]}
+        />
 
         <section className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] md:p-10">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">

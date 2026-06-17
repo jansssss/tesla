@@ -2,6 +2,8 @@ import Link from "next/link";
 import { SHOP_PRODUCTS, COUPANG_PARTNERS_NOTICE } from "@/data/shop-products";
 
 export const metadata = {
+  // 현재 노출하지 않는 페이지 — 검색 색인 제외(직접 접근 시에도 비노출)
+  robots: { index: false, follow: false },
   title: "테슬라 꾸미기 베스트 — 하우머치 테슬라",
   description:
     "테슬라 오너들이 가장 많이 구매하는 액세서리 TOP 8. 카고 매트, 무선 충전 패드, 선쉐이드 등 커뮤니티 검증 베스트 아이템.",
