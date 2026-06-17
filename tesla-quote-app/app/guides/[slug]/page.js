@@ -4,6 +4,7 @@ import { getAllGuides, getGuideBySlug } from "@/lib/guides";
 import { fetchGuideBySlug } from "@/lib/supabase-server";
 import ContextualShopCTA from "@/components/ContextualShopCTA";
 import AdminEditButton from "@/components/AdminEditButton";
+import AuthorBio from "@/components/AuthorBio";
 import { calcCtaForCategory } from "@/lib/calcLinks";
 import { normalizeCategory } from "@/lib/categories";
 
@@ -170,9 +171,9 @@ export default async function GuideDetailPage({ params }) {
       "@id": `${SITE_URL}/guides/${guide.slug}`
     },
     author: {
-      "@type": "Organization",
-      name: "하우머치 테슬라",
-      url: SITE_URL
+      "@type": "Person",
+      name: "jans",
+      url: `${SITE_URL}/about`
     },
     publisher: {
       "@type": "Organization",
@@ -318,6 +319,8 @@ export default async function GuideDetailPage({ params }) {
             ) : null}
           </div>
         </article>
+
+        <AuthorBio />
 
         <section className="rounded-[32px] bg-[linear-gradient(135deg,#0f172a_0%,#1e3a8a_100%)] p-8 text-white shadow-[0_20px_60px_rgba(15,23,42,0.15)] md:p-10">
           <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.24em] text-blue-200">

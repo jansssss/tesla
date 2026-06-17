@@ -37,6 +37,33 @@ export default function AboutPage() {
             </p>
           </section>
 
+          {/* 운영자 소개 */}
+          <section>
+            <h2 className="text-xl font-bold text-gray-800 mb-4">운영자 소개</h2>
+            <div className="flex items-start gap-4">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gray-900 text-lg font-black text-white">
+                js
+              </div>
+              <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+                <p>
+                  안녕하세요, 이 사이트를 운영하는 <strong>jans</strong>입니다.
+                  저는 자동차나 IT 업계와는 무관한 <strong>평범한 직장인</strong>입니다.
+                  최근 전기차를 직접 구매하면서, 국고보조금·지자체보조금·청년/다자녀 가산까지 얽힌
+                  실구매가 계산이 너무 복잡하다는 걸 직접 겪었습니다.
+                </p>
+                <p>
+                  "이걸 누구나 클릭 몇 번으로 확인할 수 있으면 좋겠다"는 생각에서 이 사이트를 시작했습니다.
+                  최근의 AI·자동화 도구를 활용해 흩어진 보조금 공고 데이터를 모으고,
+                  지역별 실구매가를 바로 계산해주는 도구를 만들어 직접 검수하며 정리하고 있습니다.
+                </p>
+                <p>
+                  전문가의 분석이라기보다, <strong>같은 고민을 먼저 해본 한 명의 실구매자</strong>로서
+                  제가 부딪힌 정보들을 정리한다는 마음으로 운영합니다.
+                </p>
+              </div>
+            </div>
+          </section>
+
           {/* 데이터 신뢰성 */}
           <section>
             <h2 className="text-xl font-bold text-gray-800 mb-4">데이터 수집 방법</h2>
