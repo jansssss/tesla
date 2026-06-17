@@ -1,3 +1,5 @@
+import { MERGED_SLUGS } from "./mergedGuides.js";
+
 const guides = [
   {
     slug: "fsd-korea-status-2026",
@@ -3697,8 +3699,12 @@ const guides = [
   }
 ];
 
+// 통합(301 리다이렉트) 대상은 목록/사이트맵/관련글/정적생성에서 제외.
+// 원본 콘텐츠는 배열에 남겨두되 노출만 막는다(되돌리기 쉬움).
+const visibleGuides = guides.filter((g) => !MERGED_SLUGS.has(g.slug));
+
 export function getAllGuides() {
-  return [...guides];
+  return [...visibleGuides];
 }
 
 export function getGuideBySlug(slug) {
@@ -3706,8 +3712,8 @@ export function getGuideBySlug(slug) {
 }
 
 export function getFeaturedGuides() {
-  const step = Math.floor(guides.length / 4);
-  return [guides[0], guides[step], guides[step * 2], guides[step * 3]];
+  const step = Math.floor(visibleGuides.length / 4);
+  return [visibleGuides[0], visibleGuides[step], visibleGuides[step * 2], visibleGuides[step * 3]];
 }
 
 export default guides;

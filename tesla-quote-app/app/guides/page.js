@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getAllGuides } from "@/lib/guides";
 import { fetchAllGuidesForList } from "@/lib/supabase-server";
+import { normalizeCategory } from "@/lib/categories";
 
 // 정적 가이드 + Supabase 가이드(관리자 작성 글) 병합
 async function getMergedGuides() {
@@ -54,7 +55,7 @@ export default async function GuidesPage() {
             >
               <div className="flex items-center justify-between gap-3">
                 <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-600">
-                  {guide.category}
+                  {normalizeCategory(guide.category)}
                 </span>
                 <span className="text-xs font-semibold text-slate-400">
                   {String(index + 1).padStart(2, "0")}

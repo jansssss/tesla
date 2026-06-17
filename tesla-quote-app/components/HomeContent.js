@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { getFeaturedGuides } from "@/lib/guides";
+import { relatedCalculators } from "@/lib/calculators";
+import { normalizeCategory } from "@/lib/categories";
 
 const HOW_TO_USE_STEPS = [
   {
@@ -53,6 +55,31 @@ export default function HomeContent() {
   return (
     <section className="bg-[linear-gradient(180deg,#f8fafc_0%,#eef2ff_35%,#ffffff_100%)] py-16 md:py-24">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 md:px-8">
+        {/* 계산기 모음 — 구매 의사결정 도구 허브 */}
+        <div className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] md:p-10">
+          <span className="inline-flex rounded-full bg-blue-600/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.24em] text-blue-700">
+            계산기 모음
+          </span>
+          <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950 md:text-4xl">
+            구매 결정에 필요한 계산을 한곳에서
+          </h2>
+          <p className="mt-3 text-sm leading-7 text-slate-600 md:text-base">
+            실구매가·월납입금부터 유지비·충전비·총소유비용·모델 비교까지, 테슬라 구매 판단에 필요한 계산기를 모았습니다.
+          </p>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {relatedCalculators("/").map((c) => (
+              <Link
+                key={c.href}
+                href={c.href}
+                className="group rounded-3xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5 transition hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)]"
+              >
+                <h3 className="text-base font-black text-slate-950 group-hover:text-blue-700">{c.label}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{c.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+
         <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
           <article className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] md:p-10">
             <span className="inline-flex rounded-full bg-brandRed/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.24em] text-brandRed">
@@ -173,7 +200,7 @@ export default function HomeContent() {
                   className="rounded-3xl border border-white/10 bg-white/5 p-5 transition hover:-translate-y-0.5 hover:bg-white/10"
                 >
                   <div className="flex items-center justify-between gap-3 text-xs font-bold uppercase tracking-[0.2em] text-slate-300">
-                    <span>{guide.category}</span>
+                    <span>{normalizeCategory(guide.category)}</span>
                     <span>{guide.readTime}</span>
                   </div>
                   <h3 className="mt-3 text-base font-black leading-tight">{guide.title}</h3>

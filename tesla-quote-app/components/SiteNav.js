@@ -1,6 +1,11 @@
 import Link from "next/link";
 
 const NAV_ITEMS = [
+  // 계산기 (핵심 도구)
+  { label: "유지비 계산기", href: "/calc/maintenance" },
+  { label: "충전비 계산기", href: "/calc/charging" },
+  { label: "총소유비용 계산기", href: "/calc/tco" },
+  { label: "모델 비교 계산기", href: "/calc/compare" },
   // 지역별 보조금 (주요 지역)
   { label: "서울 보조금", href: "/subsidy/seoul" },
   { label: "경기 보조금", href: "/subsidy/gyeonggi" },

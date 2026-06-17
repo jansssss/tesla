@@ -70,7 +70,9 @@ export async function fetchAllGuidesMeta() {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return [];
 
   try {
-    const url = `${SUPABASE_URL}/rest/v1/guides?select=slug,published_at,updated_at&order=published_at.desc`;
+    // AdSense 대응: 자동 생성 글(content_html 없음)은 sitemap에서 제외.
+    // 관리자 작성 글(content_html 존재)만 색인 대상으로 노출한다.
+    const url = `${SUPABASE_URL}/rest/v1/guides?select=slug,published_at,updated_at&content_html=not.is.null&order=published_at.desc`;
     const res = await fetch(url, {
       headers: {
         apikey: SUPABASE_ANON_KEY,
@@ -94,7 +96,8 @@ export async function fetchAllGuidesForList() {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return [];
 
   try {
-    const url = `${SUPABASE_URL}/rest/v1/guides?select=slug,category,title,description,read_time,published_at,updated_at&order=published_at.desc`;
+    // 자동 생성 글(content_html 없음)은 목록에서 제외 → 관리자 작성 글만 노출.
+    const url = `${SUPABASE_URL}/rest/v1/guides?select=slug,category,title,description,read_time,published_at,updated_at&content_html=not.is.null&order=published_at.desc`;
     const res = await fetch(url, {
       headers: {
         apikey: SUPABASE_ANON_KEY,
@@ -127,7 +130,8 @@ export async function fetchRecentGuides(limit = 6) {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return [];
 
   try {
-    const url = `${SUPABASE_URL}/rest/v1/guides?select=slug,category,title,description,read_time,published_at&order=published_at.desc&limit=${limit}`;
+    // 자동 생성 글(content_html 없음)은 최근 글 노출에서 제외.
+    const url = `${SUPABASE_URL}/rest/v1/guides?select=slug,category,title,description,read_time,published_at&content_html=not.is.null&order=published_at.desc&limit=${limit}`;
     const res = await fetch(url, {
       headers: {
         apikey: SUPABASE_ANON_KEY,

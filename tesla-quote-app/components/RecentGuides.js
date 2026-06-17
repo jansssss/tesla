@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { fetchRecentGuides } from "@/lib/supabase-server";
+import { normalizeCategory } from "@/lib/categories";
 
 function formatDate(dateStr) {
   const [year, month, day] = dateStr.split("-");
@@ -7,13 +8,16 @@ function formatDate(dateStr) {
 }
 
 const CATEGORY_COLORS = {
-  테슬라: "bg-blue-50 text-blue-700",
-  전기차: "bg-emerald-50 text-emerald-700",
-  보조금: "bg-violet-50 text-violet-700",
-  충전: "bg-amber-50 text-amber-700",
-  비교: "bg-rose-50 text-rose-700",
-  구매가이드: "bg-sky-50 text-sky-700",
-  자동차: "bg-slate-100 text-slate-700",
+  "보조금": "bg-violet-50 text-violet-700",
+  "충전": "bg-amber-50 text-amber-700",
+  "모델·비교": "bg-rose-50 text-rose-700",
+  "구매 가이드": "bg-sky-50 text-sky-700",
+  "구매·금융": "bg-blue-50 text-blue-700",
+  "유지비·세제": "bg-emerald-50 text-emerald-700",
+  "총소유비용": "bg-teal-50 text-teal-700",
+  "FSD·자율주행": "bg-indigo-50 text-indigo-700",
+  "가격 전략": "bg-orange-50 text-orange-700",
+  "소유·관리": "bg-slate-100 text-slate-700",
 };
 
 export default async function RecentGuides() {
@@ -50,10 +54,10 @@ export default async function RecentGuides() {
             <div className="flex items-center justify-between gap-2">
               <span
                 className={`inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-bold tracking-wide ${
-                  CATEGORY_COLORS[guide.category] ?? "bg-slate-100 text-slate-600"
+                  CATEGORY_COLORS[normalizeCategory(guide.category)] ?? "bg-slate-100 text-slate-600"
                 }`}
               >
-                {guide.category}
+                {normalizeCategory(guide.category)}
               </span>
               <span className="text-xs text-slate-400">
                 {guide.published_at ? formatDate(guide.published_at) : ""}
