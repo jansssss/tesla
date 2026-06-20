@@ -231,16 +231,13 @@ export default async function GuideDetailPage({ params }) {
             {guide.contentHtml ? (
               /* 관리자가 HTML 편집한 경우 */
               <div
-                className="guide-html-content rounded-[24px] border border-slate-100 bg-white p-6 shadow-[0_8px_32px_rgba(15,23,42,0.04)] md:p-8"
+                className="guide-html-content"
                 dangerouslySetInnerHTML={{ __html: guide.contentHtml }}
               />
             ) : (
-              <div className="grid gap-5">
+              <div className="grid gap-10">
                 {guide.sections.map((section, index) => (
-                  <section
-                    key={`${section.title}-${index}`}
-                    className="rounded-[24px] border border-slate-100 bg-white p-6 shadow-[0_8px_32px_rgba(15,23,42,0.04)]"
-                  >
+                  <section key={`${section.title}-${index}`}>
                     <div className="flex items-baseline gap-3">
                       <span className="shrink-0 font-black tabular-nums text-blue-400" style={{ fontSize: "11px", letterSpacing: "0.15em" }}>
                         {String(index + 1).padStart(2, "0")}
