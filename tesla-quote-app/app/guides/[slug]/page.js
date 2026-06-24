@@ -216,6 +216,29 @@ export default async function GuideDetailPage({ params }) {
           </header>
 
           <div className="grid gap-8 px-6 py-8 md:px-10 md:py-10">
+            {/* 목차 */}
+            {!guide.contentHtml && guide.sections && guide.sections.length > 1 && (
+              <nav className="rounded-2xl border border-slate-200 bg-slate-50 p-5" aria-label="목차">
+                <p className="text-[11px] font-black uppercase tracking-[0.22em] text-slate-400 mb-3">목차</p>
+                <ol className="space-y-2">
+                  {guide.sections.map((section, i) => (
+                    <li key={i}>
+                      <a
+                        href={`#section-${i}`}
+                        className="flex items-center gap-2.5 text-sm text-slate-700 hover:text-blue-700 transition-colors group"
+                      >
+                        <span className="shrink-0 text-[11px] font-mono text-slate-400 group-hover:text-blue-400">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span>{section.title}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            )}
+
+            {/* 핵심 요약 */}
             <section className="rounded-[24px] border border-slate-100 bg-slate-50 p-6">
               <h2 className="text-xs font-black uppercase tracking-[0.2em] text-slate-500">핵심 요약</h2>
               <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-700 md:text-base">
@@ -228,6 +251,31 @@ export default async function GuideDetailPage({ params }) {
               </ul>
             </section>
 
+            {/* 인아티클 계산기 CTA */}
+            <div className="rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-5">
+              <div className="flex items-center gap-2.5 mb-4">
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm shrink-0">
+                  🧮
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-blue-900">직접 계산해보세요</p>
+                  <p className="text-xs text-blue-600">가이드 내용을 내 조건으로 확인</p>
+                </div>
+              </div>
+              <Link
+                href={calcCta.href}
+                className="flex items-center justify-between p-3.5 bg-white border border-blue-200 rounded-xl hover:border-blue-400 hover:shadow-md transition-all group"
+              >
+                <div>
+                  <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">
+                    {calcCta.button}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-0.5">{calcCta.desc}</p>
+                </div>
+                <ArrowRight />
+              </Link>
+            </div>
+
             {guide.contentHtml ? (
               /* 관리자가 HTML 편집한 경우 */
               <div
@@ -237,7 +285,7 @@ export default async function GuideDetailPage({ params }) {
             ) : (
               <div className="grid gap-10">
                 {guide.sections.map((section, index) => (
-                  <section key={`${section.title}-${index}`}>
+                  <section key={`${section.title}-${index}`} id={`section-${index}`} className="scroll-mt-20">
                     <div className="flex items-baseline gap-3">
                       <span className="shrink-0 font-black tabular-nums text-blue-400" style={{ fontSize: "11px", letterSpacing: "0.15em" }}>
                         {String(index + 1).padStart(2, "0")}
