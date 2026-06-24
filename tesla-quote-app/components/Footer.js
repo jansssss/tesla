@@ -59,9 +59,9 @@ export default function Footer() {
           <p>© 2026 하우머치 테슬라. 본 사이트는 테슬라(Tesla, Inc.)와 공식적인 관계가 없는 독립적인 정보 제공 사이트입니다.</p>
         </div>
 
-        {/* 관리자 버튼 */}
-        <div className="flex justify-end mt-2 pr-1">
-          {isAdmin ? (
+        {/* 관리자 버튼 — 로그인 상태에서만 표시 */}
+        {isAdmin && (
+          <div className="flex justify-end mt-2 pr-1">
             <div className="flex items-center gap-2">
               <Link
                 href="/admin/editor"
@@ -76,15 +76,8 @@ export default function Footer() {
                 LOGOUT
               </button>
             </div>
-          ) : (
-            <a
-              href="/admin/login"
-              className="text-[10px] font-mono text-gray-600 border border-gray-700 rounded px-2 py-0.5 hover:text-red-400 hover:border-red-800 transition-colors"
-            >
-              ADMIN
-            </a>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </footer>
   )

@@ -2,6 +2,9 @@ import Link from "next/link";
 
 const NAV_ITEMS = [
   // 계산기 (핵심 도구)
+  { label: "월실제부담 계산기", href: "/calc/monthly-real-cost" },
+  { label: "전환비교 계산기", href: "/calc/switch-to-tesla" },
+  { label: "구매준비도 체크", href: "/calc/ev-purchase-readiness" },
   { label: "유지비 계산기", href: "/calc/maintenance" },
   { label: "충전비 계산기", href: "/calc/charging" },
   { label: "총소유비용 계산기", href: "/calc/tco" },

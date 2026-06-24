@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { METRO_REGIONS } from "@/lib/regions";
 import ContextualShopCTA from "@/components/ContextualShopCTA";
+import { CALC_DATA_DATE } from "@/lib/calcExtra";
 
 export const metadata = {
   title: "테슬라 Model 3 vs Model Y 비교 — 가격·보조금·월납입금 2026",
@@ -53,7 +54,7 @@ const SCENARIOS = [
     title: "월납입금 최소화",
     icon: "💰",
     winner: "model3",
-    reason: "Model 3 RWD 추천 — 출고가가 800만원 낮아 동일 조건에서 월납입금이 약 13,000~15,000원 낮음.",
+    reason: "Model 3 RWD 추천 — 출고가가 낮아 동일 선수금·할부 조건에서 월납입금도 낮아집니다. 실제 차이는 지역 보조금·할부 조건에 따라 달라지므로 아래 계산기에서 직접 확인하세요.",
   },
 ];
 
@@ -137,6 +138,9 @@ export default function Model3VsModelYPage() {
               </div>
             ))}
           </div>
+          <p className="mt-2 text-[11px] text-gray-400">
+            * 가격·보조금·주행거리는 테슬라 공식 홈페이지 기준이며 변동될 수 있습니다. 데이터 기준일: {CALC_DATA_DATE}. 실구매가는 지역 보조금·할부 조건에 따라 달라집니다.
+          </p>
         </section>
 
         {/* 상황별 추천 */}

@@ -33,6 +33,24 @@ export const CALCULATORS = [
     shortLabel: "모델 비교",
     desc: "Model 3와 Model Y의 실구매가·월납입금·유지비·5년 총비용을 비교합니다.",
   },
+  {
+    href: "/calc/monthly-real-cost",
+    label: "월 실제 부담금 계산기",
+    shortLabel: "월 실제 부담",
+    desc: "할부금에 충전비·보험료·자동차세를 합산한 월 실제 지출액을 계산합니다.",
+  },
+  {
+    href: "/calc/switch-to-tesla",
+    label: "내연기관→테슬라 전환 비교 계산기",
+    shortLabel: "전환 비교",
+    desc: "현재 차량 월 비용 vs 테슬라 전환 후 비용을 비교해 월 절감액을 확인합니다.",
+  },
+  {
+    href: "/calc/ev-purchase-readiness",
+    label: "구매 준비도 체크",
+    shortLabel: "구매 준비도",
+    desc: "충전 환경·주행거리·예산 등 5가지 항목으로 전기차 구매 적합도를 점수화합니다.",
+  },
 ];
 
 /** 현재 경로를 제외한 나머지 계산기 목록 (관련 계산기 섹션용) */

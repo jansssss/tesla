@@ -51,10 +51,97 @@ const FAQS = [
 
 const featuredGuides = getFeaturedGuides();
 
+const ENTRY_POINTS = [
+  {
+    href: "/calc/monthly-real-cost",
+    icon: "💳",
+    label: "월 실제 부담금 계산",
+    desc: "할부금 + 충전비 + 보험료 + 자동차세 합산",
+    cta: "계산하기",
+    accent: "border-blue-200 hover:border-blue-400",
+  },
+  {
+    href: "/calc/switch-to-tesla",
+    icon: "🔄",
+    label: "내연기관 vs 테슬라 비교",
+    desc: "현재 차량 월 비용과 테슬라 전환 후 절감액 비교",
+    cta: "비교하기",
+    accent: "border-slate-200 hover:border-blue-400",
+  },
+  {
+    href: "/calc/ev-purchase-readiness",
+    icon: "✅",
+    label: "구매 준비도 체크",
+    desc: "충전 환경·주행거리·예산으로 구매 적합도 점수 확인",
+    cta: "체크하기",
+    accent: "border-slate-200 hover:border-blue-400",
+  },
+  {
+    href: "/compare/model-3-vs-model-y",
+    icon: "⚖️",
+    label: "Model 3 vs Model Y 비교",
+    desc: "가격·주행거리·보조금·상황별 추천 한눈에 비교",
+    cta: "비교 보기",
+    accent: "border-slate-200 hover:border-blue-400",
+  },
+  {
+    href: "/guides/tesla-subsidy-apply-guide",
+    icon: "📋",
+    label: "보조금 신청방법 가이드",
+    desc: "딜러 대행 절차, 요건, 지급 시점 완전 정리",
+    cta: "가이드 읽기",
+    accent: "border-slate-200 hover:border-blue-400",
+  },
+  {
+    href: "/guides/tesla-subsidy-required-docs",
+    icon: "📁",
+    label: "보조금 서류 체크리스트",
+    desc: "개인·법인·할부 구매 서류 목록 한 장 정리",
+    cta: "확인하기",
+    accent: "border-slate-200 hover:border-blue-400",
+  },
+];
+
 export default function HomeContent() {
   return (
     <section className="bg-[linear-gradient(180deg,#f8fafc_0%,#eef2ff_35%,#ffffff_100%)] py-16 md:py-24">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 md:px-8">
+
+        {/* 핵심 진입점 6개 */}
+        <div>
+          <div className="mb-5">
+            <span className="inline-flex rounded-full bg-blue-600/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.24em] text-blue-700">
+              구매 의사결정 도구
+            </span>
+            <h2 className="mt-3 text-2xl font-black tracking-tight text-slate-950 md:text-3xl">
+              테슬라 구매에 필요한 6가지 도구
+            </h2>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {ENTRY_POINTS.map((ep) => (
+              <Link
+                key={ep.href}
+                href={ep.href}
+                className={`group flex flex-col rounded-[20px] border bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(15,23,42,0.09)] ${ep.accent}`}
+              >
+                <div className="flex items-start gap-3 mb-3">
+                  <span className="text-2xl">{ep.icon}</span>
+                  <div>
+                    <h3 className="text-sm font-black text-slate-900 group-hover:text-blue-700 leading-tight">{ep.label}</h3>
+                    <p className="mt-1 text-xs text-slate-500 leading-relaxed">{ep.desc}</p>
+                  </div>
+                </div>
+                <span className="mt-auto inline-flex items-center gap-1 text-xs font-bold text-blue-600">
+                  {ep.cta}
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* 계산기 모음 — 구매 의사결정 도구 허브 */}
         <div className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] md:p-10">
           <span className="inline-flex rounded-full bg-blue-600/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.24em] text-blue-700">

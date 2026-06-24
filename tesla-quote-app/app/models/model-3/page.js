@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { METRO_REGIONS } from "@/lib/regions";
+import { CALC_DATA_DATE } from "@/lib/calcExtra";
 
 export const metadata = {
   title: "2026 테슬라 Model 3 트림별 가격·보조금·월납입금",
@@ -157,7 +158,7 @@ export default function Model3Page() {
               일반적으로 선수금 1,000만원, 60개월 기준으로 월납입금은 지역·보조금에 따라 달라지므로 위 계산기에서 내 조건을 직접 입력해 확인하는 것을 권장합니다.
             </p>
             <p className="text-xs text-gray-400 pt-1">
-              업데이트: 2026년 · 가격 및 보조금은 변경될 수 있습니다.
+              * 가격·주행거리·보조금은 테슬라 공식 홈페이지 기준이며 변동될 수 있습니다. 데이터 기준일: {CALC_DATA_DATE}.
             </p>
           </div>
         </section>

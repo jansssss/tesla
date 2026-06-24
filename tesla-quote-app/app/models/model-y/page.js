@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { METRO_REGIONS } from "@/lib/regions";
+import { CALC_DATA_DATE } from "@/lib/calcExtra";
 
 export const metadata = {
   title: "2026 테슬라 Model Y 트림별 가격·보조금·월납입금 (RWD·LR·L AWD)",
@@ -158,7 +159,7 @@ export default function ModelYPage() {
               Model Y L AWD는 기존 Model Y보다 더 넓은 실내 공간과 543km 주행거리를 제공하는 대형 7인승 SUV 트림입니다. 지역별 보조금을 적용하면 RWD 기준 실구매가가 크게 낮아지며, 다자녀 가구는 추가 혜택도 받을 수 있습니다. 정확한 월납입금은 위 계산기에서 선수금과 할부 기간을 직접 입력해 확인하세요.
             </p>
             <p className="text-xs text-gray-400 pt-1">
-              업데이트: 2026년 · 가격 및 보조금은 변경될 수 있습니다.
+              * 가격·주행거리·보조금은 테슬라 공식 홈페이지 기준이며 변동될 수 있습니다. 데이터 기준일: {CALC_DATA_DATE}.
             </p>
           </div>
         </section>
