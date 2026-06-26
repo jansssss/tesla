@@ -1,0 +1,7 @@
+{
+  "tool_name": "Read",
+  "tool_input_preview": "{\"file_path\":\"f:\\\\개인\\\\blog\\\\components\\\\GuideLayout.tsx\"}",
+  "error": "File does not exist. Note: your current working directory is F:\\개인\\tesla.",
+  "timestamp": "2026-06-24T08:22:47.832Z",
+  "retry_count": 1
+}

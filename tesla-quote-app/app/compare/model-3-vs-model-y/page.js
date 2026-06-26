@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { METRO_REGIONS } from "@/lib/regions";
-import ContextualShopCTA from "@/components/ContextualShopCTA";
 import { CALC_DATA_DATE } from "@/lib/calcExtra";
 
 export const metadata = {
@@ -230,9 +229,6 @@ export default function Model3VsModelYPage() {
             ))}
           </div>
         </section>
-
-        {/* 맥락 액세서리 CTA */}
-        <ContextualShopCTA keywords={["Model 3", "Model Y", "트렁크", "인테리어", "구매"]} />
 
         {/* 내부 링크 */}
         <section className="rounded-[24px] bg-[linear-gradient(135deg,#0f172a_0%,#1e3a8a_100%)] p-6 md:p-8">

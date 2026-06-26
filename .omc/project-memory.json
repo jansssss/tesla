@@ -1,0 +1,289 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1782286311779,
+  "projectRoot": "f:\\개인\\tesla",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": "find \"f:\\개인\\tesla\\tesla-quote-app\" -type f -name \"jest.config.*\" -o -name \"vitest.config.*\" 2>/dev/null",
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "tesla-quote-app": {
+      "path": "tesla-quote-app",
+      "purpose": null,
+      "fileCount": 8,
+      "lastAccessed": 1782286311737,
+      "keyFiles": [
+        "jsconfig.json",
+        "next.config.mjs",
+        "package-lock.json",
+        "package.json",
+        "postcss.config.js"
+      ]
+    },
+    "보조금": {
+      "path": "보조금",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1782286311737,
+      "keyFiles": [
+        "extract_tesla_subsidy.js",
+        "tesla_subsidy_by_local_20260209.csv",
+        "tesla_subsidy_by_local_20260420.csv",
+        "tesla_subsidy_by_local_20260615.csv"
+      ]
+    },
+    "tesla-quote-app\\app": {
+      "path": "tesla-quote-app\\app",
+      "purpose": "Application code",
+      "fileCount": 5,
+      "lastAccessed": 1782286311739,
+      "keyFiles": [
+        "globals.css",
+        "layout.js",
+        "page.js"
+      ]
+    },
+    "tesla-quote-app\\components": {
+      "path": "tesla-quote-app\\components",
+      "purpose": "UI components",
+      "fileCount": 17,
+      "lastAccessed": 1782286311740,
+      "keyFiles": [
+        "AdminEditButton.js",
+        "AuthorBio.js",
+        "Breadcrumb.js"
+      ]
+    },
+    "tesla-quote-app\\data": {
+      "path": "tesla-quote-app\\data",
+      "purpose": "Data files",
+      "fileCount": 3,
+      "lastAccessed": 1782286311741,
+      "keyFiles": [
+        "latest.csv",
+        "shop-products.js",
+        "subsidy-meta.json"
+      ]
+    },
+    "tesla-quote-app\\lib": {
+      "path": "tesla-quote-app\\lib",
+      "purpose": "Library code",
+      "fileCount": 11,
+      "lastAccessed": 1782286311742,
+      "keyFiles": [
+        "calcExtra.js",
+        "calcLinks.js",
+        "calculators.js"
+      ]
+    },
+    "tesla-quote-app\\node_modules": {
+      "path": "tesla-quote-app\\node_modules",
+      "purpose": "Dependencies",
+      "fileCount": 1,
+      "lastAccessed": 1782286311742,
+      "keyFiles": []
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "tesla-quote-app\\app\\guides\\[slug]\\page.js",
+      "accessCount": 3,
+      "lastAccessed": 1782289738563,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\components\\QuoteWizard.js",
+      "accessCount": 2,
+      "lastAccessed": 1782286909042,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\lib\\calculators.js",
+      "accessCount": 2,
+      "lastAccessed": 1782289408559,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\components\\HomeContent.js",
+      "accessCount": 2,
+      "lastAccessed": 1782289669887,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\package.json",
+      "accessCount": 1,
+      "lastAccessed": 1782286871647,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\app\\layout.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286875404,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\app\\page.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286875664,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\lib\\quoteCalculations.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286876097,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\lib\\subsidy.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286879312,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\lib\\calcExtra.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286879522,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\app\\sitemap.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286887557,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\app\\robots.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286887813,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\app\\admin\\page.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286888038,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\app\\admin\\login\\page.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286888292,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\components\\Footer.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286891520,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\components\\SiteHeader.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286891741,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\components\\SiteNav.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286891947,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\app\\compare\\model-3-vs-model-y\\page.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286892282,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\app\\calc\\tco\\page.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286895375,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\components\\calc\\TcoCalculator.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286895761,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\lib\\guides.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286900298,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\lib\\regions.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286900550,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\components\\calc",
+      "accessCount": 1,
+      "lastAccessed": 1782286904828,
+      "type": "directory"
+    },
+    {
+      "path": "tesla-quote-app\\app\\calc\\compare\\page.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286905130,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\components\\calc\\MaintenanceCalculator.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286909468,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\components",
+      "accessCount": 1,
+      "lastAccessed": 1782286910441,
+      "type": "directory"
+    },
+    {
+      "path": "tesla-quote-app\\app\\models\\model-3\\page.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286913775,
+      "type": "file"
+    },
+    {
+      "path": "tesla-quote-app\\app\\calc\\charging\\page.js",
+      "accessCount": 1,
+      "lastAccessed": 1782286914365,
+      "type": "file"
+    },
+    {
+      "path": "C:\\Users\\user\\AppData\\Local\\Temp\\claude\\f-----tesla\\ab7a7750-36c4-4386-924e-e5934f82335f\\tasks\\b8h099szf.output",
+      "accessCount": 1,
+      "lastAccessed": 1782289794388,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

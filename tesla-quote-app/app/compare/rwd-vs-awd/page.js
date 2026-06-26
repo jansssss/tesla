@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { METRO_REGIONS } from "@/lib/regions";
-import ContextualShopCTA from "@/components/ContextualShopCTA";
 
 export const metadata = {
   title: "테슬라 RWD vs AWD 비교 — 가격·주행거리·보조금 2026",
@@ -229,9 +228,6 @@ export default function RwdVsAwdPage() {
             ))}
           </div>
         </section>
-
-        {/* 맥락 액세서리 CTA */}
-        <ContextualShopCTA keywords={["AWD", "RWD", "Performance", "차종·트림", "휠", "익스테리어"]} />
 
         {/* 내부 링크 */}
         <section className="rounded-[24px] bg-[linear-gradient(135deg,#0f172a_0%,#1e3a8a_100%)] p-6 md:p-8">

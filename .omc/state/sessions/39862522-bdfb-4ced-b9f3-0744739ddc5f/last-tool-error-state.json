@@ -1,0 +1,7 @@
+{
+  "tool_name": "Read",
+  "tool_input_preview": "{\"file_path\":\"F:\\\\개인\\\\tesla\\\\tesla-quote-app\\\\lib\\\\guides.js\"}",
+  "error": "File content (260KB) exceeds maximum allowed size (256KB). Use offset and limit parameters to read specific portions of the file, or search for specific content instead of reading the whole file.",
+  "timestamp": "2026-06-15T04:52:17.507Z",
+  "retry_count": 1
+}

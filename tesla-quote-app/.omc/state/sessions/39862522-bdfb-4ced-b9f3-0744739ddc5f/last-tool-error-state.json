@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd \\\"F:\\\\개인\\\\tesla\\\" && grep -rn \\\"cron\\\\|schedule\\\\|2일\\\\|every\\\\|days\\\" .github/workflows/ tesla-quote-app/.github/workflows/ 2>/dev/null | head -30; echo \\\"=== workflow files ===\\\"; ls ....",
+  "error": "Exit code 2\n.github/workflows/auto-guide.yml:4:  # 2일 1회 트리거 (UTC 0시 = KST 9시) → 0~10분 랜덤 sleep 후 실행\n.github/workflows/auto-guide.yml:5:  schedule:\n.github/workflows/auto-guide.yml:6:    - cron: \"0 0 */2 * *\"\n.github/workflows/auto-guide.yml:30:        if: github.event_name == 'schedule'\n=== workflow files ===\n.github/workflows/:\nauto-guide.yml",
+  "timestamp": "2026-06-15T05:09:21.151Z",
+  "retry_count": 1
+}

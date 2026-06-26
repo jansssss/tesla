@@ -1,0 +1,7 @@
+{
+  "tool_name": "PowerShell",
+  "tool_input_preview": "{\"command\":\"cd \\\"F:\\\\개인\\\\tesla\\\\tesla-quote-app\\\" && npm run lint 2>&1 | Select-String \\\"error\\\" | Select-Object -First 20\",\"timeout\":60000,\"description\":\"Filter lint output for errors only\"}",
+  "error": "Exit code 1\n  197:24  \u001b[7merror\u001b[0m    'FormData' is not defined                                                             no-undef\r\n  283:5   \u001b[7merror\u001b[0m    Definition for rule 'react-hooks/exhaustive-deps' was not found                       react-hooks/ex\u001b[0m\r\n\u001b[7m\u001b[0mhaustive-deps\u001b[0m\r\n  323:5   \u001b[7merror\u001b[0m    Definition for rule 'react-hooks/exhaustive-deps' was not found                       react-hooks/ex\u001b[0m\r\n\u001b[7m\u001b[0mhaustive-deps\u001b[0m\r\n  36:15  \u001b[7merror\u001b[0m  'Buffer' is not defin...",
+  "timestamp": "2026-06-26T07:33:09.641Z",
+  "retry_count": 1
+}

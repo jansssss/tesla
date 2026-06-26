@@ -9,7 +9,13 @@
       "Bash(git reset:*)",
       "Bash(git checkout:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(npx next *)",
+      "Bash(cat next.config.*)",
+      "Bash(ls middleware.*)",
+      "Bash(grep -rn \"redirects\" next.config.*)",
+      "Bash(grep -iE \"config|json|mjs|ts$\")",
+      "mcp__plugin_oh-my-claudecode_t__session_search"
     ]
   }
 }

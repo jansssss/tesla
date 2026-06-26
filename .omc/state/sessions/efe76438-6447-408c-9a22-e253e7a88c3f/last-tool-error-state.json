@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd \\\"F:/개인/tesla/tesla-quote-app\\\" && cat > /tmp/cta_test.mjs <<'EOF'\\nimport { pickProductsByText } from './data/shop-products.js';\\nconst cases = {\\n  '시트/허리 불편': '운전석 시트 포지션이 불편했다. 장거리 ...",
+  "error": "Exit code 1\nnode:internal/modules/run_main:107\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nError [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\\Users\\user\\AppData\\Local\\Temp\\data\\shop-products.js' imported from C:\\Users\\user\\AppData\\Local\\Temp\\cta_test.mjs\r\nDid you mean to import \"../../../../../../F:/%EA%B0%9C%EC%9D%B8/tesla/tesla-quote-app/data/shop-products.js\"?\r\n    at finalizeResolution (node:internal/modules/esm/resolve:274:11)\r\n    at moduleResolve (node:internal/modules/esm/resolve:864:10)\r...",
+  "timestamp": "2026-06-17T05:29:15.791Z",
+  "retry_count": 1
+}

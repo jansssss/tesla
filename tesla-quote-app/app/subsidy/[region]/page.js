@@ -7,7 +7,6 @@ import RegionPresetButtons from "@/components/seo/RegionPresetButtons";
 import RegionFAQ from "@/components/seo/RegionFAQ";
 import RegionInternalLinks from "@/components/seo/RegionInternalLinks";
 import Link from "next/link";
-import ContextualShopCTA from "@/components/ContextualShopCTA";
 
 export async function generateStaticParams() {
   return ALL_SLUGS.map((slug) => ({ region: slug }));
@@ -170,9 +169,6 @@ export default async function RegionSubsidyPage({ params }) {
             </div>
           </div>
         </section>
-
-        {/* 맥락 액세서리 CTA */}
-        <ContextualShopCTA keywords={["구매", "인테리어", "트렁크", "필수품", "보조금 전략"]} />
 
         {/* 내부 링크 */}
         <RegionInternalLinks currentSlug={region} />
