@@ -63,7 +63,7 @@ export default function MonthlyRealCostCalculator({ dataDate }) {
 
   const principal = Math.max(0, v.price - v.subsidy - v.down);
   const loanMonthly = monthlyPayment(principal, v.rate, v.months);
-  const chargingMonthly = calcCharging({
+  const { monthly: chargingMonthly } = calcCharging({
     monthlyKm: v.monthlyKm,
     efficiency: v.efficiency,
     fastRatio: v.fastRatio / 100,
