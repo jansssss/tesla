@@ -21,11 +21,11 @@ const COMPARE_DATA = [
   { label: "구동방식", rwd: "후륜 구동 (RWD)", awd: "사륜 구동 (AWD)" },
   { label: "Model 3 해당 트림", rwd: "RWD · Long Range", awd: "Performance" },
   { label: "Model Y 해당 트림", rwd: "Premium RWD", awd: "Long Range · L AWD" },
-  { label: "Model 3 가격", rwd: "4,199만 / 5,299만", awd: "5,999만 (Performance)" },
-  { label: "Model Y 가격", rwd: "4,999만", awd: "5,999만 (LR) / 6,999만 (L AWD)" },
-  { label: "주행거리 (Model 3)", rwd: "682 km (RWD)", awd: "528 km (Perf)" },
-  { label: "주행거리 (Model Y)", rwd: "400 km+", awd: "533 km (LR) · 543 km (L AWD)" },
-  { label: "0→100 km/h", rwd: "5.3~6.2 초", awd: "3.1~5.0 초" },
+  { label: "Model 3 가격", rwd: "4,199만 / 5,299만", awd: "6,499만 (Performance)" },
+  { label: "Model Y 가격", rwd: "4,999만", awd: "6,399만 (LR) / 6,999만 (L AWD)" },
+  { label: "주행거리 (Model 3)", rwd: "382 km (RWD)", awd: "450 km (Perf)" },
+  { label: "주행거리 (Model Y)", rwd: "400 km", awd: "505 km (LR) · 543 km (L AWD)" },
+  { label: "0→100 km/h", rwd: "5.2~6.2 초", awd: "3.1~5.0 초" },
   { label: "겨울철 접지력", rwd: "보통", awd: "우수" },
   { label: "에너지 효율", rwd: "높음", awd: "약간 낮음" },
 ];
@@ -47,13 +47,13 @@ const SCENARIOS = [
     title: "고속도로 장거리 위주",
     icon: "🛣️",
     winner: "rwd",
-    reason: "Model 3 LR(RWD) 추천 — 713 km로 최장 주행거리. 고속도로에서 RWD의 효율이 AWD보다 높아 실질 주행거리 유리.",
+    reason: "Model 3 LR(RWD) 추천 — 538 km로 최장 주행거리. 고속도로에서 RWD의 효율이 AWD보다 높아 실질 주행거리 유리.",
   },
   {
     title: "퍼포먼스·스포츠 드라이빙",
     icon: "🏎️",
     winner: "awd",
-    reason: "AWD Performance 추천 — 0→100km/h 3.1초, 최고속도 262km/h. 순수 성능 추구라면 AWD가 압도적.",
+    reason: "AWD Performance 추천 — 0→100km/h 3.1초, 최고속도 261km/h. 순수 성능 추구라면 AWD가 압도적.",
   },
 ];
 
@@ -78,7 +78,7 @@ const CTA_BUTTONS = [
   },
   {
     label: "Model Y LR",
-    sub: "5,999만원~",
+    sub: "6,399만원~",
     href: "/?model=modely&trim=my-lr&months=60&downPayment=10000000",
     style: "bg-blue-500/30 text-white border border-blue-400/30 hover:bg-blue-500/50",
   },
