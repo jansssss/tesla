@@ -4,6 +4,8 @@
  * - type 'do': codePrefix로 기초자치단체 집계 (경기, 강원, 충북/충남, 전북/전남, 경북/경남)
  */
 
+import { TRIM_PRICES } from "./vehicleData.js";
+
 export const METRO_REGIONS = [
   { slug: 'seoul',     name: '서울특별시',       shortName: '서울', codePrefix: '11', representativeCode: '1100',  type: 'si' },
   { slug: 'busan',     name: '부산광역시',       shortName: '부산', codePrefix: '26', representativeCode: '2600',  type: 'si' },
@@ -52,12 +54,12 @@ export function getDistrictsForMetro(rows, metro) {
 
 /** 트림 카탈로그 (보조금 계산 기준) */
 export const TRIM_CATALOG = [
-  { trimId: 'm3-rwd',  modelId: 'model3', label: 'Model 3 RWD',         price: 41990000, csvModel: 'Model 3 RWD' },
-  { trimId: 'm3-lr',   modelId: 'model3', label: 'Model 3 Long Range',   price: 52990000, csvModel: 'Model 3 Premium Long Range RWD' },
-  { trimId: 'm3-perf', modelId: 'model3', label: 'Model 3 Performance',  price: 59990000, csvModel: 'Model 3 Performance' },
-  { trimId: 'my-rwd',   modelId: 'modely', label: 'Model Y RWD',          price: 49990000, csvModel: 'Model Y Premium RWD' },
-  { trimId: 'my-lr',   modelId: 'modely', label: 'Model Y Long Range',   price: 59990000, csvModel: 'Model Y Premium Long Range' },
-  { trimId: 'my-l-awd', modelId: 'modely', label: 'Model Y L AWD',       price: 69990000, csvModel: 'Model Y L AWD' },
+  { trimId: 'm3-rwd',  modelId: 'model3', label: 'Model 3 RWD',         price: TRIM_PRICES['m3-rwd'],   csvModel: 'Model 3 RWD' },
+  { trimId: 'm3-lr',   modelId: 'model3', label: 'Model 3 Long Range',   price: TRIM_PRICES['m3-lr'],   csvModel: 'Model 3 Premium Long Range RWD' },
+  { trimId: 'm3-perf', modelId: 'model3', label: 'Model 3 Performance',  price: TRIM_PRICES['m3-perf'], csvModel: 'Model 3 Performance' },
+  { trimId: 'my-rwd',  modelId: 'modely', label: 'Model Y RWD',          price: TRIM_PRICES['my-rwd'],  csvModel: 'Model Y Premium RWD' },
+  { trimId: 'my-lr',   modelId: 'modely', label: 'Model Y Long Range',   price: TRIM_PRICES['my-lr'],   csvModel: 'Model Y Premium Long Range' },
+  { trimId: 'my-l-awd', modelId: 'modely', label: 'Model Y L AWD',      price: TRIM_PRICES['my-l-awd'], csvModel: 'Model Y L AWD' },
 ];
 
 /**

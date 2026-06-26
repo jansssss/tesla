@@ -280,7 +280,6 @@ function AdminEditorContent() {
     } else if (slugParam) {
       resolveSlug(slugParam, token)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
 
   const resolveSlug = async (slugParam, tk) => {
@@ -320,7 +319,6 @@ function AdminEditorContent() {
     if (bodyMode === 'rich' && editorRef.current && editorRef.current.innerHTML !== content) {
       editorRef.current.innerHTML = content
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bodyMode, content, loading])
 
   const switchBodyMode = (next) => {

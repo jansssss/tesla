@@ -26,6 +26,7 @@ export default async function sitemap() {
     { url: `${baseUrl}/terms`,                   lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
     { url: `${baseUrl}/disclaimer`,              lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
     { url: `${baseUrl}/editorial-policy`,        lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
+    { url: `${baseUrl}/data-sources`,            lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
   ];
 
   // 지역별 보조금 페이지 (17개)

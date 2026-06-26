@@ -49,6 +49,10 @@ export default function Footer() {
             콘텐츠 정책
           </Link>
           <span className="text-gray-600">|</span>
+          <Link href="/data-sources" className="hover:text-white transition-colors">
+            데이터 출처
+          </Link>
+          <span className="text-gray-600">|</span>
           <a href="mailto:goooods@naver.com" className="hover:text-white transition-colors">
             goooods@naver.com
           </a>

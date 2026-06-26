@@ -32,7 +32,10 @@ export default function SiteNav() {
       aria-label="자주 찾는 정보"
     >
       <div className="mx-auto max-w-7xl px-4 md:px-8">
-        <div className="flex items-center gap-3 overflow-x-auto py-2.5 scrollbar-hide">
+        <div
+          className="flex items-center gap-3 overflow-x-auto py-2.5 [&::-webkit-scrollbar]:hidden"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
           {/* 레이블 */}
           <span className="shrink-0 text-xs font-medium text-gray-400">
             자주 찾는 정보

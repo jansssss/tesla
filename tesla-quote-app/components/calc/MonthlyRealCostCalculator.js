@@ -11,7 +11,13 @@ function monthlyPayment(principal, annualRatePct, months) {
   return principal * (r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
 }
 
+function safeNum(val) {
+  const n = Number(val);
+  return Number.isFinite(n) && n >= 0 ? n : 0;
+}
+
 function fmt(n) {
+  if (!Number.isFinite(n)) return "0";
   return Math.round(n).toLocaleString("ko-KR");
 }
 
@@ -42,7 +48,7 @@ function Field({ label, value, onChange, suffix, min, step = "1", note }) {
           value={value}
           min={min}
           step={step}
-          onChange={(e) => onChange(Number(e.target.value))}
+          onChange={(e) => onChange(safeNum(e.target.value))}
         />
         {suffix && <span className="shrink-0 text-xs text-slate-400">{suffix}</span>}
       </div>

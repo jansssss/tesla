@@ -13,6 +13,7 @@ import {
   formatNumber,
   monthlyPayment
 } from "@/lib/quoteCalculations";
+import { TRIM_PRICES } from "@/lib/vehicleData";
 
 const MODEL_CATALOG = [
   {
@@ -23,7 +24,7 @@ const MODEL_CATALOG = [
       {
         id: "m3-rwd",
         label: "RWD(후륜 구동)",
-        price: 41990000,
+        price: TRIM_PRICES["m3-rwd"],
         csvModel: "Model 3 RWD",
         stats: [
           { label: "주행 가능 거리", value: "382", unit: "km" },
@@ -34,7 +35,7 @@ const MODEL_CATALOG = [
       {
         id: "m3-lr",
         label: "Premium Long Range RWD(후륜 구동)",
-        price: 52990000,
+        price: TRIM_PRICES["m3-lr"],
         csvModel: "Model 3 Premium Long Range RWD",
         stats: [
           { label: "주행 가능 거리", value: "538", unit: "km" },
@@ -45,7 +46,7 @@ const MODEL_CATALOG = [
       {
         id: "m3-perf",
         label: "Performance AWD(사륜 구동)",
-        price: 59990000,
+        price: TRIM_PRICES["m3-perf"],
         csvModel: "Model 3 Performance",
         stats: [
           { label: "주행 가능 거리", value: "450", unit: "km" },
@@ -63,7 +64,7 @@ const MODEL_CATALOG = [
       {
         id: "my-rwd",
         label: "Premium RWD(후륜 구동)",
-        price: 49990000,
+        price: TRIM_PRICES["my-rwd"],
         csvModel: "Model Y Premium RWD",
         stats: [
           { label: "주행 가능 거리", value: "400", unit: "km" },
@@ -74,7 +75,7 @@ const MODEL_CATALOG = [
       {
         id: "my-lr",
         label: "Premium Long Range AWD(사륜 구동)",
-        price: 59990000,
+        price: TRIM_PRICES["my-lr"],
         csvModel: "Model Y Premium Long Range",
         stats: [
           { label: "주행 가능 거리", value: "505", unit: "km" },
@@ -85,7 +86,7 @@ const MODEL_CATALOG = [
       {
         id: "my-l-awd",
         label: "L AWD(사륜 구동)",
-        price: 69990000,
+        price: TRIM_PRICES["my-l-awd"],
         csvModel: "Model Y L AWD",
         displayName: "Model Y L",
         image: "/modely-l.png",
@@ -386,7 +387,7 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
         )}
 
         {/* Mobile Mode Toggle - sticky tabs */}
-        <nav className="sticky top-0 z-40 flex bg-white shadow-md md:hidden" aria-label="모드 선택">
+        <nav className="sticky top-[49px] z-40 flex bg-white shadow-md md:hidden" aria-label="모드 선택">
           <button
             className={`flex-1 py-3 text-sm font-bold transition-all ${
               mode === "single"

@@ -66,9 +66,10 @@ export default function TcoCalculator() {
 
       <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 md:p-6 text-white">
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">총소유비용(TCO)</p>
+        <p className="mt-1 text-[11px] text-slate-500">감가상각 + 운영비 기준 / 할부 이자 등 금융비용 미포함</p>
         <div className="mt-4 space-y-4">
           <div>
-            <p className="text-sm text-slate-400">{years}년 총비용</p>
+            <p className="text-sm text-slate-400">{years}년 예상 지출</p>
             <p className="text-3xl font-black tracking-tight">{formatWon(result.total)}</p>
             <p className="mt-1 text-sm text-slate-400">월 평균 {formatWon(result.monthly)}</p>
           </div>

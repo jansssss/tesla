@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { METRO_REGIONS } from "@/lib/regions";
 import { CALC_DATA_DATE } from "@/lib/calcExtra";
+import { getTrimsByModel } from "@/lib/vehicleData";
 
 export const metadata = {
   title: "2026 테슬라 Model 3 트림별 가격·보조금·월납입금",
@@ -18,13 +19,18 @@ export const metadata = {
   alternates: { canonical: "https://paytesla.kr/models/model-3" },
 };
 
+// 가격은 lib/vehicleData.js 단일 원본에서 가져옴.
+// 주행거리·성능 수치는 파일 간 충돌이 있어 별도 확인 필요 (docs/vehicle-data-verification-todo.md).
+const _vehicleTrims = getTrimsByModel("Model 3");
+const _priceMap = Object.fromEntries(_vehicleTrims.map((t) => [t.id, t.priceKrw]));
+
 const TRIMS = [
   {
     id: "m3-rwd",
     label: "Model 3 RWD",
     sublabel: "후륜 구동",
-    price: 41990000,
-    range: "682 km",
+    price: _priceMap["m3-rwd"],
+    range: "382 km",
     speed: "201 km/h",
     accel: "6.2 초",
     highlight: false,
@@ -33,19 +39,19 @@ const TRIMS = [
     id: "m3-lr",
     label: "Model 3 Long Range",
     sublabel: "후륜 구동",
-    price: 52990000,
-    range: "713 km",
+    price: _priceMap["m3-lr"],
+    range: "538 km",
     speed: "201 km/h",
-    accel: "5.3 초",
+    accel: "5.2 초",
     highlight: true,
   },
   {
     id: "m3-perf",
     label: "Model 3 Performance",
     sublabel: "사륜 구동",
-    price: 59990000,
-    range: "528 km",
-    speed: "262 km/h",
+    price: _priceMap["m3-perf"],
+    range: "450 km",
+    speed: "261 km/h",
     accel: "3.1 초",
     highlight: false,
   },
@@ -175,6 +181,12 @@ export default function Model3Page() {
             </Link>
             <Link href="/compare/rwd-vs-awd" className="px-3 py-1.5 bg-gray-100 rounded-full text-xs font-medium hover:bg-gray-200 transition-colors">
               RWD vs AWD 비교
+            </Link>
+            <Link href="/calc/monthly-real-cost" className="px-3 py-1.5 bg-gray-100 rounded-full text-xs font-medium hover:bg-gray-200 transition-colors">
+              월 실제 부담 계산
+            </Link>
+            <Link href="/calc/tco" className="px-3 py-1.5 bg-gray-100 rounded-full text-xs font-medium hover:bg-gray-200 transition-colors">
+              TCO 계산기
             </Link>
             {["seoul", "gyeonggi", "busan", "incheon"].map((slug) => {
               const region = METRO_REGIONS.find((r) => r.slug === slug);
