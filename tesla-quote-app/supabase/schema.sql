@@ -20,12 +20,18 @@ CREATE TABLE guides (
   published_at DATE        NOT NULL DEFAULT CURRENT_DATE,
   updated_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  content_html TEXT                                     -- 관리자 HTML 편집 콘텐츠 (있으면 sections 대신 렌더링)
+  content_html TEXT,                                    -- 관리자 HTML 편집 콘텐츠 (있으면 sections 대신 렌더링)
+  -- 공개 모델: status='published' 인 글만 노출. 파이프라인 insert는 status 미지정 → DEFAULT 'draft'(비공개).
+  source       TEXT        NOT NULL DEFAULT 'automated_pipeline'
+                 CHECK (source IN ('manual_editor', 'automated_pipeline')),
+  status       TEXT        NOT NULL DEFAULT 'draft'
+                 CHECK (status IN ('draft', 'published', 'archived'))
 );
 
 CREATE INDEX idx_guides_slug        ON guides(slug);
 CREATE INDEX idx_guides_category    ON guides(category);
 CREATE INDEX idx_guides_published   ON guides(published_at DESC);
+CREATE INDEX idx_guides_status      ON guides(status);
 
 -- ================================================
 -- 2. guide_sections 테이블 (가이드 본문 섹션)

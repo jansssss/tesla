@@ -399,6 +399,9 @@ function AdminEditorContent() {
             slug: finalSlug || undefined,
             key_points: [],
             content_html: html,
+            // 에디터에서 직접 작성·발행 → 사람 작성 + 공개
+            source: 'manual_editor',
+            status: 'published',
           }),
         })
         const data = await res.json()
@@ -425,6 +428,9 @@ function AdminEditorContent() {
             slug: finalSlug || undefined,
             key_points: [],
             content_html: html,
+            // 에디터에서 직접 작성·발행 → 사람 작성 + 공개
+            source: 'manual_editor',
+            status: 'published',
           }),
         })
         const data = await res.json()

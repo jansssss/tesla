@@ -9,6 +9,16 @@ function getAdminClient() {
   return createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 }
 
+// source/status 컬럼 미존재(마이그레이션 전) 에러 판별
+function isUnknownColumnError(error) {
+  if (!error) return false
+  return (
+    error.code === '42703' ||
+    error.code === 'PGRST204' ||
+    /column .* does not exist|find the '(status|source)' column/i.test(error.message || '')
+  )
+}
+
 async function checkAuth(request) {
   const auth = request.headers.get('Authorization') ?? ''
   const token = auth.replace('Bearer ', '')
@@ -45,7 +55,7 @@ export async function PATCH(request, { params }) {
   const { id } = await params
   const body = await request.json()
 
-  const allowed = ['content_html', 'title', 'description', 'category', 'read_time', 'slug', 'key_points', 'sources']
+  const allowed = ['content_html', 'title', 'description', 'category', 'read_time', 'slug', 'key_points', 'sources', 'status', 'source']
   const updateData = {}
   for (const key of allowed) {
     if (key in body && body[key] !== undefined) updateData[key] = body[key]
@@ -56,12 +66,20 @@ export async function PATCH(request, { params }) {
   }
 
   const supabase = getAdminClient()
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from('guides')
     .update(updateData)
     .eq('id', id)
     .select()
     .single()
+
+  // 마이그레이션 전(source/status 컬럼 부재)이면 해당 필드 빼고 재시도
+  if (error && isUnknownColumnError(error)) {
+    const { source, status, ...rest } = updateData
+    if (Object.keys(rest).length) {
+      ;({ data, error } = await supabase.from('guides').update(rest).eq('id', id).select().single())
+    }
+  }
 
   if (error) {
     const isDup = error.code === '23505'

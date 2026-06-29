@@ -11,6 +11,19 @@ import { normalizeCategory } from "@/lib/categories";
 
 const SITE_URL = "https://paytesla.kr";
 
+/**
+ * 가이드 공개 여부 판단 (단일 기준).
+ *  - 정적 guides.js 글: archived면 비공개(현재 전부 archived)
+ *  - Supabase 글: status='published'만 공개. status 컬럼 부재(마이그레이션 전)면
+ *    레거시(content_html 존재 - 차단목록)로 폴백.
+ */
+function isPublishedGuide(staticGuide, guide, slug) {
+  if (!guide) return false;
+  if (staticGuide) return !isArchivedStaticSlug(slug);
+  if (guide.status) return guide.status === "published";
+  return !!guide.contentHtml && !isArchivedSupabaseSlug(slug);
+}
+
 function formatDate(dateStr) {
   const [year, month, day] = dateStr.split("-");
   return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
@@ -41,19 +54,25 @@ function ChevronRight() {
 }
 
 export async function generateStaticParams() {
-  // 자동생성 글은 전부 archived → 정적 생성하지 않는다.
-  //  - 정적 guides.js: 전부 archived (getAllStaticGuides()는 빈 배열)
-  //  - Supabase: content_html(사람 작성)이 있는 글만 생성. content_html 없는 자동생성 글은 제외.
+  // 정적 생성 대상: status='published' 인 Supabase 글만.
+  //  - 정적 guides.js: 전부 archived (생성 안 함)
+  //  - Supabase: published만. draft/archived/자동생성은 제외.
+  //  - 마이그레이션 전(status 컬럼 부재)에는 content_html - 차단목록으로 폴백.
   try {
     const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
     const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
     if (SUPABASE_URL && SUPABASE_ANON_KEY) {
-      const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/guides?select=slug&content_html=not.is.null&order=created_at.desc`,
-        { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
-      );
+      const headers = { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` };
+      const base = `${SUPABASE_URL}/rest/v1/guides?select=slug&order=created_at.desc`;
+      const res = await fetch(`${base}&status=eq.published`, { headers });
       if (res.ok) {
         const rows = await res.json();
+        return rows.map((r) => ({ slug: r.slug }));
+      }
+      // 폴백
+      const legacy = await fetch(`${base}&content_html=not.is.null`, { headers });
+      if (legacy.ok) {
+        const rows = await legacy.json();
         return rows
           .filter((r) => !isArchivedSupabaseSlug(r.slug))
           .map((r) => ({ slug: r.slug }));
@@ -69,16 +88,9 @@ export async function generateMetadata({ params }) {
   const staticGuide = getGuideBySlug(slug);
   const guide = staticGuide ?? await fetchGuideBySlug(slug);
 
-  // 자동생성 글은 archived → 404 처리하므로 메타도 noindex 404로 통일:
-  //  (1) 정적 guides.js 글 (전부 자동생성)
-  //  (2) Supabase 자동생성 글(content_html 없음)
-  const isArchived =
-    !guide ||
-    isArchivedStaticSlug(slug) ||
-    isArchivedSupabaseSlug(slug) ||
-    (!staticGuide && !guide.contentHtml);
-
-  if (isArchived) {
+  // 공개 기준: status='published' 인 Supabase 글 + (정적 guides.js는 전부 archived).
+  // 그 외(draft/archived/자동생성)는 404+noindex.
+  if (!isPublishedGuide(staticGuide, guide, slug)) {
     return {
       title: "가이드를 찾을 수 없습니다 - 하우머치 테슬라",
       robots: { index: false, follow: false },
@@ -96,15 +108,8 @@ export default async function GuideDetailPage({ params }) {
   const staticGuide = getGuideBySlug(slug);
   const guide = staticGuide ?? await fetchGuideBySlug(slug);
 
-  // 자동생성 글은 archived → 본문 노출 없이 404.
-  //  (1) 정적 guides.js 글 (전부 자동생성)
-  //  (2) Supabase 자동생성 글(content_html 없음)
-  if (
-    !guide ||
-    isArchivedStaticSlug(slug) ||
-    isArchivedSupabaseSlug(slug) ||
-    (!staticGuide && !guide.contentHtml)
-  ) {
+  // 공개 기준: status='published'(Supabase) 또는 비-archived 정적 글만. 그 외 404.
+  if (!isPublishedGuide(staticGuide, guide, slug)) {
     notFound();
   }
 

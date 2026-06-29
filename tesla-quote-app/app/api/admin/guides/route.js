@@ -9,6 +9,16 @@ function getAdminClient() {
   return createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 }
 
+// source/status 컬럼 미존재(마이그레이션 전) 에러 판별
+function isUnknownColumnError(error) {
+  if (!error) return false
+  return (
+    error.code === '42703' ||
+    error.code === 'PGRST204' ||
+    /column .* does not exist|find the '(status|source)' column/i.test(error.message || '')
+  )
+}
+
 async function checkAuth(request) {
   const auth = request.headers.get('Authorization') ?? ''
   const token = auth.replace('Bearer ', '')
@@ -25,10 +35,19 @@ export async function GET(request) {
   }
 
   const supabase = getAdminClient()
-  const { data, error } = await supabase
+  const baseCols = 'id,slug,title,category,description,read_time,published_at,updated_at,content_html'
+  let { data, error } = await supabase
     .from('guides')
-    .select('id,slug,title,category,description,read_time,published_at,updated_at,content_html')
+    .select(`${baseCols},status,source`)
     .order('created_at', { ascending: false })
+
+  // 마이그레이션 전(status/source 컬럼 부재) 폴백
+  if (error && isUnknownColumnError(error)) {
+    ;({ data, error } = await supabase
+      .from('guides')
+      .select(baseCols)
+      .order('created_at', { ascending: false }))
+  }
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json(data)
@@ -86,14 +105,23 @@ export async function POST(request) {
     sources: Array.isArray(body.sources) ? body.sources : [],
     content_html: typeof body.content_html === 'string' ? body.content_html : null,
     published_at: `${y}-${m}-${d}`,
+    // 관리자 에디터에서 직접 작성·발행 → manual_editor / published
+    source: 'manual_editor',
+    status: 'published',
   }
 
   const supabase = getAdminClient()
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from('guides')
     .insert(insertData)
     .select()
     .single()
+
+  // 마이그레이션 전(source/status 컬럼 부재)이면 해당 필드 빼고 재시도
+  if (error && isUnknownColumnError(error)) {
+    const { source, status, ...rest } = insertData
+    ;({ data, error } = await supabase.from('guides').insert(rest).select().single())
+  }
 
   if (error) {
     const isDup = error.code === '23505'
