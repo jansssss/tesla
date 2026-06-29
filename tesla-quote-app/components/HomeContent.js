@@ -64,62 +64,17 @@ const EXTRA_CALCS = [
   { label: "모델 비교 계산기", href: "/calc/compare" },
 ];
 
-/* ── 지역별 보조금 빠른 링크 ── */
+/* ── 지역별 보조금 빠른 링크 — 색인 유지 대상(광역시/특별시)만 노출 ── */
 const REGIONS = [
   { label: "서울", href: "/subsidy/seoul" },
-  { label: "경기", href: "/subsidy/gyeonggi" },
-  { label: "인천", href: "/subsidy/incheon" },
   { label: "부산", href: "/subsidy/busan" },
-  { label: "대전", href: "/subsidy/daejeon" },
+  { label: "인천", href: "/subsidy/incheon" },
   { label: "대구", href: "/subsidy/daegu" },
+  { label: "대전", href: "/subsidy/daejeon" },
   { label: "광주", href: "/subsidy/gwangju" },
   { label: "울산", href: "/subsidy/ulsan" },
-  { label: "경남", href: "/subsidy/gyeongnam" },
+  { label: "세종", href: "/subsidy/sejong" },
   { label: "제주", href: "/subsidy/jeju" },
-];
-
-/* ── 가이드 허브 항목 ── */
-const HOME_GUIDE_ITEMS = [
-  {
-    title: "보조금 신청방법 완전 가이드",
-    href: "/guides/tesla-subsidy-apply-guide",
-    desc: "딜러 대행 절차·요건·지급 시점",
-  },
-  {
-    title: "보조금 서류 체크리스트",
-    href: "/guides/tesla-subsidy-required-docs",
-    desc: "개인·법인·할부 구매 서류 정리",
-  },
-  {
-    title: "계산기 사용법",
-    href: "/guides/tesla-calculator-how-to-use",
-    desc: "모델→지역→조건 순서 가이드",
-  },
-  {
-    title: "월납입금 완전 이해",
-    href: "/guides/tesla-monthly-payment-guide",
-    desc: "선수금·금리·개월 구조 해설",
-  },
-  {
-    title: "법인 구매 가이드",
-    href: "/guides/tesla-corporate-purchase-guide",
-    desc: "법인 요건·절세·비용 처리 정리",
-  },
-  {
-    title: "유지비 완전 분석",
-    href: "/guides/tesla-ev-maintenance-cost",
-    desc: "충전비·보험료·세금 실제 수치",
-  },
-  {
-    title: "장거리 운행 실제 경험",
-    href: "/guides/tesla-long-distance-driving-experience",
-    desc: "슈퍼차저·도착 불안 실제 후기",
-  },
-  {
-    title: "일상이 달라진 것들",
-    href: "/guides/tesla-daily-life-changes",
-    desc: "충전·주차·관리 변화 실사용 후기",
-  },
 ];
 
 /* ── FAQ ── */
@@ -322,48 +277,7 @@ export default function HomeContent() {
           </div>
         </section>
 
-        {/* ── 4. 가이드 허브 ── */}
-        <section>
-          <div className="bg-gradient-to-br from-indigo-50 via-white to-blue-50 border border-indigo-100 rounded-2xl p-5">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 text-base shrink-0">
-                  📖
-                </div>
-                <div>
-                  <h2 className="text-sm font-bold text-gray-900 leading-tight">
-                    테슬라 구매 가이드
-                  </h2>
-                  <p className="text-[11px] text-gray-500 leading-tight">
-                    보조금·계산기·실사용 경험 완전 정리
-                  </p>
-                </div>
-              </div>
-              <Link
-                href="/guides"
-                className="flex items-center gap-1 text-[11px] text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1.5 rounded-lg transition-colors font-medium"
-              >
-                전체 보기 <Arrow size={11} />
-              </Link>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-              {HOME_GUIDE_ITEMS.map((g) => (
-                <Link
-                  key={g.href}
-                  href={g.href}
-                  className="group block p-3 bg-white hover:bg-indigo-50 border border-indigo-100 hover:border-indigo-200 rounded-xl transition-all shadow-sm"
-                >
-                  <p className="text-xs font-semibold text-gray-800 leading-snug mb-1 group-hover:text-indigo-700 transition-colors">
-                    {g.title}
-                  </p>
-                  <p className="text-[11px] text-gray-400 leading-tight">{g.desc}</p>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── 5. FAQ ── */}
+        {/* ── 4. FAQ ── */}
         <section className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
           <div className="flex items-center gap-2 mb-5">
             <div className="w-1 h-5 bg-emerald-500 rounded-full shrink-0" />
@@ -382,7 +296,7 @@ export default function HomeContent() {
           </div>
         </section>
 
-        {/* ── 6. 서비스 안내 (컴팩트) ── */}
+        {/* ── 5. 서비스 안내 (컴팩트) ── */}
         <footer className="text-center pb-2">
           <p className="text-xs text-slate-400 leading-6">
             하우머치 테슬라는 무공해차 통합누리집 공개 데이터와 지자체 보급 공고를 기준으로 지역별 실구매가를

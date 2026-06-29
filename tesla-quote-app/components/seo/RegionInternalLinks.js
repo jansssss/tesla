@@ -2,7 +2,10 @@ import Link from "next/link";
 import { METRO_REGIONS } from "@/lib/regions";
 
 export default function RegionInternalLinks({ currentSlug }) {
-  const otherRegions = METRO_REGIONS.filter((r) => r.slug !== currentSlug);
+  // 색인 유지 대상(광역시/특별시, si)만 노출 — noindex 처리된 '도(do)' 페이지로의 내부링크 제외
+  const otherRegions = METRO_REGIONS.filter(
+    (r) => r.slug !== currentSlug && r.type === "si"
+  );
 
   return (
     <section className="border-t border-gray-100 pt-8">

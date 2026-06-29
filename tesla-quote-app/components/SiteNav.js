@@ -9,14 +9,14 @@ const NAV_ITEMS = [
   { label: "충전비 계산기", href: "/calc/charging" },
   { label: "총소유비용 계산기", href: "/calc/tco" },
   { label: "모델 비교 계산기", href: "/calc/compare" },
-  // 지역별 보조금 (주요 지역)
+  // 지역별 보조금 — 색인 유지 대상(광역시/특별시)만
   { label: "서울 보조금", href: "/subsidy/seoul" },
-  { label: "경기 보조금", href: "/subsidy/gyeonggi" },
-  { label: "인천 보조금", href: "/subsidy/incheon" },
   { label: "부산 보조금", href: "/subsidy/busan" },
+  { label: "인천 보조금", href: "/subsidy/incheon" },
+  { label: "대구 보조금", href: "/subsidy/daegu" },
   { label: "대전 보조금", href: "/subsidy/daejeon" },
+  { label: "광주 보조금", href: "/subsidy/gwangju" },
   { label: "제주 보조금", href: "/subsidy/jeju" },
-  { label: "전남 보조금", href: "/subsidy/jeonnam" },
   // 모델 정보
   { label: "Model 3 가격", href: "/models/model-3" },
   { label: "Model Y 가격", href: "/models/model-y" },

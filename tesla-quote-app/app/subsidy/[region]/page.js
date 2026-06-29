@@ -22,9 +22,14 @@ export async function generateMetadata({ params }) {
   const title = `2026 ${metro.name} 테슬라 보조금 실구매가 계산`;
   const description = `${metro.name} 테슬라 Model 3·Model Y 보조금 총액, 실구매가 및 월납입금 자동 계산. 국고보조금+${metro.shortName} 지방보조금 합산 2026년 최신 데이터.`;
 
+  // AdSense 대응: '도(do)' 페이지는 단일 보조금 수치 없이 시/군/구로 위임하는 얇은 템플릿이라
+  // 색인에서 제외(noindex). 단일 수치·지역 FAQ가 있는 '광역시/특별시(si)'만 색인 유지.
+  const isThinRegion = metro.type === "do";
+
   return {
     title,
     description,
+    ...(isThinRegion ? { robots: { index: false, follow: false } } : {}),
     openGraph: {
       title,
       description,

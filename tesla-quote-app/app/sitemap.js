@@ -1,4 +1,4 @@
-import { ALL_SLUGS } from '@/lib/regions';
+import { METRO_REGIONS } from '@/lib/regions';
 import { getAllGuides } from "@/lib/guides";
 import { fetchAllGuidesMeta } from "@/lib/supabase-server";
 
@@ -29,13 +29,16 @@ export default async function sitemap() {
     { url: `${baseUrl}/data-sources`,            lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
   ];
 
-  // 지역별 보조금 페이지 (17개)
-  const regionPages = ALL_SLUGS.map((slug) => ({
-    url: `${baseUrl}/subsidy/${slug}`,
-    lastModified: now,
-    changeFrequency: 'weekly',
-    priority: 0.85,
-  }));
+  // 지역별 보조금 페이지 — 단일 수치가 있는 광역시/특별시(si)만 색인.
+  // '도(do)' 페이지는 시/군/구로 위임하는 얇은 템플릿이라 noindex + 사이트맵 제외.
+  const regionPages = METRO_REGIONS
+    .filter((r) => r.type === 'si')
+    .map((r) => ({
+      url: `${baseUrl}/subsidy/${r.slug}`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    }));
 
   // 가이드 — Supabase 우선, 정적 파일로 보완
   const supabaseGuides = await fetchAllGuidesMeta();
