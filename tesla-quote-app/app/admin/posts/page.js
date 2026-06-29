@@ -5,6 +5,24 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 
+const PAGE_SIZE = 20
+
+/** 현재 페이지 기준 표시할 페이지 번호 배열(양끝 + 현재 주변 윈도우, 생략은 '…') */
+function getPageNumbers(current, total) {
+  const delta = 2
+  const range = []
+  for (let i = Math.max(1, current - delta); i <= Math.min(total, current + delta); i++) range.push(i)
+  if (range[0] > 1) {
+    if (range[0] > 2) range.unshift('…')
+    range.unshift(1)
+  }
+  if (range[range.length - 1] < total) {
+    if (range[range.length - 1] < total - 1) range.push('…')
+    range.push(total)
+  }
+  return range
+}
+
 export default function AdminPostsPage() {
   const router = useRouter()
   const [token, setToken] = useState('')
@@ -12,6 +30,7 @@ export default function AdminPostsPage() {
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [deletingId, setDeletingId] = useState(null)
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
     const t = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : ''
@@ -61,6 +80,10 @@ export default function AdminPostsPage() {
     g => g.title?.includes(search) || g.slug?.includes(search) || g.category?.includes(search)
   )
 
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+  const currentPage = Math.min(page, totalPages)
+  const pageItems = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
+
   return (
     <div className="min-h-screen bg-slate-100" style={{ fontFamily: "'Noto Sans KR', system-ui, sans-serif" }}>
       {/* 헤더 */}
@@ -89,7 +112,7 @@ export default function AdminPostsPage() {
         <div className="mb-4">
           <input
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={e => { setSearch(e.target.value); setPage(1) }}
             placeholder="제목·슬러그·카테고리 검색"
             className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-400"
           />
@@ -105,7 +128,7 @@ export default function AdminPostsPage() {
             </div>
           ) : (
             <ul className="divide-y divide-slate-100">
-              {filtered.map(guide => (
+              {pageItems.map(guide => (
                 <li key={guide.id} className="flex items-center gap-4 px-5 py-4 hover:bg-slate-50">
                   <div className="min-w-0 flex-1">
                     <div className="mb-1 flex flex-wrap items-center gap-2">
@@ -134,6 +157,48 @@ export default function AdminPostsPage() {
             </ul>
           )}
         </div>
+
+        {/* 페이지네이션 */}
+        {!loading && totalPages > 1 && (
+          <div className="mt-6 flex flex-col items-center gap-3">
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                ← 이전
+              </button>
+              {getPageNumbers(currentPage, totalPages).map((n, i) =>
+                n === '…' ? (
+                  <span key={`e${i}`} className="px-2 text-xs text-slate-400">…</span>
+                ) : (
+                  <button
+                    key={n}
+                    onClick={() => setPage(n)}
+                    className={`min-w-[34px] rounded-lg border px-2.5 py-1.5 text-xs font-bold transition ${
+                      n === currentPage
+                        ? 'border-blue-600 bg-blue-600 text-white'
+                        : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-100'
+                    }`}
+                  >
+                    {n}
+                  </button>
+                )
+              )}
+              <button
+                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                다음 →
+              </button>
+            </div>
+            <p className="text-[11px] text-slate-400">
+              {currentPage} / {totalPages} 페이지 · 전체 {filtered.length}개
+            </p>
+          </div>
+        )}
       </div>
     </div>
   )
