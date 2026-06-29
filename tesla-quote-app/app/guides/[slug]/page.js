@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllGuides, getGuideBySlug, isArchivedStaticSlug } from "@/lib/guides";
+import { isArchivedSupabaseSlug } from "@/lib/archivedGuides";
 import { fetchGuideBySlug } from "@/lib/supabase-server";
 import AdminEditButton from "@/components/AdminEditButton";
 import AuthorBio from "@/components/AuthorBio";
@@ -53,7 +54,9 @@ export async function generateStaticParams() {
       );
       if (res.ok) {
         const rows = await res.json();
-        return rows.map((r) => ({ slug: r.slug }));
+        return rows
+          .filter((r) => !isArchivedSupabaseSlug(r.slug))
+          .map((r) => ({ slug: r.slug }));
       }
     }
   } catch {}
@@ -72,6 +75,7 @@ export async function generateMetadata({ params }) {
   const isArchived =
     !guide ||
     isArchivedStaticSlug(slug) ||
+    isArchivedSupabaseSlug(slug) ||
     (!staticGuide && !guide.contentHtml);
 
   if (isArchived) {
@@ -95,7 +99,12 @@ export default async function GuideDetailPage({ params }) {
   // 자동생성 글은 archived → 본문 노출 없이 404.
   //  (1) 정적 guides.js 글 (전부 자동생성)
   //  (2) Supabase 자동생성 글(content_html 없음)
-  if (!guide || isArchivedStaticSlug(slug) || (!staticGuide && !guide.contentHtml)) {
+  if (
+    !guide ||
+    isArchivedStaticSlug(slug) ||
+    isArchivedSupabaseSlug(slug) ||
+    (!staticGuide && !guide.contentHtml)
+  ) {
     notFound();
   }
 

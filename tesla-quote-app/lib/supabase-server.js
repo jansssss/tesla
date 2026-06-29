@@ -3,6 +3,8 @@
  * anon key로 공개 데이터 조회 (RLS: SELECT 전체 허용)
  */
 
+import { isArchivedSupabaseSlug } from "./archivedGuides.js";
+
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
@@ -81,7 +83,8 @@ export async function fetchAllGuidesMeta() {
       next: { revalidate: 3600 },
     });
     if (!res.ok) return [];
-    return await res.json();
+    const rows = await res.json();
+    return rows.filter((g) => !isArchivedSupabaseSlug(g.slug));
   } catch {
     return [];
   }
@@ -107,15 +110,17 @@ export async function fetchAllGuidesForList() {
     });
     if (!res.ok) return [];
     const rows = await res.json();
-    return rows.map((g) => ({
-      slug: g.slug,
-      category: g.category,
-      title: g.title,
-      description: g.description,
-      readTime: g.read_time || '5분',
-      publishedAt: (g.published_at || '').slice(0, 10),
-      updatedAt: (g.updated_at || g.published_at || '').slice(0, 10),
-    }));
+    return rows
+      .filter((g) => !isArchivedSupabaseSlug(g.slug))
+      .map((g) => ({
+        slug: g.slug,
+        category: g.category,
+        title: g.title,
+        description: g.description,
+        readTime: g.read_time || '5분',
+        publishedAt: (g.published_at || '').slice(0, 10),
+        updatedAt: (g.updated_at || g.published_at || '').slice(0, 10),
+      }));
   } catch {
     return [];
   }
@@ -141,7 +146,8 @@ export async function fetchRecentGuides(limit = 6) {
     });
 
     if (!res.ok) return [];
-    return await res.json();
+    const rows = await res.json();
+    return rows.filter((g) => !isArchivedSupabaseSlug(g.slug));
   } catch {
     return [];
   }
