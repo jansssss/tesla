@@ -257,7 +257,7 @@ function Toolbar({ editorRef, onUploadStart, onUploadDone, onUploadError }) {
 
   return (
     <>
-      <div className="flex flex-wrap items-center gap-0.5 rounded-t-xl border-b border-slate-200 bg-slate-50 px-3 py-1.5">
+      <div className="sticky top-14 z-30 flex flex-wrap items-center gap-0.5 border-b border-slate-200 bg-slate-50 px-3 py-1.5 shadow-sm">
         {TOOLBAR.map(({ label, title, cmd, val }) => (
           <button key={label} title={title} onMouseDown={(e) => { e.preventDefault(); exec(cmd, val) }} className={btnClass}>
             {label}
@@ -517,8 +517,8 @@ function AdminEditorContent() {
             </div>
 
             {/* 본문 */}
-            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-              <div className="flex items-center justify-between border-b border-slate-100 px-5 py-3">
+            <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <div className="flex items-center justify-between rounded-t-2xl border-b border-slate-100 bg-white px-5 py-3">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500">본문</span>
                 <div className="flex gap-1 rounded-lg bg-slate-100 p-0.5">
                   <button onClick={() => switchBodyMode('rich')} className={`rounded-md px-3 py-1 text-xs font-semibold ${bodyMode === 'rich' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500'}`}>✏️ 에디터</button>
@@ -540,7 +540,7 @@ function AdminEditorContent() {
                   </div>
                 </div>
               ) : (
-                <div>
+                <div className="overflow-hidden rounded-b-2xl">
                   <textarea
                     value={content}
                     onChange={e => setContent(e.target.value)}
