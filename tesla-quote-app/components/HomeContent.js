@@ -156,20 +156,12 @@ export default function HomeContent() {
 
         {/* ── 2. 계산기 도구 허브 ── */}
         <section>
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <div className="w-1 h-5 bg-blue-600 rounded-full shrink-0" />
-              <h2 className="text-sm font-bold text-gray-900">계산기 도구</h2>
-              <span className="text-[11px] font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
-                7가지
-              </span>
-            </div>
-            <Link
-              href="/guides/tesla-calculator-how-to-use"
-              className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-full transition-colors font-medium"
-            >
-              사용법 보기 <Arrow size={12} />
-            </Link>
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-1 h-5 bg-blue-600 rounded-full shrink-0" />
+            <h2 className="text-sm font-bold text-gray-900">계산기 도구</h2>
+            <span className="text-[11px] font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
+              7가지
+            </span>
           </div>
 
           {/* 피처드 + 사이드 레이아웃 */}

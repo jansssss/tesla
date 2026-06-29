@@ -183,7 +183,7 @@ export default function SwitchToTeslaCalculator({ dataDate }) {
       <div className="flex flex-wrap gap-2">
         <Link href="/" className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 hover:border-slate-400 transition-colors">홈 계산기 (지역 보조금)</Link>
         <Link href="/calc/tco" className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 hover:border-slate-400 transition-colors">TCO 계산기</Link>
-        <Link href="/guides/tesla-ev-maintenance-cost" className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 hover:border-slate-400 transition-colors">유지비 가이드</Link>
+        <Link href="/calc/maintenance" className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 hover:border-slate-400 transition-colors">유지비 계산기</Link>
       </div>
     </div>
   );
