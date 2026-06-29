@@ -4270,29 +4270,31 @@ const visibleGuides = guides.filter((g) => !MERGED_SLUGS.has(g.slug));
 
 /**
  * 정적 guides.js 글은 전부 파이프라인 자동생성 콘텐츠다.
- * AdSense "가치 낮은 콘텐츠" 대응으로 전면 블라인드한다:
- *   - 목록(/guides)·사이트맵·홈 노출에서 제외 → getAllGuides()가 빈 배열 반환
- *   - 상세 페이지는 살려두되 noindex (isStaticGuideBlinded)
+ * AdSense "가치 낮은 콘텐츠" 대응으로 전면 ARCHIVED 처리한다:
+ *   - 목록(/guides)·사이트맵·홈·관련글 등 모든 노출 경로에서 제외 → getAllGuides()/getAllStaticGuides() 빈 배열
+ *   - 정적 생성(generateStaticParams)에서 제외하고, 직접 URL 접근 시 notFound()(404) 처리 (isArchivedStaticSlug)
+ *   - 원문 데이터는 이 배열에 그대로 보관(저장소 내부 보관)하되 어떤 공개 경로에서도 서빙하지 않는다.
+ *   - AI로 재작성해 다시 공개하지 않는다.
  * 직접 작성한 글은 Supabase(content_html)에만 존재하며 그대로 색인·노출된다.
  * 되돌리려면 이 플래그만 false로.
  */
-export const STATIC_GUIDES_BLINDED = true;
+export const STATIC_GUIDES_ARCHIVED = true;
 
 const STATIC_SLUGS = new Set(guides.map((g) => g.slug));
 
-/** 해당 slug가 블라인드된 정적 가이드인지 (상세 페이지 noindex 판단용) */
-export function isStaticGuideBlinded(slug) {
-  return STATIC_GUIDES_BLINDED && STATIC_SLUGS.has(slug);
+/** 해당 slug가 archived된 정적 가이드인지 (상세 페이지 404 판단용) */
+export function isArchivedStaticSlug(slug) {
+  return STATIC_GUIDES_ARCHIVED && STATIC_SLUGS.has(slug);
 }
 
-/** 목록·사이트맵·홈 노출용 — 블라인드 상태면 빈 배열 */
+/** 목록·사이트맵·홈·관련글 노출용 — archived면 빈 배열 */
 export function getAllGuides() {
-  return STATIC_GUIDES_BLINDED ? [] : [...visibleGuides];
+  return STATIC_GUIDES_ARCHIVED ? [] : [...visibleGuides];
 }
 
-/** 정적 페이지 생성·상세 조회용 — 블라인드여도 페이지 자체는 빌드한다(noindex) */
+/** 정적 페이지 생성용 — archived면 빈 배열(정적 생성/서빙 안 함) */
 export function getAllStaticGuides() {
-  return [...visibleGuides];
+  return STATIC_GUIDES_ARCHIVED ? [] : [...visibleGuides];
 }
 
 export function getGuideBySlug(slug) {
@@ -4300,7 +4302,7 @@ export function getGuideBySlug(slug) {
 }
 
 export function getFeaturedGuides() {
-  if (STATIC_GUIDES_BLINDED) return [];
+  if (STATIC_GUIDES_ARCHIVED) return [];
   const step = Math.floor(visibleGuides.length / 4);
   return [visibleGuides[0], visibleGuides[step], visibleGuides[step * 2], visibleGuides[step * 3]];
 }
