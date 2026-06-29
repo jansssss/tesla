@@ -20,8 +20,8 @@ export const metadata = {
 const COMPARE_DATA = [
   { label: "차종", model3: "세단", modelY: "SUV (크로스오버)" },
   { label: "트림 구성", model3: "RWD · LR · Performance", modelY: "RWD · Long Range · L AWD" },
-  { label: "최저 출고가", model3: "4,199만원 (RWD)", modelY: "4,999만원 (RWD)" },
-  { label: "최고 출고가", model3: "6,499만원 (Performance)", modelY: "6,999만원 (L AWD)" },
+  { label: "시작 출고가", model3: "4,199만원 (RWD)", modelY: "4,999만원 (RWD)" },
+  { label: "상위 트림 출고가", model3: "6,499만원 (Performance)", modelY: "6,999만원 (L AWD)" },
   { label: "주행거리 (RWD)", model3: "382 km", modelY: "400 km" },
   { label: "최장 주행거리", model3: "538 km (LR)", modelY: "543 km (L AWD)" },
   { label: "0→100 km/h (RWD)", model3: "6.2 초", modelY: "5.9 초" },
@@ -47,7 +47,7 @@ const SCENARIOS = [
     title: "장거리 출장 · 고속도로 위주",
     icon: "🛣️",
     winner: "model3",
-    reason: "Model 3 LR 추천 — 538 km 주행거리로 서울-부산 왕복도 충전 없이 가능. 고속 주행 효율 우수.",
+    reason: "Model 3 LR 추천 — 긴 주행가능거리(약 538km)가 장거리에서 충전 부담을 줄일 수 있습니다. 다만 실제 충전 횟수는 계절·속도·공조 사용·출발 배터리·도로 상황에 따라 달라집니다.",
   },
   {
     title: "월납입금 최소화",

@@ -1,4 +1,5 @@
-import { METRO_REGIONS } from '@/lib/regions';
+import { METRO_REGIONS, calcMetroSubsidyStats } from '@/lib/regions';
+import { loadSubsidySnapshot } from '@/lib/subsidy';
 import { getAllGuides } from "@/lib/guides";
 import { fetchAllGuidesMeta } from "@/lib/supabase-server";
 
@@ -29,10 +30,16 @@ export default async function sitemap() {
     { url: `${baseUrl}/data-sources`,            lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
   ];
 
-  // 지역별 보조금 페이지 — 단일 수치가 있는 광역시/특별시(si)만 색인.
-  // '도(do)' 페이지는 시/군/구로 위임하는 얇은 템플릿이라 noindex + 사이트맵 제외.
+  // 지역별 보조금 페이지 — 광역시/특별시(si) 중 보조금 데이터가 있는 페이지만 색인.
+  //  - '도(do)': 시/군/구 위임형 얇은 템플릿 → 제외
+  //  - 데이터 없는(수치 0) 지역: draft 취급 → 제외
+  const subsidySnapshot = loadSubsidySnapshot();
   const regionPages = METRO_REGIONS
-    .filter((r) => r.type === 'si')
+    .filter((r) => {
+      if (r.type !== 'si') return false;
+      const stats = calcMetroSubsidyStats(subsidySnapshot.rows, r);
+      return stats.statsByModel.some((s) => (s.max || 0) > 0);
+    })
     .map((r) => ({
       url: `${baseUrl}/subsidy/${r.slug}`,
       lastModified: now,

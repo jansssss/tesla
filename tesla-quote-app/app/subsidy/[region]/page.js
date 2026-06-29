@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { loadSubsidySnapshot } from "@/lib/subsidy";
 import { METRO_BY_SLUG, ALL_SLUGS, calcMetroSubsidyStats } from "@/lib/regions";
+import { CALC_DATA_DATE } from "@/lib/calcExtra";
 import RegionHero from "@/components/seo/RegionHero";
 import RegionSubsidyTable from "@/components/seo/RegionSubsidyTable";
 import RegionPresetButtons from "@/components/seo/RegionPresetButtons";
@@ -22,14 +23,18 @@ export async function generateMetadata({ params }) {
   const title = `2026 ${metro.name} 테슬라 보조금 실구매가 계산`;
   const description = `${metro.name} 테슬라 Model 3·Model Y 보조금 총액, 실구매가 및 월납입금 자동 계산. 국고보조금+${metro.shortName} 지방보조금 합산 2026년 최신 데이터.`;
 
-  // AdSense 대응: '도(do)' 페이지는 단일 보조금 수치 없이 시/군/구로 위임하는 얇은 템플릿이라
-  // 색인에서 제외(noindex). 단일 수치·지역 FAQ가 있는 '광역시/특별시(si)'만 색인 유지.
-  const isThinRegion = metro.type === "do";
+  // 비공개(noindex) 기준:
+  //  - '도(do)': 단일 보조금 수치 없이 시/군/구로 위임하는 얇은 템플릿
+  //  - 보조금 수치 데이터가 없는(출처·확인값 부재) 지역 → draft 취급(공개 유지 안 함)
+  const snapshot = loadSubsidySnapshot();
+  const stats = calcMetroSubsidyStats(snapshot.rows, metro);
+  const hasData = stats.statsByModel.some((s) => (s.max || 0) > 0);
+  const noindex = metro.type === "do" || !hasData;
 
   return {
     title,
     description,
-    ...(isThinRegion ? { robots: { index: false, follow: false } } : {}),
+    ...(noindex ? { robots: { index: false, follow: false } } : {}),
     openGraph: {
       title,
       description,
@@ -103,6 +108,40 @@ export default async function RegionSubsidyPage({ params }) {
       <div className="max-w-4xl mx-auto px-4 md:px-8 py-8 md:py-12 space-y-10">
         {/* 보조금 현황 테이블 */}
         <RegionSubsidyTable stats={stats} metro={metro} />
+
+        {/* 데이터 출처·확인 신뢰 박스 */}
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
+          <h2 className="text-sm font-bold text-slate-800 mb-3">데이터 출처 및 확인 안내</h2>
+          <dl className="space-y-1.5 text-xs md:text-sm text-slate-600">
+            <div className="flex gap-2">
+              <dt className="w-28 shrink-0 font-semibold text-slate-500">데이터 기준일</dt>
+              <dd>{CALC_DATA_DATE}</dd>
+            </div>
+            <div className="flex gap-2">
+              <dt className="w-28 shrink-0 font-semibold text-slate-500">국고보조금 출처</dt>
+              <dd>환경부 무공해차 통합누리집</dd>
+            </div>
+            <div className="flex gap-2">
+              <dt className="w-28 shrink-0 font-semibold text-slate-500">지방보조금 출처</dt>
+              <dd>{metro.name} 전기차 보급사업 공고</dd>
+            </div>
+            <div className="flex gap-2">
+              <dt className="w-28 shrink-0 font-semibold text-slate-500">마지막 확인일</dt>
+              <dd>{CALC_DATA_DATE}</dd>
+            </div>
+          </dl>
+          <p className="mt-3 text-xs leading-relaxed text-slate-500">
+            최종 지급액은 예산 잔액, 출고·등록일, 자격요건에 따라 달라질 수 있습니다.
+          </p>
+          <a
+            href="https://ev.or.kr"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:underline"
+          >
+            무공해차 통합누리집에서 공식 공고 확인 →
+          </a>
+        </section>
 
         {/* 계산기 프리셋 버튼 */}
         <RegionPresetButtons presets={presets} metro={metro} />

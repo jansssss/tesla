@@ -33,7 +33,8 @@ export default function AboutPage() {
             <p className="text-sm text-gray-700 leading-relaxed">
               하우머치 테슬라는 환경부와 각 지자체가 공개한 보조금 공고문을 분석해
               모델별·지역별 실구매가를 계산해주는 사이트입니다.
-              공고 전 추정값과 공고 후 실제값을 비교하는 분석도 함께 제공합니다.
+              공식 공고 전 예상 보조금이나 가격 전망은 제공하지 않으며,
+              공식 발표가 나온 뒤 이전 기준과 달라진 변경점만 분석합니다.
             </p>
           </section>
 

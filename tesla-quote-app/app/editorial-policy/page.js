@@ -88,6 +88,10 @@ export default function EditorialPolicyPage() {
                 </li>
                 <li className="flex items-start">
                   <span className="mr-2">•</span>
+                  <span><strong>예측·전망 배제</strong> — 공식 공고 전 예상 보조금이나 가격 전망은 제공하지 않으며, 공식 발표 후 이전 기준과의 변경점만 분석합니다.</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
                   <span><strong>지역별 차이 명시</strong> — 지자체 보조금은 지역마다 다르므로 반드시 지역을 선택하여 확인하도록 안내합니다.</span>
                 </li>
                 <li className="flex items-start">
