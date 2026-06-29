@@ -7,6 +7,43 @@ import { supabase } from '@/lib/supabase'
 
 const CATEGORIES = ['테슬라', '전기차', '보조금', '충전', '비교', '구매가이드', '자동차']
 
+/** HTML 본문에서 순수 텍스트만 추출 */
+function htmlToText(html) {
+  return String(html || '')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+/** 본문 첫 단락(없으면 앞부분)에서 요약 자동 생성 — 최대 150자 */
+function deriveSummary(html) {
+  const pMatch = String(html || '').match(/<p[^>]*>([\s\S]*?)<\/p>/i)
+  const text = htmlToText(pMatch ? pMatch[1] : html)
+  if (!text) return ''
+  return text.length > 150 ? text.slice(0, 150).trim() + '…' : text
+}
+
+/** 본문 길이로 읽기 시간 자동 계산 (한국어 약 500자/분, 최소 1분) */
+function estimateReadTime(html) {
+  const len = htmlToText(html).length
+  return `${Math.max(1, Math.round(len / 500))}분`
+}
+
+/** 제목에서 SEO 슬러그 자동 생성 — 한글 키워드 보존, 최대 60자 */
+function slugifyKo(str) {
+  return String(str || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9가-힣\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60)
+}
+
 // 매 요청 직전 Supabase가 자동 갱신해주는 최신 access_token을 가져온다
 // (로그인 시점에 저장한 토큰은 1시간 뒤 만료되어 장시간 작성 중 업로드/저장이 401로 실패할 수 있음)
 async function getFreshToken() {
@@ -251,9 +288,9 @@ function AdminEditorContent() {
   const [slug, setSlug] = useState('')
   const [description, setDescription] = useState('')
   const [category, setCategory] = useState('테슬라')
-  const [readTime, setReadTime] = useState('5분')
-  const [keyPointsText, setKeyPointsText] = useState('')
+  const [readTime, setReadTime] = useState('1분')
   const [content, setContent] = useState('')
+  const [slugTouched, setSlugTouched] = useState(false) // 슬러그 수동 편집 여부(자동 채움 중단용)
 
   // UI
   const [bodyMode, setBodyMode] = useState('rich') // rich | html
@@ -303,10 +340,10 @@ function AdminEditorContent() {
       setEditId(data.id)
       setTitle(data.title || '')
       setSlug(data.slug || '')
+      setSlugTouched(true) // 발행된 글의 슬러그는 자동 변경 금지(URL·색인 고정)
       setDescription(data.description || '')
       setCategory(data.category || '테슬라')
-      setReadTime(data.read_time || '5분')
-      setKeyPointsText(Array.isArray(data.key_points) ? data.key_points.join('\n') : '')
+      setReadTime(data.read_time || '1분')
       const html = data.content_html || sectionsToHtml(data)
       setContent(html)
     } finally {
@@ -332,12 +369,19 @@ function AdminEditorContent() {
     bodyMode === 'rich' && editorRef.current ? editorRef.current.innerHTML : content
 
   const handleSave = async () => {
-    if (!title.trim() || !description.trim()) {
-      alert('제목과 요약은 필수입니다.')
+    if (!title.trim()) {
+      alert('제목은 필수입니다.')
       return
     }
     const html = currentContent()
-    const keyPoints = keyPointsText.split('\n').map(s => s.trim()).filter(Boolean)
+
+    // 요약·읽기시간·슬러그 자동 처리 (작성자 입력 없이도 최적값 생성)
+    const finalDescription = description.trim() || deriveSummary(html) || title.trim()
+    const finalReadTime = estimateReadTime(html)
+    const finalSlug = slug.trim() || slugifyKo(title)
+    // 화면에도 반영
+    if (finalDescription !== description) setDescription(finalDescription)
+    if (finalReadTime !== readTime) setReadTime(finalReadTime)
 
     setSaving(true)
     try {
@@ -349,11 +393,11 @@ function AdminEditorContent() {
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${tk}` },
           body: JSON.stringify({
             title: title.trim(),
-            description: description.trim(),
+            description: finalDescription,
             category,
-            read_time: readTime.trim() || '5분',
-            slug: slug.trim() || undefined,
-            key_points: keyPoints,
+            read_time: finalReadTime,
+            slug: finalSlug || undefined,
+            key_points: [],
             content_html: html,
           }),
         })
@@ -375,11 +419,11 @@ function AdminEditorContent() {
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${tk}` },
           body: JSON.stringify({
             title: title.trim(),
-            description: description.trim(),
+            description: finalDescription,
             category,
-            read_time: readTime.trim() || '5분',
-            slug: slug.trim() || undefined,
-            key_points: keyPoints,
+            read_time: finalReadTime,
+            slug: finalSlug || undefined,
+            key_points: [],
             content_html: html,
           }),
         })
@@ -438,20 +482,36 @@ function AdminEditorContent() {
               <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">제목</label>
               <input
                 value={title}
-                onChange={e => setTitle(e.target.value)}
+                onChange={e => {
+                  const v = e.target.value
+                  setTitle(v)
+                  // 새 글 + 슬러그 미수정 시 제목에서 자동 생성
+                  if (!isEditMode && !slugTouched) setSlug(slugifyKo(v))
+                }}
                 placeholder="글 제목을 입력하세요"
                 className="w-full border-0 p-0 text-2xl font-black text-slate-900 outline-none placeholder:text-slate-300"
               />
             </div>
 
-            {/* 요약 */}
+            {/* 요약 (선택 — 비우면 본문에서 자동 생성) */}
             <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">요약</label>
+              <div className="mb-2 flex items-center justify-between">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-500">
+                  요약 <span className="font-medium normal-case text-slate-400">· 선택 (비우면 본문에서 자동 생성)</span>
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setDescription(deriveSummary(currentContent()))}
+                  className="rounded-md border border-slate-200 px-2.5 py-1 text-[11px] font-semibold text-slate-600 hover:bg-slate-100"
+                >
+                  본문에서 자동 생성
+                </button>
+              </div>
               <textarea
                 value={description}
                 onChange={e => setDescription(e.target.value)}
                 rows={2}
-                placeholder="목록·검색·메타 설명에 사용되는 한 줄 요약"
+                placeholder="비워두면 저장 시 본문 첫 단락으로 자동 채워집니다 (검색·메타 설명용)"
                 className="w-full resize-y rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none focus:border-blue-400"
               />
             </div>
@@ -508,28 +568,28 @@ function AdminEditorContent() {
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-xs font-semibold text-slate-600">읽기 시간</label>
-                  <input value={readTime} onChange={e => setReadTime(e.target.value)} placeholder="5분" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-800 outline-none focus:border-blue-400" />
+                  <label className="mb-1.5 block text-xs font-semibold text-slate-600">읽기 시간 <span className="font-normal text-slate-400">· 자동</span></label>
+                  <div className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50 px-3 py-2 text-sm text-slate-500">
+                    <span>{readTime}</span>
+                    <span className="text-[11px] text-slate-400">본문 길이로 자동 계산</span>
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <h3 className="mb-3 text-sm font-bold text-slate-900">URL 슬러그</h3>
-              <input value={slug} onChange={e => setSlug(e.target.value)} placeholder="비우면 자동 생성" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-800 outline-none focus:border-blue-400" />
-              <p className="mt-2 text-xs text-slate-400">/guides/{slug.trim() || '자동생성'}</p>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <h3 className="mb-1 text-sm font-bold text-slate-900">핵심 요약</h3>
-              <p className="mb-3 text-xs text-slate-400">한 줄에 하나씩. 글 상단 &quot;핵심 요약&quot; 박스에 표시됩니다.</p>
-              <textarea
-                value={keyPointsText}
-                onChange={e => setKeyPointsText(e.target.value)}
-                rows={5}
-                placeholder={'예) 보조금은 지자체별로 다릅니다\n접수 시점이 중요합니다'}
-                className="w-full resize-y rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none focus:border-blue-400"
+              <h3 className="mb-1 text-sm font-bold text-slate-900">URL 슬러그 <span className="text-xs font-normal text-slate-400">· 자동</span></h3>
+              <p className="mb-3 text-[11px] leading-relaxed text-slate-400">
+                주소 끝부분(검색 노출 URL). 제목에서 자동 생성됩니다.
+                {isEditMode && <span className="text-amber-600"> 발행된 글은 변경 시 기존 링크·검색 색인이 깨지므로 그대로 두세요.</span>}
+              </p>
+              <input
+                value={slug}
+                onChange={e => { setSlug(e.target.value); setSlugTouched(true) }}
+                placeholder="제목 입력 시 자동 생성"
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-800 outline-none focus:border-blue-400"
               />
+              <p className="mt-2 break-all text-xs text-slate-400">/guides/{slug.trim() || '자동생성'}</p>
             </div>
           </aside>
         </div>

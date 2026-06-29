@@ -207,20 +207,8 @@ export default async function GuideDetailPage({ params }) {
               </nav>
             )}
 
-            {/* 핵심 요약 */}
-            <section className="rounded-[24px] border border-slate-100 bg-slate-50 p-6">
-              <h2 className="text-xs font-black uppercase tracking-[0.2em] text-slate-500">핵심 요약</h2>
-              <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-700 md:text-base">
-                {guide.keyPoints.map((point) => (
-                  <li key={point} className="flex items-start gap-3">
-                    <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500" />
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-
-            {/* 인아티클 계산기 CTA */}
+            {/* 인아티클 계산기 CTA — 자동생성(sections) 글에만. 직접작성 글은 본문 우선 + 하단 CTA로 충분 */}
+            {!guide.contentHtml && (
             <div className="rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-5">
               <div className="flex items-center gap-2.5 mb-4">
                 <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm shrink-0">
@@ -244,6 +232,7 @@ export default async function GuideDetailPage({ params }) {
                 <ArrowRight />
               </Link>
             </div>
+            )}
 
             {guide.contentHtml ? (
               /* 관리자가 HTML 편집한 경우 */
