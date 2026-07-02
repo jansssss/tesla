@@ -51,6 +51,16 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }}
       />
+      <div className="mx-auto max-w-[1400px] px-4 pt-5 md:px-8 md:pt-10">
+        <div className="space-y-1 text-center">
+          <p className="font-logo text-lg font-extrabold tracking-tight text-black md:text-2xl">
+            How much <span className="text-brandRed">Tesla</span>?
+          </p>
+          <h1 className="text-2xl font-black tracking-tight text-black md:text-4xl lg:text-5xl">
+            테슬라 실구매가·보조금·월납입금 계산기
+          </h1>
+        </div>
+      </div>
       <Suspense fallback={<QuoteWizardSkeleton />}>
         <QuoteWizard rows={snapshot.rows} regions={snapshot.regions} dataDate={snapshot.dataDate} />
       </Suspense>

@@ -174,7 +174,6 @@ export default function TeslaSubsidyCalculatorPage() {
           rows={snapshot.rows}
           regions={snapshot.regions}
           dataDate={snapshot.dataDate}
-          showHeading={false}
         />
       </Suspense>
 
