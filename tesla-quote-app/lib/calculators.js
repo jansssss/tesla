@@ -10,6 +10,12 @@ export const CALCULATORS = [
     desc: "지역별 보조금을 자동 적용해 실구매가와 할부 월납입금을 계산합니다.",
   },
   {
+    href: "/calc/tesla-subsidy",
+    label: "테슬라 보조금 계산기",
+    shortLabel: "테슬라 보조금",
+    desc: "2026년 Model 3·Model Y 국고·지자체 보조금을 지역별로 적용해 실구매가·월납입금을 계산합니다.",
+  },
+  {
     href: "/calc/maintenance",
     label: "유지비 계산기",
     shortLabel: "유지비",

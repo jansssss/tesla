@@ -8,12 +8,12 @@ export const metadata = {
   openGraph: {
     title: "테슬라 RWD vs AWD 비교 — 2026",
     description: "테슬라 후륜(RWD)과 사륜(AWD) 가격·주행거리·보조금·월납입금 비교.",
-    url: "https://paytesla.kr/compare/rwd-vs-awd",
+    url: "https://www.paytesla.kr/compare/rwd-vs-awd",
     siteName: "테슬라 얼마?",
     locale: "ko_KR",
     type: "website",
   },
-  alternates: { canonical: "https://paytesla.kr/compare/rwd-vs-awd" },
+  alternates: { canonical: "https://www.paytesla.kr/compare/rwd-vs-awd" },
 };
 
 const COMPARE_DATA = [

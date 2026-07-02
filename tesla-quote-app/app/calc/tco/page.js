@@ -9,12 +9,12 @@ export const metadata = {
   openGraph: {
     title: "테슬라 총소유비용(TCO) 계산기",
     description: "감가상각·운영비를 합산한 총소유비용과 내연기관 대비 차이를 계산합니다.",
-    url: "https://paytesla.kr/calc/tco",
+    url: "https://www.paytesla.kr/calc/tco",
     siteName: "테슬라 얼마?",
     locale: "ko_KR",
     type: "website",
   },
-  alternates: { canonical: "https://paytesla.kr/calc/tco" },
+  alternates: { canonical: "https://www.paytesla.kr/calc/tco" },
 };
 
 export default function TcoPage() {

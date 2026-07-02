@@ -9,12 +9,12 @@ export const metadata = {
   openGraph: {
     title: "테슬라 충전비 계산기 — 월·연 충전 비용",
     description: "주행거리·전비·급속/완속 비율로 테슬라 충전비를 계산합니다.",
-    url: "https://paytesla.kr/calc/charging",
+    url: "https://www.paytesla.kr/calc/charging",
     siteName: "테슬라 얼마?",
     locale: "ko_KR",
     type: "website",
   },
-  alternates: { canonical: "https://paytesla.kr/calc/charging" },
+  alternates: { canonical: "https://www.paytesla.kr/calc/charging" },
 };
 
 export default function ChargingPage() {

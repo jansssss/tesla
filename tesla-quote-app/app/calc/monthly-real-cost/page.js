@@ -8,12 +8,12 @@ export const metadata = {
   openGraph: {
     title: "테슬라 월 실제 부담금 계산기",
     description: "월납입금 + 충전비 + 보험료 + 자동차세 = 월 실제 부담금 계산.",
-    url: "https://paytesla.kr/calc/monthly-real-cost",
+    url: "https://www.paytesla.kr/calc/monthly-real-cost",
     siteName: "테슬라 얼마?",
     locale: "ko_KR",
     type: "website",
   },
-  alternates: { canonical: "https://paytesla.kr/calc/monthly-real-cost" },
+  alternates: { canonical: "https://www.paytesla.kr/calc/monthly-real-cost" },
 };
 
 export default function MonthlyRealCostPage() {

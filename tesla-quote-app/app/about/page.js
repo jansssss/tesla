@@ -3,7 +3,7 @@ import Link from 'next/link';
 export const metadata = {
   title: '사이트 소개 | 하우머치 테슬라',
   description: '하우머치 테슬라는 환경부·지자체 보조금 공고를 분석해 테슬라 실구매가를 지역별로 계산해주는 정보 사이트입니다.',
-  alternates: { canonical: 'https://paytesla.kr/about' },
+  alternates: { canonical: 'https://www.paytesla.kr/about' },
 };
 
 export default function AboutPage() {

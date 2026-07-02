@@ -114,7 +114,7 @@ function formatDataDate(dataDate) {
   return `${m[1]}년 ${parseInt(m[2], 10)}월 ${parseInt(m[3], 10)}일`;
 }
 
-export default function QuoteWizard({ rows, regions, dataDate }) {
+export default function QuoteWizard({ rows, regions, dataDate, showHeading = true }) {
   const searchParams = useSearchParams();
   const dataDateLabel = formatDataDate(dataDate);
 
@@ -373,9 +373,16 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
   return (
     <div className="mx-auto max-w-[1400px] space-y-5 px-4 py-5 md:space-y-6 md:px-8 md:py-10">
       <header className="space-y-3 md:space-y-5">
-        <h1 className="text-center font-logo text-2xl font-extrabold tracking-tight text-black md:text-4xl lg:text-5xl">
-          How much <span className="text-brandRed">Tesla</span>?
-        </h1>
+        {showHeading && (
+          <div className="space-y-1 text-center">
+            <p className="font-logo text-lg font-extrabold tracking-tight text-black md:text-2xl">
+              How much <span className="text-brandRed">Tesla</span>?
+            </p>
+            <h1 className="text-2xl font-black tracking-tight text-black md:text-4xl lg:text-5xl">
+              테슬라 보조금 계산기
+            </h1>
+          </div>
+        )}
 
         {dataDateLabel && (
           <div className="flex justify-center">

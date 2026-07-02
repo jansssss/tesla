@@ -9,12 +9,12 @@ export const metadata = {
   openGraph: {
     title: "테슬라 모델 비교 계산기 — Model 3 vs Model Y",
     description: "실구매가·월납입금·유지비·5년 총비용을 동시에 비교합니다.",
-    url: "https://paytesla.kr/calc/compare",
+    url: "https://www.paytesla.kr/calc/compare",
     siteName: "테슬라 얼마?",
     locale: "ko_KR",
     type: "website",
   },
-  alternates: { canonical: "https://paytesla.kr/calc/compare" },
+  alternates: { canonical: "https://www.paytesla.kr/calc/compare" },
 };
 
 export default function ComparePage() {

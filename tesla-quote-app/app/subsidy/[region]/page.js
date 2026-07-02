@@ -38,13 +38,13 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title,
       description,
-      url: `https://paytesla.kr/subsidy/${region}`,
+      url: `https://www.paytesla.kr/subsidy/${region}`,
       siteName: "테슬라 얼마?",
       locale: "ko_KR",
       type: "website",
     },
     alternates: {
-      canonical: `https://paytesla.kr/subsidy/${region}`,
+      canonical: `https://www.paytesla.kr/subsidy/${region}`,
     },
   };
 }
@@ -88,9 +88,9 @@ export default async function RegionSubsidyPage({ params }) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "홈", item: "https://paytesla.kr" },
-      { "@type": "ListItem", position: 2, name: "지역별 보조금", item: "https://paytesla.kr/subsidy" },
-      { "@type": "ListItem", position: 3, name: metro.name, item: `https://paytesla.kr/subsidy/${region}` },
+      { "@type": "ListItem", position: 1, name: "홈", item: "https://www.paytesla.kr" },
+      { "@type": "ListItem", position: 2, name: "지역별 보조금", item: "https://www.paytesla.kr/subsidy" },
+      { "@type": "ListItem", position: 3, name: metro.name, item: `https://www.paytesla.kr/subsidy/${region}` },
     ],
   };
 
@@ -115,7 +115,7 @@ export default async function RegionSubsidyPage({ params }) {
           <dl className="space-y-1.5 text-xs md:text-sm text-slate-600">
             <div className="flex gap-2">
               <dt className="w-28 shrink-0 font-semibold text-slate-500">데이터 기준일</dt>
-              <dd>{CALC_DATA_DATE}</dd>
+              <dd>{snapshot.dataDate ?? CALC_DATA_DATE}</dd>
             </div>
             <div className="flex gap-2">
               <dt className="w-28 shrink-0 font-semibold text-slate-500">국고보조금 출처</dt>
@@ -127,7 +127,7 @@ export default async function RegionSubsidyPage({ params }) {
             </div>
             <div className="flex gap-2">
               <dt className="w-28 shrink-0 font-semibold text-slate-500">마지막 확인일</dt>
-              <dd>{CALC_DATA_DATE}</dd>
+              <dd>{snapshot.dataDate ?? CALC_DATA_DATE}</dd>
             </div>
           </dl>
           <p className="mt-3 text-xs leading-relaxed text-slate-500">

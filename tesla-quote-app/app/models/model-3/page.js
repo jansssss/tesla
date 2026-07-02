@@ -11,12 +11,12 @@ export const metadata = {
     title: "2026 테슬라 Model 3 트림별 가격·보조금·월납입금",
     description:
       "테슬라 Model 3 RWD·Long Range·Performance 트림 출고가, 지역별 보조금, 실구매가 및 할부 월납입금 계산.",
-    url: "https://paytesla.kr/models/model-3",
+    url: "https://www.paytesla.kr/models/model-3",
     siteName: "테슬라 얼마?",
     locale: "ko_KR",
     type: "website",
   },
-  alternates: { canonical: "https://paytesla.kr/models/model-3" },
+  alternates: { canonical: "https://www.paytesla.kr/models/model-3" },
 };
 
 // 가격은 lib/vehicleData.js 단일 원본에서 가져옴.
@@ -155,7 +155,7 @@ export default function Model3Page() {
           <h2 className="text-base font-bold mb-3">Model 3 구매 가이드</h2>
           <div className="text-sm text-gray-600 space-y-2 leading-relaxed">
             <p>
-              테슬라 Model 3는 2026년 기준 <strong>RWD(4,199만원)</strong>, <strong>Long Range(5,299만원)</strong>, <strong>Performance(5,999만원)</strong> 세 가지 트림으로 판매됩니다.
+              테슬라 Model 3는 2026년 기준 <strong>RWD(4,199만원)</strong>, <strong>Long Range(5,299만원)</strong>, <strong>Performance(6,499만원)</strong> 세 가지 트림으로 판매됩니다.
             </p>
             <p>
               국고보조금과 지방보조금을 합산하면 지역에 따라 최대 수백만원의 보조금 혜택을 받을 수 있으며, 청년·다자녀·전기차 전환 혜택까지 적용하면 실구매가는 더욱 낮아집니다.
@@ -173,6 +173,9 @@ export default function Model3Page() {
         <section className="border-t border-gray-100 pt-8">
           <h2 className="text-base font-bold mb-3 text-gray-700">관련 페이지</h2>
           <div className="flex flex-wrap gap-2">
+            <Link href="/calc/tesla-subsidy" className="px-3 py-1.5 bg-blue-600 text-white rounded-full text-xs font-medium hover:bg-blue-500 transition-colors">
+              테슬라 보조금 계산기
+            </Link>
             <Link href="/models/model-y" className="px-3 py-1.5 bg-black text-white rounded-full text-xs font-medium hover:bg-gray-800 transition-colors">
               Model Y 상세
             </Link>
@@ -188,7 +191,7 @@ export default function Model3Page() {
             <Link href="/calc/tco" className="px-3 py-1.5 bg-gray-100 rounded-full text-xs font-medium hover:bg-gray-200 transition-colors">
               TCO 계산기
             </Link>
-            {["seoul", "gyeonggi", "busan", "incheon"].map((slug) => {
+            {["seoul", "daegu", "busan", "incheon"].map((slug) => {
               const region = METRO_REGIONS.find((r) => r.slug === slug);
               return (
                 <Link key={slug} href={`/subsidy/${slug}`} className="px-3 py-1.5 bg-gray-100 rounded-full text-xs font-medium hover:bg-gray-200 transition-colors">

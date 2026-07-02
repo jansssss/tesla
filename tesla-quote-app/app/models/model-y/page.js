@@ -11,12 +11,12 @@ export const metadata = {
     title: "2026 테슬라 Model Y 트림별 가격·보조금·월납입금",
     description:
       "테슬라 Model Y RWD·Long Range·L AWD 트림 출고가, 지역별 보조금, 실구매가 및 할부 월납입금 계산.",
-    url: "https://paytesla.kr/models/model-y",
+    url: "https://www.paytesla.kr/models/model-y",
     siteName: "테슬라 얼마?",
     locale: "ko_KR",
     type: "website",
   },
-  alternates: { canonical: "https://paytesla.kr/models/model-y" },
+  alternates: { canonical: "https://www.paytesla.kr/models/model-y" },
 };
 
 // 가격은 lib/vehicleData.js 단일 원본에서 가져옴.
@@ -183,6 +183,9 @@ export default function ModelYPage() {
         <section className="border-t border-gray-100 pt-8">
           <h2 className="text-base font-bold mb-3 text-gray-700">관련 페이지</h2>
           <div className="flex flex-wrap gap-2">
+            <Link href="/calc/tesla-subsidy" className="px-3 py-1.5 bg-blue-600 text-white rounded-full text-xs font-medium hover:bg-blue-500 transition-colors">
+              테슬라 보조금 계산기
+            </Link>
             <Link href="/models/model-3" className="px-3 py-1.5 bg-black text-white rounded-full text-xs font-medium hover:bg-gray-800 transition-colors">
               Model 3 상세
             </Link>
@@ -198,7 +201,7 @@ export default function ModelYPage() {
             <Link href="/calc/tco" className="px-3 py-1.5 bg-gray-100 rounded-full text-xs font-medium hover:bg-gray-200 transition-colors">
               TCO 계산기
             </Link>
-            {["seoul", "gyeonggi", "busan", "incheon"].map((slug) => {
+            {["seoul", "daegu", "busan", "incheon"].map((slug) => {
               const region = METRO_REGIONS.find((r) => r.slug === slug);
               return (
                 <Link key={slug} href={`/subsidy/${slug}`} className="px-3 py-1.5 bg-gray-100 rounded-full text-xs font-medium hover:bg-gray-200 transition-colors">

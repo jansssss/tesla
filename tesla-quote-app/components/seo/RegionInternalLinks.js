@@ -9,6 +9,17 @@ export default function RegionInternalLinks({ currentSlug }) {
 
   return (
     <section className="border-t border-gray-100 pt-8">
+      {/* 전용 계산기 */}
+      <h2 className="text-base font-bold mb-3 text-gray-700">테슬라 보조금 계산기</h2>
+      <div className="mb-7">
+        <Link
+          href="/calc/tesla-subsidy"
+          className="inline-flex items-center gap-1.5 rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-gray-800"
+        >
+          테슬라 보조금 계산기로 실구매가 계산하기 →
+        </Link>
+      </div>
+
       {/* 다른 지역 */}
       <h2 className="text-base font-bold mb-3 text-gray-700">다른 지역 보조금 보기</h2>
       <div className="flex flex-wrap gap-2 mb-7">

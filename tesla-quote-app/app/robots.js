@@ -1,5 +1,5 @@
 export default function robots() {
-  const baseUrl = 'https://paytesla.kr';
+  const baseUrl = 'https://www.paytesla.kr';
 
   return {
     rules: {

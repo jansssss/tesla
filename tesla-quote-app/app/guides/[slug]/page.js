@@ -9,7 +9,7 @@ import { calcCtaForCategory } from "@/lib/calcLinks";
 import { normalizeCategory } from "@/lib/categories";
 
 
-const SITE_URL = "https://paytesla.kr";
+const SITE_URL = "https://www.paytesla.kr";
 
 /**
  * 가이드 공개 여부 판단 (단일 기준).

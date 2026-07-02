@@ -11,7 +11,7 @@ export const metadata = {
     template: "%s | 테슬라 얼마?",
   },
   description: "테슬라 Model 3·Model Y 지역별 보조금 자동 적용 실구매가·월납입금 계산기. 전국 17개 시·도 보조금 최신 반영.",
-  metadataBase: new URL("https://paytesla.kr"),
+  metadataBase: new URL("https://www.paytesla.kr"),
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     shortcut: [{ url: "/icon.svg", type: "image/svg+xml" }]

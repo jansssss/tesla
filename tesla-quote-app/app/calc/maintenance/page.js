@@ -9,12 +9,12 @@ export const metadata = {
   openGraph: {
     title: "테슬라 유지비 계산기 — 월·연·5년 유지비",
     description: "충전비·보험료·자동차세로 테슬라 유지비를 월·연·5년 단위로 계산합니다.",
-    url: "https://paytesla.kr/calc/maintenance",
+    url: "https://www.paytesla.kr/calc/maintenance",
     siteName: "테슬라 얼마?",
     locale: "ko_KR",
     type: "website",
   },
-  alternates: { canonical: "https://paytesla.kr/calc/maintenance" },
+  alternates: { canonical: "https://www.paytesla.kr/calc/maintenance" },
 };
 
 export default function MaintenancePage() {

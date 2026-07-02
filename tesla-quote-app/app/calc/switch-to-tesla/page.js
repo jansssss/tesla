@@ -8,12 +8,12 @@ export const metadata = {
   openGraph: {
     title: "내연기관 → 테슬라 전환 비교 계산기",
     description: "내연기관 월 비용 vs 테슬라 월 비용 비교. 절감액·회수 기간 계산.",
-    url: "https://paytesla.kr/calc/switch-to-tesla",
+    url: "https://www.paytesla.kr/calc/switch-to-tesla",
     siteName: "테슬라 얼마?",
     locale: "ko_KR",
     type: "website",
   },
-  alternates: { canonical: "https://paytesla.kr/calc/switch-to-tesla" },
+  alternates: { canonical: "https://www.paytesla.kr/calc/switch-to-tesla" },
 };
 
 export default function SwitchToTeslaPage() {
