@@ -1,5 +1,6 @@
 import TcoCalculator from "@/components/calc/TcoCalculator";
 import CalcArticle from "@/components/calc/CalcArticle";
+import PurchaseCrossLinks from "@/components/calc/PurchaseCrossLinks";
 import { CALC_DATA_DATE } from "@/lib/calcExtra";
 
 export const metadata = {
@@ -34,6 +35,26 @@ export default function TcoPage() {
         </header>
         <TcoCalculator />
       </div>
+
+      <PurchaseCrossLinks
+        items={[
+          {
+            href: "/calc/tesla-subsidy",
+            label: "테슬라 실구매가 계산기",
+            desc: "TCO 계산의 출발점인 보조금 적용 실구매가를 지역별로 정확히 계산합니다.",
+          },
+          {
+            href: "/calc/maintenance",
+            label: "유지비 계산기",
+            desc: "감가상각을 제외한 연간 운영비(충전비·보험료·자동차세)만 따로 확인합니다.",
+          },
+          {
+            href: "/calc/compare",
+            label: "모델 비교 계산기",
+            desc: "Model 3와 Model Y의 실구매가·월납입금·5년 총비용을 나란히 비교합니다.",
+          },
+        ]}
+      />
 
       <div className="mt-12">
         <CalcArticle

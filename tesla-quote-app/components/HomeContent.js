@@ -47,9 +47,9 @@ const SIDE_CALCS = [
     emoji: "🔄",
   },
   {
-    title: "보조금 포함 실구매가·월납입금",
-    desc: "지역별 보조금 자동 반영",
-    href: "/",
+    title: "테슬라 보조금 계산기",
+    desc: "국고+지자체 보조금 지역별 자동 반영",
+    href: "/calc/tesla-subsidy",
     color: "text-blue-600",
     bg: "bg-blue-50",
     emoji: "🏷️",

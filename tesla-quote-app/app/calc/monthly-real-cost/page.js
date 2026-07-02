@@ -1,4 +1,5 @@
 import MonthlyRealCostCalculator from "@/components/calc/MonthlyRealCostCalculator";
+import PurchaseCrossLinks from "@/components/calc/PurchaseCrossLinks";
 import { CALC_DATA_DATE } from "@/lib/calcExtra";
 
 export const metadata = {
@@ -34,6 +35,26 @@ export default function MonthlyRealCostPage() {
         </header>
         <MonthlyRealCostCalculator dataDate={CALC_DATA_DATE} />
       </div>
+
+      <PurchaseCrossLinks
+        items={[
+          {
+            href: "/calc/tesla-subsidy",
+            label: "테슬라 월납입금 계산기",
+            desc: "할부 월납입금의 기준이 되는 지역별 보조금·실구매가를 먼저 정확히 계산하세요.",
+          },
+          {
+            href: "/calc/maintenance",
+            label: "유지비 계산기",
+            desc: "충전비·보험료·자동차세로 구성된 유지비를 월·연 단위로 따로 확인합니다.",
+          },
+          {
+            href: "/calc/tco",
+            label: "총소유비용(TCO) 계산기",
+            desc: "감가상각까지 반영한 5년 보유 총비용을 내연기관차와 비교합니다.",
+          },
+        ]}
+      />
     </main>
   );
 }

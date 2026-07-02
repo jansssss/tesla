@@ -4,7 +4,8 @@ import QuoteWizard from "@/components/QuoteWizard";
 import QuoteWizardSkeleton from "@/components/QuoteWizardSkeleton";
 import { loadSubsidySnapshot } from "@/lib/subsidy";
 import { CALC_DATA_DATE } from "@/lib/calcExtra";
-import { METRO_REGIONS } from "@/lib/regions";
+import { METRO_REGIONS, METRO_BY_SLUG, calcMetroSubsidyStats } from "@/lib/regions";
+import { monthlyPayment, formatWon } from "@/lib/quoteCalculations";
 
 const SITE_URL = "https://www.paytesla.kr";
 const PAGE_URL = `${SITE_URL}/calc/tesla-subsidy`;
@@ -76,9 +77,31 @@ const jsonLd = {
   ],
 };
 
+// 검색 스니펫용 정적 요약표에 쓰는 예시 금융 조건 (선수금·금리·개월)
+const SUMMARY_EXAMPLE_FINANCING = { downPayment: 10000000, rate: 3.6, months: 60 };
+
+function buildSummaryRow(stat) {
+  if (!stat) return null;
+  const nationalWon = (stat.repRow?.national_subsidy_manwon ?? 0) * 10000;
+  const localWon = (stat.repRow?.local_subsidy_manwon ?? 0) * 10000;
+  const subsidyWon = (stat.max || 0) * 10000;
+  const realPrice = Math.max(stat.price - subsidyWon, 0);
+  const loanPrincipal = Math.max(realPrice - SUMMARY_EXAMPLE_FINANCING.downPayment, 0);
+  const monthly = Math.round(
+    monthlyPayment(loanPrincipal, SUMMARY_EXAMPLE_FINANCING.rate, SUMMARY_EXAMPLE_FINANCING.months)
+  );
+  return { label: stat.label, price: stat.price, nationalWon, localWon, subsidyWon, realPrice, monthly };
+}
+
 export default function TeslaSubsidyCalculatorPage() {
   const snapshot = loadSubsidySnapshot();
   const dataDate = snapshot.dataDate ?? CALC_DATA_DATE;
+
+  const seoulStats = calcMetroSubsidyStats(snapshot.rows, METRO_BY_SLUG.seoul);
+  const summaryRows = [
+    buildSummaryRow(seoulStats.statsByModel.find((s) => s.trimId === "m3-rwd")),
+    buildSummaryRow(seoulStats.statsByModel.find((s) => s.trimId === "my-rwd")),
+  ].filter(Boolean);
 
   return (
     <main className="min-h-screen bg-white">
@@ -105,6 +128,43 @@ export default function TeslaSubsidyCalculatorPage() {
             청년·다자녀 가산까지 반영해 지역을 바꿔가며 비교할 수 있고,
             전기차 취득세 감면 같은 구매 시 고려 항목도 함께 안내합니다.
           </p>
+
+          {/* 검색 스니펫용 정적 요약표 — 서울 기준 예시값 */}
+          {summaryRows.length > 0 ? (
+            <div className="mt-6 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+              <table className="w-full min-w-[560px] text-left text-xs md:text-sm">
+                <caption className="sr-only">
+                  서울 기준 테슬라 Model 3·Model Y 보조금 및 실구매가 예시 ({dataDate})
+                </caption>
+                <thead>
+                  <tr className="border-b border-slate-100 bg-slate-50 text-slate-500">
+                    <th scope="col" className="px-4 py-3 font-semibold">모델</th>
+                    <th scope="col" className="px-4 py-3 font-semibold">차량가</th>
+                    <th scope="col" className="px-4 py-3 font-semibold">국고보조금</th>
+                    <th scope="col" className="px-4 py-3 font-semibold">지자체 보조금</th>
+                    <th scope="col" className="px-4 py-3 font-semibold">예상 실구매가</th>
+                    <th scope="col" className="px-4 py-3 font-semibold">월납입금(예시)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {summaryRows.map((row) => (
+                    <tr key={row.label} className="border-b border-slate-50 last:border-0">
+                      <td className="px-4 py-3 font-bold text-slate-900">{row.label}</td>
+                      <td className="px-4 py-3 text-slate-700">{formatWon(row.price)}</td>
+                      <td className="px-4 py-3 text-slate-700">{formatWon(row.nationalWon)}</td>
+                      <td className="px-4 py-3 text-slate-700">{formatWon(row.localWon)}</td>
+                      <td className="px-4 py-3 font-bold text-blue-700">{formatWon(row.realPrice)}</td>
+                      <td className="px-4 py-3 text-slate-700">{formatWon(row.monthly)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p className="px-4 py-3 text-[11px] leading-relaxed text-slate-400">
+                예시 기준: 서울 거주, 선수금 1,000만원·금리 3.6%·60개월 할부 (데이터 기준일 {dataDate}).
+                실제 보조금·월납입금은 거주 지역과 입력 조건에 따라 달라지므로, 아래 계산기에서 직접 확인하세요.
+              </p>
+            </div>
+          ) : null}
         </div>
       </section>
 

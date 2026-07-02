@@ -1,5 +1,6 @@
 import MaintenanceCalculator from "@/components/calc/MaintenanceCalculator";
 import CalcArticle from "@/components/calc/CalcArticle";
+import PurchaseCrossLinks from "@/components/calc/PurchaseCrossLinks";
 import { CALC_DATA_DATE } from "@/lib/calcExtra";
 
 export const metadata = {
@@ -34,6 +35,26 @@ export default function MaintenancePage() {
         </header>
         <MaintenanceCalculator />
       </div>
+
+      <PurchaseCrossLinks
+        items={[
+          {
+            href: "/calc/tesla-subsidy",
+            label: "테슬라 보조금 계산기",
+            desc: "유지비 이전에 구매가를 결정하는 국고·지자체 보조금을 지역별로 확인하고 실구매가를 계산하세요.",
+          },
+          {
+            href: "/calc/charging",
+            label: "충전비 계산기",
+            desc: "급속·완속 비율에 따른 월·연 충전비만 따로 정밀하게 계산합니다.",
+          },
+          {
+            href: "/calc/tco",
+            label: "총소유비용(TCO) 계산기",
+            desc: "유지비에 감가상각까지 더한 5년 총비용을 내연기관차와 비교합니다.",
+          },
+        ]}
+      />
 
       <div className="mt-12">
         <CalcArticle
