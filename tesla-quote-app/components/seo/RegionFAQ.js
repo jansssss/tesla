@@ -78,7 +78,7 @@ export default function RegionFAQ({ metro, stats }) {
   const m3rwd = stats.statsByModel.find((s) => s.trimId === "m3-rwd");
   const myRwd = stats.statsByModel.find((s) => s.trimId === "my-rwd");
 
-  const m3EstimatedMax = m3rwd?.max ? Math.round((41990000 - m3rwd.max * 10000) / 10000) : 0;
+  const m3EstimatedMax = m3rwd?.max ? Math.round((46990000 - m3rwd.max * 10000) / 10000) : 0;
   const myEstimatedMax = myRwd?.max ? Math.round((49990000 - myRwd.max * 10000) / 10000) : 0;
 
   const regionSpecific = REGION_CONTEXT[metro.slug] ?? {
@@ -89,7 +89,7 @@ export default function RegionFAQ({ metro, stats }) {
   const faqs = [
     {
       q: `2026년 ${metro.name} 테슬라 Model 3 RWD 보조금은 얼마인가요?`,
-      a: `2026년 ${metro.name} 테슬라 Model 3 RWD의 보조금은 최대 ${m3rwd?.max ?? 0}만원입니다 (국고보조금 + ${metro.shortName} 지방보조금 합산). 출고가 4,199만원에서 보조금을 차감하면 실구매가는 약 ${m3EstimatedMax}만원 수준입니다.${metro.type === "do" ? ` ${metro.name} 내 시/군/구별로 ${m3rwd?.min ?? 0}만원~${m3rwd?.max ?? 0}만원으로 차이가 있습니다.` : ""}`,
+      a: `2026년 ${metro.name} 테슬라 Model 3 RWD의 보조금은 최대 ${m3rwd?.max ?? 0}만원입니다 (국고보조금 + ${metro.shortName} 지방보조금 합산). 출고가 4,699만원에서 보조금을 차감하면 실구매가는 약 ${m3EstimatedMax}만원 수준입니다.${metro.type === "do" ? ` ${metro.name} 내 시/군/구별로 ${m3rwd?.min ?? 0}만원~${m3rwd?.max ?? 0}만원으로 차이가 있습니다.` : ""}`,
     },
     {
       q: `${metro.name} 테슬라 Model Y RWD 실구매가는 얼마인가요?`,

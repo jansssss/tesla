@@ -26,7 +26,7 @@ export const CALC_DEFAULTS = {
   },
 };
 
-export const CALC_DATA_DATE = "2026-06-17";
+export const CALC_DATA_DATE = "2026-07-02";
 
 /**
  * 유지비 계산

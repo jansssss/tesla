@@ -156,7 +156,7 @@ export default async function RegionSubsidyPage({ params }) {
               {metro.name} 기준 2026년 테슬라 Model 3 RWD 예상 실구매가는{" "}
               <strong>
                 {m3rwd?.max
-                  ? `약 ${Math.round((41990000 - m3rwd.max * 10000) / 10000).toLocaleString()}만원`
+                  ? `약 ${Math.round((46990000 - m3rwd.max * 10000) / 10000).toLocaleString()}만원`
                   : "보조금 적용 후 계산기 확인"}
               </strong>
               입니다 (보조금 최대 {m3rwd?.max ?? 0}만원 반영).

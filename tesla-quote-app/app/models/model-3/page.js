@@ -155,7 +155,7 @@ export default function Model3Page() {
           <h2 className="text-base font-bold mb-3">Model 3 구매 가이드</h2>
           <div className="text-sm text-gray-600 space-y-2 leading-relaxed">
             <p>
-              테슬라 Model 3는 2026년 기준 <strong>RWD(4,199만원)</strong>, <strong>Long Range(5,299만원)</strong>, <strong>Performance(6,499만원)</strong> 세 가지 트림으로 판매됩니다.
+              테슬라 Model 3는 2026년 기준 <strong>RWD(4,699만원)</strong>, <strong>Long Range(5,999만원)</strong>, <strong>Performance(6,999만원)</strong> 세 가지 트림으로 판매됩니다.
             </p>
             <p>
               국고보조금과 지방보조금을 합산하면 지역에 따라 최대 수백만원의 보조금 혜택을 받을 수 있으며, 청년·다자녀·전기차 전환 혜택까지 적용하면 실구매가는 더욱 낮아집니다.

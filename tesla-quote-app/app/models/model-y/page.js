@@ -168,7 +168,7 @@ export default function ModelYPage() {
           <h2 className="text-base font-bold mb-3">Model Y 구매 가이드</h2>
           <div className="text-sm text-gray-600 space-y-2 leading-relaxed">
             <p>
-              테슬라 Model Y는 2026년 기준 <strong>RWD(4,999만원)</strong>, <strong>Long Range AWD(6,399만원)</strong>, <strong>Model Y L AWD(6,999만원)</strong> 세 가지 트림으로 판매됩니다. 넉넉한 적재공간(최대 1,925L)과 높은 주행 안전성으로 패밀리카로 인기가 높습니다.
+              테슬라 Model Y는 2026년 기준 <strong>RWD(4,999만원)</strong>, <strong>Long Range AWD(6,699만원)</strong>, <strong>Model Y L AWD(7,299만원)</strong> 세 가지 트림으로 판매됩니다. 넉넉한 적재공간(최대 1,925L)과 높은 주행 안전성으로 패밀리카로 인기가 높습니다.
             </p>
             <p>
               Model Y L AWD는 기존 Model Y보다 더 넓은 실내 공간과 543km 주행거리를 제공하는 대형 7인승 SUV 트림입니다. 지역별 보조금을 적용하면 RWD 기준 실구매가가 크게 낮아지며, 다자녀 가구는 추가 혜택도 받을 수 있습니다. 정확한 월납입금은 위 계산기에서 선수금과 할부 기간을 직접 입력해 확인하세요.

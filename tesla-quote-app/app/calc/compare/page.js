@@ -56,7 +56,7 @@ export default function ComparePage() {
           example={{
             lead: "Model 3 RWD(보조금 680만)와 Model Y RWD(보조금 700만), 선수금 1,000만·금리 3.6%·60개월·연 15,000km로 비교하면:",
             steps: [
-              "Model 3 RWD 실구매가 = 4,199만 − 680만 = 3,519만원",
+              "Model 3 RWD 실구매가 = 4,699만 − 680만 = 4,019만원",
               "Model Y RWD 실구매가 = 4,999만 − 700만 = 4,299만원",
               "두 모델의 월 납입금·연 유지비·5년 총비용이 표로 나란히 계산됩니다.",
             ],

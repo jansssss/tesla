@@ -20,8 +20,8 @@ const COMPARE_DATA = [
   { label: "구동방식", rwd: "후륜 구동 (RWD)", awd: "사륜 구동 (AWD)" },
   { label: "Model 3 해당 트림", rwd: "RWD · Long Range", awd: "Performance" },
   { label: "Model Y 해당 트림", rwd: "Premium RWD", awd: "Long Range · L AWD" },
-  { label: "Model 3 가격", rwd: "4,199만 / 5,299만", awd: "6,499만 (Performance)" },
-  { label: "Model Y 가격", rwd: "4,999만", awd: "6,399만 (LR) / 6,999만 (L AWD)" },
+  { label: "Model 3 가격", rwd: "4,699만 / 5,999만", awd: "6,999만 (Performance)" },
+  { label: "Model Y 가격", rwd: "4,999만", awd: "6,699만 (LR) / 7,299만 (L AWD)" },
   { label: "주행거리 (Model 3)", rwd: "382 km (RWD)", awd: "450 km (Perf)" },
   { label: "주행거리 (Model Y)", rwd: "400 km", awd: "505 km (LR) · 543 km (L AWD)" },
   { label: "0→100 km/h", rwd: "5.2~6.2 초", awd: "3.1~5.0 초" },
@@ -59,13 +59,13 @@ const SCENARIOS = [
 const CTA_BUTTONS = [
   {
     label: "Model 3 RWD",
-    sub: "4,199만원~",
+    sub: "4,699만원~",
     href: "/?model=model3&trim=m3-rwd&months=60&downPayment=10000000",
     style: "bg-white text-slate-950 hover:bg-blue-50",
   },
   {
     label: "Model 3 LR",
-    sub: "5,299만원~",
+    sub: "5,999만원~",
     href: "/?model=model3&trim=m3-lr&months=60&downPayment=10000000",
     style: "bg-white/10 text-white border border-white/20 hover:bg-white/20",
   },
@@ -77,13 +77,13 @@ const CTA_BUTTONS = [
   },
   {
     label: "Model Y LR",
-    sub: "6,399만원~",
+    sub: "6,699만원~",
     href: "/?model=modely&trim=my-lr&months=60&downPayment=10000000",
     style: "bg-blue-500/30 text-white border border-blue-400/30 hover:bg-blue-500/50",
   },
   {
     label: "Model Y L AWD",
-    sub: "6,999만원~",
+    sub: "7,299만원~",
     href: "/?model=modely&trim=my-l-awd&months=60&downPayment=10000000",
     style: "bg-blue-700/40 text-white border border-blue-300/30 hover:bg-blue-700/60",
   },

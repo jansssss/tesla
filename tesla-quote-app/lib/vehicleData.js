@@ -34,7 +34,7 @@ export const VEHICLE_TRIMS = [
     trimFull: "Model 3 RWD",
     csvModel: "Model 3 RWD",
     driveType: "RWD",
-    priceKrw: 41990000,
+    priceKrw: 46990000,      // 2026-07-02 공식 확인: 4,699만원
     rangeKm: 382,
     rangeStandard: "KOR",
     topSpeedKph: 201,
@@ -42,7 +42,7 @@ export const VEHICLE_TRIMS = [
     cargoLiters: null,       // 공식 홈 스펙 페이지에 미표기
     subsidyEligible: true,
     highlight: false,
-    lastVerifiedAt: "2026-06-26",
+    lastVerifiedAt: "2026-07-02",
   },
   {
     id: "m3-lr",
@@ -51,7 +51,7 @@ export const VEHICLE_TRIMS = [
     trimFull: "Model 3 Long Range",
     csvModel: "Model 3 Premium Long Range RWD",
     driveType: "RWD",
-    priceKrw: 52990000,
+    priceKrw: 59990000,      // 2026-07-02 공식 확인: 5,999만원
     rangeKm: 538,
     rangeStandard: "KOR",
     topSpeedKph: 201,
@@ -59,7 +59,7 @@ export const VEHICLE_TRIMS = [
     cargoLiters: null,
     subsidyEligible: true,
     highlight: true,
-    lastVerifiedAt: "2026-06-26",
+    lastVerifiedAt: "2026-07-02",
   },
   {
     id: "m3-perf",
@@ -68,7 +68,7 @@ export const VEHICLE_TRIMS = [
     trimFull: "Model 3 Performance",
     csvModel: "Model 3 Performance",
     driveType: "AWD",
-    priceKrw: 64990000,      // 2026-06-26 공식 확인: 6,499만원 (기존 5,999만원에서 인상)
+    priceKrw: 69990000,      // 2026-07-02 공식 확인: 6,999만원
     rangeKm: 450,
     rangeStandard: "KOR",
     topSpeedKph: 261,
@@ -76,7 +76,7 @@ export const VEHICLE_TRIMS = [
     cargoLiters: null,
     subsidyEligible: true,
     highlight: false,
-    lastVerifiedAt: "2026-06-26",
+    lastVerifiedAt: "2026-07-02",
   },
 
   // ─── Model Y ────────────────────────────────────────────────────────────────
@@ -95,7 +95,7 @@ export const VEHICLE_TRIMS = [
     cargoLiters: null,
     subsidyEligible: true,
     highlight: true,
-    lastVerifiedAt: "2026-06-26",
+    lastVerifiedAt: "2026-07-02",
   },
   {
     id: "my-lr",
@@ -104,7 +104,7 @@ export const VEHICLE_TRIMS = [
     trimFull: "Model Y Long Range",
     csvModel: "Model Y Premium Long Range",
     driveType: "AWD",
-    priceKrw: 63990000,      // 2026-06-26 공식 확인: 6,399만원 (기존 5,999만원에서 인상)
+    priceKrw: 66990000,      // 2026-07-02 공식 확인: 6,699만원
     rangeKm: 505,
     rangeStandard: "KOR",
     topSpeedKph: 201,        // 공식 확인: 201km/h (기존 217 오류 수정)
@@ -112,7 +112,7 @@ export const VEHICLE_TRIMS = [
     cargoLiters: null,
     subsidyEligible: true,
     highlight: false,
-    lastVerifiedAt: "2026-06-26",
+    lastVerifiedAt: "2026-07-02",
   },
   {
     id: "my-l-awd",
@@ -121,7 +121,7 @@ export const VEHICLE_TRIMS = [
     trimFull: "Model Y L AWD",
     csvModel: "Model Y L AWD",
     driveType: "AWD",
-    priceKrw: 69990000,
+    priceKrw: 72990000,      // 2026-07-02 공식 확인: 7,299만원
     rangeKm: 543,
     rangeStandard: "KOR",
     topSpeedKph: 201,
@@ -129,7 +129,7 @@ export const VEHICLE_TRIMS = [
     cargoLiters: null,
     subsidyEligible: true,
     highlight: false,
-    lastVerifiedAt: "2026-06-26",
+    lastVerifiedAt: "2026-07-02",
   },
 ];
 
