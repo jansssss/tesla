@@ -10,7 +10,7 @@ export const metadata = {
     title: "테슬라 월 실제 부담금 계산기",
     description: "월납입금 + 충전비 + 보험료 + 자동차세 = 월 실제 부담금 계산.",
     url: "https://www.paytesla.kr/calc/monthly-real-cost",
-    siteName: "테슬라 얼마?",
+    siteName: "하우머치 테슬라",
     locale: "ko_KR",
     type: "website",
   },
@@ -39,7 +39,7 @@ export default function MonthlyRealCostPage() {
       <PurchaseCrossLinks
         items={[
           {
-            href: "/calc/tesla-subsidy",
+            href: "/",
             label: "테슬라 월납입금 계산기",
             desc: "할부 월납입금의 기준이 되는 지역별 보조금·실구매가를 먼저 정확히 계산하세요.",
           },

@@ -11,7 +11,7 @@ export const metadata = {
     title: "테슬라 유지비 계산기 — 월·연·5년 유지비",
     description: "충전비·보험료·자동차세로 테슬라 유지비를 월·연·5년 단위로 계산합니다.",
     url: "https://www.paytesla.kr/calc/maintenance",
-    siteName: "테슬라 얼마?",
+    siteName: "하우머치 테슬라",
     locale: "ko_KR",
     type: "website",
   },
@@ -39,7 +39,7 @@ export default function MaintenancePage() {
       <PurchaseCrossLinks
         items={[
           {
-            href: "/calc/tesla-subsidy",
+            href: "/",
             label: "테슬라 보조금 계산기",
             desc: "유지비 이전에 구매가를 결정하는 국고·지자체 보조금을 지역별로 확인하고 실구매가를 계산하세요.",
           },

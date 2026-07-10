@@ -11,6 +11,25 @@ const MULTI_CHILD_BENEFIT_MAP = {
 };
 
 /**
+ * 전환지원금(전기차 전환 지원금) 계산 — 2026 공식 지침
+ *
+ * 출고 후 3년 이상 경과한 내연기관차를 3년 이상 보유한 개인이 해당 차량을
+ * 판매 또는 폐차하고 전기차를 구매하는 경우, 차종별 "일반 국비보조금"에
+ * 비례하여 최대 100만원의 전환지원금이 추가된다.
+ *
+ * 계산식(만원): min(100, round(100 * 일반국비보조금 / 500))
+ *  - 기준은 지방비·추가지원금을 제외한 "일반 국비보조금"(national_subsidy_manwon).
+ *  - 일반 국비보조금 500만원 이상이면 100만원 전액.
+ *
+ * @param {number} nationalManwon 일반 국비보조금(만원)
+ * @returns {number} 전환지원금(원)
+ */
+export function calcConversionSubsidyWon(nationalManwon) {
+  const manwon = Math.min(100, Math.round((100 * (Number(nationalManwon) || 0)) / 500));
+  return manwon * 10000;
+}
+
+/**
  * Format a number as Korean Won (₩)
  */
 export function formatWon(value) {
@@ -56,7 +75,9 @@ export function calculateQuote({ trim, subsidy, benefits, financing }) {
   // Calculate additional benefits
   const youthBenefitWon = benefits.isYouthBenefit ? Math.round(nationalSubsidyWon * 0.2) : 0;
   const lowIncomeBenefitWon = benefits.isLowIncomeBenefit ? Math.round(nationalSubsidyWon * 0.2) : 0;
-  const evConversionBenefitWon = benefits.isEvConversionBenefit ? 1000000 : 0;
+  const evConversionBenefitWon = benefits.isEvConversionBenefit
+    ? calcConversionSubsidyWon(subsidy.national_subsidy_manwon)
+    : 0;
   const multiChildBenefitWon = MULTI_CHILD_BENEFIT_MAP[benefits.multiChildCount] || 0;
   const extraBenefitWon = youthBenefitWon + lowIncomeBenefitWon + evConversionBenefitWon + multiChildBenefitWon;
 

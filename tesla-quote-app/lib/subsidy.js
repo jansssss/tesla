@@ -5,6 +5,17 @@ const APP_DATA_DIR = path.join(process.cwd(), "data");
 const APP_DATA_CSV = path.join(APP_DATA_DIR, "latest.csv");
 const SHARED_DATA_DIR = path.join(process.cwd(), "..", "보조금");
 
+// 일반 지역 선택에서 제외할 코드 (한국환경공단: 국비-only baseline, 지방비 0)
+const EXCLUDED_LOCAL_CODE = "9999";
+
+// local_code 앞 2자리 → 시·도 약칭 (동일 지명 구분용)
+const SIDO_BY_PREFIX = {
+  "11": "서울", "26": "부산", "27": "대구", "28": "인천", "29": "광주",
+  "30": "대전", "31": "울산", "36": "세종", "41": "경기", "42": "강원",
+  "43": "충북", "44": "충남", "45": "전북", "46": "전남", "47": "경북",
+  "48": "경남", "50": "제주",
+};
+
 function findLatestCsvFile(dirPath) {
   if (!fs.existsSync(dirPath)) return null;
   const files = fs
@@ -111,13 +122,29 @@ export function loadSubsidySnapshot() {
     };
   });
 
+  // 지역 드롭다운 목록 구성
+  //  - 한국환경공단(코드 9999): 지방비 0의 국비-only baseline → 일반 지역 선택에서 제외
+  //  - 동일 지명(예: 고성군: 강원 4282 / 경남 4882)은 시·도를 접두로 붙여 구분
+  const filteredRows = rows.filter((row) => row.local_code !== EXCLUDED_LOCAL_CODE);
+
+  const nameCounts = new Map();
+  filteredRows.forEach((row) => {
+    if (!nameCounts.has(row.local_code)) {
+      nameCounts.set(row.local_code, row.local_name);
+    }
+  });
+  const displayNameFreq = new Map();
+  for (const name of nameCounts.values()) {
+    displayNameFreq.set(name, (displayNameFreq.get(name) || 0) + 1);
+  }
+
   const regionMap = new Map();
-  rows.forEach((row) => {
+  filteredRows.forEach((row) => {
     if (!regionMap.has(row.local_code)) {
-      regionMap.set(row.local_code, {
-        code: row.local_code,
-        name: row.local_name
-      });
+      const isAmbiguous = (displayNameFreq.get(row.local_name) || 0) > 1;
+      const sido = SIDO_BY_PREFIX[row.local_code.slice(0, 2)];
+      const name = isAmbiguous && sido ? `${sido} ${row.local_name}` : row.local_name;
+      regionMap.set(row.local_code, { code: row.local_code, name });
     }
   });
 

@@ -23,7 +23,7 @@ function fmt(n) {
 
 const DEFAULT = {
   price: 49990000,
-  subsidy: 7000000,
+  subsidy: 0,
   down: 10000000,
   months: 60,
   rate: 4.9,

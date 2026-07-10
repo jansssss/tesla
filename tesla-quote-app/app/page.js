@@ -6,7 +6,7 @@ import RecentGuides, { RecentGuidesSkeleton } from "@/components/RecentGuides";
 import { loadSubsidySnapshot } from "@/lib/subsidy";
 
 export const metadata = {
-  title: "테슬라 보조금 계산기 2026 — Model 3·Model Y 실구매가·월납입금 | 테슬라 얼마?",
+  title: "테슬라 보조금 계산기 2026 — Model 3·Model Y 실구매가·월납입금 | 하우머치 테슬라",
   description:
     "2026년 테슬라 Model 3·Model Y의 국고보조금·지자체 보조금을 자동 적용해 실구매가와 할부 월납입금을 계산합니다. 전국 17개 시·도 보조금 최신 반영.",
   openGraph: {
@@ -14,7 +14,7 @@ export const metadata = {
     description:
       "2026년 테슬라 Model 3·Model Y의 국고·지자체 보조금을 자동 적용해 실구매가와 할부 월납입금을 계산합니다.",
     url: "https://www.paytesla.kr",
-    siteName: "테슬라 얼마?",
+    siteName: "하우머치 테슬라",
     locale: "ko_KR",
     type: "website",
   },
@@ -54,7 +54,7 @@ export default function HomePage() {
       <div className="mx-auto max-w-[1400px] px-4 pt-5 md:px-8 md:pt-10">
         <div className="space-y-1 text-center">
           <p className="font-logo text-lg font-extrabold tracking-tight text-black md:text-2xl">
-            How much <span className="text-brandRed">Tesla</span>?
+            하우머치 <span className="text-brandRed">테슬라</span>
           </p>
           <h1 className="text-2xl font-black tracking-tight text-black md:text-4xl lg:text-5xl">
             테슬라 실구매가·보조금·월납입금 계산기

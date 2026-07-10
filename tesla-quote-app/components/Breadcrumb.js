@@ -32,6 +32,9 @@ function slugToLabel(seg) {
   return withoutDate.replace(/-/g, " ");
 }
 
+// 인덱스 페이지가 없는 중간 경로 — 링크로 노출하면 404가 되므로 텍스트로만 표기
+const NON_LINK_PATHS = new Set(["/calc", "/models", "/compare", "/subsidy"]);
+
 export default function Breadcrumb({ lastLabel }) {
   const pathname = usePathname();
   if (pathname === "/") return null;
@@ -45,7 +48,9 @@ export default function Breadcrumb({ lastLabel }) {
     const label = isLast && lastLabel
       ? lastLabel
       : (LABELS[seg] ?? slugToLabel(seg));
-    crumbs.push({ label, href, isLast });
+    // 인덱스 페이지가 없는 중간 경로는 링크 대신 텍스트로 표기(404 방지)
+    const noLink = NON_LINK_PATHS.has(href);
+    crumbs.push({ label, href, isLast, noLink });
   });
 
   return (
@@ -62,6 +67,8 @@ export default function Breadcrumb({ lastLabel }) {
               <span className="max-w-[200px] truncate font-medium text-slate-600 md:max-w-sm">
                 {crumb.label}
               </span>
+            ) : crumb.noLink ? (
+              <span className="text-slate-400">{crumb.label}</span>
             ) : (
               <Link href={crumb.href} className="transition hover:text-slate-700">
                 {crumb.label}

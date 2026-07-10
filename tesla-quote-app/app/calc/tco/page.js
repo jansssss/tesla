@@ -11,7 +11,7 @@ export const metadata = {
     title: "테슬라 총소유비용(TCO) 계산기",
     description: "감가상각·운영비를 합산한 총소유비용과 내연기관 대비 차이를 계산합니다.",
     url: "https://www.paytesla.kr/calc/tco",
-    siteName: "테슬라 얼마?",
+    siteName: "하우머치 테슬라",
     locale: "ko_KR",
     type: "website",
   },
@@ -39,7 +39,7 @@ export default function TcoPage() {
       <PurchaseCrossLinks
         items={[
           {
-            href: "/calc/tesla-subsidy",
+            href: "/",
             label: "테슬라 실구매가 계산기",
             desc: "TCO 계산의 출발점인 보조금 적용 실구매가를 지역별로 정확히 계산합니다.",
           },

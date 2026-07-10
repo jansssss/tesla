@@ -11,7 +11,7 @@ export const metadata = {
     title: "테슬라 모델 비교 계산기 — Model 3 vs Model Y",
     description: "실구매가·월납입금·유지비·5년 총비용을 동시에 비교합니다.",
     url: "https://www.paytesla.kr/calc/compare",
-    siteName: "테슬라 얼마?",
+    siteName: "하우머치 테슬라",
     locale: "ko_KR",
     type: "website",
   },
@@ -39,7 +39,7 @@ export default function ComparePage() {
       <PurchaseCrossLinks
         items={[
           {
-            href: "/calc/tesla-subsidy",
+            href: "/",
             label: "테슬라 보조금 계산기",
             desc: "두 모델 각각에 적용되는 지역별 국고·지자체 보조금을 정확히 확인한 뒤 비교에 반영하세요.",
           },

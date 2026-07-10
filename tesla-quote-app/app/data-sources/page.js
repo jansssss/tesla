@@ -3,7 +3,7 @@ import { CALC_DATA_DATE, CALC_DEFAULTS } from "@/lib/calcExtra";
 export const metadata = {
   title: "데이터 출처 및 계산 기준",
   description:
-    "테슬라 얼마? 사이트의 차량 가격·보조금·유지비 계산에 사용된 데이터 출처와 가정값, 업데이트 이력을 안내합니다.",
+    "하우머치 테슬라 사이트의 차량 가격·보조금·유지비 계산에 사용된 데이터 출처와 가정값, 업데이트 이력을 안내합니다.",
   alternates: { canonical: "https://www.paytesla.kr/data-sources" },
 };
 

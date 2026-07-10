@@ -11,7 +11,7 @@ export const metadata = {
     title: "테슬라 충전비 계산기 — 월·연 충전 비용",
     description: "주행거리·전비·급속/완속 비율로 테슬라 충전비를 계산합니다.",
     url: "https://www.paytesla.kr/calc/charging",
-    siteName: "테슬라 얼마?",
+    siteName: "하우머치 테슬라",
     locale: "ko_KR",
     type: "website",
   },
@@ -39,7 +39,7 @@ export default function ChargingPage() {
       <PurchaseCrossLinks
         items={[
           {
-            href: "/calc/tesla-subsidy",
+            href: "/",
             label: "테슬라 보조금 계산기",
             desc: "충전비만큼 구매가에 큰 영향을 주는 국고·지자체 보조금을 지역별로 확인하고 실구매가를 계산하세요.",
           },

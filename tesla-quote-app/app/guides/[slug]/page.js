@@ -97,9 +97,21 @@ export async function generateMetadata({ params }) {
     };
   }
 
+  const canonicalUrl = `${SITE_URL}/guides/${slug}`;
   return {
     title: `${guide.title} - 하우머치 테슬라`,
     description: guide.description,
+    alternates: { canonical: canonicalUrl },
+    openGraph: {
+      title: guide.title,
+      description: guide.description,
+      url: canonicalUrl,
+      siteName: "하우머치 테슬라",
+      locale: "ko_KR",
+      type: "article",
+      ...(guide.publishedAt ? { publishedTime: guide.publishedAt } : {}),
+      ...(guide.updatedAt ? { modifiedTime: guide.updatedAt } : {}),
+    },
   };
 }
 

@@ -9,7 +9,6 @@ export default async function sitemap() {
 
   const staticPages = [
     { url: baseUrl,                              lastModified: now, changeFrequency: 'weekly',  priority: 1.0 },
-    { url: `${baseUrl}/calc/tesla-subsidy`,      lastModified: now, changeFrequency: 'weekly',  priority: 0.95 },
     { url: `${baseUrl}/models/model-3`,          lastModified: now, changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${baseUrl}/models/model-y`,          lastModified: now, changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${baseUrl}/compare/model-3-vs-model-y`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },

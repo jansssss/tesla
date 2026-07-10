@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { monthlyPayment, calculateQuote } from "../lib/quoteCalculations.js";
+import { monthlyPayment, calculateQuote, calcConversionSubsidyWon } from "../lib/quoteCalculations.js";
 
 // ─── monthlyPayment ───────────────────────────────────────────────────────────
 
@@ -49,6 +49,48 @@ describe("monthlyPayment", () => {
     // 합리적 범위 검증: 30만~100만원
     expect(result).toBeGreaterThan(300000);
     expect(result).toBeLessThan(1000000);
+  });
+});
+
+// ─── calcConversionSubsidyWon ─────────────────────────────────────────────────
+
+describe("calcConversionSubsidyWon", () => {
+  it("일반 국비보조금에 비례 — min(100, round(100*국비/500)) 만원", () => {
+    expect(calcConversionSubsidyWon(168)).toBe(340000); // round(33.6)=34
+    expect(calcConversionSubsidyWon(170)).toBe(340000); // round(34)=34
+    expect(calcConversionSubsidyWon(210)).toBe(420000); // 42
+    expect(calcConversionSubsidyWon(215)).toBe(430000); // 43
+  });
+
+  it("국비 500만원 이상 — 100만원 전액 상한", () => {
+    expect(calcConversionSubsidyWon(500)).toBe(1000000);
+    expect(calcConversionSubsidyWon(600)).toBe(1000000);
+  });
+
+  it("국비 0/비정상 — 0원", () => {
+    expect(calcConversionSubsidyWon(0)).toBe(0);
+    expect(calcConversionSubsidyWon(undefined)).toBe(0);
+    expect(calcConversionSubsidyWon(null)).toBe(0);
+    expect(calcConversionSubsidyWon("abc")).toBe(0);
+  });
+});
+
+describe("calculateQuote — 전환지원금(일반 국비 기준)", () => {
+  it("전환지원금은 총보조금이 아닌 일반 국비보조금 기준으로 가산", () => {
+    const result = calculateQuote({
+      trim: { price: 49990000 },
+      subsidy: { national_subsidy_manwon: 210, local_subsidy_manwon: 105, total_subsidy_manwon: 315 },
+      benefits: {
+        isYouthBenefit: false,
+        isLowIncomeBenefit: false,
+        isEvConversionBenefit: true,
+        multiChildCount: 0,
+      },
+      financing: { downPayment: 0, rate: 0, months: 60 },
+    });
+    // 전환지원금 = min(100, round(100*210/500)) = 42만원 (총보조금 315만 기준 아님)
+    expect(result.breakdown.evConversionBenefitWon).toBe(420000);
+    expect(result.extraBenefitWon).toBe(420000);
   });
 });
 

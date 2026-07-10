@@ -9,12 +9,15 @@ import {
   calculateQuote,
   compareQuotes,
   calculateUpgradeSuggestions,
+  calcConversionSubsidyWon,
   formatWon,
   formatNumber,
   monthlyPayment
 } from "@/lib/quoteCalculations";
-import { TRIM_PRICES } from "@/lib/vehicleData";
+import { TRIM_PRICES, getTrimStats } from "@/lib/vehicleData";
 
+// 가격·스펙은 lib/vehicleData.js 단일 원본에서 파생한다.
+// (label·csvModel·이미지 등 표시 전용 메타만 여기서 정의)
 const MODEL_CATALOG = [
   {
     id: "model3",
@@ -26,33 +29,21 @@ const MODEL_CATALOG = [
         label: "RWD(후륜 구동)",
         price: TRIM_PRICES["m3-rwd"],
         csvModel: "Model 3 RWD",
-        stats: [
-          { label: "주행 가능 거리", value: "382", unit: "km" },
-          { label: "최고 속도", value: "201", unit: "km/h" },
-          { label: "0-100 km/h", value: "6.2", unit: "초" }
-        ]
+        stats: getTrimStats("m3-rwd")
       },
       {
         id: "m3-lr",
         label: "Premium Long Range RWD(후륜 구동)",
         price: TRIM_PRICES["m3-lr"],
         csvModel: "Model 3 Premium Long Range RWD",
-        stats: [
-          { label: "주행 가능 거리", value: "538", unit: "km" },
-          { label: "최고 속도", value: "201", unit: "km/h" },
-          { label: "0-100 km/h", value: "5.2", unit: "초" }
-        ]
+        stats: getTrimStats("m3-lr")
       },
       {
         id: "m3-perf",
         label: "Performance AWD(사륜 구동)",
         price: TRIM_PRICES["m3-perf"],
         csvModel: "Model 3 Performance",
-        stats: [
-          { label: "주행 가능 거리", value: "450", unit: "km" },
-          { label: "최고 속도", value: "261", unit: "km/h" },
-          { label: "0-100 km/h", value: "3.1", unit: "초" }
-        ]
+        stats: getTrimStats("m3-perf")
       }
     ]
   },
@@ -66,22 +57,14 @@ const MODEL_CATALOG = [
         label: "Premium RWD(후륜 구동)",
         price: TRIM_PRICES["my-rwd"],
         csvModel: "Model Y Premium RWD",
-        stats: [
-          { label: "주행 가능 거리", value: "400", unit: "km" },
-          { label: "최고 속도", value: "201", unit: "km/h" },
-          { label: "0-100 km/h", value: "5.9", unit: "초" }
-        ]
+        stats: getTrimStats("my-rwd")
       },
       {
         id: "my-lr",
         label: "Premium Long Range AWD(사륜 구동)",
         price: TRIM_PRICES["my-lr"],
         csvModel: "Model Y Premium Long Range",
-        stats: [
-          { label: "주행 가능 거리", value: "505", unit: "km" },
-          { label: "최고 속도", value: "201", unit: "km/h" },
-          { label: "0-100 km/h", value: "4.8", unit: "초" }
-        ]
+        stats: getTrimStats("my-lr")
       },
       {
         id: "my-l-awd",
@@ -90,11 +73,7 @@ const MODEL_CATALOG = [
         csvModel: "Model Y L AWD",
         displayName: "Model Y L",
         image: "/modely-l.png",
-        stats: [
-          { label: "주행 가능 거리", value: "543", unit: "km" },
-          { label: "최고 속도", value: "201", unit: "km/h" },
-          { label: "0-100 km/h", value: "5.0", unit: "초" }
-        ]
+        stats: getTrimStats("my-l-awd")
       }
     ]
   }
@@ -128,10 +107,24 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
     const urlYouth = searchParams.get('youth') === '1';
     const urlLowIncome = searchParams.get('lowIncome') === '1';
     const urlEvConversion = searchParams.get('evConversion') === '1';
-    const urlMultiChild = parseInt(searchParams.get('multiChild') || '0');
-    const urlDownPayment = parseInt(searchParams.get('downPayment') || '10000000');
-    const urlRate = parseFloat(searchParams.get('rate') || '3.6');
-    const urlMonths = parseInt(searchParams.get('months') || '60');
+    // 숫자 파라미터는 값이 없을 때만 기본값으로 대체한다.
+    // (파싱 결과 0·0.0 은 사용자가 공유한 유효값이므로 보존해야 한다.)
+    const parseIntParam = (key, fallback) => {
+      const raw = searchParams.get(key);
+      if (raw === null || raw === '') return fallback;
+      const n = parseInt(raw, 10);
+      return Number.isFinite(n) ? n : fallback;
+    };
+    const parseFloatParam = (key, fallback) => {
+      const raw = searchParams.get(key);
+      if (raw === null || raw === '') return fallback;
+      const n = parseFloat(raw);
+      return Number.isFinite(n) ? n : fallback;
+    };
+    const urlMultiChild = parseIntParam('multiChild', 0);
+    const urlDownPayment = parseIntParam('downPayment', 10000000);
+    const urlRate = parseFloatParam('rate', 3.6);
+    const urlMonths = parseIntParam('months', 60);
 
     return {
       modelId: urlModelId,
@@ -168,10 +161,10 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
   const [isLowIncomeBenefit, setIsLowIncomeBenefit] = useState(initialState?.isLowIncomeBenefit || false);
   const [isEvConversionBenefit, setIsEvConversionBenefit] = useState(initialState?.isEvConversionBenefit || false);
   const [multiChildCount, setMultiChildCount] = useState(initialState?.multiChildCount || 0);
-  const [downPayment, setDownPayment] = useState(initialState?.downPayment || 10000000);
-  const [downPaymentInput, setDownPaymentInput] = useState(formatNumber(initialState?.downPayment || 10000000));
-  const [rate, setRate] = useState(initialState?.rate || 3.6);
-  const [months, setMonths] = useState(initialState?.months || 60);
+  const [downPayment, setDownPayment] = useState(initialState?.downPayment ?? 10000000);
+  const [downPaymentInput, setDownPaymentInput] = useState(formatNumber(initialState?.downPayment ?? 10000000));
+  const [rate, setRate] = useState(initialState?.rate ?? 3.6);
+  const [months, setMonths] = useState(initialState?.months ?? 60);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [activeSection, setActiveSection] = useState("model");
   const [copied, setCopied] = useState(false);
@@ -202,7 +195,9 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
   const subsidyWon = subsidy.total_subsidy_manwon * 10000;
   const youthBenefitWon = isYouthBenefit ? Math.round(nationalSubsidyWon * 0.2) : 0;
   const lowIncomeBenefitWon = isLowIncomeBenefit ? Math.round(nationalSubsidyWon * 0.2) : 0;
-  const evConversionBenefitWon = isEvConversionBenefit ? 1000000 : 0;
+  const evConversionBenefitWon = isEvConversionBenefit
+    ? calcConversionSubsidyWon(subsidy.national_subsidy_manwon)
+    : 0;
   const multiChildBenefitWon = MULTI_CHILD_BENEFIT_MAP[multiChildCount] || 0;
   const extraBenefitWon = youthBenefitWon + lowIncomeBenefitWon + evConversionBenefitWon + multiChildBenefitWon;
   const estimatedPrice = Math.max(basePrice - subsidyWon - extraBenefitWon, 0);
@@ -649,15 +644,23 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
                 />
                 <span className="text-sm font-semibold md:text-base">청년 생애 첫차 (국비 20% 추가)</span>
               </label>
-              <label className="flex cursor-pointer items-center gap-2.5 rounded-lg bg-gray-50 px-4 py-3 transition-all hover:bg-gray-100 md:gap-3 md:rounded-xl md:px-5 md:py-4">
+              <label className="flex cursor-pointer items-start gap-2.5 rounded-lg bg-gray-50 px-4 py-3 transition-all hover:bg-gray-100 md:gap-3 md:rounded-xl md:px-5 md:py-4">
                 <input
                   type="checkbox"
-                  className="h-4 w-4 cursor-pointer rounded border-gray-300 md:h-5 md:w-5"
+                  className="mt-0.5 h-4 w-4 cursor-pointer rounded border-gray-300 md:h-5 md:w-5"
                   checked={isEvConversionBenefit}
                   onChange={(e) => setIsEvConversionBenefit(e.target.checked)}
                   aria-label="전기차 전환지원금 혜택"
                 />
-                <span className="text-sm font-semibold md:text-base">전기차 전환지원금 (+100만원)</span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-semibold md:text-base">
+                    전기차 전환지원금 (+{formatWon(calcConversionSubsidyWon(subsidy.national_subsidy_manwon))})
+                  </span>
+                  <span className="mt-1 block text-[11px] leading-relaxed text-gray-500 md:text-xs">
+                    출고 후 3년 이상 경과한 내연기관차를 3년 이상 보유한 개인이 해당 차량을 판매 또는 폐차하고
+                    전기차를 구매하는 경우, 차종별 일반 국비보조금에 비례하여 최대 100만원의 전환지원금이 추가됩니다.
+                  </span>
+                </span>
               </label>
               <label className="grid gap-1.5 text-sm font-medium text-gray-700 md:gap-2">
                 <span className="text-sm font-bold md:text-base">다자녀 자녀 수</span>
@@ -762,7 +765,10 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
                 <dd className="m-0 text-right text-base font-bold text-green-400 md:text-lg">- {formatWon(extraBenefitWon)}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b-2 border-white/20 py-3.5 md:gap-4 md:py-5">
-                <dt className="text-sm font-bold md:text-base">예상 실구매가</dt>
+                <dt className="text-sm font-bold md:text-base">
+                  보조금 차감 예상 차량가
+                  <span className="mt-0.5 block text-[10px] font-normal text-gray-500">취득세·등록비 등 제외</span>
+                </dt>
                 <dd className="m-0 text-right text-lg font-black md:text-xl">{formatWon(estimatedPrice)}</dd>
               </div>
               <div className="flex justify-between gap-3 border-b border-white/10 py-3 pt-4 md:gap-4 md:py-4 md:pt-6">
@@ -774,6 +780,29 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
                 <dd className="m-0 text-right text-xl font-black text-brandRed md:text-2xl">{formatWon(Math.round(monthly))}</dd>
               </div>
             </dl>
+
+            {/* 견적 조건·기준일·면책 (공유 이미지에 함께 캡처됨) */}
+            <div className="mt-6 space-y-2 border-t border-white/10 pt-5">
+              <div className="grid grid-cols-3 gap-2 text-center">
+                <div className="rounded-lg bg-white/5 px-2 py-2">
+                  <p className="text-[10px] text-gray-500">선수금</p>
+                  <p className="mt-0.5 text-xs font-bold">{formatWon(Number(downPayment || 0))}</p>
+                </div>
+                <div className="rounded-lg bg-white/5 px-2 py-2">
+                  <p className="text-[10px] text-gray-500">할부금리</p>
+                  <p className="mt-0.5 text-xs font-bold">{Number(rate || 0)}%</p>
+                </div>
+                <div className="rounded-lg bg-white/5 px-2 py-2">
+                  <p className="text-[10px] text-gray-500">할부기간</p>
+                  <p className="mt-0.5 text-xs font-bold">{months}개월</p>
+                </div>
+              </div>
+              <p className="text-[10px] leading-relaxed text-gray-500">
+                {dataDateLabel ? `보조금 데이터 ${dataDateLabel} 기준. ` : ""}
+                참고용 예상치이며 취득세·등록비·금융조건에 따라 실제 금액과 다를 수 있습니다.
+                최종 금액은 무공해차 통합누리집·지자체 공고·판매처에서 확인하세요. (하우머치 테슬라 · 비공식 독립 계산)
+              </p>
+            </div>
 
             {/* 공유 버튼 */}
             <div className="mt-6 border-t border-white/10 pt-6 md:mt-8 md:pt-8">
@@ -823,7 +852,7 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
               aria-label="견적 요약 자세히 보기"
             >
               <span className="flex flex-col items-start leading-none">
-                <span className="text-[10px] font-medium text-gray-400">예상 실구매가</span>
+                <span className="text-[10px] font-medium text-gray-400">보조금 차감 차량가</span>
                 <span className="mt-1 text-sm font-bold text-black">{formatWon(estimatedPrice)}</span>
               </span>
               <span className="flex items-center gap-2.5">

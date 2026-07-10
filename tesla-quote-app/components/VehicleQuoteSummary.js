@@ -26,9 +26,17 @@ export default function VehicleQuoteSummary({
           {modelName}
         </h4>
 
+        {/* 보조금 (국고+지방) — 차량별로 명시 */}
+        <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-3 text-sm">
+          <span className="text-gray-400">보조금(국고+지방)</span>
+          <span className="font-semibold text-green-400">
+            − {formatWon(quote.subsidyWon || 0)}
+          </span>
+        </div>
+
         {/* Final Price */}
         <div className="mb-3 border-b border-white/10 pb-3">
-          <p className="mb-1 text-sm text-gray-400">예상 실구매가</p>
+          <p className="mb-1 text-sm text-gray-400">보조금 차감 예상 차량가</p>
           <p className="text-base font-bold md:text-lg">
             {formatWon(quote.estimatedPrice)}
           </p>
@@ -44,7 +52,7 @@ export default function VehicleQuoteSummary({
 
         {/* Total Savings */}
         <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-400">총 할인</span>
+          <span className="text-gray-400">총 할인(보조금+추가혜택)</span>
           <span className="font-semibold text-green-400">
             {formatWon(totalSavings)}
           </span>

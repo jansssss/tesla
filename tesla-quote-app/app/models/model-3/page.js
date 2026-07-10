@@ -12,7 +12,7 @@ export const metadata = {
     description:
       "테슬라 Model 3 RWD·Long Range·Performance 트림 출고가, 지역별 보조금, 실구매가 및 할부 월납입금 계산.",
     url: "https://www.paytesla.kr/models/model-3",
-    siteName: "테슬라 얼마?",
+    siteName: "하우머치 테슬라",
     locale: "ko_KR",
     type: "website",
   },
@@ -173,7 +173,7 @@ export default function Model3Page() {
         <section className="border-t border-gray-100 pt-8">
           <h2 className="text-base font-bold mb-3 text-gray-700">관련 페이지</h2>
           <div className="flex flex-wrap gap-2">
-            <Link href="/calc/tesla-subsidy" className="px-3 py-1.5 bg-blue-600 text-white rounded-full text-xs font-medium hover:bg-blue-500 transition-colors">
+            <Link href="/" className="px-3 py-1.5 bg-blue-600 text-white rounded-full text-xs font-medium hover:bg-blue-500 transition-colors">
               테슬라 보조금 계산기
             </Link>
             <Link href="/models/model-y" className="px-3 py-1.5 bg-black text-white rounded-full text-xs font-medium hover:bg-gray-800 transition-colors">

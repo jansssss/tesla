@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { loadSubsidySnapshot } from "@/lib/subsidy";
 import { METRO_BY_SLUG, ALL_SLUGS, calcMetroSubsidyStats } from "@/lib/regions";
 import { CALC_DATA_DATE } from "@/lib/calcExtra";
+import { TRIM_PRICES, VEHICLE_DATA_VERIFIED_AT } from "@/lib/vehicleData";
 import RegionHero from "@/components/seo/RegionHero";
 import RegionSubsidyTable from "@/components/seo/RegionSubsidyTable";
 import RegionPresetButtons from "@/components/seo/RegionPresetButtons";
@@ -39,7 +40,7 @@ export async function generateMetadata({ params }) {
       title,
       description,
       url: `https://www.paytesla.kr/subsidy/${region}`,
-      siteName: "테슬라 얼마?",
+      siteName: "하우머치 테슬라",
       locale: "ko_KR",
       type: "website",
     },
@@ -89,8 +90,7 @@ export default async function RegionSubsidyPage({ params }) {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "홈", item: "https://www.paytesla.kr" },
-      { "@type": "ListItem", position: 2, name: "지역별 보조금", item: "https://www.paytesla.kr/subsidy" },
-      { "@type": "ListItem", position: 3, name: metro.name, item: `https://www.paytesla.kr/subsidy/${region}` },
+      { "@type": "ListItem", position: 2, name: `${metro.name} 테슬라 보조금`, item: `https://www.paytesla.kr/subsidy/${region}` },
     ],
   };
 
@@ -114,8 +114,12 @@ export default async function RegionSubsidyPage({ params }) {
           <h2 className="text-sm font-bold text-slate-800 mb-3">데이터 출처 및 확인 안내</h2>
           <dl className="space-y-1.5 text-xs md:text-sm text-slate-600">
             <div className="flex gap-2">
-              <dt className="w-28 shrink-0 font-semibold text-slate-500">데이터 기준일</dt>
+              <dt className="w-28 shrink-0 font-semibold text-slate-500">보조금 기준일</dt>
               <dd>{snapshot.dataDate ?? CALC_DATA_DATE}</dd>
+            </div>
+            <div className="flex gap-2">
+              <dt className="w-28 shrink-0 font-semibold text-slate-500">차량 가격 검증일</dt>
+              <dd>{VEHICLE_DATA_VERIFIED_AT || CALC_DATA_DATE} (테슬라 공식 홈페이지)</dd>
             </div>
             <div className="flex gap-2">
               <dt className="w-28 shrink-0 font-semibold text-slate-500">국고보조금 출처</dt>
@@ -124,10 +128,6 @@ export default async function RegionSubsidyPage({ params }) {
             <div className="flex gap-2">
               <dt className="w-28 shrink-0 font-semibold text-slate-500">지방보조금 출처</dt>
               <dd>{metro.name} 전기차 보급사업 공고</dd>
-            </div>
-            <div className="flex gap-2">
-              <dt className="w-28 shrink-0 font-semibold text-slate-500">마지막 확인일</dt>
-              <dd>{snapshot.dataDate ?? CALC_DATA_DATE}</dd>
             </div>
           </dl>
           <p className="mt-3 text-xs leading-relaxed text-slate-500">
@@ -153,22 +153,22 @@ export default async function RegionSubsidyPage({ params }) {
           </h2>
           <div className="text-sm text-gray-600 space-y-2 leading-relaxed">
             <p>
-              {metro.name} 기준 2026년 테슬라 Model 3 RWD 예상 실구매가는{" "}
+              {metro.name} 기준 2026년 테슬라 Model 3 RWD 보조금 차감 예상 차량가는{" "}
               <strong>
                 {m3rwd?.max
-                  ? `약 ${Math.round((46990000 - m3rwd.max * 10000) / 10000).toLocaleString()}만원`
+                  ? `약 ${Math.round((TRIM_PRICES["m3-rwd"] - m3rwd.max * 10000) / 10000).toLocaleString()}만원`
                   : "보조금 적용 후 계산기 확인"}
               </strong>
-              입니다 (보조금 최대 {m3rwd?.max ?? 0}만원 반영).
+              입니다 (보조금 최대 {m3rwd?.max ?? 0}만원 반영, 취득세·등록비 등 제외).
             </p>
             <p>
               Model Y RWD는{" "}
               <strong>
                 {myRwd?.max
-                  ? `약 ${Math.round((49990000 - myRwd.max * 10000) / 10000).toLocaleString()}만원`
+                  ? `약 ${Math.round((TRIM_PRICES["my-rwd"] - myRwd.max * 10000) / 10000).toLocaleString()}만원`
                   : "보조금 적용 후 계산기 확인"}
               </strong>{" "}
-              수준입니다 (보조금 최대 {myRwd?.max ?? 0}만원 반영).
+              수준입니다 (보조금 최대 {myRwd?.max ?? 0}만원 반영, 취득세·등록비 등 제외).
             </p>
             {metro.type === "do" && (
               <p>

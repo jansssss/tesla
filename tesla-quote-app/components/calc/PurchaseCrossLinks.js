@@ -2,7 +2,7 @@ import Link from "next/link";
 
 /**
  * 계산 결과 아래 배치하는 "구매 전 함께 계산할 항목" 섹션.
- * items[0]이 핵심 링크(강조 카드)이며, 보통 /calc/tesla-subsidy로 연결한다.
+ * items[0]이 핵심 링크(강조 카드)이며, 보통 홈(/) 대표 계산기로 연결한다.
  *
  * @param {Array<{href:string, label:string, desc:string}>} items
  */

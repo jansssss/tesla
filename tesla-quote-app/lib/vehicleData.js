@@ -152,3 +152,26 @@ export function getTrimByCsvModel(csvModel) {
 export const TRIM_PRICES = Object.fromEntries(
   VEHICLE_TRIMS.map((t) => [t.id, t.priceKrw])
 );
+
+/**
+ * 차량 데이터(가격·스펙)를 공식 홈페이지와 마지막으로 대조한 날짜(YYYY-MM-DD).
+ * 보조금 데이터 기준일(snapshot.dataDate)과 분리해서 표기한다.
+ */
+export const VEHICLE_DATA_VERIFIED_AT = VEHICLE_TRIMS.reduce(
+  (latest, t) => (t.lastVerifiedAt && t.lastVerifiedAt > latest ? t.lastVerifiedAt : latest),
+  ""
+);
+
+/**
+ * 화면 표기용 스펙 카드([{label,value,unit}]) 생성 — 단일 원본에서 파생.
+ * @param {string} id 트림 id
+ */
+export function getTrimStats(id) {
+  const t = getTrimById(id);
+  if (!t) return [];
+  return [
+    { label: "주행 가능 거리", value: t.rangeKm == null ? "-" : String(t.rangeKm), unit: "km" },
+    { label: "최고 속도", value: t.topSpeedKph == null ? "-" : String(t.topSpeedKph), unit: "km/h" },
+    { label: "0-100 km/h", value: t.zeroToHundred == null ? "-" : String(t.zeroToHundred), unit: "초" },
+  ];
+}

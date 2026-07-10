@@ -7,7 +7,7 @@ import CalcField from "@/components/calc/CalcField";
 
 export default function TcoCalculator() {
   const [price, setPrice] = useState(49990000);
-  const [subsidy, setSubsidy] = useState(7000000);
+  const [subsidy, setSubsidy] = useState(0);
   const [depreciationRate, setDepreciationRate] = useState(CALC_DEFAULTS.depreciationRate);
   const [insurance, setInsurance] = useState(CALC_DEFAULTS.insurancePerYear);
   const [charging, setCharging] = useState(720000);
@@ -45,6 +45,9 @@ export default function TcoCalculator() {
       <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 md:p-6 space-y-4">
         <CalcField label="차량 가격" suffix="원" value={price} onChange={(v) => setPrice(v)} step={1000000} />
         <CalcField label="보조금" suffix="원" value={subsidy} onChange={(v) => setSubsidy(v)} step={500000} />
+        <p className="-mt-2 text-[11px] leading-relaxed text-slate-400">
+          지역별 보조금은 <a href="/" className="text-blue-600 hover:underline">홈 계산기</a>에서 지역 선택 후 확인해 입력하세요.
+        </p>
         <CalcField label="연 감가상각률" suffix="%" value={depreciationRate} onChange={(v) => setDepreciationRate(v)} step={1} />
         <CalcField label="연 보험료" suffix="원" value={insurance} onChange={(v) => setInsurance(v)} step={50000} />
         <CalcField label="연 충전비" suffix="원" value={charging} onChange={(v) => setCharging(v)} step={60000} />
@@ -65,8 +68,18 @@ export default function TcoCalculator() {
       </div>
 
       <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 md:p-6 text-white">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">총소유비용(TCO)</p>
-        <p className="mt-1 text-[11px] text-slate-500">감가상각 + 운영비 기준 / 할부 이자 등 금융비용 미포함</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">간이 TCO (총소유비용)</p>
+        <p className="mt-1 text-[11px] text-slate-500">감가상각 + 운영비 기준의 간이 추정치입니다.</p>
+        <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] leading-relaxed">
+          <div className="rounded-lg bg-emerald-500/10 p-2.5">
+            <p className="font-bold text-emerald-300">포함</p>
+            <p className="mt-0.5 text-slate-300">감가상각 · 보험료 · 충전비</p>
+          </div>
+          <div className="rounded-lg bg-rose-500/10 p-2.5">
+            <p className="font-bold text-rose-300">미포함</p>
+            <p className="mt-0.5 text-slate-300">할부 이자 · 취득/등록세 · 정비 · 타이어 · 통행/주차</p>
+          </div>
+        </div>
         <div className="mt-4 space-y-4">
           <div>
             <p className="text-sm text-slate-400">{years}년 예상 지출</p>

@@ -49,7 +49,7 @@ const SIDE_CALCS = [
   {
     title: "테슬라 보조금 계산기",
     desc: "국고+지자체 보조금 지역별 자동 반영",
-    href: "/calc/tesla-subsidy",
+    href: "/",
     color: "text-blue-600",
     bg: "bg-blue-50",
     emoji: "🏷️",
@@ -160,7 +160,7 @@ export default function HomeContent() {
             <div className="w-1 h-5 bg-blue-600 rounded-full shrink-0" />
             <h2 className="text-sm font-bold text-gray-900">계산기 도구</h2>
             <span className="text-[11px] font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
-              7가지
+              8가지
             </span>
           </div>
 

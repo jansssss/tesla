@@ -61,8 +61,8 @@ function Row({ label, a, b, highlightLower }) {
 export default function CompareCalculator() {
   const [m3, setM3] = useState("m3-rwd");
   const [my, setMy] = useState("my-rwd");
-  const [m3Subsidy, setM3Subsidy] = useState(680);
-  const [mySubsidy, setMySubsidy] = useState(700);
+  const [m3Subsidy, setM3Subsidy] = useState(0);
+  const [mySubsidy, setMySubsidy] = useState(0);
   const [downPayment, setDownPayment] = useState(10000000);
   const [rate, setRate] = useState(3.6);
   const [months, setMonths] = useState(60);
@@ -106,7 +106,7 @@ export default function CompareCalculator() {
           <div className="px-3 py-3 text-center text-sm font-black">{trim3.label}</div>
           <div className="px-3 py-3 text-center text-sm font-black">{trimY.label}</div>
         </div>
-        <Row label="실구매가" a={resA.estimatedPrice} b={resB.estimatedPrice} highlightLower />
+        <Row label="보조금 차감 차량가" a={resA.estimatedPrice} b={resB.estimatedPrice} highlightLower />
         <Row label="월 납입금" a={resA.monthly} b={resB.monthly} highlightLower />
         <Row label="연 유지비" a={resA.annualMaintenance} b={resB.annualMaintenance} highlightLower />
         <Row label="5년 총비용" a={resA.fiveYearTotal} b={resB.fiveYearTotal} highlightLower />

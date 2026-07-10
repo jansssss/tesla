@@ -8,7 +8,7 @@ export const metadata = {
     title: "테슬라 구매 준비도 체크",
     description: "5문항으로 전기차 구매 준비도를 점수화하고 맞춤 조언을 확인하세요.",
     url: "https://www.paytesla.kr/calc/ev-purchase-readiness",
-    siteName: "테슬라 얼마?",
+    siteName: "하우머치 테슬라",
     locale: "ko_KR",
     type: "website",
   },
