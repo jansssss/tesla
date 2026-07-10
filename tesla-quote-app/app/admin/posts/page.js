@@ -31,6 +31,8 @@ export default function AdminPostsPage() {
   const [search, setSearch] = useState('')
   const [deletingId, setDeletingId] = useState(null)
   const [page, setPage] = useState(1)
+  const [selected, setSelected] = useState(new Set())
+  const [bulkDeleting, setBulkDeleting] = useState(false)
 
   useEffect(() => {
     const t = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : ''
@@ -67,6 +69,53 @@ export default function AdminPostsPage() {
       }
     } finally {
       setDeletingId(null)
+    }
+  }
+
+  const toggleSelect = (id) => {
+    setSelected(prev => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  const toggleSelectAllOnPage = () => {
+    setSelected(prev => {
+      const pageIds = pageItems.map(g => g.id)
+      const allSelected = pageIds.every(id => prev.has(id))
+      const next = new Set(prev)
+      if (allSelected) pageIds.forEach(id => next.delete(id))
+      else pageIds.forEach(id => next.add(id))
+      return next
+    })
+  }
+
+  const handleBulkDelete = async () => {
+    if (selected.size === 0) return
+    if (!window.confirm(`선택한 ${selected.size}개 글을 삭제할까요?\n이 작업은 되돌릴 수 없습니다.`)) return
+    setBulkDeleting(true)
+    try {
+      const ids = Array.from(selected)
+      const results = await Promise.all(ids.map(async id => {
+        const res = await fetch(`/api/admin/guides/${id}`, {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        return { id, ok: res.ok }
+      }))
+      const succeededIds = new Set(results.filter(r => r.ok).map(r => r.id))
+      const failedCount = results.length - succeededIds.size
+      setGuides(prev => prev.filter(g => !succeededIds.has(g.id)))
+      setSelected(prev => {
+        const next = new Set(prev)
+        succeededIds.forEach(id => next.delete(id))
+        return next
+      })
+      if (failedCount > 0) alert(`${failedCount}개 삭제 실패`)
+    } finally {
+      setBulkDeleting(false)
     }
   }
 
@@ -109,13 +158,22 @@ export default function AdminPostsPage() {
         </div>
 
         {/* 검색 */}
-        <div className="mb-4">
+        <div className="mb-4 flex items-center gap-2">
           <input
             value={search}
             onChange={e => { setSearch(e.target.value); setPage(1) }}
             placeholder="제목·슬러그·카테고리 검색"
             className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-400"
           />
+          {selected.size > 0 && (
+            <button
+              onClick={handleBulkDelete}
+              disabled={bulkDeleting}
+              className="flex-shrink-0 whitespace-nowrap rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-bold text-red-600 hover:bg-red-100 disabled:opacity-50"
+            >
+              {bulkDeleting ? '삭제 중…' : `선택 삭제 (${selected.size})`}
+            </button>
+          )}
         </div>
 
         {/* 목록 */}
@@ -128,8 +186,23 @@ export default function AdminPostsPage() {
             </div>
           ) : (
             <ul className="divide-y divide-slate-100">
+              <li className="flex items-center gap-4 bg-slate-50 px-5 py-2.5">
+                <input
+                  type="checkbox"
+                  checked={pageItems.length > 0 && pageItems.every(g => selected.has(g.id))}
+                  onChange={toggleSelectAllOnPage}
+                  className="h-4 w-4 flex-shrink-0 rounded border-slate-300"
+                />
+                <span className="text-xs font-semibold text-slate-500">이 페이지 전체 선택</span>
+              </li>
               {pageItems.map(guide => (
                 <li key={guide.id} className="flex items-center gap-4 px-5 py-4 hover:bg-slate-50">
+                  <input
+                    type="checkbox"
+                    checked={selected.has(guide.id)}
+                    onChange={() => toggleSelect(guide.id)}
+                    className="h-4 w-4 flex-shrink-0 rounded border-slate-300"
+                  />
                   <div className="min-w-0 flex-1">
                     <div className="mb-1 flex flex-wrap items-center gap-2">
                       <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-600">{guide.category}</span>
