@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAllGuides, getGuideBySlug, isArchivedStaticSlug } from "@/lib/guides";
+import {
+  getAllGuides,
+  getGuideBySlug,
+  isArchivedStaticSlug,
+  GUIDES_SECTION_PUBLIC,
+} from "@/lib/guides";
 import { isArchivedSupabaseSlug } from "@/lib/archivedGuides";
 import { fetchGuideBySlug } from "@/lib/supabase-server";
 import AdminEditButton from "@/components/AdminEditButton";
@@ -102,6 +107,8 @@ export async function generateMetadata({ params }) {
     title: `${guide.title} - 하우머치 테슬라`,
     description: guide.description,
     alternates: { canonical: canonicalUrl },
+    // 가이드 섹션 비노출 기간에는 개별 글도 색인하지 않는다(URL은 유지).
+    ...(GUIDES_SECTION_PUBLIC ? {} : { robots: { index: false, follow: false } }),
     openGraph: {
       title: guide.title,
       description: guide.description,

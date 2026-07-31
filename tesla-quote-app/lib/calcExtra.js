@@ -82,6 +82,99 @@ export function calcCharging({ monthlyKm, efficiency, fastRatio, slowRatio, fast
 }
 
 /**
+ * 홈 충전기 설치 손익 계산
+ * 설치 전후의 가중 평균 충전 단가 차이로 월 절감액을 구하고, 설치비 회수 기간을 산출한다.
+ * @param {Object} p
+ * @param {number} p.installCost   설치비(원)
+ * @param {number} p.monthlyKm     월 주행거리(km)
+ * @param {number} p.efficiency    전비(km/kWh)
+ * @param {number} p.beforeSlowRatio 설치 전 완속(공용) 비율(%)
+ * @param {number} p.afterSlowRatio  설치 후 완속(가정용) 비율(%)
+ * @param {number} p.homePrice     가정용 충전 단가(원/kWh)
+ * @param {number} p.publicSlowPrice 공용 완속 단가(원/kWh)
+ * @param {number} p.fastPrice     급속 단가(원/kWh)
+ * @returns {{monthlyKwh, beforePrice, afterPrice, beforeMonthly, afterMonthly, monthlySaving, paybackMonths, fiveYearSaving}}
+ */
+export function calcChargerInstall({
+  installCost,
+  monthlyKm,
+  efficiency,
+  beforeSlowRatio,
+  afterSlowRatio,
+  homePrice,
+  publicSlowPrice,
+  fastPrice,
+}) {
+  const km = Math.max(Number(monthlyKm) || 0, 0);
+  const eff = Math.max(Number(efficiency) || 0, 0.1);
+  const monthlyKwh = km / eff;
+
+  const clampPct = (v) => Math.min(Math.max(Number(v) || 0, 0), 100);
+  const beforeSlow = clampPct(beforeSlowRatio);
+  const afterSlow = clampPct(afterSlowRatio);
+
+  // 설치 전: 공용 완속 + 급속
+  const beforePrice =
+    (beforeSlow / 100) * (Number(publicSlowPrice) || 0) +
+    ((100 - beforeSlow) / 100) * (Number(fastPrice) || 0);
+  // 설치 후: 가정용 완속 + 급속
+  const afterPrice =
+    (afterSlow / 100) * (Number(homePrice) || 0) +
+    ((100 - afterSlow) / 100) * (Number(fastPrice) || 0);
+
+  const beforeMonthly = monthlyKwh * beforePrice;
+  const afterMonthly = monthlyKwh * afterPrice;
+  const monthlySaving = beforeMonthly - afterMonthly;
+  const cost = Math.max(Number(installCost) || 0, 0);
+  const paybackMonths = monthlySaving > 0 ? cost / monthlySaving : null;
+
+  return {
+    monthlyKwh: Math.round(monthlyKwh),
+    beforePrice: Math.round(beforePrice),
+    afterPrice: Math.round(afterPrice),
+    beforeMonthly: Math.round(beforeMonthly),
+    afterMonthly: Math.round(afterMonthly),
+    monthlySaving: Math.round(monthlySaving),
+    paybackMonths: paybackMonths === null ? null : Math.ceil(paybackMonths),
+    fiveYearSaving: Math.round(monthlySaving * 60 - cost),
+  };
+}
+
+/**
+ * 충전 시간 계산
+ * 충전기 출력과 배터리 용량, 시작/목표 충전율로 소요 시간을 추정한다.
+ * @param {Object} p
+ * @param {number} p.batteryKwh  배터리 용량(kWh)
+ * @param {number} p.startSoc    현재 충전율(%)
+ * @param {number} p.targetSoc   목표 충전율(%)
+ * @param {number} p.powerKw     충전기 출력(kW)
+ * @param {number} p.efficiency  충전 효율(%) — 손실을 반영한 실효 비율
+ * @returns {{neededKwh, hours, minutes, totalMinutes, addedKm}}
+ */
+export function calcChargingTime({ batteryKwh, startSoc, targetSoc, powerKw, efficiency = 90, rangeKm }) {
+  const cap = Math.max(Number(batteryKwh) || 0, 0);
+  const start = Math.min(Math.max(Number(startSoc) || 0, 0), 100);
+  const target = Math.min(Math.max(Number(targetSoc) || 0, 0), 100);
+  const kw = Math.max(Number(powerKw) || 0, 0.1);
+  const eff = Math.min(Math.max(Number(efficiency) || 0, 1), 100) / 100;
+
+  const deltaSoc = Math.max(target - start, 0);
+  const neededKwh = cap * (deltaSoc / 100);
+  const totalMinutes = neededKwh > 0 ? (neededKwh / (kw * eff)) * 60 : 0;
+
+  // 충전으로 늘어나는 주행거리(인증 주행거리 기준 비례 추정)
+  const addedKm = rangeKm ? Math.round((Number(rangeKm) || 0) * (deltaSoc / 100)) : null;
+
+  return {
+    neededKwh: Math.round(neededKwh * 10) / 10,
+    totalMinutes: Math.round(totalMinutes),
+    hours: Math.floor(totalMinutes / 60),
+    minutes: Math.round(totalMinutes % 60),
+    addedKm,
+  };
+}
+
+/**
  * 총소유비용(TCO) 계산
  * 총비용 = 초기 실구매가(차량가-보조금) - 잔존가치 + 운영비(보험+충전)×보유기간
  * @param {Object} p

@@ -25,8 +25,8 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4">
         {/* Links */}
         <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 text-sm mb-4">
-          <Link href="/guides" className="hover:text-white transition-colors">
-            정보성 가이드
+          <Link href="/calc" className="hover:text-white transition-colors">
+            계산기 전체
           </Link>
           <span className="text-gray-600">|</span>
           <Link href="/about" className="hover:text-white transition-colors">

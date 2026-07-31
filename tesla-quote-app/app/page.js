@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import HomeContent from "@/components/HomeContent";
 import QuoteWizard from "@/components/QuoteWizard";
 import QuoteWizardSkeleton from "@/components/QuoteWizardSkeleton";
-import RecentGuides, { RecentGuidesSkeleton } from "@/components/RecentGuides";
+import HomeCalcLinks from "@/components/HomeCalcLinks";
 import { loadSubsidySnapshot } from "@/lib/subsidy";
 
 export const metadata = {
@@ -65,9 +65,7 @@ export default function HomePage() {
         <QuoteWizard rows={snapshot.rows} regions={snapshot.regions} dataDate={snapshot.dataDate} />
       </Suspense>
       <div className="border-b border-slate-100" />
-      <Suspense fallback={<RecentGuidesSkeleton />}>
-        <RecentGuides />
-      </Suspense>
+      <HomeCalcLinks />
       <HomeContent />
     </main>
   );

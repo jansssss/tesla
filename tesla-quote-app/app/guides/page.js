@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllGuides } from "@/lib/guides";
+import { getAllGuides, GUIDES_SECTION_PUBLIC } from "@/lib/guides";
 import { fetchAllGuidesForList } from "@/lib/supabase-server";
 import { normalizeCategory } from "@/lib/categories";
 
@@ -25,7 +25,9 @@ function formatDate(dateStr) {
 export const metadata = {
   title: "정보성 가이드 - 하우머치 테슬라",
   description:
-    "테슬라 구매, 지역별 보조금, 세제 혜택, 충전 환경, 신청 전략을 깊이 있게 정리한 정보성 가이드 모음입니다."
+    "테슬라 구매, 지역별 보조금, 세제 혜택, 충전 환경, 신청 전략을 깊이 있게 정리한 정보성 가이드 모음입니다.",
+  // 가이드 섹션은 비노출(GUIDES_SECTION_PUBLIC=false). 링크는 살려두되 색인은 막는다.
+  ...(GUIDES_SECTION_PUBLIC ? {} : { robots: { index: false, follow: false } }),
 };
 
 export default async function GuidesPage() {

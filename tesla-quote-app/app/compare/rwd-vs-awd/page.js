@@ -1,5 +1,194 @@
 import Link from "next/link";
 import { METRO_REGIONS } from "@/lib/regions";
+import CalcContent from "@/components/calc/CalcContent";
+import { CALC_DATA_DATE, CALC_DEFAULTS } from "@/lib/calcExtra";
+import { getTrimById, VEHICLE_DATA_VERIFIED_AT } from "@/lib/vehicleData";
+
+const _m3rwd = getTrimById("m3-rwd");
+const _m3lr = getTrimById("m3-lr");
+const _m3perf = getTrimById("m3-perf");
+const _myrwd = getTrimById("my-rwd");
+const _mylr = getTrimById("my-lr");
+
+const _man = (won) => `${(won / 10000).toLocaleString()}만원`;
+
+const DRIVETRAIN_SECTIONS = [
+  {
+    heading: "구동 방식이 실제로 바꾸는 것은 세 가지뿐이다",
+    lead: "RWD와 AWD의 차이를 '성능 차이'로 뭉뚱그리면 판단이 어려워집니다. 실제로 달라지는 것은 접지력, 가속, 효율 세 가지이고 나머지는 대체로 같습니다.",
+    blocks: [
+      {
+        type: "table",
+        headers: ["항목", "RWD (후륜)", "AWD (사륜)"],
+        rows: [
+          ["구동 모터", "뒤쪽 1개", "앞뒤 2개"],
+          ["미끄러운 노면 접지력", "보통", "유리 — 구동력이 네 바퀴에 분산"],
+          ["가속", "충분한 수준", "빠름 — 같은 모델 기준 우위"],
+          ["전비", "유리 — 모터가 하나", "다소 불리 — 중량과 구동 손실 증가"],
+          ["가격", "낮음", "높음"],
+        ],
+        note: "실내 공간, 적재 용량, 인포테인먼트, 안전 장비 등은 구동 방식과 무관하게 동일한 경우가 대부분입니다. 정확한 트림별 사양은 공식 홈페이지에서 확인하세요.",
+      },
+      {
+        type: "text",
+        paragraphs: [
+          "정리하면 AWD는 '눈길과 가속에 돈을 더 쓰는 선택'입니다. 그 두 가지가 본인에게 얼마나 자주 필요한지가 판단의 기준이 됩니다.",
+          "많은 사람이 '안전을 위해 AWD'라고 생각하지만, 안전에서 구동 방식이 기여하는 부분은 생각보다 좁습니다. 다음 항목에서 그 범위를 정확히 짚습니다.",
+        ],
+      },
+    ],
+  },
+  {
+    heading: "겨울철에 AWD가 유리한 지점과 그 한계",
+    lead: "눈길에서 AWD가 도움이 되는 것은 사실입니다. 다만 어느 국면에서 도움이 되는지를 알아야 과신하지 않습니다.",
+    blocks: [
+      {
+        type: "compare",
+        columns: [
+          {
+            title: "AWD가 실제로 도와주는 것",
+            tone: "good",
+            items: [
+              "눈길·빙판에서 출발할 때 바퀴가 헛도는 현상이 줄어든다",
+              "경사로에서 미끄러운 노면을 올라갈 때 유리하다",
+              "가속 시 구동력이 네 바퀴에 분산되어 안정적이다",
+              "후륜 구동 특유의 저속 미끄러짐이 덜하다",
+            ],
+          },
+          {
+            title: "AWD가 도와주지 않는 것",
+            tone: "bad",
+            items: [
+              "제동 거리 — 브레이크는 네 바퀴 모두 작동하므로 차이가 없다",
+              "코너링 한계 — 결국 타이어 접지력이 결정한다",
+              "빙판에서의 조향 — 구동 방식과 직접 관련이 없다",
+              "겨울 안전은 타이어가 구동 방식보다 큰 변수다",
+            ],
+          },
+        ],
+      },
+      {
+        type: "callout",
+        tone: "warn",
+        title: "가장 중요한 한 가지",
+        text: "겨울 주행 안전에서 가장 큰 변수는 구동 방식이 아니라 타이어입니다. 눈이 잦은 지역이라면 RWD에 겨울용 타이어를 끼우는 편이, AWD에 사계절 타이어를 끼우는 것보다 나은 경우가 많습니다. AWD를 골랐다고 겨울 타이어가 불필요해지는 것은 아닙니다.",
+      },
+      {
+        type: "text",
+        paragraphs: [
+          "이 관점에서 보면 '눈길 때문에 AWD'라는 결정은 한 번 더 따져볼 여지가 있습니다. 차값 차이로 겨울 타이어를 몇 번이나 살 수 있는지 계산해보면 판단이 달라지기도 합니다.",
+          "다만 강원 산간이나 경사로가 많은 지역처럼 출발 자체가 어려운 환경이라면, 타이어만으로 해결되지 않는 국면이 있어 AWD의 값어치가 분명해집니다.",
+        ],
+      },
+    ],
+  },
+  {
+    heading: "AWD를 선택하면 비용은 얼마나 늘어나나",
+    lead: "차값 차이만 보면 판단이 반쪽입니다. 전비가 불리해지므로 유지비도 함께 늘어납니다.",
+    blocks: [
+      {
+        type: "table",
+        headers: ["비교", "RWD", "AWD", "차이"],
+        rows: [
+          [
+            "Model 3",
+            `${_m3rwd.trim} ${_man(_m3rwd.priceKrw)}`,
+            `${_m3perf.trim} ${_man(_m3perf.priceKrw)}`,
+            `+${_man(_m3perf.priceKrw - _m3rwd.priceKrw)}`,
+          ],
+          [
+            "Model Y",
+            `${_myrwd.trim} ${_man(_myrwd.priceKrw)}`,
+            `${_mylr.trim} ${_man(_mylr.priceKrw)}`,
+            `+${_man(_mylr.priceKrw - _myrwd.priceKrw)}`,
+          ],
+        ],
+        note: `테슬라 공식 홈페이지 기준 출고가, 확인일 ${VEHICLE_DATA_VERIFIED_AT}. Model 3의 AWD 트림은 Performance이므로 성능 차이가 함께 반영된 가격입니다. 보조금 적용 후 실구매가 차이는 트림별 보조금 금액에 따라 달라집니다.`,
+      },
+      {
+        type: "list",
+        title: "차값 외에 늘어나는 비용",
+        items: [
+          "충전비 — 전비가 불리한 만큼 같은 거리를 달릴 때 전력을 더 씁니다. 연 단위로 누적되면 무시하기 어렵습니다.",
+          "보험료 — 차량가액이 오르면 자차 보험료가 함께 오릅니다.",
+          "타이어 — 상위 트림일수록 큰 휠·고성능 타이어가 적용되는 경우가 있어 교체 비용이 올라갈 수 있습니다.",
+        ],
+      },
+      {
+        type: "text",
+        paragraphs: [
+          `충전비 차이는 충전비 계산기에서 전비를 각각 다르게 넣어 비교하면 바로 확인할 수 있습니다. 기본 가정값은 ${CALC_DEFAULTS.efficiency}km/kWh이므로, AWD는 이보다 낮춘 값으로 계산해보세요.`,
+          "차값 차이에 5년치 충전비·보험료 차이를 더한 금액이 AWD를 선택하는 실제 비용입니다. 총소유비용 계산기에서 두 조건을 각각 계산해 비교하는 것을 권합니다.",
+        ],
+      },
+    ],
+  },
+  {
+    heading: "그래서 어느 쪽을 고를 것인가",
+    blocks: [
+      {
+        type: "compare",
+        columns: [
+          {
+            title: "RWD로 충분한 경우",
+            tone: "good",
+            items: [
+              "도심 출퇴근이 주 용도다",
+              "눈이 거의 오지 않는 지역에 산다",
+              "월 부담을 낮추는 것이 우선이다",
+              "전비와 유지비를 중시한다",
+              "겨울에는 겨울용 타이어를 낄 생각이 있다",
+            ],
+          },
+          {
+            title: "AWD가 값어치를 하는 경우",
+            tone: "bad",
+            items: [
+              "눈·빙판이 잦은 지역이나 경사로가 많은 곳에 산다",
+              "겨울 장거리 이동이 정기적으로 있다",
+              "가속 성능 자체를 중요하게 본다",
+              `${_mylr.trimFull}처럼 긴 주행거리가 함께 필요하다`,
+              "차값·유지비 차이를 감수할 여지가 있다",
+            ],
+          },
+        ],
+      },
+      {
+        type: "text",
+        paragraphs: [
+          `주행거리 관점에서는 조합이 조금 복잡합니다. ${_m3lr.trimFull}는 RWD인데도 ${_m3lr.rangeKm}km로 라인업에서 긴 편이고, ${_mylr.trimFull}는 AWD이면서 ${_mylr.rangeKm}km입니다. '긴 주행거리 = AWD'가 아니라는 뜻입니다.`,
+          "따라서 구동 방식과 주행거리를 별개의 축으로 놓고, 두 조건을 동시에 만족하는 트림이 무엇인지 찾는 방식이 실용적입니다.",
+        ],
+      },
+    ],
+  },
+  {
+    heading: "구동 방식 선택에 대해 자주 묻는 것들",
+    blocks: [
+      {
+        type: "faq",
+        items: [
+          {
+            q: "눈 오는 지역인데 RWD를 사면 위험한가요?",
+            a: "위험하다고 단정할 수는 없습니다. 겨울용 타이어를 장착하면 RWD로도 대부분의 겨울 도로 상황에 대응할 수 있습니다. 다만 경사가 급한 언덕에서 눈길 출발이 반복되는 환경이라면 AWD가 확실히 편합니다. 거주지 도로 환경을 기준으로 판단하세요.",
+          },
+          {
+            q: "AWD가 주행거리도 더 긴 것 아닌가요?",
+            a: `트림에 따라 다릅니다. ${_mylr.trimFull}(AWD)는 ${_mylr.rangeKm}km로 ${_myrwd.trimFull}의 ${_myrwd.rangeKm}km보다 길지만, 이는 배터리 용량 차이 때문이지 구동 방식 때문이 아닙니다. 같은 배터리라면 모터가 하나인 RWD가 전비에서 유리합니다.`,
+          },
+          {
+            q: "보조금은 구동 방식에 따라 다른가요?",
+            a: "구동 방식 자체가 아니라 차량 가격과 효율 등을 기준으로 국고보조금이 산정되므로, 결과적으로 트림별 금액이 달라집니다. AWD 트림은 가격이 높아 보조금 산정 구간이 달라질 수 있습니다. 정확한 금액은 실구매가 계산기에서 지역과 트림을 선택해 확인하세요.",
+          },
+          {
+            q: "중고로 팔 때 AWD가 유리한가요?",
+            a: "중고 시세는 트림·색상·주행거리·사고 이력·시장 상황 등 여러 요인에 좌우되므로 구동 방식만으로 단정하기 어렵습니다. 총소유비용 계산기에서 감가상각률을 낙관적인 값과 보수적인 값으로 각각 넣어보고, 그 범위 안에서 판단하는 편이 현실적입니다.",
+          },
+        ],
+      },
+    ],
+  },
+];
 
 export const metadata = {
   title: "테슬라 RWD vs AWD 비교 — 가격·주행거리·보조금 2026",
@@ -246,6 +435,26 @@ export default function RwdVsAwdPage() {
         </section>
 
       </div>
+
+      <CalcContent
+        sections={DRIVETRAIN_SECTIONS}
+        currentHref="/compare/rwd-vs-awd"
+        dataDate={CALC_DATA_DATE}
+        dataNote={`가격·주행거리·가속 수치는 테슬라 공식 홈페이지 기준이며 마지막 확인일은 ${VEHICLE_DATA_VERIFIED_AT}입니다. 접지력·효율에 대한 서술은 구동 방식의 일반적인 특성을 설명한 것으로, 실제 체감은 타이어·노면·운전 습관에 따라 달라집니다.`}
+        relatedHeading="구동 방식을 정했다면 이어서 볼 계산기"
+        sources={[
+          {
+            name: "테슬라 공식 — 차량 사양",
+            url: "https://www.tesla.com/ko_kr",
+            note: "가격·주행거리·가속 원본",
+          },
+          {
+            name: "무공해차 통합누리집",
+            url: "https://www.ev.or.kr",
+            note: "보조금 공식 정보",
+          },
+        ]}
+      />
     </main>
   );
 }

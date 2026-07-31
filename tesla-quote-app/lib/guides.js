@@ -4280,6 +4280,17 @@ const visibleGuides = guides.filter((g) => !MERGED_SLUGS.has(g.slug));
  */
 export const STATIC_GUIDES_ARCHIVED = true;
 
+/**
+ * 가이드 섹션 전체 비노출 플래그.
+ *
+ * 사이트의 축은 계산기 콘텐츠로 옮겼고, /guides 목록에 남은 글이 소수여서
+ * 얇은 목록 페이지가 오히려 품질 신호를 떨어뜨린다. 그래서 섹션 자체를 감춘다.
+ *   - /guides, /guides/[slug] → noindex (URL은 살아 있어 404는 내지 않는다)
+ *   - 사이트맵·푸터·홈 최근글 섹션에서 제외
+ *   - 원문은 Supabase에 그대로 보관 — 되돌리려면 이 플래그만 true로.
+ */
+export const GUIDES_SECTION_PUBLIC = false;
+
 const STATIC_SLUGS = new Set(guides.map((g) => g.slug));
 
 /** 해당 slug가 archived된 정적 가이드인지 (상세 페이지 404 판단용) */

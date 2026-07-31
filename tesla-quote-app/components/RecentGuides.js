@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { fetchRecentGuides } from "@/lib/supabase-server";
+import { GUIDES_SECTION_PUBLIC } from "@/lib/guides";
 import { normalizeCategory } from "@/lib/categories";
 
 function formatDate(dateStr) {
@@ -21,6 +22,9 @@ const CATEGORY_COLORS = {
 };
 
 export default async function RecentGuides() {
+  // 가이드 섹션 비노출 기간에는 홈에서도 렌더하지 않는다.
+  if (!GUIDES_SECTION_PUBLIC) return null;
+
   const guides = await fetchRecentGuides(6);
 
   if (!guides || guides.length === 0) return null;
