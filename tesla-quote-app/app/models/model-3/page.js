@@ -142,43 +142,26 @@ export const metadata = {
   alternates: { canonical: "https://www.paytesla.kr/models/model-3" },
 };
 
-// 가격은 lib/vehicleData.js 단일 원본에서 가져옴.
-// 주행거리·성능 수치는 파일 간 충돌이 있어 별도 확인 필요 (docs/vehicle-data-verification-todo.md).
+// 가격·주행거리·성능 모두 lib/vehicleData.js 단일 원본에서 파생한다.
 const _vehicleTrims = getTrimsByModel("Model 3");
 const _priceMap = Object.fromEntries(_vehicleTrims.map((t) => [t.id, t.priceKrw]));
 
-const TRIMS = [
-  {
-    id: "m3-rwd",
-    label: "Model 3 RWD",
-    sublabel: "후륜 구동",
-    price: _priceMap["m3-rwd"],
-    range: "382 km",
-    speed: "201 km/h",
-    accel: "6.2 초",
-    highlight: false,
-  },
-  {
-    id: "m3-lr",
-    label: "Model 3 Long Range",
-    sublabel: "후륜 구동",
-    price: _priceMap["m3-lr"],
-    range: "538 km",
-    speed: "201 km/h",
-    accel: "5.2 초",
-    highlight: true,
-  },
-  {
-    id: "m3-perf",
-    label: "Model 3 Performance",
-    sublabel: "사륜 구동",
-    price: _priceMap["m3-perf"],
-    range: "450 km",
-    speed: "261 km/h",
-    accel: "3.1 초",
-    highlight: false,
-  },
-];
+const _SUBLABELS = {
+  "m3-rwd": "후륜 구동",
+  "m3-lr": "후륜 구동",
+  "m3-perf": "사륜 구동",
+};
+
+const TRIMS = _vehicleTrims.map((t) => ({
+  id: t.id,
+  label: t.trimFull,
+  sublabel: _SUBLABELS[t.id] ?? t.driveType,
+  price: t.priceKrw,
+  range: t.rangeKm == null ? null : `${t.rangeKm} km`,
+  speed: t.topSpeedKph == null ? null : `${t.topSpeedKph} km/h`,
+  accel: t.zeroToHundred == null ? null : `${t.zeroToHundred} 초`,
+  highlight: t.highlight,
+}));
 
 function formatWon(amount) {
   return `₩${Number(amount).toLocaleString("ko-KR")}`;

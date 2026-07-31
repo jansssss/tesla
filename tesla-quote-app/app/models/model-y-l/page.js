@@ -27,6 +27,10 @@ const m3Lr = getTrimById("m3-lr");
 
 const man = (won) => `${(won / 10000).toLocaleString()}만원`;
 const formatWon = (amount) => `₩${Number(amount).toLocaleString("ko-KR")}`;
+const liter = (l) => `${Number(l).toLocaleString()}L`;
+
+// 적재 공간은 가격·주행거리와 확인 시점이 달라 별도 표기한다.
+const CARGO_VERIFIED_AT = "2026-07-31";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -107,8 +111,44 @@ const SECTIONS = [
             `+${(myL.zeroToHundred - myLr.zeroToHundred).toFixed(1)}초 (느림)`,
           ],
           ["구동 방식", myL.driveType, myLr.driveType, "동일"],
+          [
+            "좌석",
+            `${myL.seats}인승 (3열)`,
+            `${myLr.seats}인승 (2열)`,
+            `+${myL.seats - myLr.seats}석`,
+          ],
         ],
-        note: `테슬라 공식 홈페이지 기준, 확인일 ${VEHICLE_DATA_VERIFIED_AT}. 주행거리는 환경부 복합 인증 기준입니다. 좌석 구성과 적재 용량 등 세부 사양은 공식 홈페이지에서 최신 정보를 확인하세요.`,
+        note: `가격·주행거리·가속은 테슬라 공식 홈페이지 기준, 확인일 ${VEHICLE_DATA_VERIFIED_AT}. 주행거리는 환경부 복합 인증 기준입니다. Model Y L은 2026년 4월 국내 출시된 3열 ${myL.seats}인승(2+2+2) 구성입니다. 적재 용량은 아래 표에 좌석 구성별로 정리했습니다.`,
+      },
+    ],
+  },
+  {
+    heading: "적재 공간은 좌석을 몇 개 쓰느냐로 완전히 달라진다",
+    lead: `${myL.trimFull}의 최대 적재 용량은 ${liter(myL.cargoLiters)}로 표기되지만, 이 숫자는 2명만 타고 2·3열을 모두 접었을 때의 값입니다. 3열까지 쓰면서 동시에 짐도 많이 싣는 상황은 성립하지 않습니다.`,
+    blocks: [
+      {
+        type: "table",
+        headers: ["탑승 구성", "뒤 적재공간", "프렁크", "총 적재공간"],
+        rows: myL.cargo.configs.map((c) => [
+          c.label,
+          liter(c.rearL),
+          liter(myL.cargo.frunkL),
+          liter(c.totalL),
+        ]),
+        note: `적재 공간 확인일 ${CARGO_VERIFIED_AT}. 프렁크(앞 트렁크) ${liter(myL.cargo.frunkL)}는 좌석 구성과 무관하게 항상 쓸 수 있습니다.`,
+      },
+      {
+        type: "text",
+        paragraphs: [
+          `표에서 봐야 할 것은 첫 줄입니다. 6명이 모두 타면 뒤에 남는 공간은 ${liter(myL.cargo.configs[0].rearL)}로, 프렁크를 더해도 ${liter(myL.cargo.configs[0].totalL)}입니다. 6명분의 여행 가방을 싣기에는 넉넉하지 않습니다.`,
+          `반대로 3열을 접으면 뒤 공간이 ${liter(myL.cargo.configs[1].rearL)}로 두 배 이상 늘어납니다. 즉 이 차의 실제 사용 패턴은 '4명 + 짐 많이' 또는 '6명 + 짐 조금' 중 하나이지, 둘을 동시에 만족시키는 구성이 아닙니다.`,
+          "그래서 구매 전에 던져야 할 질문은 '6명이 탈 일이 있는가'가 아니라 '6명이 타면서 짐도 실어야 하는 일이 얼마나 자주 있는가'입니다. 그 빈도가 낮다면 3열은 비상용이고, 평소에는 넓은 트렁크를 가진 5인승 SUV와 같은 방식으로 쓰게 됩니다.",
+        ],
+      },
+      {
+        type: "callout",
+        title: "3열을 실제로 쓸 계획이라면",
+        text: `6명 탑승 시 뒤 공간이 ${liter(myL.cargo.configs[0].rearL)}라는 점을 감안해 루프박스나 트레일러 히치 같은 추가 적재 수단을 함께 검토하는 편이 현실적입니다. 장거리 가족 여행에서 이 차이는 출발 당일에 체감됩니다.`,
       },
     ],
   },
@@ -178,7 +218,7 @@ const SECTIONS = [
       {
         type: "steps",
         items: [
-          "좌석 구성과 적재 용량의 정확한 사양을 테슬라 공식 홈페이지에서 확인합니다. 이 페이지의 가격·주행거리는 공식 기준이지만, 좌석 배치 등 세부 사양은 변경될 수 있습니다.",
+          `3열 좌석에 직접 앉아보고, 3열을 세운 상태의 트렁크(${liter(myL.cargo.configs[0].rearL)})에 평소 싣는 짐이 들어가는지 확인합니다. 3열 공간의 여유는 탑승자 체격에 따라 체감이 크게 다릅니다.`,
           "차체 크기를 확인하고 평소 이용하는 주차장에 들어가는지 실측합니다. 기계식 주차장은 특히 제한이 있을 수 있습니다.",
           "거주 지역의 보조금을 확인합니다. 차량 가격 구간에 따라 국고보조금이 달라질 수 있습니다.",
           "실구매가 계산기에서 L AWD와 Long Range를 각각 계산해 월납입금 차이를 확인합니다.",
@@ -201,7 +241,7 @@ const SECTIONS = [
         items: [
           {
             q: "Model Y L은 기존 Model Y와 무엇이 다른가요?",
-            a: `가장 큰 차이는 차체 크기와 그에 따른 실내 공간입니다. 주행거리도 ${myL.rangeKm}km로 Long Range의 ${myLr.rangeKm}km보다 깁니다. 반면 차체가 커지고 무거워진 만큼 0-100km/h 가속은 ${myL.zeroToHundred}초로 Long Range의 ${myLr.zeroToHundred}초보다 느립니다. 정확한 좌석 구성과 적재 용량은 공식 홈페이지에서 확인하세요.`,
+            a: `가장 큰 차이는 차체 크기와 그에 따른 실내 공간입니다. 주행거리도 ${myL.rangeKm}km로 Long Range의 ${myLr.rangeKm}km보다 깁니다. 반면 차체가 커지고 무거워진 만큼 0-100km/h 가속은 ${myL.zeroToHundred}초로 Long Range의 ${myLr.zeroToHundred}초보다 느립니다. 좌석은 3열 ${myL.seats}인승(2+2+2) 구성으로, 2열 ${myLr.seats}인승인 기존 Model Y와 용도가 다릅니다.`,
           },
           {
             q: "보조금은 다른 트림과 같은가요?",
@@ -309,7 +349,7 @@ export default function ModelYLPage() {
         sections={SECTIONS}
         currentHref="/models/model-y-l"
         dataDate={CALC_DATA_DATE}
-        dataNote={`가격·주행거리·가속 수치는 테슬라 공식 홈페이지 기준이며 마지막 확인일은 ${VEHICLE_DATA_VERIFIED_AT}입니다. 좌석 구성·적재 용량 등 세부 사양과 최신 가격은 계약 전 공식 홈페이지에서 다시 확인하세요.`}
+        dataNote={`가격·주행거리·가속 수치는 테슬라 공식 홈페이지 기준이며 마지막 확인일은 ${VEHICLE_DATA_VERIFIED_AT}, 적재 용량 확인일은 ${CARGO_VERIFIED_AT}입니다. 가격과 사양은 예고 없이 바뀔 수 있으므로 계약 전 공식 홈페이지에서 다시 확인하세요.`}
         relatedHeading="Model Y L을 검토할 때 함께 볼 계산기"
         sources={[
           {

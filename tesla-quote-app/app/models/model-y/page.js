@@ -152,42 +152,31 @@ export const metadata = {
 // 주행거리·성능 수치 중 파일 간 충돌 항목은 docs/vehicle-data-verification-todo.md 참고.
 const _vehicleTrims = getTrimsByModel("Model Y");
 const _priceMap = Object.fromEntries(_vehicleTrims.map((t) => [t.id, t.priceKrw]));
+const _man = (won) => `${(won / 10000).toLocaleString()}만원`;
+const _trimOf = (id) => _vehicleTrims.find((t) => t.id === id);
+const _rangeOf = (id) => _trimOf(id)?.rangeKm ?? "-";
+const _seatsOf = (id) => _trimOf(id)?.seats ?? "-";
+const _cargoOf = (id) => _trimOf(id)?.cargoLiters?.toLocaleString() ?? "-";
 
-const TRIMS = [
-  {
-    id: "my-rwd",
-    label: "Model Y RWD",
-    sublabel: "후륜 구동 · Premium",
-    price: _priceMap["my-rwd"],
-    range: "400 km",
-    speed: "201 km/h",
-    accel: "5.9 초",
-    cargo: null,
-    highlight: true,
-  },
-  {
-    id: "my-lr",
-    label: "Model Y Long Range",
-    sublabel: "사륜 구동 · Premium",
-    price: _priceMap["my-lr"],
-    range: "505 km",
-    speed: "201 km/h",
-    accel: "4.8 초",
-    cargo: null,
-    highlight: false,
-  },
-  {
-    id: "my-l-awd",
-    label: "Model Y L AWD",
-    sublabel: "사륜 구동",
-    price: _priceMap["my-l-awd"],
-    range: "543 km",
-    speed: "201 km/h",
-    accel: "5.0 초",
-    cargo: "1,925 L (최대)",  // L AWD 전용 수치
-    highlight: false,
-  },
-];
+const _SUBLABELS = {
+  "my-rwd": "후륜 구동 · Premium",
+  "my-lr": "사륜 구동 · Premium",
+  "my-l-awd": "사륜 구동 · 3열",
+};
+
+// 주행거리·성능·좌석 수도 가격과 같은 단일 원본에서 파생한다.
+const TRIMS = _vehicleTrims.map((t) => ({
+  id: t.id,
+  label: t.trimFull,
+  sublabel: _SUBLABELS[t.id] ?? t.driveType,
+  price: t.priceKrw,
+  range: t.rangeKm == null ? null : `${t.rangeKm} km`,
+  speed: t.topSpeedKph == null ? null : `${t.topSpeedKph} km/h`,
+  accel: t.zeroToHundred == null ? null : `${t.zeroToHundred} 초`,
+  seats: t.seats == null ? null : `${t.seats}인승`,
+  cargo: t.cargoLiters == null ? null : `최대 ${t.cargoLiters.toLocaleString()} L`,
+  highlight: t.highlight,
+}));
 
 function formatWon(amount) {
   return `₩${Number(amount).toLocaleString("ko-KR")}`;
@@ -251,6 +240,12 @@ export default function ModelYPage() {
                       {trim.accel ?? "확인 중"}
                     </span>
                   </div>
+                  {trim.seats && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">좌석</span>
+                      <span className="font-medium">{trim.seats}</span>
+                    </div>
+                  )}
                   {trim.cargo && (
                     <div className="flex justify-between">
                       <span className="text-gray-500">적재공간</span>
@@ -297,10 +292,10 @@ export default function ModelYPage() {
           <h2 className="text-base font-bold mb-3">Model Y 구매 가이드</h2>
           <div className="text-sm text-gray-600 space-y-2 leading-relaxed">
             <p>
-              테슬라 Model Y는 2026년 기준 <strong>RWD(4,999만원)</strong>, <strong>Long Range AWD(6,699만원)</strong>, <strong>Model Y L AWD(7,299만원)</strong> 세 가지 트림으로 판매됩니다. 넉넉한 적재공간(최대 1,925L)과 높은 주행 안전성으로 패밀리카로 인기가 높습니다.
+              테슬라 Model Y는 2026년 기준 <strong>RWD({_man(_priceMap["my-rwd"])})</strong>, <strong>Long Range AWD({_man(_priceMap["my-lr"])})</strong>, <strong>Model Y L AWD({_man(_priceMap["my-l-awd"])})</strong> 세 가지 트림으로 판매됩니다. 해치백 구조의 넓은 개구부와 높은 착좌 위치 덕분에 짐과 아이를 자주 싣는 패밀리카 수요에서 선호도가 높습니다.
             </p>
             <p>
-              Model Y L AWD는 기존 Model Y보다 더 넓은 실내 공간과 543km 주행거리를 제공하는 대형 7인승 SUV 트림입니다. 지역별 보조금을 적용하면 RWD 기준 실구매가가 크게 낮아지며, 다자녀 가구는 추가 혜택도 받을 수 있습니다. 정확한 월납입금은 위 계산기에서 선수금과 할부 기간을 직접 입력해 확인하세요.
+              Model Y L AWD는 기존 Model Y보다 차체가 길어져 3열을 갖춘 {_seatsOf("my-l-awd")}인승 트림이며, 주행거리도 {_rangeOf("my-l-awd")}km로 라인업에서 가장 깁니다. 적재공간은 2·3열을 모두 접었을 때 최대 {_cargoOf("my-l-awd")}L이고, 3열까지 사용하면 뒤 공간은 {_trimOf("my-l-awd").cargo.configs[0].rearL.toLocaleString()}L입니다. 지역별 보조금을 적용하면 RWD 기준 실구매가가 크게 낮아지며, 다자녀 가구는 추가 혜택도 받을 수 있습니다. 정확한 월납입금은 위 계산기에서 선수금과 할부 기간을 직접 입력해 확인하세요.
             </p>
             <p className="text-xs text-gray-400 pt-1">
               * 가격·주행거리·보조금은 테슬라 공식 홈페이지 기준이며 변동될 수 있습니다. 데이터 기준일: {CALC_DATA_DATE}.
@@ -349,7 +344,7 @@ export default function ModelYPage() {
         sections={MY_SECTIONS}
         currentHref="/models/model-y"
         dataDate={CALC_DATA_DATE}
-        dataNote={`가격·주행거리·가속 수치는 테슬라 공식 홈페이지 기준이며 마지막 확인일은 ${VEHICLE_DATA_VERIFIED_AT}입니다. 좌석 구성·적재 용량 등 세부 사양과 최신 가격은 계약 전 공식 홈페이지에서 다시 확인하세요.`}
+        dataNote={`가격·주행거리·가속 수치는 테슬라 공식 홈페이지 기준이며 마지막 확인일은 ${VEHICLE_DATA_VERIFIED_AT}입니다. RWD·Long Range의 적재 용량은 공식 수치를 확인하는 대로 반영합니다. 최신 가격과 사양은 계약 전 공식 홈페이지에서 다시 확인하세요.`}
         relatedHeading="트림을 정했다면 이어서 볼 계산기"
         sources={[
           {

@@ -18,10 +18,23 @@
  * @property {string|null} rangeStandard - 주행거리 측정 기준 ("WLTP" | "EPA" | "KOR" | null)
  * @property {number|null} topSpeedKph - 최고 속도(km/h)
  * @property {number|null} zeroToHundred - 0→100km/h 가속(초)
- * @property {number|null} cargoLiters - 트렁크 적재 공간(L) — 주행거리와 무관한 별개 항목
+ * @property {number|null} cargoLiters - 최대 총 적재 공간(L) = 뒤 적재공간 최대 + 프렁크
+ * @property {CargoDetail|null} cargo  - 좌석 사용 구성별 적재 공간 상세
+ * @property {number|null} seats      - 좌석 수(명). Model Y L은 6인승(2+2+2) 3열 구조
  * @property {boolean} subsidyEligible - 보조금 대상 여부 (기본 true)
  * @property {boolean} highlight       - 추천/인기 트림 여부
  * @property {string|null} lastVerifiedAt - 공식 홈페이지 마지막 확인일 (YYYY-MM-DD)
+ */
+
+/**
+ * @typedef {Object} CargoDetail
+ * @property {number} frunkL           - 프렁크 용량(L)
+ * @property {CargoConfig[]} configs   - 좌석 사용 구성별 적재 용량(좁은 순 → 넓은 순)
+ *
+ * @typedef {Object} CargoConfig
+ * @property {string} label            - 구성 설명 (예: "4명 탑승 (3열 폴딩)")
+ * @property {number} rearL            - 뒤 적재공간(L)
+ * @property {number} totalL           - 총 적재공간(L) = rearL + 프렁크
  */
 
 /** @type {VehicleTrim[]} */
@@ -40,6 +53,8 @@ export const VEHICLE_TRIMS = [
     topSpeedKph: 201,
     zeroToHundred: 6.2,
     cargoLiters: null,       // 공식 홈 스펙 페이지에 미표기
+    cargo: null,
+    seats: 5,
     subsidyEligible: true,
     highlight: false,
     lastVerifiedAt: "2026-07-02",
@@ -57,6 +72,8 @@ export const VEHICLE_TRIMS = [
     topSpeedKph: 201,
     zeroToHundred: 5.2,
     cargoLiters: null,
+    cargo: null,
+    seats: 5,
     subsidyEligible: true,
     highlight: true,
     lastVerifiedAt: "2026-07-02",
@@ -74,6 +91,8 @@ export const VEHICLE_TRIMS = [
     topSpeedKph: 261,
     zeroToHundred: 3.1,
     cargoLiters: null,
+    cargo: null,
+    seats: 5,
     subsidyEligible: true,
     highlight: false,
     lastVerifiedAt: "2026-07-02",
@@ -93,6 +112,8 @@ export const VEHICLE_TRIMS = [
     topSpeedKph: 201,        // 공식 확인: 201km/h (기존 217 오류 수정)
     zeroToHundred: 5.9,
     cargoLiters: null,
+    cargo: null,
+    seats: 5,
     subsidyEligible: true,
     highlight: true,
     lastVerifiedAt: "2026-07-02",
@@ -110,6 +131,8 @@ export const VEHICLE_TRIMS = [
     topSpeedKph: 201,        // 공식 확인: 201km/h (기존 217 오류 수정)
     zeroToHundred: 4.8,
     cargoLiters: null,
+    cargo: null,
+    seats: 5,
     subsidyEligible: true,
     highlight: false,
     lastVerifiedAt: "2026-07-02",
@@ -126,7 +149,17 @@ export const VEHICLE_TRIMS = [
     rangeStandard: "KOR",
     topSpeedKph: 201,
     zeroToHundred: 5.0,
-    cargoLiters: null,
+    // 적재 공간 확인일 2026-07-31. 최대(2명 탑승 + 2·3열 폴딩) = 뒤 2,423L + 프렁크 116L
+    cargoLiters: 2539,
+    cargo: {
+      frunkL: 116,
+      configs: [
+        { label: "6명 탑승 (3열 사용)", rearL: 420, totalL: 536 },
+        { label: "4명 탑승 (3열 폴딩)", rearL: 1076, totalL: 1192 },
+        { label: "2명 탑승 (2·3열 폴딩)", rearL: 2423, totalL: 2539 },
+      ],
+    },
+    seats: 6,          // 6인승(2+2+2) 3열 — 2026-04 국내 출시 사양
     subsidyEligible: true,
     highlight: false,
     lastVerifiedAt: "2026-07-02",

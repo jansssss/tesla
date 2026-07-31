@@ -103,6 +103,19 @@ function toNumber(value) {
   return Number.isFinite(n) ? n : 0;
 }
 
+/**
+ * CSV 모델명(csvModel)의 국고보조금(만원)을 조회한다.
+ * 국고보조금은 지역과 무관하게 트림별로 동일하므로 첫 매칭 행의 값을 사용한다.
+ * 페이지 본문에 보조금 수치를 하드코딩하지 않기 위한 헬퍼(서버 전용).
+ * @param {string} csvModel
+ * @returns {number|null} 만원 단위 국고보조금. 해당 모델이 CSV에 없으면 null
+ */
+export function getNationalSubsidyManwon(csvModel) {
+  const { rows } = loadSubsidySnapshot();
+  const hit = rows.find((row) => row.model === csvModel);
+  return hit ? hit.national_subsidy_manwon : null;
+}
+
 export function loadSubsidySnapshot() {
   const raw = fs.readFileSync(resolveCsvPath(), "utf8").replace(/^\uFEFF/, "");
   const lines = raw.split(/\r?\n/).filter(Boolean);

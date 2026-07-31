@@ -3,12 +3,18 @@ import { METRO_REGIONS } from "@/lib/regions";
 import { CALC_DATA_DATE, CALC_DEFAULTS } from "@/lib/calcExtra";
 import CalcContent from "@/components/calc/CalcContent";
 import { getTrimById, VEHICLE_DATA_VERIFIED_AT } from "@/lib/vehicleData";
+import { getNationalSubsidyManwon } from "@/lib/subsidy";
 
 const _m3rwd = getTrimById("m3-rwd");
 const _m3lr = getTrimById("m3-lr");
+const _m3perf = getTrimById("m3-perf");
 const _myrwd = getTrimById("my-rwd");
 const _myl = getTrimById("my-l-awd");
 const _man = (won) => `${(won / 10000).toLocaleString()}만원`;
+const _nationalSubsidy = (csvModel) => {
+  const manwon = getNationalSubsidyManwon(csvModel);
+  return manwon == null ? "-" : `${manwon.toLocaleString()}만원`;
+};
 
 const CHOICE_SECTIONS = [
   {
@@ -39,7 +45,7 @@ const CHOICE_SECTIONS = [
   },
   {
     heading: "적재 공간 숫자는 측정 기준이 다르다",
-    lead: "위 비교표의 적재 공간 수치를 그대로 비교하면 오해가 생깁니다. 두 숫자가 같은 조건에서 잰 값이 아니기 때문입니다.",
+    lead: "카탈로그의 적재 용량을 두 차 사이에서 그대로 비교하면 오해가 생깁니다. 같은 조건에서 잰 값이 아니기 때문입니다. 위 비교표에 리터 수치를 넣지 않은 것도 같은 이유입니다.",
     blocks: [
       {
         type: "list",
@@ -59,6 +65,7 @@ const CHOICE_SECTIONS = [
         type: "text",
         paragraphs: [
           "또 하나 자주 간과되는 것이 앞 트렁크입니다. 두 모델 모두 엔진이 없는 자리에 별도의 적재 공간이 있어, 실제 활용도가 카탈로그 숫자보다 높습니다.",
+          `숫자가 좌석 구성에 따라 얼마나 달라지는지는 Model Y L의 예가 분명합니다. 최대 ${_myl.cargoLiters.toLocaleString()}L로 표기되지만 그 값은 2명만 타고 2·3열을 접었을 때이고, 3열까지 모두 쓰면 뒤 공간은 ${_myl.cargo.configs[0].rearL.toLocaleString()}L로 줄어듭니다. 구성별 수치는 Model Y L 상세 페이지에 정리해 두었습니다.`,
         ],
       },
     ],
@@ -156,17 +163,47 @@ export const metadata = {
   alternates: { canonical: "https://www.paytesla.kr/compare/model-3-vs-model-y" },
 };
 
+// 표의 모든 수치는 단일 원본(lib/vehicleData.js)과 보조금 CSV에서 파생한다.
+// 하드코딩하면 두 원본이 갱신돼도 이 페이지만 옛 값으로 남기 때문이다.
 const COMPARE_DATA = [
   { label: "차종", model3: "세단", modelY: "SUV (크로스오버)" },
   { label: "트림 구성", model3: "RWD · LR · Performance", modelY: "RWD · Long Range · L AWD" },
-  { label: "시작 출고가", model3: "4,699만원 (RWD)", modelY: "4,999만원 (RWD)" },
-  { label: "상위 트림 출고가", model3: "6,999만원 (Performance)", modelY: "7,299만원 (L AWD)" },
-  { label: "주행거리 (RWD)", model3: "382 km", modelY: "400 km" },
-  { label: "최장 주행거리", model3: "538 km (LR)", modelY: "543 km (L AWD)" },
-  { label: "0→100 km/h (RWD)", model3: "6.2 초", modelY: "5.9 초" },
-  { label: "적재공간", model3: "594 L (트렁크)", modelY: "1,925 L (최대)" },
-  { label: "국고보조금 (RWD)", model3: "168만원", modelY: "170만원" },
-  { label: "7인승 (L AWD)", model3: "없음", modelY: "가능" },
+  {
+    label: "시작 출고가",
+    model3: `${_man(_m3rwd.priceKrw)} (RWD)`,
+    modelY: `${_man(_myrwd.priceKrw)} (RWD)`,
+  },
+  {
+    label: "상위 트림 출고가",
+    model3: `${_man(_m3perf.priceKrw)} (Performance)`,
+    modelY: `${_man(_myl.priceKrw)} (L AWD)`,
+  },
+  {
+    label: "주행거리 (RWD)",
+    model3: `${_m3rwd.rangeKm} km`,
+    modelY: `${_myrwd.rangeKm} km`,
+  },
+  {
+    label: "최장 주행거리",
+    model3: `${_m3lr.rangeKm} km (LR)`,
+    modelY: `${_myl.rangeKm} km (L AWD)`,
+  },
+  {
+    label: "0→100 km/h (RWD)",
+    model3: `${_m3rwd.zeroToHundred} 초`,
+    modelY: `${_myrwd.zeroToHundred} 초`,
+  },
+  { label: "적재 구조", model3: "세단 트렁크 (개구부 낮음)", modelY: "해치백 (개구부 넓음)" },
+  {
+    label: "국고보조금 (RWD)",
+    model3: _nationalSubsidy(_m3rwd.csvModel),
+    modelY: _nationalSubsidy(_myrwd.csvModel),
+  },
+  {
+    label: "최대 좌석 수",
+    model3: `${_m3rwd.seats}인승`,
+    modelY: `${_myl.seats}인승 (L AWD · 3열)`,
+  },
 ];
 
 const SCENARIOS = [
@@ -180,7 +217,7 @@ const SCENARIOS = [
     title: "패밀리카 · 짐 많은 활동",
     icon: "👨‍👩‍👧",
     winner: "modelY",
-    reason: "Model Y 추천 — SUV 적재공간(최대 1,925L), 높은 시야, 안전성. 대가족이라면 L AWD(7인승, 7,299만원)도 고려. 다자녀 혜택 적용 시 실구매가 차이 축소.",
+    reason: `Model Y 추천 — 해치백 구조라 짐을 싣고 내리기 쉽고, 착좌가 높아 카시트를 다루기 수월합니다. 3열이 상시 필요하다면 L AWD(${_myl.seats}인승, ${_man(_myl.priceKrw)})도 고려하세요. 다자녀 혜택 적용 시 실구매가 차이는 줄어듭니다.`,
   },
   {
     title: "장거리 출장 · 고속도로 위주",
