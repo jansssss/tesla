@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import QuoteCard from "./QuoteCard";
 import VehicleQuoteSummary from "./VehicleQuoteSummary";
 import ComparisonSummary from "./ComparisonSummary";
+import { MobileCompareSelector, MobileCompareResult } from "./mobile/MobileCompare";
 import {
   calculateQuote,
   compareQuotes,
@@ -226,6 +227,15 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
     return `${model?.name} ${trim?.label}`;
   }, []);
 
+  // 모바일 비교표는 열 폭이 좁아 괄호 설명(후륜 구동 등)을 뺀 짧은 이름을 쓴다.
+  const getShortName = useCallback((modelId, trimId) => {
+    const model = MODEL_CATALOG.find(m => m.id === modelId);
+    const trim = model?.trims.find(t => t.id === trimId);
+    const base = trim?.displayName ?? model?.name ?? "";
+    const shortTrim = (trim?.label ?? "").replace(/\(.*?\)/g, "").trim();
+    return shortTrim ? `${base} ${shortTrim}` : base;
+  }, []);
+
   // Comparison mode calculations
   const quoteA = useMemo(() => {
     if (mode !== "comparison") return null;
@@ -377,10 +387,15 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
           </div>
         )}
 
-        {/* Mobile Mode Toggle - sticky tabs */}
-        <nav className="sticky top-[49px] z-40 flex bg-white shadow-md md:hidden" aria-label="모드 선택">
+        {/* Mobile Mode Toggle - sticky tabs
+            헤더 높이는 CSS 변수로 관리한다(하드코딩한 49px은 헤더가 바뀌면 어긋난다). */}
+        <nav
+          className="sticky z-40 -mx-4 flex bg-white shadow-md md:hidden"
+          style={{ top: "var(--header-h)" }}
+          aria-label="모드 선택"
+        >
           <button
-            className={`flex-1 py-3 text-sm font-bold transition-all ${
+            className={`flex-1 py-3.5 text-sm font-bold transition-all ${
               mode === "single"
                 ? "border-b-2 border-black bg-gray-50"
                 : "text-gray-500"
@@ -392,7 +407,7 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
             견적 계산
           </button>
           <button
-            className={`flex-1 py-3 text-sm font-bold transition-all ${
+            className={`flex-1 py-3.5 text-sm font-bold transition-all ${
               mode === "comparison"
                 ? "border-b-2 border-black bg-gray-50"
                 : "text-gray-500"
@@ -549,9 +564,26 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
           </>
           )}
 
-          {/* Comparison Mode: Two Vehicle Cards + Quote Summaries */}
+          {/* Comparison Mode — 모바일 전용 압축 선택기.
+              결과 대조표는 지역·혜택 입력 뒤(아래)에 배치한다. 입력보다 위에 두면
+              모바일에서 조건을 바꿀 때마다 위로 되돌아가야 한다. */}
           {mode === "comparison" && (
-            <div className="grid gap-5 md:gap-6 md:grid-cols-2">
+            <MobileCompareSelector
+              modelCatalog={MODEL_CATALOG}
+              modelIdA={modelIdA}
+              trimIdA={trimIdA}
+              onModelChangeA={setModelIdA}
+              onTrimChangeA={setTrimIdA}
+              modelIdB={modelIdB}
+              trimIdB={trimIdB}
+              onModelChangeB={setModelIdB}
+              onTrimChangeB={setTrimIdB}
+            />
+          )}
+
+          {/* Comparison Mode: Two Vehicle Cards + Quote Summaries (데스크톱) */}
+          {mode === "comparison" && (
+            <div className="hidden gap-5 md:grid md:gap-6 md:grid-cols-2">
               {/* Vehicle A Column */}
               <div className="space-y-4">
                 <QuoteCard
@@ -721,6 +753,17 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
             </div>
           </section>
 
+          {/* Comparison Mode — 모바일 전용 좌우 대조표 (지역·혜택 입력 직후) */}
+          {mode === "comparison" && (
+            <MobileCompareResult
+              nameA={getShortName(modelIdA, trimIdA)}
+              nameB={getShortName(modelIdB, trimIdB)}
+              quoteA={quoteA}
+              quoteB={quoteB}
+              comparison={comparison}
+            />
+          )}
+
           {/* Comparison Mode: Full-Width Comparison Analysis */}
           {mode === "comparison" && comparison && upgradeSuggestions && (
             <ComparisonSummary
@@ -734,9 +777,15 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
           )}
         </div>
 
-        {/* Single Mode: Quote Summary */}
+        {/* Single Mode: Quote Summary
+            데스크톱에서만 sticky — 헤더 높이만큼 내려서 겹치지 않게 한다.
+            모바일에서는 문서 흐름에 그대로 두고 하단 결과 바로 접근한다. */}
         {mode === "single" && (
-          <aside id="quote-summary" className="sticky top-4 self-start overflow-hidden rounded-2xl bg-black text-white shadow-xl">
+          <aside
+            id="quote-summary"
+            className="self-start overflow-hidden rounded-2xl bg-black text-white shadow-xl md:sticky"
+            style={{ top: "calc(var(--header-h) + 16px)" }}
+          >
           <div className="bg-gradient-to-br from-gray-900 to-black p-5 md:p-6">
             <h3 className="mb-5 text-xl font-black md:mb-6 md:text-2xl">견적 요약</h3>
             <dl className="m-0 space-y-0.5">
@@ -838,10 +887,14 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
         )}
       </div>
 
-      {/* 모바일 하단 고정 결과 바 — 견적 계산 모드 전용 */}
+      {/* 모바일 하단 고정 결과 바 — 견적 계산 모드 전용.
+          하단 탭바(58px + 홈 인디케이터) 바로 위에 얹는다. */}
       {mode === "single" && (
         <>
-          <div className="fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white/95 px-4 py-2.5 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] backdrop-blur md:hidden">
+          <div
+            className="fixed inset-x-0 z-40 border-t border-gray-200 bg-white/95 px-4 py-2.5 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] backdrop-blur md:hidden"
+            style={{ bottom: "var(--bottom-chrome)" }}
+          >
             <button
               onClick={() =>
                 document
@@ -868,15 +921,18 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
               </span>
             </button>
           </div>
-          {/* 고정 바 높이만큼 여백 확보 */}
+          {/* 고정 바 높이만큼 여백 확보 (탭바 여백은 body padding에서 이미 확보) */}
           <div className="h-16 md:hidden" />
         </>
       )}
 
+      {/* 맨 위로 — 데스크톱 전용.
+          모바일 하단에는 이미 탭바와 결과 바가 있어 세 번째 떠 있는 버튼을 두지 않는다.
+          모바일은 결과 바를 눌러 견적 요약으로 이동하는 동선을 쓴다. */}
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-20 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-black text-white shadow-xl transition-all hover:bg-gray-800 md:bottom-6 md:right-6 md:h-14 md:w-14"
+          className="fixed bottom-6 right-6 z-50 hidden h-14 w-14 items-center justify-center rounded-full bg-black text-white shadow-xl transition-all hover:bg-gray-800 md:flex"
           aria-label="맨 위로 가기"
         >
           <svg

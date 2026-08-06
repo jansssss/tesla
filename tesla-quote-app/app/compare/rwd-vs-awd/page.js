@@ -310,18 +310,18 @@ export default function RwdVsAwdPage() {
           <h2 className="text-lg md:text-xl font-black mb-4">RWD vs AWD 핵심 비교</h2>
           <div className="bg-white rounded-[24px] shadow-[0_4px_24px_rgba(15,23,42,0.08)] border border-gray-100 overflow-hidden">
             <div className="grid grid-cols-3 bg-slate-50 border-b border-gray-100">
-              <div className="px-4 py-3 text-xs font-semibold text-gray-500">항목</div>
-              <div className="px-4 py-3 text-xs font-semibold text-center text-blue-600">RWD (후륜)</div>
-              <div className="px-4 py-3 text-xs font-semibold text-center text-orange-600">AWD (사륜)</div>
+              <div className="px-2.5 py-3 text-[11px] font-semibold text-gray-500 md:px-4 md:text-xs">항목</div>
+              <div className="px-2.5 py-3 text-[11px] font-semibold text-center text-blue-600 md:px-4 md:text-xs">RWD (후륜)</div>
+              <div className="px-2.5 py-3 text-[11px] font-semibold text-center text-orange-600 md:px-4 md:text-xs">AWD (사륜)</div>
             </div>
             {COMPARE_DATA.map((row, i) => (
               <div
                 key={i}
                 className="grid grid-cols-3 border-b border-gray-50 last:border-0 hover:bg-blue-50/50 transition-colors"
               >
-                <div className="px-4 py-3 text-xs text-gray-500">{row.label}</div>
-                <div className="px-4 py-3 text-xs text-center font-medium">{row.rwd}</div>
-                <div className="px-4 py-3 text-xs text-center font-medium">{row.awd}</div>
+                <div className="px-2.5 py-3 text-[11px] text-gray-500 break-keep md:px-4 md:text-xs">{row.label}</div>
+                <div className="px-2.5 py-3 text-[11px] text-center font-medium break-keep md:px-4 md:text-xs">{row.rwd}</div>
+                <div className="px-2.5 py-3 text-[11px] text-center font-medium break-keep md:px-4 md:text-xs">{row.awd}</div>
               </div>
             ))}
           </div>

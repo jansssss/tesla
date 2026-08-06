@@ -4,6 +4,16 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteNav from "@/components/SiteNav";
 import Breadcrumb from "@/components/Breadcrumb";
 import FloatingCalcButton from "@/components/FloatingCalcButton";
+import MobileTabBar from "@/components/mobile/MobileTabBar";
+
+// viewportFit: "cover" 를 켜야 env(safe-area-inset-*) 값이 실제로 들어온다.
+// 노치·홈 인디케이터가 있는 기기에서 하단 고정 요소가 가려지지 않게 하는 전제 조건.
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#ffffff",
+};
 
 export const metadata = {
   title: {
@@ -22,8 +32,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ko">
       <body className="flex flex-col min-h-screen">
+        {/* 고지 배너 — 모바일은 세로 공간이 귀해 한 줄로 축약한다 */}
         <div className="bg-slate-900 px-4 py-1.5 text-center text-[11px] font-medium text-slate-300 md:text-xs">
-          Tesla 비공식 독립 구매비용 계산 플랫폼 · 테슬라(Tesla, Inc.)와 공식 관계 없음
+          <span className="md:hidden">Tesla 비공식 독립 계산 플랫폼</span>
+          <span className="hidden md:inline">
+            Tesla 비공식 독립 구매비용 계산 플랫폼 · 테슬라(Tesla, Inc.)와 공식 관계 없음
+          </span>
         </div>
         <SiteHeader />
         <SiteNav />
@@ -31,6 +45,7 @@ export default function RootLayout({ children }) {
         {children}
         <FloatingCalcButton />
         <Footer />
+        <MobileTabBar />
       </body>
     </html>
   );

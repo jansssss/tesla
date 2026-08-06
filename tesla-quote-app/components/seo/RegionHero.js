@@ -23,8 +23,8 @@ export default function RegionHero({ metro, stats }) {
           {metro.type === "do" && " · 시/군/구별 보조금이 다를 수 있습니다"}
         </p>
 
-        {/* 핵심 숫자 3개 */}
-        <div className="grid grid-cols-3 gap-3">
+        {/* 핵심 숫자 3개 — 375px에서 3열은 카드당 100px 남짓이라 여백·글자를 줄인다 */}
+        <div className="grid grid-cols-3 gap-2 md:gap-3">
           <StatCard
             label={`Model 3 RWD 최대 보조금`}
             value={`${m3rwd?.max ?? 0}만원`}
@@ -48,10 +48,10 @@ export default function RegionHero({ metro, stats }) {
 
 function StatCard({ label, value, sub }) {
   return (
-    <div className="bg-white/10 border border-white/10 rounded-2xl p-4 md:p-5">
-      <p className="text-blue-200/80 text-xs mb-1.5 leading-snug">{label}</p>
-      <p className="text-lg md:text-2xl font-black text-white">{value}</p>
-      {sub && <p className="text-blue-300/60 text-xs mt-1">{sub}</p>}
+    <div className="bg-white/10 border border-white/10 rounded-2xl p-3 md:p-5">
+      <p className="text-blue-200/80 text-[11px] md:text-xs mb-1.5 leading-snug break-keep">{label}</p>
+      <p className="text-base md:text-2xl font-black text-white break-keep">{value}</p>
+      {sub && <p className="text-blue-300/60 text-[11px] md:text-xs mt-1">{sub}</p>}
     </div>
   );
 }

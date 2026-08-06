@@ -3,6 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+/**
+ * 데스크톱 전용 플로팅 계산기 버튼.
+ * 모바일에서는 하단 탭바의 '계산기' 탭이 같은 역할을 하므로 렌더링하지 않는다
+ * (겹쳐 놓으면 탭바·견적 요약 바와 함께 하단이 3중으로 가려진다).
+ */
 export default function FloatingCalcButton() {
   const pathname = usePathname();
   if (pathname === "/") return null;
@@ -11,7 +16,7 @@ export default function FloatingCalcButton() {
     <Link
       href="/"
       aria-label="계산기로 이동"
-      className="fixed bottom-6 right-5 z-50 flex items-center gap-2 rounded-full bg-slate-950 px-4 py-3 text-xs font-bold text-white shadow-[0_8px_32px_rgba(15,23,42,0.3)] transition hover:bg-slate-800 active:scale-95 md:bottom-8 md:right-8 md:px-5 md:text-sm"
+      className="fixed bottom-8 right-8 z-50 hidden items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white shadow-[0_8px_32px_rgba(15,23,42,0.3)] transition hover:bg-slate-800 active:scale-95 md:flex"
     >
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="4" y="2" width="16" height="20" rx="2" />

@@ -298,18 +298,18 @@ export default function Model3VsModelYPage() {
           <h2 className="text-lg md:text-xl font-black mb-4">핵심 차이 한눈에</h2>
           <div className="bg-white rounded-[24px] shadow-[0_4px_24px_rgba(15,23,42,0.08)] border border-gray-100 overflow-hidden">
             <div className="grid grid-cols-3 bg-slate-50 border-b border-gray-100">
-              <div className="px-4 py-3 text-xs font-semibold text-gray-500">항목</div>
-              <div className="px-4 py-3 text-xs font-semibold text-center text-slate-700">Model 3</div>
-              <div className="px-4 py-3 text-xs font-semibold text-center text-blue-600">Model Y</div>
+              <div className="px-2.5 py-3 text-[11px] font-semibold text-gray-500 md:px-4 md:text-xs">항목</div>
+              <div className="px-2.5 py-3 text-[11px] font-semibold text-center text-slate-700 md:px-4 md:text-xs">Model 3</div>
+              <div className="px-2.5 py-3 text-[11px] font-semibold text-center text-blue-600 md:px-4 md:text-xs">Model Y</div>
             </div>
             {COMPARE_DATA.map((row, i) => (
               <div
                 key={i}
                 className="grid grid-cols-3 border-b border-gray-50 last:border-0 hover:bg-blue-50/50 transition-colors"
               >
-                <div className="px-4 py-3 text-xs text-gray-500">{row.label}</div>
-                <div className="px-4 py-3 text-xs text-center font-medium">{row.model3}</div>
-                <div className="px-4 py-3 text-xs text-center font-medium">{row.modelY}</div>
+                <div className="px-2.5 py-3 text-[11px] text-gray-500 break-keep md:px-4 md:text-xs">{row.label}</div>
+                <div className="px-2.5 py-3 text-[11px] text-center font-medium break-keep md:px-4 md:text-xs">{row.model3}</div>
+                <div className="px-2.5 py-3 text-[11px] text-center font-medium break-keep md:px-4 md:text-xs">{row.modelY}</div>
               </div>
             ))}
           </div>

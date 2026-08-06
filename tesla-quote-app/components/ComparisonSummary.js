@@ -43,8 +43,10 @@ export default function ComparisonSummary({
           </p>
         </div>
 
-        {/* Side-by-side Price Breakdowns */}
-        <div className="mb-5 grid gap-4 md:grid-cols-2 md:gap-5">
+        {/* Side-by-side Price Breakdowns
+            모바일은 MobileCompareResult의 좌우 대조표가 같은 내용을 이미 보여주므로
+            여기서는 데스크톱에만 노출한다(중복 스크롤 제거). */}
+        <div className="mb-5 hidden gap-4 md:grid md:grid-cols-2 md:gap-5">
           {/* Vehicle A Breakdown */}
           <div className="rounded-lg bg-white/5 p-4">
             <h5 className="mb-3 text-sm font-bold md:text-base">{modelNameA} 가격 구성</h5>
@@ -92,8 +94,8 @@ export default function ComparisonSummary({
           </div>
         </div>
 
-        {/* Comparison Metrics */}
-        <div className="mb-5 space-y-3">
+        {/* Comparison Metrics (데스크톱 전용 — 모바일은 대조표 하단 결론 문장으로 대체) */}
+        <div className="mb-5 hidden space-y-3 md:block">
           {/* Price Difference */}
           <div className="rounded-lg bg-white/5 p-4">
             <p className="mb-1 text-sm font-medium text-gray-400 md:text-sm">💰 실구매가 차액</p>

@@ -55,9 +55,10 @@ export default function Breadcrumb({ lastLabel }) {
 
   return (
     <nav aria-label="breadcrumb" className="mx-auto w-full max-w-7xl px-4 pt-3 pb-1 md:px-8">
-      <ol className="flex flex-wrap items-center gap-1.5 text-xs text-slate-400">
+      {/* 모바일은 줄바꿈 대신 한 줄 가로 스크롤 — 경로가 길어도 세로 공간을 먹지 않는다 */}
+      <ol className="mobile-scroll-x flex flex-nowrap items-center gap-1.5 whitespace-nowrap text-xs text-slate-400 md:flex-wrap md:overflow-visible md:whitespace-normal">
         {crumbs.map((crumb, i) => (
-          <li key={crumb.href} className="flex items-center gap-1.5">
+          <li key={crumb.href} className="flex shrink-0 items-center gap-1.5">
             {i > 0 && (
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                 <path d="M9 18l6-6-6-6" />

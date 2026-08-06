@@ -5,6 +5,16 @@ import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 
+const FOOTER_LINKS = [
+  { label: '계산기 전체', href: '/calc' },
+  { label: '사이트 소개', href: '/about' },
+  { label: '문의하기', href: '/contact' },
+  { label: '개인정보처리방침', href: '/privacy' },
+  { label: '이용약관', href: '/terms' },
+  { label: '콘텐츠 정책', href: '/editorial-policy' },
+  { label: '데이터 출처', href: '/data-sources' },
+]
+
 export default function Footer() {
   const router = useRouter()
   const [isAdmin, setIsAdmin] = useState(false)
@@ -23,43 +33,33 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 mt-auto py-6">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Links */}
-        <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 text-sm mb-4">
-          <Link href="/calc" className="hover:text-white transition-colors">
-            계산기 전체
-          </Link>
-          <span className="text-gray-600">|</span>
-          <Link href="/about" className="hover:text-white transition-colors">
-            사이트 소개
-          </Link>
-          <span className="text-gray-600">|</span>
-          <Link href="/contact" className="hover:text-white transition-colors">
-            문의하기
-          </Link>
-          <span className="text-gray-600">|</span>
-          <Link href="/privacy" className="hover:text-white transition-colors">
-            개인정보처리방침
-          </Link>
-          <span className="text-gray-600">|</span>
-          <Link href="/terms" className="hover:text-white transition-colors">
-            이용약관
-          </Link>
-          <span className="text-gray-600">|</span>
-          <Link href="/editorial-policy" className="hover:text-white transition-colors">
-            콘텐츠 정책
-          </Link>
-          <span className="text-gray-600">|</span>
-          <Link href="/data-sources" className="hover:text-white transition-colors">
-            데이터 출처
-          </Link>
-          <span className="text-gray-600">|</span>
-          <a href="mailto:goooods@naver.com" className="hover:text-white transition-colors">
-            goooods@naver.com
-          </a>
-        </div>
+        {/* Links
+            모바일: 2열 그리드 — 구분자(|)로 이어 붙이면 줄바꿈이 지저분해지고
+            터치 타깃이 30px 아래로 떨어진다. 데스크톱: 기존 한 줄 배치 유지. */}
+        <nav aria-label="사이트 정보" className="mb-4">
+          <div className="grid grid-cols-2 gap-x-4 text-sm md:flex md:flex-wrap md:items-center md:justify-center md:gap-x-6">
+            {FOOTER_LINKS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex min-h-[44px] items-center transition-colors hover:text-white md:min-h-0"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+          <div className="mt-1 flex justify-center md:mt-3">
+            <a
+              href="mailto:goooods@naver.com"
+              className="flex min-h-[44px] items-center text-sm transition-colors hover:text-white md:min-h-0"
+            >
+              goooods@naver.com
+            </a>
+          </div>
+        </nav>
 
         {/* Copyright */}
-        <div className="text-center text-sm text-gray-500">
+        <div className="text-center text-xs leading-relaxed text-gray-500 md:text-sm">
           <p>© 2026 하우머치 테슬라. 본 사이트는 테슬라(Tesla, Inc.)와 공식적인 관계가 없는 독립적인 정보 제공 사이트입니다.</p>
         </div>
 
