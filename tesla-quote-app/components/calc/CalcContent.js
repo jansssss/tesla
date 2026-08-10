@@ -141,7 +141,12 @@ export default function CalcContent({
 
 /* ── 블록 렌더러 ─────────────────────────────────────────── */
 
-function Block({ block }) {
+/**
+ * 블록 단위 렌더러.
+ * 답변 페이지(components/answers/AnswerArticle.js)도 같은 블록 스키마를 쓰므로
+ * 마크업을 한 곳에서만 관리하도록 내보낸다.
+ */
+export function Block({ block }) {
   switch (block.type) {
     case "text":
       return (

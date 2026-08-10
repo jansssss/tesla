@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 
 const FOOTER_LINKS = [
   { label: '계산기 전체', href: '/calc' },
+  { label: '구매 질문 30', href: '/answers' },
   { label: '사이트 소개', href: '/about' },
   { label: '문의하기', href: '/contact' },
   { label: '개인정보처리방침', href: '/privacy' },

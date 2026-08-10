@@ -29,6 +29,7 @@ const COMPARISONS = [
 ];
 
 const SITE_LINKS = [
+  { label: "구매 질문 30", href: "/answers" },
   { label: "가이드", href: "/guides" },
   { label: "사이트 소개", href: "/about" },
   { label: "데이터 출처", href: "/data-sources" },

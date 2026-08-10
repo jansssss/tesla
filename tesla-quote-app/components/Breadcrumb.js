@@ -2,8 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ANSWER_BREADCRUMB_LABELS } from "@/lib/answerLabels";
 
 const LABELS = {
+  answers:              "구매 질문 30",
+  ...ANSWER_BREADCRUMB_LABELS,
   models:               "모델",
   "model-3":            "Model 3",
   "model-y":            "Model Y",

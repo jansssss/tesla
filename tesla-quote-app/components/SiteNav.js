@@ -3,6 +3,8 @@ import Link from "next/link";
 // 데스크톱 전용 보조 네비게이션.
 // 모바일은 하단 탭바 + 전체 메뉴 시트(MobileMenuSheet)가 같은 링크를 담당한다.
 const NAV_ITEMS = [
+  // 구매 질문 여정 허브
+  { label: "구매 질문 30", href: "/answers" },
   // 계산기 (핵심 도구)
   { label: "계산기 전체", href: "/calc" },
   { label: "테슬라 보조금 계산기", href: "/" },

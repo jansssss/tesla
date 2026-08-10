@@ -2,6 +2,7 @@ import { METRO_REGIONS, calcMetroSubsidyStats } from '@/lib/regions';
 import { loadSubsidySnapshot } from '@/lib/subsidy';
 import { getAllGuides, GUIDES_SECTION_PUBLIC } from "@/lib/guides";
 import { fetchAllGuidesMeta } from "@/lib/supabase-server";
+import { getAnswerSlugs, ANSWERS_UPDATED_AT } from "@/lib/answers";
 
 export default async function sitemap() {
   const baseUrl = 'https://www.paytesla.kr';
@@ -24,6 +25,7 @@ export default async function sitemap() {
     { url: `${baseUrl}/calc/monthly-real-cost`,  lastModified: now, changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${baseUrl}/calc/switch-to-tesla`,    lastModified: now, changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${baseUrl}/calc/ev-purchase-readiness`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${baseUrl}/answers`,                 lastModified: ANSWERS_UPDATED_AT, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${baseUrl}/about`,                   lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${baseUrl}/contact`,                 lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${baseUrl}/privacy`,                 lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
@@ -77,8 +79,17 @@ export default async function sitemap() {
     guidePages = [...supabaseGuidePages, ...staticGuidePages];
   }
 
+  // 구매 질문 답변 페이지 — 정적 생성되는 22개.
+  const answerPages = getAnswerSlugs().map((slug) => ({
+    url: `${baseUrl}/answers/${slug}`,
+    lastModified: ANSWERS_UPDATED_AT,
+    changeFrequency: 'monthly',
+    priority: 0.85,
+  }));
+
   return [
     ...staticPages,
+    ...answerPages,
     ...regionPages,
     ...guidePages,
   ];
