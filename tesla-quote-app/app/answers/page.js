@@ -70,13 +70,7 @@ export default function AnswersHubPage() {
               살까 고민부터 중고차·FSD까지, 검색하는 순서대로
             </span>
           </h1>
-          <p className="mt-5 max-w-2xl text-sm leading-7 text-blue-100/80 md:text-base">
-            테슬라를 알아보는 사람은 질문을 하나씩 따로 검색하지 않습니다.
-            트림을 고르다 보조금이 궁금해지고, 실구매가를 보다 보험료가 걸리고,
-            주행거리를 확인하다 배터리 수명으로 넘어갑니다.
-            그 흐름 그대로 30개를 이어 붙였습니다.
-          </p>
-          <p className="mt-3 text-xs text-blue-200/70">
+          <p className="mt-5 text-xs text-blue-200/70">
             답변 페이지 {answerCount}개 · 계산기·비교 페이지 {externalCount}개 · 최종 갱신 {ANSWERS_UPDATED_AT}
           </p>
         </div>
@@ -85,16 +79,11 @@ export default function AnswersHubPage() {
       <div className="mx-auto max-w-4xl space-y-10 px-4 py-10 md:px-8 md:py-14">
         {/* 전체 여정 */}
         <section>
-          <div className="mb-3 flex items-center gap-3">
+          <div className="mb-5 flex items-center gap-3">
             <span className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">
               전체 흐름
             </span>
           </div>
-          <h2 className="mb-2 text-lg font-black md:text-xl">1번부터 30번까지, 순서대로 따라가기</h2>
-          <p className="mb-5 text-sm leading-7 text-slate-600">
-            각 항목은 다음 항목으로 이어지고, 30번은 다시 1번으로 돌아옵니다.
-            이미 계산기나 비교 페이지가 더 정확하게 답하는 질문은 새로 쓰지 않고 그 페이지로 바로 연결했습니다.
-          </p>
 
           <ol className="space-y-2">
             {JOURNEY_STOPS.map((stop) => (
