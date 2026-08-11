@@ -7,6 +7,8 @@ import {
   getNextStop,
   getPrevStop,
   getStopPosition,
+  answersByGroup,
+  ANSWER_GROUPS,
   ANSWERS_UPDATED_AT,
 } from "@/lib/answers";
 
@@ -47,6 +49,12 @@ export default async function AnswerPage({ params }) {
   const prevStop = getPrevStop(slug);
   const position = getStopPosition(slug);
 
+  // 같은 주제에서 이어서 묻게 되는 질문 — 여정(다음 단계)과 별개의 횡적 연결
+  const siblings = answersByGroup(answer.group)
+    .filter((a) => a.slug !== answer.slug)
+    .slice(0, 4);
+  const groupLabel = ANSWER_GROUPS.find((g) => g.id === answer.group)?.label;
+
   // FAQ 블록 → FAQPage 구조화 데이터
   const faqItems = answer.sections.flatMap((s) =>
     s.blocks.filter((b) => b.type === "faq").flatMap((b) => b.items)
@@ -79,44 +87,53 @@ export default async function AnswerPage({ params }) {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-tesla-mist/40">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
       {/* Hero — 질문을 그대로 H1으로 쓴다 */}
-      <section className="bg-[linear-gradient(135deg,#0f172a_0%,#172554_50%,#1d4ed8_100%)] py-12 text-white md:py-16">
+      <section className="border-b border-tesla-line bg-white py-10 md:py-14">
         <div className="mx-auto max-w-3xl px-4 md:px-8">
           <div className="mb-4 flex flex-wrap items-center gap-2">
             <Link
               href="/answers"
-              className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-blue-200 transition hover:bg-white/20"
+              className="inline-flex rounded-md bg-tesla-blueSoft px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-tesla-blue transition hover:bg-tesla-blue hover:text-white"
             >
               구매 질문 {position ? `${position.n}` : ""}
             </Link>
-            <span className="text-[11px] text-blue-200/70">
-              최종 갱신 {ANSWERS_UPDATED_AT}
-            </span>
+            {groupLabel ? (
+              <span className="inline-flex rounded-md bg-tesla-mist px-2.5 py-1 text-[11px] font-bold text-tesla-ink70">
+                {groupLabel}
+              </span>
+            ) : null}
+            <span className="text-[11px] text-slate-400">최종 갱신 {ANSWERS_UPDATED_AT}</span>
           </div>
-          <h1 className="text-2xl font-black leading-snug md:text-3xl">{answer.question}</h1>
+          <h1 className="text-2xl font-black leading-snug tracking-tight text-tesla-ink md:text-3xl">
+            {answer.question}
+          </h1>
           {answer.heroSub ? (
-            <p className="mt-3 text-sm text-blue-200 md:text-base">{answer.heroSub}</p>
+            <p className="mt-3 text-sm text-tesla-ink70 md:text-base">{answer.heroSub}</p>
           ) : null}
         </div>
       </section>
 
       {/* 핵심 답변 — 스크롤 없이 결론부터 */}
       <div className="mx-auto max-w-3xl px-4 pb-6 pt-8 md:px-8">
-        <div className="rounded-2xl border-l-4 border-blue-500 bg-white p-6 shadow-[0_4px_24px_rgba(15,23,42,0.06)] md:p-8">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-blue-600">
-            짧은 답
-          </p>
-          <p className="mt-3 text-sm leading-8 text-slate-800 md:text-base">{answer.answer}</p>
+        <div className="rounded-2xl border border-tesla-line border-l-[3px] border-l-tesla-blue bg-white p-6 md:p-8">
+          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-tesla-blue">짧은 답</p>
+          <p className="mt-3 text-sm leading-8 text-tesla-ink md:text-base">{answer.answer}</p>
         </div>
       </div>
 
-      <AnswerArticle answer={answer} nextStop={nextStop} prevStop={prevStop} />
+      <AnswerArticle
+        answer={answer}
+        nextStop={nextStop}
+        prevStop={prevStop}
+        siblings={siblings}
+        groupLabel={groupLabel}
+      />
     </main>
   );
 }

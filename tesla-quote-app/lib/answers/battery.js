@@ -37,6 +37,7 @@ export const BATTERY_ANSWERS = [
       "LFP는 수명과 안정성에 유리하고 100% 충전이 허용되는 대신 에너지 밀도가 낮고 저온에 약합니다. NCM·NCA는 에너지 밀도가 높아 같은 무게로 더 멀리 가지만 일상 충전은 80~90%로 제한하는 것이 권장됩니다. 성능의 우열이 아니라 관리 방법의 차이로 이해하는 것이 정확합니다.",
     sections: [
       {
+        ask: "LFP와 NCM은 무엇이 다른가요?",
         heading: "두 배터리는 무엇을 얻고 무엇을 포기했나",
         lead: "배터리 화학 조성이 다르면 장단점의 방향이 달라집니다. 어느 쪽이 더 좋은 배터리가 아니라, 다른 목적에 맞춰진 배터리입니다.",
         blocks: [
@@ -63,6 +64,7 @@ export const BATTERY_ANSWERS = [
         ],
       },
       {
+        ask: "내 차에 어떤 배터리가 들어갔는지 어떻게 확인하나요?",
         heading: "내 차에 어떤 배터리가 들어갔는지 확인하는 방법",
         lead: "트림별 배터리 종류는 생산 시기와 셀 공급사에 따라 바뀝니다. 그래서 '어떤 트림 = 어떤 배터리'라는 고정된 표를 믿는 것은 위험합니다.",
         blocks: [
@@ -86,6 +88,7 @@ export const BATTERY_ANSWERS = [
         ],
       },
       {
+        ask: "배터리 종류가 구매 결정을 바꿀 만한가요?",
         heading: "배터리 종류가 구매 결정을 바꿀 만한가",
         blocks: [
           {
@@ -124,6 +127,7 @@ export const BATTERY_ANSWERS = [
         ],
       },
       {
+        ask: "배터리 종류에 대해 그 밖에 자주 묻는 것들은?",
         heading: "배터리 종류에 대해 자주 묻는 것들",
         blocks: [
           {
@@ -175,6 +179,7 @@ export const BATTERY_ANSWERS = [
       "삼원계(NCM·NCA) 배터리라면 일상은 80~90%로 두고 장거리 직전에만 100%로 올리는 것이 권장됩니다. LFP 배터리라면 반대로 주기적인 100% 충전이 권장됩니다. 내 차가 어느 쪽인지 확인하는 것이 첫 단계입니다.",
     sections: [
       {
+        ask: "충전은 왜 80%까지만 하라고 하나요?",
         heading: "왜 80%라는 숫자가 나왔나",
         lead: "80%는 마법의 숫자가 아닙니다. 배터리가 높은 전압 상태로 오래 머무를 때 받는 스트레스를 줄이려는 실용적인 기준입니다.",
         blocks: [
@@ -202,6 +207,7 @@ export const BATTERY_ANSWERS = [
         ],
       },
       {
+        ask: "내 배터리는 몇 %까지 충전하는 게 맞나요?",
         heading: "배터리 종류별 권장 습관",
         blocks: [
           {
@@ -227,6 +233,7 @@ export const BATTERY_ANSWERS = [
         ],
       },
       {
+        ask: "반대로 피해야 할 충전 습관은 무엇인가요?",
         heading: "오히려 피해야 하는 습관",
         blocks: [
           {
@@ -264,6 +271,7 @@ export const BATTERY_ANSWERS = [
         ],
       },
       {
+        ask: "충전 상한에 대해 그 밖에 자주 묻는 것들은?",
         heading: "충전 상한에 대해 자주 묻는 것들",
         blocks: [
           {
@@ -315,6 +323,7 @@ export const BATTERY_ANSWERS = [
       "열화는 초기 1~2년에 상대적으로 빠르게 진행된 뒤 완만해지는 패턴을 보입니다. 테슬라는 보증 기간 동안 최소 70%의 용량 유지를 보증하고 있으며, 이는 '그만큼 떨어진다'는 뜻이 아니라 '그 아래로 떨어지면 보증 대상'이라는 하한선입니다.",
     sections: [
       {
+        ask: "배터리는 얼마나 빨리 닳나요?",
         heading: "열화는 직선이 아니라 곡선으로 진행된다",
         lead: "매년 같은 비율로 줄어든다고 생각하면 계산이 지나치게 비관적이 됩니다. 실제 패턴은 초반이 가파르고 이후 완만해지는 형태입니다.",
         blocks: [
@@ -342,6 +351,7 @@ export const BATTERY_ANSWERS = [
         ],
       },
       {
+        ask: "열화를 앞당기는 요인은 무엇인가요?",
         heading: "열화를 앞당기는 요인",
         blocks: [
           {
@@ -366,6 +376,7 @@ export const BATTERY_ANSWERS = [
         ],
       },
       {
+        ask: "열화가 실제 생활에 어떤 영향을 주나요?",
         heading: "열화가 실제 생활에 미치는 영향",
         blocks: [
           {
@@ -396,6 +407,7 @@ export const BATTERY_ANSWERS = [
         ],
       },
       {
+        ask: "배터리 수명에 대해 그 밖에 자주 묻는 것들은?",
         heading: "배터리 수명에 대해 자주 묻는 것들",
         blocks: [
           {
@@ -446,6 +458,7 @@ export const BATTERY_ANSWERS = [
       "테슬라는 차량·트림에 따라 배터리 및 구동장치에 대해 8년/16만km 또는 8년/19.2만km(먼저 도달하는 조건 기준) 보증을 운영하며, 보증 기간 중 최소 70%의 배터리 용량 유지를 명시합니다. 본인 차량에 적용되는 정확한 조건은 공식 보증 문서에서 확인해야 합니다.",
     sections: [
       {
+        ask: "배터리 보증은 어디까지 보장되나요?",
         heading: "보증은 세 가지 조건이 동시에 걸린다",
         lead: "'8년 보증'이라는 말만 기억하면 실제 적용 범위를 오해하기 쉽습니다. 기간, 주행거리, 용량 하한이 함께 작동합니다.",
         blocks: [
@@ -475,6 +488,7 @@ export const BATTERY_ANSWERS = [
         ],
       },
       {
+        ask: "보증이 적용되지 않는 경우는 언제인가요?",
         heading: "보증이 적용되지 않는 상황",
         blocks: [
           {
@@ -504,6 +518,7 @@ export const BATTERY_ANSWERS = [
         ],
       },
       {
+        ask: "보증이 끝난 뒤는 어떻게 대비하나요?",
         heading: "보증 종료 후를 어떻게 대비하나",
         blocks: [
           {
@@ -531,6 +546,7 @@ export const BATTERY_ANSWERS = [
         ],
       },
       {
+        ask: "배터리 보증에 대해 그 밖에 자주 묻는 것들은?",
         heading: "배터리 보증에 대해 자주 묻는 것들",
         blocks: [
           {
@@ -560,7 +576,7 @@ export const BATTERY_ANSWERS = [
     contextLinks: [
       { href: "/calc/tco", label: "총소유비용(TCO) 계산기", why: "보유 기간을 보증 기간과 맞춰 손익을 비교해보세요." },
       { href: "/calc/maintenance", label: "유지비 계산기", why: "보증과 별개로 매년 나가는 비용을 먼저 확정하세요." },
-      { href: "/", label: "실구매가·월납입금 계산기", why: "보유 계획이 정해지면 할부 기간도 그에 맞추는 편이 좋습니다." },
+      { href: "/subsidy", label: "실구매가·월납입금 계산기", why: "보유 계획이 정해지면 할부 기간도 그에 맞추는 편이 좋습니다." },
     ],
     calcCta: "/calc/tco",
     sources: [

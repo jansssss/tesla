@@ -52,6 +52,7 @@ export const MONEY_ANSWERS = [
       `${(CALC_DEFAULTS.insurancePerYear / 10000).toLocaleString()}만원입니다. 본인 조건 견적을 받아 이 값을 대체해서 계산하는 것이 정확합니다.`,
     sections: [
       {
+        ask: "테슬라 보험료는 왜 다른 차보다 비싼가요?",
         heading: "테슬라 보험료가 높게 나오는 세 가지 구조적 이유",
         lead: "'전기차라서 비싸다'는 설명은 정확하지 않습니다. 실제 원인은 보험료 산정 공식에 직접 들어가는 항목들입니다.",
         blocks: [
@@ -79,6 +80,7 @@ export const MONEY_ANSWERS = [
         ],
       },
       {
+        ask: "견적이 사람마다 두 배씩 차이 나는 이유는 뭔가요?",
         heading: "실제 견적은 왜 사람마다 두 배 넘게 차이 나나",
         lead: "같은 모델Y라도 견적이 크게 갈립니다. 차보다 사람 조건이 더 큰 변수이기 때문입니다.",
         blocks: [
@@ -106,6 +108,7 @@ export const MONEY_ANSWERS = [
         ],
       },
       {
+        ask: "보험료를 실제로 낮출 수 있는 항목은 무엇인가요?",
         heading: "보험료를 실제로 낮추는 항목만 추리면",
         blocks: [
           {
@@ -128,6 +131,7 @@ export const MONEY_ANSWERS = [
         ],
       },
       {
+        ask: "보험료를 월 예산에 어떻게 반영하나요?",
         heading: "보험료를 월 예산에 반영하는 방법",
         blocks: [
           {
@@ -152,6 +156,7 @@ export const MONEY_ANSWERS = [
         ],
       },
       {
+        ask: "테슬라 보험료에 대해 그 밖에 자주 묻는 것들은?",
         heading: "테슬라 보험료에 대해 자주 묻는 것들",
         blocks: [
           {
@@ -181,7 +186,7 @@ export const MONEY_ANSWERS = [
     contextLinks: [
       { href: "/calc/maintenance", label: "유지비 계산기", why: "보험료를 직접 입력해 월·연 유지비를 다시 계산할 수 있습니다." },
       { href: "/calc/monthly-real-cost", label: "월 실제 부담금 계산기", why: "할부금에 보험료·세금을 더한 진짜 월 지출을 봅니다." },
-      { href: "/", label: "실구매가·월납입금 계산기", why: "보조금 적용 후 차값부터 확정하는 것이 먼저입니다." },
+      { href: "/subsidy", label: "실구매가·월납입금 계산기", why: "보조금 적용 후 차값부터 확정하는 것이 먼저입니다." },
     ],
     calcCta: "/calc/maintenance",
     sources: [
@@ -205,6 +210,7 @@ export const MONEY_ANSWERS = [
       "전기차는 배기량이 없어 자동차세가 정액으로 부과되며, 지방교육세를 포함해 연 13만원 수준입니다. 취득세는 세율 7%에서 전기차 감면(한도 140만원)을 뺀 금액을 냅니다. 즉 매년 내는 돈은 작고, 살 때 한 번 나가는 돈이 큽니다.",
     sections: [
       {
+        ask: "전기차 세금은 어떤 종류로 나뉘나요?",
         heading: "전기차 세금은 두 종류로 나눠 봐야 한다",
         lead: "'세금이 싸다'는 말은 자동차세에 해당하는 이야기입니다. 취득세는 차값에 비례하므로 결코 작지 않습니다.",
         blocks: [
@@ -227,6 +233,7 @@ export const MONEY_ANSWERS = [
         ],
       },
       {
+        ask: "취득세는 트림별로 실제 얼마인가요?",
         heading: "취득세 — 트림별로 실제 얼마인가",
         lead: "전기차 취득세 감면에는 한도가 있습니다. 차값이 일정 수준을 넘으면 감면 한도를 다 쓰고 나머지를 부담하게 됩니다.",
         blocks: [
@@ -252,6 +259,7 @@ export const MONEY_ANSWERS = [
         ],
       },
       {
+        ask: "자동차세는 매년 얼마이고 언제 내나요?",
         heading: "자동차세 — 매년 얼마이고 언제 내나",
         blocks: [
           {
@@ -285,6 +293,7 @@ export const MONEY_ANSWERS = [
         ],
       },
       {
+        ask: "첫 해에 세금으로 실제 나가는 돈은 얼마인가요?",
         heading: "첫 해에 실제로 나가는 돈 정리",
         blocks: [
           {
@@ -307,6 +316,7 @@ export const MONEY_ANSWERS = [
         ],
       },
       {
+        ask: "전기차 세금에 대해 그 밖에 자주 묻는 것들은?",
         heading: "전기차 세금에 대해 자주 묻는 것들",
         blocks: [
           {
@@ -334,7 +344,7 @@ export const MONEY_ANSWERS = [
       },
     ],
     contextLinks: [
-      { href: "/", label: "실구매가·월납입금 계산기", why: "보조금 적용 후 차값이 정해져야 취득세도 계산됩니다." },
+      { href: "/subsidy", label: "실구매가·월납입금 계산기", why: "보조금 적용 후 차값이 정해져야 취득세도 계산됩니다." },
       { href: "/calc/monthly-real-cost", label: "월 실제 부담금 계산기", why: "자동차세를 월 예산에 반영해 계산합니다." },
       { href: "/calc/tco", label: "총소유비용(TCO) 계산기", why: "보유 기간 전체의 세금·감가상각까지 합산해 봅니다." },
     ],

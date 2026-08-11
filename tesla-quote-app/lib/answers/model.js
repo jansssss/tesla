@@ -43,6 +43,7 @@ export const MODEL_ANSWERS = [
       "충전할 곳이 정해져 있고, 하루 주행이 200km를 넘지 않으며, 보조금 적용 후 실구매가가 예산 안에 들어온다면 지금 사도 되는 차입니다. 이 셋 중 하나라도 확실하지 않다면 그 항목부터 해결한 뒤 계약하는 편이 낫습니다.",
     sections: [
       {
+        ask: "모델Y가 좋은 차인지보다 먼저 따져야 할 것은 무엇인가요?",
         heading: "'좋은 차인가'가 아니라 '나에게 맞는 차인가'를 먼저 봐야 하는 이유",
         lead: "모델Y는 국내에서 월간 판매 1위를 기록할 만큼 검증이 끝난 차입니다. 그래서 이제 판단의 축은 차의 품질이 아니라 내 사용 환경과의 궁합으로 넘어갑니다.",
         blocks: [
@@ -65,6 +66,7 @@ export const MODEL_ANSWERS = [
         ],
       },
       {
+        ask: "모델Y의 장점은 실제로 어떤 이득으로 돌아오나요?",
         heading: "모델Y의 장점 — 실제로 돈과 시간으로 환산되는 것들",
         blocks: [
           {
@@ -87,6 +89,7 @@ export const MODEL_ANSWERS = [
         ],
       },
       {
+        ask: "모델Y의 단점 중 감수할 수 있는 건 어디까지인가요?",
         heading: "모델Y의 단점 — 감수할 수 있는 것과 없는 것",
         lead: "단점은 크게 두 종류입니다. 익숙해지면 사라지는 것과, 환경이 바뀌지 않으면 끝까지 남는 것입니다. 후자만 실제 구매 장벽입니다.",
         blocks: [
@@ -125,6 +128,7 @@ export const MODEL_ANSWERS = [
         ],
       },
       {
+        ask: "트림은 어떤 기준으로 좁히면 되나요?",
         heading: "트림은 어떻게 좁히나 — 세 가지 질문",
         blocks: [
           {
@@ -147,6 +151,7 @@ export const MODEL_ANSWERS = [
         ],
       },
       {
+        ask: "지금 사도 될까요, 기다리는 게 나을까요?",
         heading: "지금 사도 될까 — 상황별 결론",
         blocks: [
           {
@@ -185,6 +190,7 @@ export const MODEL_ANSWERS = [
         ],
       },
       {
+        ask: "모델Y 구매를 두고 그 밖에 자주 묻는 것들은?",
         heading: "모델Y 구매를 고민할 때 가장 많이 묻는 것들",
         blocks: [
           {
@@ -216,7 +222,7 @@ export const MODEL_ANSWERS = [
       { href: "/compare/model-3-vs-model-y", label: "Model 3 vs Model Y 비교", why: "차급이 다르므로 별도 비교가 필요합니다." },
       { href: "/calc/monthly-real-cost", label: "월 실제 부담금 계산기", why: "할부금·충전비·보험료·자동차세를 합산한 진짜 월 지출입니다." },
     ],
-    calcCta: "/",
+    calcCta: "/subsidy",
     sources: [TESLA_SOURCE],
     dataNote: `가격·주행거리는 테슬라 공식 홈페이지 기준이며 마지막 확인일은 ${VEHICLE_DATA_VERIFIED_AT}입니다. 장단점 서술은 전기차의 일반적인 사용 특성을 정리한 것으로, 체감은 충전 환경과 주행 패턴에 따라 달라집니다.`,
   },
@@ -235,6 +241,7 @@ export const MODEL_ANSWERS = [
       "장거리 이동이 잦고 충전 네트워크의 편의를 우선한다면 모델Y, 800V 초급속과 V2L·실내 활용성을 우선하고 서비스망 접근성을 중시한다면 아이오닉 5가 유리합니다. 두 차의 결정적 차이는 성능이 아니라 '충전을 어떻게 하게 되는가'입니다.",
     sections: [
       {
+        ask: "모델Y와 아이오닉5는 무엇이 가장 크게 다른가요?",
         heading: "두 차의 성격은 배터리가 아니라 충전 구조에서 갈린다",
         lead: "주행거리 숫자만 비교하면 두 차는 비슷해 보입니다. 실사용에서 갈리는 지점은 충전을 어디서, 얼마나 빠르게, 얼마에 하느냐입니다.",
         blocks: [
@@ -260,6 +267,7 @@ export const MODEL_ANSWERS = [
         ],
       },
       {
+        ask: "두 차의 가격은 어떻게 비교해야 정확한가요?",
         heading: "가격은 출고가가 아니라 '보조금 적용 후'로 비교해야 한다",
         lead: "전기차는 국고·지자체 보조금이 차량별로 다르게 산정되므로, 출고가 순서와 실구매가 순서가 뒤집히는 경우가 있습니다.",
         blocks: [
@@ -293,6 +301,7 @@ export const MODEL_ANSWERS = [
         ],
       },
       {
+        ask: "공간과 실내는 어느 쪽이 넉넉한가요?",
         heading: "공간과 실내는 무엇이 다른가",
         blocks: [
           {
@@ -330,6 +339,7 @@ export const MODEL_ANSWERS = [
         ],
       },
       {
+        ask: "내 상황이면 어느 쪽을 골라야 하나요?",
         heading: "그래서 어느 쪽인가 — 상황별 결론",
         blocks: [
           {
@@ -368,6 +378,7 @@ export const MODEL_ANSWERS = [
         ],
       },
       {
+        ask: "모델Y와 아이오닉5를 두고 그 밖에 자주 묻는 것들은?",
         heading: "모델Y와 아이오닉5를 두고 자주 묻는 것들",
         blocks: [
           {
@@ -395,11 +406,11 @@ export const MODEL_ANSWERS = [
       },
     ],
     contextLinks: [
-      { href: "/", label: "지역별 보조금 실구매가 계산기", why: "실구매가는 지역을 넣어야 비교가 성립합니다." },
+      { href: "/subsidy", label: "지역별 보조금 실구매가 계산기", why: "실구매가는 지역을 넣어야 비교가 성립합니다." },
       { href: "/calc/charging", label: "충전비 계산기", why: "급속 비중에 따라 월 충전비가 크게 달라집니다." },
       { href: "/models/model-y", label: "Model Y 트림 상세", why: "모델Y 쪽으로 기울었다면 트림부터 좁히세요." },
     ],
-    calcCta: "/",
+    calcCta: "/subsidy",
     sources: [TESLA_SOURCE, ...RIVAL_SOURCES],
     dataNote: `테슬라 수치는 공식 홈페이지 기준(확인일 ${VEHICLE_DATA_VERIFIED_AT})입니다. 아이오닉 5 관련 수치는 참고값이며(확인일 ${RIVAL_DATA_VERIFIED_AT}) 트림·연식·프로모션에 따라 달라집니다. 계약 전 각 브랜드 공식 가격표를 확인하세요.`,
   },
@@ -418,6 +429,7 @@ export const MODEL_ANSWERS = [
       "충전 인프라의 '편의'를 사면 모델Y, 충전의 '속도'와 주행 감각을 사면 EV6에 가깝습니다. 초급속 충전기가 생활권에 많다면 EV6의 장점이 살아나고, 그렇지 않다면 네트워크가 촘촘한 모델Y가 실사용에서 편합니다.",
     sections: [
       {
+        ask: "모델Y와 EV6는 충전 성격이 어떻게 다른가요?",
         heading: "EV6는 '빠르게 충전하는 차', 모델Y는 '쉽게 충전하는 차'",
         lead: "두 차의 차이를 한 줄로 줄이면 이렇습니다. 어느 쪽이 나은지는 차가 아니라 내 생활권의 충전기 구성이 결정합니다.",
         blocks: [
@@ -444,6 +456,7 @@ export const MODEL_ANSWERS = [
         ],
       },
       {
+        ask: "두 차의 가격 차이는 실제로 얼마나 나나요?",
         heading: "가격 비교 — 구간으로만 보고, 결론은 지역에서 낸다",
         blocks: [
           {
@@ -466,6 +479,7 @@ export const MODEL_ANSWERS = [
         ],
       },
       {
+        ask: "매일 타면 어떤 차이가 체감되나요?",
         heading: "매일 타는 조건에서 갈리는 것들",
         blocks: [
           {
@@ -488,6 +502,7 @@ export const MODEL_ANSWERS = [
         ],
       },
       {
+        ask: "내 조건이면 어느 쪽이 맞나요?",
         heading: "상황별 결론",
         blocks: [
           {
@@ -520,6 +535,7 @@ export const MODEL_ANSWERS = [
         ],
       },
       {
+        ask: "모델Y와 EV6를 두고 그 밖에 자주 묻는 것들은?",
         heading: "모델Y와 EV6를 두고 자주 묻는 것들",
         blocks: [
           {
@@ -547,11 +563,11 @@ export const MODEL_ANSWERS = [
       },
     ],
     contextLinks: [
-      { href: "/", label: "지역별 보조금 실구매가 계산기", why: "실구매가 순서는 지역에 따라 뒤집힙니다." },
+      { href: "/subsidy", label: "지역별 보조금 실구매가 계산기", why: "실구매가 순서는 지역에 따라 뒤집힙니다." },
       { href: "/calc/charging-time", label: "충전 시간 계산기", why: "충전기 출력별 소요 시간을 직접 비교해보세요." },
       { href: "/compare/rwd-vs-awd", label: "RWD vs AWD 비교", why: "EV6 AWD와 비교한다면 구동 방식부터 정리하세요." },
     ],
-    calcCta: "/",
+    calcCta: "/subsidy",
     sources: [TESLA_SOURCE, ...RIVAL_SOURCES],
     dataNote: `테슬라 수치는 공식 홈페이지 기준(확인일 ${VEHICLE_DATA_VERIFIED_AT})입니다. EV6 관련 수치는 참고값이며(확인일 ${RIVAL_DATA_VERIFIED_AT}) 트림·연식·프로모션에 따라 달라집니다. 주행 감각에 대한 서술은 일반적으로 알려진 세팅 성향을 정리한 것으로, 실제 체감은 시승으로 확인하시기 바랍니다.`,
   },

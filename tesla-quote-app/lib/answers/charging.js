@@ -52,6 +52,7 @@ export const CHARGING_ANSWERS = [
       "가능하지만 조건이 있습니다. 직장·생활권에 정기적으로 쓸 수 있는 충전기가 있고, 급속 위주 운영으로 늘어나는 충전비와 주당 30~60분의 시간을 감수할 수 있다면 문제없습니다. 그 두 가지가 확보되지 않으면 충전기 확보를 먼저 해결하는 편이 낫습니다.",
     sections: [
       {
+        ask: "집에 충전기가 없으면 정확히 무엇이 달라지나요?",
         heading: "'집밥'이 없다는 것은 정확히 무엇이 달라진다는 뜻인가",
         lead: "충전기가 없다고 차를 못 타는 것은 아닙니다. 달라지는 것은 두 가지, 단가와 시간입니다.",
         blocks: [
@@ -71,6 +72,7 @@ export const CHARGING_ANSWERS = [
         ],
       },
       {
+        ask: "집밥 없이 충전하는 방법에는 무엇이 있나요?",
         heading: "집밥 없이 운영하는 네 가지 방식",
         lead: "실제로는 한 가지 방법만 쓰지 않습니다. 아래 중 두세 개를 섞는 형태가 일반적입니다.",
         blocks: [
@@ -93,6 +95,7 @@ export const CHARGING_ANSWERS = [
         ],
       },
       {
+        ask: "내 주행거리면 집밥 없이 버틸 수 있나요?",
         heading: "주행거리에 따라 결론이 달라진다",
         blocks: [
           {
@@ -132,6 +135,7 @@ export const CHARGING_ANSWERS = [
         ],
       },
       {
+        ask: "충전기 설치를 시도해볼 가치가 있나요?",
         heading: "충전기 설치를 시도해볼 가치가 있는가",
         blocks: [
           {
@@ -154,6 +158,7 @@ export const CHARGING_ANSWERS = [
         ],
       },
       {
+        ask: "집밥 없는 운용에 대해 그 밖에 자주 묻는 것들은?",
         heading: "집밥 없이 전기차를 살 때 자주 묻는 것들",
         blocks: [
           {
@@ -204,6 +209,7 @@ export const CHARGING_ANSWERS = [
       "사용할 수 있습니다. 국내 표준 급속 규격에 맞는 어댑터를 차에 두고, 주요 충전 사업자의 회원 카드나 앱을 미리 등록해두면 됩니다. 슈퍼차저가 없는 지역이나 대기가 긴 시간대에 선택지가 넓어지는 것이 가장 큰 이점입니다.",
     sections: [
       {
+        ask: "슈퍼차저만 써도 충분한가요?",
         heading: "왜 슈퍼차저만으로는 부족할 수 있나",
         lead: "슈퍼차저는 편하지만 전국 모든 경로를 덮지는 못합니다. 공용 급속을 함께 쓸 수 있으면 이동 계획의 자유도가 크게 올라갑니다.",
         blocks: [
@@ -241,6 +247,7 @@ export const CHARGING_ANSWERS = [
         ],
       },
       {
+        ask: "급속충전을 쓰려면 무엇을 준비해야 하나요?",
         heading: "무엇을 준비해야 하나",
         blocks: [
           {
@@ -263,6 +270,7 @@ export const CHARGING_ANSWERS = [
         ],
       },
       {
+        ask: "요금과 충전 속도는 어떻게 다른가요?",
         heading: "요금과 속도는 어떻게 다른가",
         blocks: [
           {
@@ -285,6 +293,7 @@ export const CHARGING_ANSWERS = [
         ],
       },
       {
+        ask: "장거리에서는 둘을 어떻게 섞어 쓰나요?",
         heading: "장거리에서 둘을 어떻게 섞어 쓰나",
         blocks: [
           {
@@ -307,6 +316,7 @@ export const CHARGING_ANSWERS = [
         ],
       },
       {
+        ask: "테슬라 급속충전에 대해 그 밖에 자주 묻는 것들은?",
         heading: "테슬라 급속충전에 대해 자주 묻는 것들",
         blocks: [
           {
@@ -358,6 +368,7 @@ export const CHARGING_ANSWERS = [
       "법적 의무는 없습니다. 다만 공용 급속을 쓸 계획이 조금이라도 있다면 만들어두는 편이 낫습니다. 비회원 요금과 회원 요금 차이가 있고, 현장에서 앱 가입을 시도하다 실패하면 그대로 발이 묶이기 때문입니다.",
     sections: [
       {
+        ask: "충전카드는 왜 꼭 만들어야 하나요?",
         heading: "충전카드는 '결제 수단'이 아니라 '요금 등급'이다",
         lead: "충전카드를 단순 결제 카드로 생각하면 필요성이 잘 이해되지 않습니다. 실제로는 회원 요금을 적용받기 위한 식별 수단에 가깝습니다.",
         blocks: [
@@ -381,6 +392,7 @@ export const CHARGING_ANSWERS = [
         ],
       },
       {
+        ask: "충전카드는 어떻게 발급받나요?",
         heading: "발급 방법과 준비 순서",
         blocks: [
           {
@@ -403,6 +415,7 @@ export const CHARGING_ANSWERS = [
         ],
       },
       {
+        ask: "카드에 따라 요금이 얼마나 차이 나나요?",
         heading: "요금은 실제로 얼마나 차이 나나",
         blocks: [
           {
@@ -435,6 +448,7 @@ export const CHARGING_ANSWERS = [
         ],
       },
       {
+        ask: "충전카드에 대해 그 밖에 자주 묻는 것들은?",
         heading: "충전카드에 대해 자주 묻는 것들",
         blocks: [
           {

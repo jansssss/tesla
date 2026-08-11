@@ -43,6 +43,7 @@ export const FUTURE_ANSWERS = [
       "주행거리보다 배터리 상태, 잔여 보증, 사고·침수 이력 세 가지가 먼저입니다. 특히 보증은 '남아 있다'가 아니라 '몇 년·몇 km가 남았는가'를 숫자로 확인해야 합니다. 소프트웨어 옵션 승계 여부도 반드시 계약 전에 확인하세요.",
     sections: [
       {
+        ask: "중고 전기차는 무엇부터 확인해야 하나요?",
         heading: "중고 전기차는 확인 순서가 다르다",
         lead: "내연기관 중고차는 주행거리와 정비 이력이 핵심이지만, 전기차는 배터리와 보증이 먼저입니다.",
         blocks: [
@@ -66,6 +67,7 @@ export const FUTURE_ANSWERS = [
         ],
       },
       {
+        ask: "중고차의 배터리 상태는 어떻게 확인하나요?",
         heading: "배터리 상태를 확인하는 방법",
         blocks: [
           {
@@ -101,6 +103,7 @@ export const FUTURE_ANSWERS = [
         ],
       },
       {
+        ask: "보증과 옵션은 어디까지 이어받나요?",
         heading: "보증과 옵션은 계약 전에 숫자로 확인",
         blocks: [
           {
@@ -125,6 +128,7 @@ export const FUTURE_ANSWERS = [
         ],
       },
       {
+        ask: "중고와 신차, 어느 쪽이 유리한가요?",
         heading: "중고가 유리한 경우와 신차가 유리한 경우",
         blocks: [
           {
@@ -164,6 +168,7 @@ export const FUTURE_ANSWERS = [
         ],
       },
       {
+        ask: "중고 테슬라에 대해 그 밖에 자주 묻는 것들은?",
         heading: "중고 테슬라에 대해 자주 묻는 것들",
         blocks: [
           {
@@ -191,11 +196,11 @@ export const FUTURE_ANSWERS = [
       },
     ],
     contextLinks: [
-      { href: "/", label: "실구매가·월납입금 계산기", why: "신차 실구매가가 나와야 중고 가격을 평가할 수 있습니다." },
+      { href: "/subsidy", label: "실구매가·월납입금 계산기", why: "신차 실구매가가 나와야 중고 가격을 평가할 수 있습니다." },
       { href: "/calc/tco", label: "총소유비용(TCO) 계산기", why: "신차와 중고의 보유 기간 총비용을 비교해보세요." },
       { href: "/subsidy/seoul", label: "지역별 보조금 확인", why: "거주 지역 보조금이 남아 있는지가 판단의 시작입니다." },
     ],
-    calcCta: "/",
+    calcCta: "/subsidy",
     sources: [TESLA_SUPPORT_SOURCE, EV_SOURCE],
     dataNote: `인증 주행거리는 공식 확인값(확인일 ${VEHICLE_DATA_VERIFIED_AT})입니다. 용량 비율 표는 만충 표시 거리를 인증 거리로 나눈 참고값이며 정식 진단 결과가 아닙니다. 보증 승계·옵션 승계·보조금 의무 운행기간은 정책 변경 가능성이 있으므로 계약 전 공식 경로로 확인하세요.`,
   },
@@ -214,6 +219,7 @@ export const FUTURE_ANSWERS = [
       "FSD는 공식 명칭이 'FSD (Supervised)' 즉 감독형입니다. 운전자가 항상 주시하고 개입해야 하는 보조 기능이며 무인 주행이 아닙니다. 한국에서 실제 사용 가능한 기능 범위는 시점과 소프트웨어 버전에 따라 달라지므로, 구매 전 '지금 내 차에서 켜지는 기능'을 기준으로 판단해야 합니다.",
     sections: [
       {
+        ask: "FSD는 완전 자율주행인가요?",
         heading: "이름이 만드는 오해부터 정리",
         lead: "FSD는 'Full Self-Driving'의 약자지만, 공식 표기에는 '(Supervised)'가 붙습니다. 이 괄호가 실제 사용 경험의 전부를 결정합니다.",
         blocks: [
@@ -236,6 +242,7 @@ export const FUTURE_ANSWERS = [
         ],
       },
       {
+        ask: "한국에서 FSD는 지금 무엇이 되나요?",
         heading: "한국에서 무엇이 되고 무엇이 안 되나",
         lead: "구매 판단에서 중요한 것은 '예고된 기능'이 아니라 '지금 켜지는 기능'입니다.",
         blocks: [
@@ -266,6 +273,7 @@ export const FUTURE_ANSWERS = [
         ],
       },
       {
+        ask: "FSD는 구독과 일시불 중 어느 쪽이 유리한가요?",
         heading: "구독과 일시불, 어느 쪽이 나은가",
         blocks: [
           {
@@ -314,6 +322,7 @@ export const FUTURE_ANSWERS = [
         ],
       },
       {
+        ask: "FSD에 대해 그 밖에 자주 묻는 것들은?",
         heading: "FSD에 대해 자주 묻는 것들",
         blocks: [
           {
@@ -341,11 +350,11 @@ export const FUTURE_ANSWERS = [
       },
     ],
     contextLinks: [
-      { href: "/", label: "실구매가·월납입금 계산기", why: "FSD 옵션을 넣었을 때 월납입금이 얼마나 오르는지 확인하세요." },
+      { href: "/subsidy", label: "실구매가·월납입금 계산기", why: "FSD 옵션을 넣었을 때 월납입금이 얼마나 오르는지 확인하세요." },
       { href: "/calc/monthly-real-cost", label: "월 실제 부담금 계산기", why: "구독료는 월 고정 지출로 잡아야 정확합니다." },
       { href: "/models/model-y", label: "Model Y 트림 상세", why: "옵션보다 트림 선택이 총비용에 더 큰 영향을 줍니다." },
     ],
-    calcCta: "/",
+    calcCta: "/subsidy",
     sources: [
       TESLA_FSD_SOURCE,
       { name: "국토교통부", url: "https://www.molit.go.kr", note: "자율주행 관련 제도·승인 절차" },

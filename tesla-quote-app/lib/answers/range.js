@@ -75,6 +75,7 @@ export const RANGE_ANSWERS = [
       `인증 거리의 60~95% 범위에서 움직입니다. ${myRwd.trimFull}(${myRwd.rangeKm}km)를 예로 들면 여름 도심에서는 인증 거리에 가깝고, 한겨울 고속도로에서는 240km 안팎까지 내려갑니다. 중요한 것은 평균이 아니라 '내 최악 조건에서 몇 km가 나오는가'입니다.`,
     sections: [
       {
+        ask: "인증 주행거리는 왜 실제와 다른가요?",
         heading: "인증 거리는 왜 실제와 다른가",
         lead: "인증 주행거리는 정해진 시험 절차에서 측정한 값입니다. 조건이 고정돼 있으니 차종 간 비교에는 적합하지만, 내 주행 환경을 그대로 반영하지는 않습니다.",
         blocks: [
@@ -99,6 +100,7 @@ export const RANGE_ANSWERS = [
         ],
       },
       {
+        ask: "조건별로 실제 몇 km나 나오나요?",
         heading: "조건별로 몇 km가 나오나",
         lead: "아래 표는 인증 거리에 조건별 계수를 곱한 추정치입니다. 계수 자체를 공개하니 본인 경험에 맞게 조정해서 쓰세요.",
         blocks: [
@@ -123,6 +125,7 @@ export const RANGE_ANSWERS = [
         ],
       },
       {
+        ask: "트림은 왜 최악 조건 기준으로 골라야 하나요?",
         heading: "평균이 아니라 '최악 조건'으로 트림을 골라야 하는 이유",
         blocks: [
           {
@@ -160,6 +163,7 @@ export const RANGE_ANSWERS = [
         ],
       },
       {
+        ask: "실주행거리를 늘리려면 무엇을 해야 하나요?",
         heading: "실주행거리를 늘리는 현실적인 방법",
         blocks: [
           {
@@ -182,6 +186,7 @@ export const RANGE_ANSWERS = [
         ],
       },
       {
+        ask: "실제 주행거리에 대해 그 밖에 자주 묻는 것들은?",
         heading: "실제 주행거리에 대해 자주 묻는 것들",
         blocks: [
           {
@@ -232,6 +237,7 @@ export const RANGE_ANSWERS = [
       "도심 위주라면 인증 거리의 70% 내외, 영하의 고속도로 장거리라면 60% 내외까지 내려가는 것이 일반적입니다. 원인은 배터리 저온 특성과 실내 난방 전력 두 가지이고, 이 중 난방 쪽은 사용 습관으로 상당 부분 줄일 수 있습니다.",
     sections: [
       {
+        ask: "겨울에는 왜 주행거리가 줄어드나요?",
         heading: "겨울에 주행거리가 줄어드는 두 가지 원인",
         lead: "원인을 나눠 보면 대응 방법이 명확해집니다. 하나는 어쩔 수 없는 물리 현상이고, 하나는 습관으로 줄일 수 있습니다.",
         blocks: [
@@ -256,6 +262,7 @@ export const RANGE_ANSWERS = [
         ],
       },
       {
+        ask: "겨울에는 실제로 몇 km나 나오나요?",
         heading: "조건별 겨울 주행거리 추정",
         blocks: [
           {
@@ -278,6 +285,7 @@ export const RANGE_ANSWERS = [
         ],
       },
       {
+        ask: "겨울 주행거리를 지키는 방법이 있나요?",
         heading: "실제로 효과가 있는 대응 방법",
         blocks: [
           {
@@ -320,6 +328,7 @@ export const RANGE_ANSWERS = [
         ],
       },
       {
+        ask: "겨울 주행거리에 대해 그 밖에 자주 묻는 것들은?",
         heading: "겨울 주행거리에 대해 자주 묻는 것들",
         blocks: [
           {
@@ -370,6 +379,7 @@ export const RANGE_ANSWERS = [
       `서울–부산은 약 ${SEOUL_BUSAN_KM}km입니다. 봄·가을이나 여름에 ${myLr.trimFull}(${myLr.rangeKm}km)·${myL.trimFull}(${myL.rangeKm}km) 정도면 무충전 주행이 가능한 범위지만, 겨울에는 어느 트림도 권하기 어렵습니다. 그리고 실제로는 무충전보다 중간 1회 충전이 더 편합니다.`,
     sections: [
       {
+        ask: "서울–부산은 충전 없이 갈 수 있나요?",
         heading: "먼저 숫자로 확인해보자",
         lead: "서울 도심에서 부산 도심까지 고속도로 기준 약 400km입니다. 출발지·목적지와 경로에 따라 380~420km 범위에서 움직입니다.",
         blocks: [
@@ -388,6 +398,7 @@ export const RANGE_ANSWERS = [
         ],
       },
       {
+        ask: "왜 무충전을 목표로 하지 않는 편이 나은가요?",
         heading: "왜 무충전을 목표로 하지 않는 편이 나은가",
         blocks: [
           {
@@ -411,6 +422,7 @@ export const RANGE_ANSWERS = [
         ],
       },
       {
+        ask: "서울–부산은 어디서 몇 번 충전하면 되나요?",
         heading: "서울–부산 실전 충전 계획",
         blocks: [
           {
@@ -440,6 +452,7 @@ export const RANGE_ANSWERS = [
         ],
       },
       {
+        ask: "서울–부산 장거리에 대해 그 밖에 자주 묻는 것들은?",
         heading: "서울–부산 장거리에 대해 자주 묻는 것들",
         blocks: [
           {

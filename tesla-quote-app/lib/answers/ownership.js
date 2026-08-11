@@ -36,6 +36,7 @@ export const OWNERSHIP_ANSWERS = [
       "차가 완전히 잠들지 않고 통신·감시·온도 관리를 계속하기 때문입니다. 가장 큰 원인은 센트리 모드이고, 그다음이 원격 접속과 저온 환경입니다. 설정을 조정하면 하루 감소량을 1~2% 수준까지 줄일 수 있습니다.",
     sections: [
       {
+        ask: "세워둔 차의 배터리는 왜 줄어드나요?",
         heading: "차는 주차 중에도 완전히 꺼지지 않는다",
         lead: "내연기관차는 시동을 끄면 대부분의 전자 장치가 함께 멈춥니다. 전기차는 주차 중에도 여러 시스템이 살아 있습니다.",
         blocks: [
@@ -61,6 +62,7 @@ export const OWNERSHIP_ANSWERS = [
         ],
       },
       {
+        ask: "팬텀 드레인을 줄이는 설정은 무엇인가요?",
         heading: "감소량을 실제로 줄이는 설정",
         blocks: [
           {
@@ -102,6 +104,7 @@ export const OWNERSHIP_ANSWERS = [
         ],
       },
       {
+        ask: "장기간 세워둘 때는 어떻게 해야 하나요?",
         heading: "장기간 세워둘 때는 어떻게 하나",
         blocks: [
           {
@@ -125,6 +128,7 @@ export const OWNERSHIP_ANSWERS = [
         ],
       },
       {
+        ask: "주차 중 배터리 감소에 대해 그 밖에 자주 묻는 것들은?",
         heading: "팬텀 드레인에 대해 자주 묻는 것들",
         blocks: [
           {
@@ -176,6 +180,7 @@ export const OWNERSHIP_ANSWERS = [
       "엔진오일·미션오일·점화플러그·타이밍벨트 같은 항목이 사라집니다. 대신 타이어, 브레이크액, 에어컨 필터, 워셔액, 냉각수 계통, 와이퍼는 그대로 남습니다. 테슬라는 정해진 연간 정기 서비스를 필수로 요구하지 않고, 항목별 상태에 따라 점검하는 방식입니다.",
     sections: [
       {
+        ask: "전기차가 되면 어떤 정비가 사라지나요?",
         heading: "무엇이 사라지고 무엇이 남는가",
         lead: "'전기차는 정비가 없다'는 말은 절반만 맞습니다. 엔진 계통은 사라지지만 차체·주행 계통은 그대로입니다.",
         blocks: [
@@ -218,6 +223,7 @@ export const OWNERSHIP_ANSWERS = [
         ],
       },
       {
+        ask: "점검은 얼마나 자주 받아야 하나요?",
         heading: "실제 점검 주기 정리",
         blocks: [
           {
@@ -244,6 +250,7 @@ export const OWNERSHIP_ANSWERS = [
         ],
       },
       {
+        ask: "정비 비용은 유지비에서 어느 정도인가요?",
         heading: "정비 비용은 유지비에서 어느 정도인가",
         blocks: [
           {
@@ -273,6 +280,7 @@ export const OWNERSHIP_ANSWERS = [
         ],
       },
       {
+        ask: "테슬라 정비에 대해 그 밖에 자주 묻는 것들은?",
         heading: "테슬라 정비에 대해 자주 묻는 것들",
         blocks: [
           {
@@ -323,6 +331,7 @@ export const OWNERSHIP_ANSWERS = [
       "사실입니다. 차가 무겁고, 즉각적인 토크가 걸리며, 저소음·저저항 타이어가 장착되는 경우가 많아 마모가 빠릅니다. 다만 공기압 관리와 위치 교환, 운전 습관 조정으로 수명을 상당히 늘릴 수 있습니다.",
     sections: [
       {
+        ask: "테슬라 타이어는 왜 빨리 닳나요?",
         heading: "왜 빨리 닳는가 — 세 가지 이유",
         lead: "'전기차라서'가 아니라 구체적인 물리적 이유가 있습니다. 원인을 알면 어디를 관리해야 하는지도 명확해집니다.",
         blocks: [
@@ -347,6 +356,7 @@ export const OWNERSHIP_ANSWERS = [
         ],
       },
       {
+        ask: "타이어 수명을 늘릴 방법이 있나요?",
         heading: "수명을 늘리는 방법",
         blocks: [
           {
@@ -370,6 +380,7 @@ export const OWNERSHIP_ANSWERS = [
         ],
       },
       {
+        ask: "타이어는 무엇을 기준으로 골라야 하나요?",
         heading: "교체할 때 무엇을 기준으로 고르나",
         blocks: [
           {
@@ -399,6 +410,7 @@ export const OWNERSHIP_ANSWERS = [
         ],
       },
       {
+        ask: "타이어 교체비는 예산에 어떻게 잡나요?",
         heading: "예산에 어떻게 반영하나",
         blocks: [
           {
@@ -423,6 +435,7 @@ export const OWNERSHIP_ANSWERS = [
         ],
       },
       {
+        ask: "테슬라 타이어에 대해 그 밖에 자주 묻는 것들은?",
         heading: "테슬라 타이어에 대해 자주 묻는 것들",
         blocks: [
           {
