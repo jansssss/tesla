@@ -410,7 +410,7 @@ export default function Model3VsModelYPage() {
         <section className="rounded-[24px] bg-[linear-gradient(135deg,#0f172a_0%,#1e3a8a_100%)] p-6 md:p-8">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-300 mb-4">관련 페이지</p>
           <div className="flex flex-wrap gap-2">
-            <Link href="/" className="inline-flex items-center gap-1.5 rounded-xl bg-white text-slate-950 px-4 py-2 text-xs font-bold hover:bg-blue-50 transition-colors">
+            <Link href="/subsidy" className="inline-flex items-center gap-1.5 rounded-xl bg-white text-slate-950 px-4 py-2 text-xs font-bold hover:bg-blue-50 transition-colors">
               테슬라 보조금 계산기
             </Link>
             <Link href="/models/model-3" className="inline-flex items-center gap-1.5 rounded-xl bg-white/10 border border-white/10 px-4 py-2 text-xs font-semibold text-white hover:bg-white/20 transition-colors">

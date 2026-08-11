@@ -197,7 +197,7 @@ export default function MonthlyRealCostPage() {
       <PurchaseCrossLinks
         items={[
           {
-            href: "/",
+            href: "/subsidy",
             label: "테슬라 월납입금 계산기",
             desc: "할부 월납입금의 기준이 되는 지역별 보조금·실구매가를 먼저 정확히 계산하세요.",
           },

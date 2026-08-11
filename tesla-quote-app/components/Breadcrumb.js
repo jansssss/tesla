@@ -13,7 +13,7 @@ const LABELS = {
   compare:              "비교",
   "model-3-vs-model-y": "Model 3 vs Y",
   "rwd-vs-awd":         "RWD vs AWD",
-  subsidy:              "지역 보조금",
+  subsidy:              "보조금 확인",
   seoul:                "서울",
   gyeonggi:             "경기",
   incheon:              "인천",
@@ -35,8 +35,9 @@ function slugToLabel(seg) {
   return withoutDate.replace(/-/g, " ");
 }
 
-// 인덱스 페이지가 없는 중간 경로 — 링크로 노출하면 404가 되므로 텍스트로만 표기
-const NON_LINK_PATHS = new Set(["/calc", "/models", "/compare", "/subsidy"]);
+// 인덱스 페이지가 없는 중간 경로 — 링크로 노출하면 404가 되므로 텍스트로만 표기.
+// (/subsidy는 보조금 확인 계산기 페이지가 생겨 링크 대상에 포함된다)
+const NON_LINK_PATHS = new Set(["/models", "/compare"]);
 
 export default function Breadcrumb({ lastLabel }) {
   const pathname = usePathname();

@@ -114,7 +114,7 @@ export default function SwitchToTeslaCalculator({ dataDate }) {
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-500 mb-4">테슬라 전환 후</p>
           <div className="space-y-3">
             <Field label="출고가 (원)" value={ev.price} onChange={setE("price")} suffix="원" step="100000" note="변동 가능. 공식 홈페이지에서 확인하세요." />
-            <Field label="보조금 (원)" value={ev.subsidy} onChange={setE("subsidy")} suffix="원" step="100000" note="홈 계산기에서 지역 선택 후 확인하세요." />
+            <Field label="보조금 (원)" value={ev.subsidy} onChange={setE("subsidy")} suffix="원" step="100000" note="보조금 계산기에서 지역 선택 후 확인하세요." />
             <Field label="선수금 (원)" value={ev.down} onChange={setE("down")} suffix="원" step="500000" />
             <div className="flex flex-col gap-1">
               <label className="text-xs font-semibold text-slate-600">할부 기간</label>
@@ -181,7 +181,7 @@ export default function SwitchToTeslaCalculator({ dataDate }) {
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <Link href="/" className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 hover:border-slate-400 transition-colors">홈 계산기 (지역 보조금)</Link>
+        <Link href="/subsidy" className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 hover:border-slate-400 transition-colors">보조금 계산기 (지역별)</Link>
         <Link href="/calc/tco" className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 hover:border-slate-400 transition-colors">TCO 계산기</Link>
         <Link href="/calc/maintenance" className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 hover:border-slate-400 transition-colors">유지비 계산기</Link>
       </div>

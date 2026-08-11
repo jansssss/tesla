@@ -113,7 +113,7 @@ export default function CompareCalculator() {
       </div>
       <p className="text-xs leading-6 text-slate-500">
         초록색은 더 낮은 값(유리)을 의미합니다. 보조금은 지역에 따라 달라지므로 정확한 지역별 보조금은{" "}
-        <a href="/" className="text-blue-600 hover:underline">실구매가·월납입금 계산기</a>에서 확인하세요.
+        <a href="/subsidy" className="text-blue-600 hover:underline">실구매가·월납입금 계산기</a>에서 확인하세요.
         유지비는 전비(Model 3 6.0 · Model Y 5.0 km/kWh)와 기본 보험료·세금 가정값으로 계산됩니다.
       </p>
     </div>

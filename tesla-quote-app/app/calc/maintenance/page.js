@@ -221,7 +221,7 @@ export default function MaintenancePage() {
       <PurchaseCrossLinks
         items={[
           {
-            href: "/",
+            href: "/subsidy",
             label: "테슬라 보조금 계산기",
             desc: "유지비 이전에 구매가를 결정하는 국고·지자체 보조금을 지역별로 확인하고 실구매가를 계산하세요.",
           },

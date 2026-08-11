@@ -184,7 +184,7 @@ export default function ChargingPage() {
       <PurchaseCrossLinks
         items={[
           {
-            href: "/",
+            href: "/subsidy",
             label: "테슬라 보조금 계산기",
             desc: "충전비만큼 구매가에 큰 영향을 주는 국고·지자체 보조금을 지역별로 확인하고 실구매가를 계산하세요.",
           },

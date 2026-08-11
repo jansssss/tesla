@@ -75,7 +75,7 @@ export const JOURNEY = [
     n: "6·7",
     kind: "external",
     label: "보조금은 얼마이고, 실제 구매가격은 얼마일까?",
-    href: "/",
+    href: "/subsidy",
     note: "지역별 보조금이 자동 적용되는 실구매가 계산기",
   },
   {

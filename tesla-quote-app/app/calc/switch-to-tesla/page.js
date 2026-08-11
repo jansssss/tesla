@@ -226,7 +226,7 @@ export default function SwitchToTeslaPage() {
       <PurchaseCrossLinks
         items={[
           {
-            href: "/",
+            href: "/subsidy",
             label: "테슬라 실구매가·월납입금 계산기",
             desc: "전환 비교의 출발점입니다. 지역별 보조금이 적용된 실구매가와 정확한 할부 월납입금을 먼저 구하세요.",
           },

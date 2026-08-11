@@ -85,7 +85,7 @@ export default function MonthlyRealCostCalculator({ dataDate }) {
           <Field label="출고가 (원)" value={v.price} onChange={set("price")} suffix="원" min={0} step="100000"
             note="테슬라 공식 홈페이지 기준. 변동될 수 있습니다." />
           <Field label="보조금 (원)" value={v.subsidy} onChange={set("subsidy")} suffix="원" min={0} step="100000"
-            note="지역별 보조금은 홈 계산기에서 확인하세요." />
+            note="지역별 보조금은 보조금 계산기에서 확인하세요." />
           <Field label="선수금 (원)" value={v.down} onChange={set("down")} suffix="원" min={0} step="500000" />
           <div className="flex flex-col gap-1">
             <label className="text-xs font-semibold text-slate-600">할부 기간</label>
@@ -148,7 +148,7 @@ export default function MonthlyRealCostCalculator({ dataDate }) {
         <div className="mt-4 rounded-2xl bg-slate-50 p-4 space-y-1.5">
           <p className="text-xs text-slate-500 leading-relaxed">
             대출원금 <strong>{fmt(principal)}원</strong> ({fmt(v.price)}원 − {fmt(v.subsidy)}원 보조금 − {fmt(v.down)}원 선수금).
-            보조금은 지역에 따라 다릅니다 — <Link href="/" className="text-blue-600 underline">홈 계산기</Link>에서 지역 선택 후 확인하세요.
+            보조금은 지역에 따라 다릅니다 — <Link href="/subsidy" className="text-blue-600 underline">보조금 계산기</Link>에서 지역 선택 후 확인하세요.
           </p>
           {dataDate && (
             <p className="text-[11px] text-slate-400">데이터 기준일: {dataDate}. 결과는 참고용이며 실제 조건은 딜러·금융사에서 확인하세요.</p>

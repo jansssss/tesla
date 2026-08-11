@@ -3,8 +3,8 @@ import { CALCULATOR_GROUPS, calculatorsByGroup, CALCULATORS } from "@/lib/calcul
 import CalcIcon from "@/components/calc/CalcIcon";
 
 /**
- * 홈 계산기 허브 섹션.
- * 홈은 대표 계산기(실구매가) 페이지이므로, 여기서 나머지 계산기로 흐르는 동선을 만든다.
+ * 계산기 허브 섹션 — 보조금 확인(/subsidy) 페이지 하단에서 나머지 계산기로 흐르는 동선.
+ * 대표 계산기 페이지이므로, 여기서 나머지 계산기로 연결한다.
  */
 
 /**

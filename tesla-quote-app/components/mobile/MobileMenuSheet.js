@@ -99,6 +99,23 @@ export default function MobileMenuSheet({ open, onClose }) {
         </div>
 
         <div className="space-y-6 px-5 pt-5">
+          {/* 대표 동선 — 시트를 열자마자 보조금 확인이 먼저 보이게 한다 */}
+          <Link
+            href="/subsidy"
+            onClick={onClose}
+            className="flex min-h-[56px] items-center justify-between rounded-2xl bg-[#171a20] px-4 text-white active:bg-[#3457dc]"
+          >
+            <span>
+              <span className="block text-sm font-black">보조금 확인</span>
+              <span className="block text-[11px] text-white/60">
+                지역별 보조금 적용 실구매가·월납입금
+              </span>
+            </span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
+
           {CALCULATOR_GROUPS.map((group) => (
             <MenuGroup key={group.id} title={group.title}>
               {calculatorsByGroup(group.id).map((c) => (

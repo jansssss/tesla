@@ -14,9 +14,10 @@ import MobileMenuSheet from "./MobileMenuSheet";
  */
 const TABS = [
   {
-    href: "/",
-    label: "계산기",
-    match: (p) => p === "/",
+    href: "/subsidy",
+    label: "보조금 확인",
+    // 대표 계산기(/subsidy)와 지역별 상세(/subsidy/[region])를 한 탭으로 묶는다.
+    match: (p) => p.startsWith("/subsidy"),
     icon: (
       <>
         <rect x="4" y="2" width="16" height="20" rx="2.5" />
@@ -45,14 +46,14 @@ const TABS = [
     ),
   },
   {
-    href: "/subsidy/seoul",
-    label: "보조금",
-    match: (p) => p.startsWith("/subsidy"),
+    href: "/answers",
+    label: "구매 질문",
+    match: (p) => p.startsWith("/answers"),
     icon: (
       <>
-        <path d="M3 21h18" />
-        <path d="M4 21V10l8-6 8 6v11" />
-        <path d="M9 21v-6h6v6" />
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        <path d="M9.2 9.2a2.8 2.8 0 0 1 5.4.9c0 1.9-2.8 2.8-2.8 2.8" />
+        <line x1="12" y1="16" x2="12" y2="16" />
       </>
     ),
   },

@@ -46,7 +46,7 @@ export default function TcoCalculator() {
         <CalcField label="차량 가격" suffix="원" value={price} onChange={(v) => setPrice(v)} step={1000000} />
         <CalcField label="보조금" suffix="원" value={subsidy} onChange={(v) => setSubsidy(v)} step={500000} />
         <p className="-mt-2 text-[11px] leading-relaxed text-slate-400">
-          지역별 보조금은 <a href="/" className="text-blue-600 hover:underline">홈 계산기</a>에서 지역 선택 후 확인해 입력하세요.
+          지역별 보조금은 <a href="/subsidy" className="text-blue-600 hover:underline">보조금 계산기</a>에서 지역 선택 후 확인해 입력하세요.
         </p>
         <CalcField label="연 감가상각률" suffix="%" value={depreciationRate} onChange={(v) => setDepreciationRate(v)} step={1} />
         <CalcField label="연 보험료" suffix="원" value={insurance} onChange={(v) => setInsurance(v)} step={50000} />

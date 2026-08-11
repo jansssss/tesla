@@ -192,7 +192,7 @@ export default function TcoPage() {
       <PurchaseCrossLinks
         items={[
           {
-            href: "/",
+            href: "/subsidy",
             label: "테슬라 실구매가 계산기",
             desc: "TCO 계산의 출발점인 보조금 적용 실구매가를 지역별로 정확히 계산합니다.",
           },

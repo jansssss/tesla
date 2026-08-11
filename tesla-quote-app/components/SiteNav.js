@@ -7,7 +7,7 @@ const NAV_ITEMS = [
   { label: "구매 질문 30", href: "/answers" },
   // 계산기 (핵심 도구)
   { label: "계산기 전체", href: "/calc" },
-  { label: "테슬라 보조금 계산기", href: "/" },
+  { label: "테슬라 보조금 계산기", href: "/subsidy" },
   { label: "월실제부담 계산기", href: "/calc/monthly-real-cost" },
   { label: "전환비교 계산기", href: "/calc/switch-to-tesla" },
   { label: "구매준비도 체크", href: "/calc/ev-purchase-readiness" },

@@ -16,12 +16,12 @@ export function calcForCategory(category = "") {
   if (/(충전)/.test(c)) return "/calc/charging";
   if (/(총소유|TCO|리스|감가)/.test(c)) return "/calc/tco";
   if (/(비교|차종|트림|차량)/.test(c)) return "/calc/compare";
-  // 보조금·지역·구매·가격·금융·FSD 등 → 실구매가·월납입금(홈)
-  return "/";
+  // 보조금·지역·구매·가격·금융·FSD 등 → 실구매가·월납입금(보조금 확인)
+  return "/subsidy";
 }
 
 const CTA_COPY = {
-  "/": {
+  "/subsidy": {
     title: "내 지역 보조금으로 실구매가를 계산해보세요",
     desc: "거주 지역과 트림을 선택하면 보조금이 자동 적용된 실구매가와 월 납입금을 바로 확인할 수 있습니다.",
     button: "실구매가·월납입금 계산기",

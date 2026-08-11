@@ -189,7 +189,7 @@ export default function ComparePage() {
       <PurchaseCrossLinks
         items={[
           {
-            href: "/",
+            href: "/subsidy",
             label: "테슬라 보조금 계산기",
             desc: "두 모델 각각에 적용되는 지역별 국고·지자체 보조금을 정확히 확인한 뒤 비교에 반영하세요.",
           },

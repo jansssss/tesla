@@ -28,7 +28,7 @@ const jsonLd = {
         "@type": "ListItem",
         position: i + 1,
         name: c.label,
-        url: `https://www.paytesla.kr${c.href === "/" ? "" : c.href}`,
+        url: `https://www.paytesla.kr${c.href}`,
       })),
     },
     {
@@ -51,7 +51,7 @@ const FLOW = [
   },
   {
     step: "1단계",
-    href: "/",
+    href: "/subsidy",
     label: "보조금·실구매가 계산",
     why: "거주 지역 보조금을 적용해 실제로 내는 차값과 월납입금을 확정합니다.",
   },

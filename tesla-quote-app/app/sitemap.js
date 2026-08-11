@@ -10,6 +10,8 @@ export default async function sitemap() {
 
   const staticPages = [
     { url: baseUrl,                              lastModified: now, changeFrequency: 'weekly',  priority: 1.0 },
+    // 대표 계산기 — 홈을 랜딩으로 바꾸면서 계산 도구는 /subsidy가 canonical이 됐다.
+    { url: `${baseUrl}/subsidy`,                 lastModified: now, changeFrequency: 'weekly',  priority: 0.98 },
     { url: `${baseUrl}/calc`,                    lastModified: now, changeFrequency: 'weekly',  priority: 0.95 },
     { url: `${baseUrl}/models/model-3`,          lastModified: now, changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${baseUrl}/models/model-y`,          lastModified: now, changeFrequency: 'weekly',  priority: 0.9 },

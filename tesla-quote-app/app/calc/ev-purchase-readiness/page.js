@@ -189,7 +189,7 @@ export default function EvPurchaseReadinessPage() {
       <PurchaseCrossLinks
         items={[
           {
-            href: "/",
+            href: "/subsidy",
             label: "테슬라 실구매가·월납입금 계산기",
             desc: "적합도를 확인했다면 다음 단계입니다. 지역별 보조금을 적용한 실구매가와 월납입금을 계산하세요.",
           },

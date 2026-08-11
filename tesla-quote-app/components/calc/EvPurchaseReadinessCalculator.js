@@ -128,7 +128,7 @@ export default function EvPurchaseReadinessCalculator() {
 
           <div className="flex flex-wrap gap-2">
             <Link
-              href="/"
+              href="/subsidy"
               className="inline-flex items-center gap-1.5 rounded-xl bg-blue-600 text-white px-4 py-2.5 text-sm font-bold hover:bg-blue-500 transition-colors"
             >
               지역별 보조금·월납입금 계산하기 →

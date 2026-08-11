@@ -10,13 +10,14 @@ import { usePathname } from "next/navigation";
  */
 export default function FloatingCalcButton() {
   const pathname = usePathname();
-  if (pathname === "/") return null;
+  // 계산기 본체가 있는 페이지에서는 띄우지 않는다.
+  if (pathname === "/subsidy") return null;
 
   return (
     <Link
-      href="/"
-      aria-label="계산기로 이동"
-      className="fixed bottom-8 right-8 z-50 hidden items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white shadow-[0_8px_32px_rgba(15,23,42,0.3)] transition hover:bg-slate-800 active:scale-95 md:flex"
+      href="/subsidy"
+      aria-label="보조금 확인 계산기로 이동"
+      className="fixed bottom-8 right-8 z-50 hidden items-center gap-2 rounded-full bg-[#171a20] px-5 py-3 text-sm font-bold text-white shadow-[0_8px_32px_rgba(15,23,42,0.3)] transition hover:bg-[#3457dc] active:scale-95 md:flex"
     >
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="4" y="2" width="16" height="20" rx="2" />
@@ -28,7 +29,7 @@ export default function FloatingCalcButton() {
         <line x1="8" y1="18" x2="10" y2="18" />
         <line x1="14" y1="18" x2="16" y2="18" />
       </svg>
-      계산기
+      보조금 확인
     </Link>
   );
 }

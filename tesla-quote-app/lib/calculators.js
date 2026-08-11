@@ -9,7 +9,7 @@
  */
 export const CALCULATORS = [
   {
-    href: "/",
+    href: "/subsidy",
     group: "purchase",
     label: "테슬라 보조금·실구매가 계산기",
     shortLabel: "실구매가·월납입금",

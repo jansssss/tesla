@@ -191,7 +191,7 @@ export default function ChargerInstallPage() {
             desc: "충전 환경이 전기차 구매에 적합한지 5문항으로 점검합니다.",
           },
           {
-            href: "/",
+            href: "/subsidy",
             label: "테슬라 실구매가·월납입금 계산기",
             desc: "지역별 보조금을 적용한 실구매가와 할부 월납입금을 계산합니다.",
           },

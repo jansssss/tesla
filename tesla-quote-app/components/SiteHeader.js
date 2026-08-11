@@ -3,12 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+// '보조금 확인'이 계산기 진입 메뉴다 — 홈(/)은 랜딩, 계산 도구는 /subsidy.
+// 가이드 섹션은 비노출(GUIDES_SECTION_PUBLIC=false) 상태라 상단에서 빼고,
+// 그 자리에 구매 질문 여정 허브(/answers)를 올린다.
 const NAV_ITEMS = [
-  { href: "/",                           label: "계산기",     match: (p) => p === "/" },
+  { href: "/subsidy",                    label: "보조금 확인", match: (p) => p === "/subsidy" },
+  { href: "/calc",                       label: "계산기",     match: (p) => p.startsWith("/calc") },
+  { href: "/answers",                    label: "구매 질문",   match: (p) => p.startsWith("/answers") },
   { href: "/models/model-3",             label: "모델",       match: (p) => p.startsWith("/models") },
   { href: "/compare/model-3-vs-model-y", label: "비교",       match: (p) => p.startsWith("/compare") },
-  { href: "/subsidy/seoul",              label: "지역 보조금", match: (p) => p.startsWith("/subsidy") },
-  { href: "/guides",                     label: "가이드",     match: (p) => p.startsWith("/guides") },
 ];
 
 export default function SiteHeader() {
@@ -47,12 +50,12 @@ export default function SiteHeader() {
           })}
         </nav>
 
-        {/* 모바일 전용 우측 바로가기 — 현재 위치와 무관하게 계산기로 한 번에 */}
+        {/* 모바일 전용 우측 바로가기 — 현재 위치와 무관하게 보조금 확인으로 한 번에 */}
         <Link
-          href="/calc"
-          className="flex h-10 shrink-0 items-center rounded-full bg-slate-950 px-4 text-xs font-bold text-white md:hidden"
+          href="/subsidy"
+          className="flex h-10 shrink-0 items-center rounded-full bg-[#3457dc] px-4 text-xs font-bold text-white md:hidden"
         >
-          계산기 전체
+          보조금 확인
         </Link>
       </div>
     </header>
