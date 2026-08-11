@@ -1,18 +1,20 @@
-import { Suspense } from "react";
+import HomeHero from "@/components/home/HomeHero";
 import HomeContent from "@/components/HomeContent";
-import QuoteWizard from "@/components/QuoteWizard";
-import QuoteWizardSkeleton from "@/components/QuoteWizardSkeleton";
-import HomeCalcLinks from "@/components/HomeCalcLinks";
 import { loadSubsidySnapshot } from "@/lib/subsidy";
+import { METRO_REGIONS, calcMetroSubsidyStats } from "@/lib/regions";
 
 export const metadata = {
-  title: "테슬라 보조금 계산기 2026 — Model 3·Model Y 실구매가·월납입금 | 하우머치 테슬라",
+  // 대표 계산기 키워드는 /subsidy가 가져간다. 홈은 플랫폼 전체를 대표하는 제목으로 분리해
+  // 두 페이지가 같은 질의로 경쟁하지 않게 한다.
+  title: {
+    absolute: "하우머치 테슬라 — 테슬라 실구매가·보조금·유지비 계산 플랫폼",
+  },
   description:
-    "2026년 테슬라 Model 3·Model Y의 국고보조금·지자체 보조금을 자동 적용해 실구매가와 할부 월납입금을 계산합니다. 전국 17개 시·도 보조금 최신 반영.",
+    "테슬라 Model 3·Model Y를 살 때 드는 돈을 지역별 보조금부터 월납입금·유지비까지 한 곳에서 계산합니다. 계산기 8종과 구매 질문 30편으로 구매 판단에 필요한 순서를 그대로 따라갑니다.",
   openGraph: {
-    title: "테슬라 보조금 계산기 2026 — Model 3·Model Y 실구매가·월납입금",
+    title: "하우머치 테슬라 — 테슬라 실구매가·보조금·유지비 계산 플랫폼",
     description:
-      "2026년 테슬라 Model 3·Model Y의 국고·지자체 보조금을 자동 적용해 실구매가와 할부 월납입금을 계산합니다.",
+      "지역별 보조금 자동 반영 실구매가 계산기와 구매 질문 30편. 테슬라 구매 판단에 필요한 숫자를 한 곳에서.",
     url: "https://www.paytesla.kr",
     siteName: "하우머치 테슬라",
     locale: "ko_KR",
@@ -25,14 +27,11 @@ const homeJsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
-      name: "테슬라 보조금 계산기",
+      "@type": "WebSite",
+      name: "하우머치 테슬라",
       url: "https://www.paytesla.kr",
-      applicationCategory: "FinanceApplication",
-      operatingSystem: "Web",
       description:
-        "2026년 테슬라 Model 3·Model Y의 국고보조금·지자체 보조금을 자동 적용해 실구매가와 월납입금을 계산하는 무료 계산기.",
-      offers: { "@type": "Offer", price: "0", priceCurrency: "KRW" },
+        "테슬라 구매 비용을 지역별 보조금·월납입금·유지비까지 계산하는 독립 계산 플랫폼.",
     },
     {
       "@type": "BreadcrumbList",
@@ -43,29 +42,62 @@ const homeJsonLd = {
   ],
 };
 
+/** 히어로 프리뷰용 대표 트림 — 문의·검색량이 가장 많은 구성 */
+const PREVIEW_TRIM_ID = "my-rwd";
+
+/**
+ * 광역시·특별시별 대표 트림 보조금을 모아 히어로 카드용 데이터를 만든다.
+ * 지역 간 편차를 보여주는 것이 목적이므로 값이 0인(미공고) 지역은 제외한다.
+ */
+function buildHeroPreview(snapshot) {
+  const rows = METRO_REGIONS.filter((r) => r.type === "si")
+    .map((region) => {
+      const { statsByModel } = calcMetroSubsidyStats(snapshot.rows, region);
+      const stat = statsByModel.find((s) => s.trimId === PREVIEW_TRIM_ID);
+      if (!stat || !stat.max) return null;
+      return {
+        name: region.shortName,
+        label: stat.label,
+        price: stat.price,
+        subsidyManwon: stat.max,
+        netPrice: stat.price - stat.max * 10000,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.subsidyManwon - a.subsidyManwon);
+
+  if (rows.length === 0) return null;
+
+  const best = rows[0];
+  const worst = rows[rows.length - 1];
+
+  // 카드에 적는 '지역 간 차이' 문구를 눈으로 검증할 수 있도록
+  // 2위·중앙값·최저 지역을 함께 보여준다(중복은 제거).
+  const others = [rows[1], rows[Math.floor(rows.length / 2)], worst]
+    .filter(Boolean)
+    .filter((r, i, arr) => arr.findIndex((x) => x.name === r.name) === i);
+
+  return {
+    trimLabel: best.label,
+    price: best.price,
+    best,
+    others,
+    spreadManwon: best.subsidyManwon - worst.subsidyManwon,
+    dataDate: snapshot.dataDate,
+  };
+}
+
 export default function HomePage() {
   const snapshot = loadSubsidySnapshot();
+  const preview = buildHeroPreview(snapshot);
+
   return (
-    <main className="page">
+    <main className="page bg-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }}
       />
-      <div className="mx-auto max-w-[1400px] px-4 pt-5 md:px-8 md:pt-10">
-        <div className="space-y-1 text-center">
-          <p className="font-logo text-lg font-extrabold tracking-tight text-black md:text-2xl">
-            하우머치 <span className="text-brandRed">테슬라</span>
-          </p>
-          <h1 className="text-2xl font-black tracking-tight text-black md:text-4xl lg:text-5xl">
-            테슬라 실구매가·보조금·월납입금 계산기
-          </h1>
-        </div>
-      </div>
-      <Suspense fallback={<QuoteWizardSkeleton />}>
-        <QuoteWizard rows={snapshot.rows} regions={snapshot.regions} dataDate={snapshot.dataDate} />
-      </Suspense>
-      <div className="border-b border-slate-100" />
-      <HomeCalcLinks />
+      {preview ? <HomeHero preview={preview} /> : null}
       <HomeContent />
     </main>
   );

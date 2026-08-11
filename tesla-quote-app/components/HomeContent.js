@@ -1,67 +1,78 @@
 import Link from "next/link";
+import { CALCULATOR_GROUPS, calculatorsByGroup } from "@/lib/calculators";
+import { ANSWERS, JOURNEY_STOPS, ANSWERS_UPDATED_AT } from "@/lib/answers";
 
-/* ── 사용자 의도 기반 질문형 진입점 ── */
-const QUICK_QUESTIONS = [
+/**
+ * 홈 랜딩 본문.
+ *
+ * 홈은 더 이상 계산기 페이지가 아니다(계산 도구는 /subsidy). 여기서는
+ *  ① 왜 직접 계산해야 하는가(문제 제기)
+ *  ② 무엇으로 계산하는가(계산기 8종)
+ *  ③ 계산 전후에 무엇을 읽는가(구매 질문 30 여정)
+ * 순서로 동선을 만든다. 색은 테슬라 공식 사이트 톤(화이트 + 잉크 블랙 + 블루)을 따른다.
+ */
+
+/* ── ① 문제 제기 3열 ── */
+const DILEMMAS = [
   {
-    q: "테슬라 사도 될까? 내 상황에 맞을까?",
-    hint: "충전환경·주행거리·예산 5문항 점수화",
-    href: "/calc/ev-purchase-readiness",
-    emoji: "✅",
+    title: "지역마다 금액이 다르다",
+    desc: "국고보조금은 같아도 지자체 보조금이 달라, 같은 트림도 사는 곳에 따라 실구매가가 벌어집니다.",
+    glyph: (
+      <>
+        <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" />
+        <circle cx="12" cy="10" r="2.6" />
+      </>
+    ),
   },
   {
-    q: "할부·충전비·보험료 합치면 월 얼마?",
-    hint: "할부금 + 충전비 + 보험료 + 자동차세 합산",
-    href: "/calc/monthly-real-cost",
-    emoji: "💳",
+    title: "차값만으로 끝나지 않는다",
+    desc: "할부금·충전비·보험료·자동차세가 매달 함께 빠져나갑니다. 차값만 보고 예산을 짜면 어긋납니다.",
+    glyph: (
+      <>
+        <rect x="3" y="5.5" width="18" height="13" rx="2.2" />
+        <path d="M3 10h18" />
+        <path d="M7 14.5h4" />
+      </>
+    ),
   },
   {
-    q: "지금 차 유지비 vs 테슬라로 바꾸면?",
-    hint: "내연기관 월비용 vs 테슬라 전환 후 절감액",
-    href: "/calc/switch-to-tesla",
-    emoji: "🔄",
-  },
-  {
-    q: "Model 3 vs Model Y, 내 조건엔 뭐가 나아?",
-    hint: "가격·주행거리·보조금·상황별 추천 비교",
-    href: "/compare/model-3-vs-model-y",
-    emoji: "⚖️",
+    title: "정보가 조각나 있다",
+    desc: "공고문·커뮤니티·영상에 흩어진 조건을 하나씩 검색해 맞추는 동안 접수 시점이 지나갑니다.",
+    glyph: (
+      <>
+        <circle cx="11" cy="11" r="6.5" />
+        <path d="M20 20l-4.2-4.2" />
+      </>
+    ),
   },
 ];
 
-/* ── 계산기 사이드 카드 3개 ── */
-const SIDE_CALCS = [
+/* ── ③ 신뢰 근거 4카드 ── */
+const PROOFS = [
   {
-    title: "구매 준비도 체크",
-    desc: "5문항으로 내 상황 점수화",
-    href: "/calc/ev-purchase-readiness",
-    color: "text-emerald-600",
-    bg: "bg-emerald-50",
-    emoji: "✅",
+    title: "공개 데이터 기반",
+    desc: "무공해차 통합누리집에 공개된 지자체별 보급 물량·보조금 데이터를 그대로 반영합니다.",
+    href: "/data-sources",
+    cta: "데이터 출처",
   },
   {
-    title: "내연기관 → 테슬라 전환 비교",
-    desc: "월 절감액·투자금 회수 기간 계산",
-    href: "/calc/switch-to-tesla",
-    color: "text-violet-600",
-    bg: "bg-violet-50",
-    emoji: "🔄",
+    title: "전국 17개 시·도",
+    desc: "특별시·광역시부터 기초자치단체까지, 선택한 지역의 실제 공고값으로 계산합니다.",
+    href: "/subsidy",
+    cta: "지역 선택하기",
   },
   {
-    title: "테슬라 보조금 계산기",
-    desc: "국고+지자체 보조금 지역별 자동 반영",
-    href: "/",
-    color: "text-blue-600",
-    bg: "bg-blue-50",
-    emoji: "🏷️",
+    title: "계산 근거 공개",
+    desc: "어떤 값에 어떤 가정이 들어갔는지 각 계산기 하단에 공식과 기준일을 함께 적습니다.",
+    href: "/editorial-policy",
+    cta: "콘텐츠 정책",
   },
-];
-
-/* ── 추가 계산기 pill 목록 ── */
-const EXTRA_CALCS = [
-  { label: "유지비 계산기", href: "/calc/maintenance" },
-  { label: "충전비 계산기", href: "/calc/charging" },
-  { label: "총소유비용(TCO) 계산기", href: "/calc/tco" },
-  { label: "모델 비교 계산기", href: "/calc/compare" },
+  {
+    title: "테슬라와 무관한 독립 서비스",
+    desc: "판매·중개를 하지 않습니다. 계약을 유도하는 대신 숫자와 판단 기준만 제공합니다.",
+    href: "/about",
+    cta: "사이트 소개",
+  },
 ];
 
 /* ── 지역별 보조금 빠른 링크 — 색인 유지 대상(광역시/특별시)만 노출 ── */
@@ -109,7 +120,7 @@ function Arrow({ size = 14, className = "" }) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2.5"
+      strokeWidth="2.4"
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
@@ -120,185 +131,274 @@ function Arrow({ size = 14, className = "" }) {
   );
 }
 
-export default function HomeContent() {
+function Eyebrow({ children, tone = "blue" }) {
+  const toneClass =
+    tone === "blue"
+      ? "bg-tesla-blueSoft text-tesla-blue"
+      : "bg-tesla-mist text-tesla-ink70";
   return (
-    <section className="bg-[linear-gradient(180deg,#f0f4ff_0%,#f8fafc_40%,#ffffff_100%)] py-12 md:py-20">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 md:px-8">
+    <span
+      className={`inline-flex rounded-md px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.18em] ${toneClass}`}
+    >
+      {children}
+    </span>
+  );
+}
 
-        {/* ── 1. 질문형 빠른 진입점 ── */}
-        <section>
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-1 h-5 bg-blue-600 rounded-full shrink-0" />
-            <h2 className="text-sm font-bold text-gray-900">자주 찾는 질문</h2>
-            <span className="text-[11px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
-              계산기 포함
-            </span>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {QUICK_QUESTIONS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="group flex items-start gap-3 p-4 bg-white hover:bg-blue-50 border border-gray-100 hover:border-blue-200 rounded-2xl shadow-sm transition-all"
-              >
-                <span className="text-2xl leading-none mt-0.5 shrink-0">{item.emoji}</span>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-gray-800 group-hover:text-blue-700 transition-colors leading-snug mb-0.5">
-                    {item.q}
-                  </p>
-                  <p className="text-[11px] text-gray-400">{item.hint}</p>
-                </div>
-                <Arrow className="text-gray-300 group-hover:text-blue-500 transition-colors shrink-0 mt-1" />
-              </Link>
-            ))}
-          </div>
-        </section>
+export default function HomeContent() {
+  // 여정에서 대표 질문 6개 — 답변 페이지가 있는 항목만 홈에 올린다.
+  const featuredAnswers = ANSWERS.slice(0, 6);
 
-        {/* ── 2. 계산기 도구 허브 ── */}
-        <section>
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-1 h-5 bg-blue-600 rounded-full shrink-0" />
-            <h2 className="text-sm font-bold text-gray-900">계산기 도구</h2>
-            <span className="text-[11px] font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
-              8가지
-            </span>
+  return (
+    <>
+      {/* ── ① 왜 직접 계산해야 하나 ── */}
+      <section className="border-b border-tesla-line bg-tesla-mist/50 py-14 md:py-20">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="text-center">
+            <Eyebrow tone="mist">구매자가 겪는 문제</Eyebrow>
+            <h2 className="mx-auto mt-4 max-w-2xl text-2xl font-black leading-snug tracking-tight text-tesla-ink md:text-4xl">
+              전기차 가격은 왜 검색해도
+              <br className="hidden sm:block" /> 내 금액이 나오지 않을까.
+            </h2>
           </div>
 
-          {/* 피처드 + 사이드 레이아웃 */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
-            {/* 피처드 카드 (2/5) */}
-            <Link
-              href="/calc/monthly-real-cost"
-              className="md:col-span-2 group relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 p-5 flex flex-col justify-between min-h-[168px] shadow-md hover:shadow-lg hover:scale-[1.015] transition-all duration-200"
-            >
-              <span className="absolute top-3.5 right-3.5 text-[10px] font-bold bg-white/25 text-white px-2 py-0.5 rounded-full tracking-wide">
-                핵심 도구
-              </span>
-              <div className="w-11 h-11 bg-white/20 rounded-xl flex items-center justify-center text-xl mb-3">
-                💳
-              </div>
-              <div>
-                <p className="text-white font-bold text-base leading-snug mb-1">
-                  월 실제 부담금 계산기
-                </p>
-                <p className="text-white/75 text-xs leading-relaxed hidden sm:block">
-                  할부금에 충전비·보험료·자동차세를 더한 실제 월 지출을 확인합니다.
-                </p>
-              </div>
-              <div className="flex items-center gap-1 mt-3 text-white font-semibold text-xs">
-                지금 계산하기
-                <Arrow size={13} className="group-hover:translate-x-0.5 transition-transform" />
-              </div>
-            </Link>
-
-            {/* 사이드 카드 3개 (3/5) */}
-            <div className="md:col-span-3 flex flex-col gap-3">
-              {SIDE_CALCS.map((tool) => (
-                <Link
-                  key={tool.href}
-                  href={tool.href}
-                  className="group flex items-center gap-3.5 bg-white border border-gray-100 rounded-2xl px-4 py-3.5 hover:border-blue-200 hover:shadow-md hover:shadow-blue-50 transition-all duration-200"
-                >
-                  <div
-                    className={`w-10 h-10 ${tool.bg} rounded-xl flex items-center justify-center ${tool.color} shrink-0 text-lg`}
+          <div className="mt-12 grid gap-8 md:grid-cols-3 md:gap-10">
+            {DILEMMAS.map((d) => (
+              <div key={d.title} className="text-center">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-tesla-line bg-white text-tesla-blue">
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
                   >
-                    {tool.emoji}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-gray-800 leading-snug group-hover:text-blue-700 transition-colors truncate">
-                      {tool.title}
-                    </p>
-                    <p className="text-xs text-gray-400 truncate">{tool.desc}</p>
-                  </div>
-                  <Arrow className="text-gray-300 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all shrink-0" />
-                </Link>
-              ))}
-            </div>
+                    {d.glyph}
+                  </svg>
+                </div>
+                <h3 className="mt-5 text-base font-bold text-tesla-ink">{d.title}</h3>
+                <p className="mx-auto mt-2.5 max-w-xs text-sm leading-7 text-tesla-ink70">
+                  {d.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ② 계산기 허브 ── */}
+      <section className="border-b border-tesla-line bg-white py-14 md:py-20">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="text-center">
+            <Eyebrow>하나의 플랫폼</Eyebrow>
+            <h2 className="mt-4 text-2xl font-black tracking-tight text-tesla-ink md:text-4xl">
+              구매 판단에 필요한 숫자를 한 곳에서.
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-tesla-ink70">
+              보조금부터 시작해 월 부담금, 유지비, 충전 환경까지 순서대로 이어집니다. 앞 계산기의
+              결과가 다음 계산기의 입력이 되도록 설계했습니다.
+            </p>
           </div>
 
-          {/* 추가 계산기 pill */}
-          <div className="mt-3 flex flex-wrap gap-2">
-            {EXTRA_CALCS.map((c) => (
+          {/* 대표 계산기 패널 */}
+          <div className="mt-10 overflow-hidden rounded-2xl border border-tesla-line bg-tesla-mist/60">
+            <div className="grid gap-px bg-tesla-line md:grid-cols-[1.15fr_1fr]">
+              <div className="bg-tesla-ink p-7 text-white md:p-10">
+                <span className="inline-flex rounded-md bg-white/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-blue-200">
+                  1단계 · 대표 도구
+                </span>
+                <h3 className="mt-5 text-xl font-black leading-snug md:text-2xl">
+                  보조금 확인 — 실구매가·월납입금
+                </h3>
+                <p className="mt-3 max-w-md text-sm leading-7 text-white/70">
+                  거주 지역과 트림을 고르면 국고·지자체 보조금이 자동으로 적용됩니다. 선수금과 할부
+                  개월 수까지 넣어 매달 나가는 금액을 확정하세요.
+                </p>
+                <Link
+                  href="/subsidy"
+                  className="mt-7 inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-bold text-tesla-ink transition hover:bg-tesla-blueSoft"
+                >
+                  보조금 확인하기
+                  <Arrow />
+                </Link>
+              </div>
+
+              <div className="bg-white p-7 md:p-10">
+                <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-slate-400">
+                  이어지는 계산기
+                </p>
+                <div className="mt-5 space-y-6">
+                  {CALCULATOR_GROUPS.map((group) => {
+                    const items = calculatorsByGroup(group.id).filter(
+                      (c) => c.href !== "/subsidy"
+                    );
+                    if (items.length === 0) return null;
+                    return (
+                      <div key={group.id}>
+                        <p className="text-xs font-bold text-tesla-ink">{group.title}</p>
+                        <div className="mt-2.5 flex flex-wrap gap-2">
+                          {items.map((c) => (
+                            <Link
+                              key={c.href}
+                              href={c.href}
+                              className="inline-flex items-center gap-1 rounded-md border border-tesla-line bg-white px-3 py-1.5 text-xs font-semibold text-tesla-ink70 transition hover:border-tesla-blue hover:text-tesla-blue"
+                            >
+                              {c.shortLabel}
+                              <Arrow size={11} />
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <Link
+                  href="/calc"
+                  className="mt-7 inline-flex items-center gap-1.5 text-xs font-bold text-tesla-blue transition hover:text-tesla-blueDark"
+                >
+                  계산기 전체 보기
+                  <Arrow size={12} />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── ③ 구매 질문 30 여정 진입점 ── */}
+      <section className="border-b border-tesla-line bg-tesla-mist/50 py-14 md:py-20">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <Eyebrow>계산 전후에 읽는 것</Eyebrow>
+              <h2 className="mt-4 text-2xl font-black tracking-tight text-tesla-ink md:text-4xl">
+                테슬라 구매 질문 30
+              </h2>
+              <p className="mt-3 max-w-xl text-sm leading-7 text-tesla-ink70">
+                살까 고민부터 트림·보조금·충전·배터리·수리비·중고차까지, 실제로 검색하게 되는
+                순서대로 묶었습니다. 답변 {ANSWERS.length}편 + 계산기{" "}
+                {JOURNEY_STOPS.length - ANSWERS.length}개 · 최종 갱신 {ANSWERS_UPDATED_AT}.
+              </p>
+            </div>
+            <Link
+              href="/answers"
+              className="inline-flex shrink-0 items-center gap-2 rounded-md bg-tesla-ink px-5 py-3 text-sm font-bold text-white transition hover:bg-tesla-blue"
+            >
+              여정 전체 보기
+              <Arrow />
+            </Link>
+          </div>
+
+          <div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredAnswers.map((a, i) => (
               <Link
-                key={c.href}
-                href={c.href}
-                className="inline-flex items-center gap-1 text-xs font-medium text-gray-600 bg-white border border-gray-200 hover:border-blue-300 hover:text-blue-700 px-3 py-1.5 rounded-full transition-all shadow-sm"
+                key={a.slug}
+                href={`/answers/${a.slug}`}
+                className="group flex gap-3 rounded-xl border border-tesla-line bg-white p-5 transition hover:border-tesla-blue"
               >
-                {c.label}
-                <Arrow size={11} />
+                <span className="mt-0.5 shrink-0 text-xs font-black tabular-nums text-slate-300">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-bold leading-snug text-tesla-ink transition group-hover:text-tesla-blue">
+                    {a.question}
+                  </span>
+                  <span className="mt-1.5 block text-xs leading-6 text-slate-500">{a.heroSub}</span>
+                </span>
               </Link>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ── 3. 지역별 보조금 ── */}
-        <section>
-          <div className="bg-gradient-to-br from-slate-50 via-white to-blue-50 border border-slate-200 rounded-2xl p-5">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 bg-slate-800 rounded-xl flex items-center justify-center text-white text-base shrink-0">
-                  🏛️
-                </div>
-                <div>
-                  <h2 className="text-sm font-bold text-gray-900 leading-tight">
-                    지역별 전기차 보조금
-                  </h2>
-                  <p className="text-[11px] text-gray-500 leading-tight">
-                    내 지역 보조금 포함 실구매가 확인
-                  </p>
-                </div>
-              </div>
-              <Link
-                href="/"
-                className="flex items-center gap-1 text-[11px] text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1.5 rounded-lg transition-colors font-medium"
+      {/* ── ④ 신뢰 근거 ── */}
+      <section className="border-b border-tesla-line bg-white py-14 md:py-20">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {PROOFS.map((p) => (
+              <div
+                key={p.title}
+                className="flex flex-col rounded-xl border border-tesla-line bg-white p-6"
               >
-                계산기 열기 <Arrow size={11} />
-              </Link>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {REGIONS.map((r) => (
+                <div className="h-1 w-8 rounded-full bg-tesla-blue" />
+                <h3 className="mt-4 text-sm font-bold text-tesla-ink">{p.title}</h3>
+                <p className="mt-2.5 flex-1 text-xs leading-6 text-tesla-ink70">{p.desc}</p>
                 <Link
-                  key={r.href}
-                  href={r.href}
-                  className="inline-flex items-center text-xs font-semibold text-gray-700 bg-white border border-gray-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 px-3 py-1.5 rounded-xl transition-all shadow-sm"
+                  href={p.href}
+                  className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-tesla-blue transition hover:text-tesla-blueDark"
                 >
-                  {r.label} 보조금
+                  {p.cta}
+                  <Arrow size={11} />
                 </Link>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ── 4. FAQ ── */}
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
-          <div className="flex items-center gap-2 mb-5">
-            <div className="w-1 h-5 bg-emerald-500 rounded-full shrink-0" />
-            <h2 className="text-base font-bold text-gray-900">자주 묻는 질문</h2>
+      {/* ── ⑤ 지역별 보조금 ── */}
+      <section className="border-b border-tesla-line bg-tesla-mist/50 py-14 md:py-20">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <Eyebrow tone="mist">지역별</Eyebrow>
+              <h2 className="mt-4 text-2xl font-black tracking-tight text-tesla-ink md:text-3xl">
+                내 지역 보조금부터 확인하기
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-tesla-ink70">
+                시·도별 보조금 현황과 기초자치단체 차이를 정리한 페이지입니다.
+              </p>
+            </div>
+            <Link
+              href="/subsidy"
+              className="inline-flex shrink-0 items-center gap-1.5 text-sm font-bold text-tesla-blue transition hover:text-tesla-blueDark"
+            >
+              계산기에서 직접 선택
+              <Arrow size={13} />
+            </Link>
           </div>
-          <div className="grid gap-3 md:grid-cols-2">
-            {FAQS.map((item) => (
-              <article
-                key={item.question}
-                className="rounded-xl border border-slate-100 bg-slate-50 p-4"
+          <div className="mt-7 flex flex-wrap gap-2">
+            {REGIONS.map((r) => (
+              <Link
+                key={r.href}
+                href={r.href}
+                className="inline-flex items-center rounded-md border border-tesla-line bg-white px-4 py-2 text-xs font-semibold text-tesla-ink70 transition hover:border-tesla-blue hover:text-tesla-blue"
               >
-                <h3 className="text-sm font-bold text-slate-900 mb-2">{item.question}</h3>
-                <p className="text-xs leading-6 text-slate-600">{item.answer}</p>
+                {r.label} 보조금
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ⑥ FAQ ── */}
+      <section className="bg-white py-14 md:py-20">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <Eyebrow tone="mist">자주 묻는 질문</Eyebrow>
+          <h2 className="mt-4 text-2xl font-black tracking-tight text-tesla-ink md:text-3xl">
+            계산 전에 많이 묻는 것들
+          </h2>
+          <div className="mt-8 grid gap-3 md:grid-cols-2">
+            {FAQS.map((item) => (
+              <article key={item.question} className="rounded-xl border border-tesla-line bg-white p-6">
+                <h3 className="text-sm font-bold text-tesla-ink">{item.question}</h3>
+                <p className="mt-2.5 text-xs leading-6 text-tesla-ink70">{item.answer}</p>
               </article>
             ))}
           </div>
-        </section>
 
-        {/* ── 5. 서비스 안내 (컴팩트) ── */}
-        <footer className="text-center pb-2">
-          <p className="text-xs text-slate-400 leading-6">
-            하우머치 테슬라는 무공해차 통합누리집 공개 데이터와 지자체 보급 공고를 기준으로 지역별 실구매가를
-            빠르게 비교하는 계산기입니다.
+          <p className="mt-10 text-center text-xs leading-6 text-slate-400">
+            하우머치 테슬라는 무공해차 통합누리집 공개 데이터와 지자체 보급 공고를 기준으로 지역별
+            실구매가를 빠르게 비교하는 계산 플랫폼입니다.
             <br className="hidden sm:block" />
             계산값은 빠른 비교용이며 최종 신청 전 반드시 공고문과 담당 부서 안내를 교차 확인하세요.
           </p>
-        </footer>
-
-      </div>
-    </section>
+        </div>
+      </section>
+    </>
   );
 }
