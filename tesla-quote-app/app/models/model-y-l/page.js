@@ -32,22 +32,22 @@ const liter = (l) => `${Number(l).toLocaleString()}L`;
 // 적재 공간은 가격·주행거리와 확인 시점이 달라 별도 표기한다.
 const CARGO_VERIFIED_AT = "2026-07-31";
 
+/**
+ * 구조화 데이터에서 Product·Offer를 쓰지 않는다.
+ *
+ * 2026-08-11 GSC가 이 페이지를 근거로 '제품 스니펫'(review·aggregateRating 누락)과
+ * '판매자 목록'(image·shippingDetails·hasMerchantReturnPolicy 누락) 문제를 보고했다.
+ * 누락 필드를 채우려면 없는 리뷰·별점·배송·반품 정책을 만들어야 하고, 그건 구조화
+ * 데이터 스팸에 해당한다. 애초에 availability:InStock + 자기 페이지를 가리키는
+ * offers.url 은 "이 사이트가 이 차를 재고로 판매한다"는 선언이라 사실과 다르다.
+ * 이 사이트는 판매·중개를 하지 않는 독립 계산 플랫폼이고, 상단 고지 배너와도 어긋난다.
+ *
+ * 가격·주행거리 같은 제원은 본문 표와 vehicleData.js에 그대로 있으므로 정보 손실은 없다.
+ * model-3·model-y 페이지도 JSON-LD 없이 BreadcrumbList만 쓰는 것과 이제 일관된다.
+ */
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
-    {
-      "@type": "Product",
-      name: myL.trimFull,
-      brand: { "@type": "Brand", name: "Tesla" },
-      category: "전기 SUV",
-      offers: {
-        "@type": "Offer",
-        price: String(myL.priceKrw),
-        priceCurrency: "KRW",
-        availability: "https://schema.org/InStock",
-        url: "https://www.paytesla.kr/models/model-y-l",
-      },
-    },
     {
       "@type": "BreadcrumbList",
       itemListElement: [
