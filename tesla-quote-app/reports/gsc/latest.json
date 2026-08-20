@@ -1,0 +1,1388 @@
+{
+  "generated_for": "2026-08-17",
+  "generated_at": "2026-08-20",
+  "site_url": "sc-domain:paytesla.kr",
+  "window": {
+    "start": "2026-08-04",
+    "end": "2026-08-17",
+    "days": 14
+  },
+  "previous_window": {
+    "start": "2026-07-21",
+    "end": "2026-08-03"
+  },
+  "summary": {
+    "current": {
+      "clicks": 4,
+      "impressions": 276,
+      "ctr": 0.014492753623188406,
+      "position": 9.880434782608695,
+      "query_count": 49
+    },
+    "previous": {
+      "clicks": 0,
+      "impressions": 80,
+      "ctr": 0.0,
+      "position": 21.85,
+      "query_count": 23
+    },
+    "delta_pct": {
+      "clicks": 100.0,
+      "impressions": 245.0,
+      "query_count": 113.0
+    },
+    "ctr_change_pt": 1.45,
+    "position_change": -11.97
+  },
+  "top_queries": [
+    {
+      "query": "테슬라 충전비용",
+      "intent": "충전",
+      "clicks": 1,
+      "impressions": 16,
+      "ctr": 0.0625,
+      "position": 9.1,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "테슬라 자동차세",
+      "intent": "유지비",
+      "clicks": 1,
+      "impressions": 15,
+      "ctr": 0.0667,
+      "position": 5.0,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "테슬라 서울 보조금",
+      "intent": "보조금",
+      "clicks": 1,
+      "impressions": 9,
+      "ctr": 0.1111,
+      "position": 7.6,
+      "clicks_prev": 0,
+      "impressions_prev": 5
+    },
+    {
+      "query": "테슬라 실구매가 계산",
+      "intent": "가격",
+      "clicks": 1,
+      "impressions": 4,
+      "ctr": 0.25,
+      "position": 9.0,
+      "clicks_prev": 0,
+      "impressions_prev": 7
+    },
+    {
+      "query": "\"model y premium rwd\" \"국고보조금\" 2026",
+      "intent": "모델정보",
+      "clicks": 0,
+      "impressions": 42,
+      "ctr": 0.0,
+      "position": 8.1,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "테슬라 계산기",
+      "intent": "계산",
+      "clicks": 0,
+      "impressions": 40,
+      "ctr": 0.0,
+      "position": 8.8,
+      "clicks_prev": 0,
+      "impressions_prev": 10
+    },
+    {
+      "query": "테슬라 보조금 계산기",
+      "intent": "보조금",
+      "clicks": 0,
+      "impressions": 37,
+      "ctr": 0.0,
+      "position": 8.0,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "테슬라 할부 계산기",
+      "intent": "유지비",
+      "clicks": 0,
+      "impressions": 20,
+      "ctr": 0.0,
+      "position": 9.3,
+      "clicks_prev": 0,
+      "impressions_prev": 5
+    },
+    {
+      "query": "\"model y l awd\" \"국고보조금\" 2026",
+      "intent": "모델정보",
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0.0,
+      "position": 5.8,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "테슬라 충전 비용",
+      "intent": "충전",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0.0,
+      "position": 9.7,
+      "clicks_prev": 0,
+      "impressions_prev": 2
+    },
+    {
+      "query": "\"model y premium rwd\" \"국고보조금\"",
+      "intent": "모델정보",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0.0,
+      "position": 6.7,
+      "clicks_prev": 0,
+      "impressions_prev": 1
+    },
+    {
+      "query": "테슬라계산기",
+      "intent": "계산",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0.0,
+      "position": 8.3,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "테슬라 실구매가 계산기",
+      "intent": "가격",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0.0,
+      "position": 9.0,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "\"model y l\" \"국고보조금\" 2026",
+      "intent": "모델정보",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0.0,
+      "position": 6.0,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "\"model y premium rwd\" \"전환지원금\" 2026",
+      "intent": "모델정보",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0.0,
+      "position": 8.7,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "테슬라 보험료 계산",
+      "intent": "유지비",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0.0,
+      "position": 7.0,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "테슬라y 가격",
+      "intent": "가격",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0.0,
+      "position": 29.3,
+      "clicks_prev": 0,
+      "impressions_prev": 18
+    },
+    {
+      "query": "전기차 실구매가 계산기",
+      "intent": "가격",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 21.0,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "테슬라 급속충전",
+      "intent": "충전",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 15.0,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "테슬라 모델 y 가격",
+      "intent": "가격",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 40.5,
+      "clicks_prev": 0,
+      "impressions_prev": 3
+    },
+    {
+      "query": "테슬라 모델 y 실구매가 계산기",
+      "intent": "가격",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 10.5,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "테슬라 모델 y 할부 계산기",
+      "intent": "유지비",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 10.5,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "테슬라 집밥",
+      "intent": "충전",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 19.0,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "\"model y premium rwd\" \"221만원\"",
+      "intent": "모델정보",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 4.0,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    },
+    {
+      "query": "\"model y premium rwd\" \"국고보조금\" \"2026\"",
+      "intent": "모델정보",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 6.0,
+      "clicks_prev": 0,
+      "impressions_prev": 0
+    }
+  ],
+  "rising_queries": [
+    {
+      "query": "\"model y premium rwd\" \"국고보조금\" 2026",
+      "intent": "모델정보",
+      "clicks": 0,
+      "impressions": 42,
+      "ctr": 0.0,
+      "position": 8.1,
+      "clicks_prev": 0,
+      "impressions_prev": 0,
+      "is_new": true,
+      "impression_gain": 42,
+      "click_gain": 0
+    },
+    {
+      "query": "테슬라 보조금 계산기",
+      "intent": "보조금",
+      "clicks": 0,
+      "impressions": 37,
+      "ctr": 0.0,
+      "position": 8.0,
+      "clicks_prev": 0,
+      "impressions_prev": 0,
+      "is_new": true,
+      "impression_gain": 37,
+      "click_gain": 0
+    },
+    {
+      "query": "테슬라 계산기",
+      "intent": "계산",
+      "clicks": 0,
+      "impressions": 40,
+      "ctr": 0.0,
+      "position": 8.8,
+      "clicks_prev": 0,
+      "impressions_prev": 10,
+      "is_new": false,
+      "impression_gain": 30,
+      "click_gain": 0
+    },
+    {
+      "query": "테슬라 충전비용",
+      "intent": "충전",
+      "clicks": 1,
+      "impressions": 16,
+      "ctr": 0.0625,
+      "position": 9.1,
+      "clicks_prev": 0,
+      "impressions_prev": 0,
+      "is_new": true,
+      "impression_gain": 16,
+      "click_gain": 1
+    },
+    {
+      "query": "테슬라 자동차세",
+      "intent": "유지비",
+      "clicks": 1,
+      "impressions": 15,
+      "ctr": 0.0667,
+      "position": 5.0,
+      "clicks_prev": 0,
+      "impressions_prev": 0,
+      "is_new": true,
+      "impression_gain": 15,
+      "click_gain": 1
+    },
+    {
+      "query": "테슬라 할부 계산기",
+      "intent": "유지비",
+      "clicks": 0,
+      "impressions": 20,
+      "ctr": 0.0,
+      "position": 9.3,
+      "clicks_prev": 0,
+      "impressions_prev": 5,
+      "is_new": false,
+      "impression_gain": 15,
+      "click_gain": 0
+    },
+    {
+      "query": "\"model y l awd\" \"국고보조금\" 2026",
+      "intent": "모델정보",
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0.0,
+      "position": 5.8,
+      "clicks_prev": 0,
+      "impressions_prev": 0,
+      "is_new": true,
+      "impression_gain": 13,
+      "click_gain": 0
+    },
+    {
+      "query": "테슬라 충전 비용",
+      "intent": "충전",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0.0,
+      "position": 9.7,
+      "clicks_prev": 0,
+      "impressions_prev": 2,
+      "is_new": false,
+      "impression_gain": 10,
+      "click_gain": 0
+    }
+  ],
+  "falling_queries": [],
+  "intent_breakdown": [
+    {
+      "intent": "모델정보",
+      "clicks": 0,
+      "impressions": 72,
+      "queries": 9,
+      "ctr": 0.0,
+      "sample_queries": [
+        "\"model y premium rwd\" \"국고보조금\" 2026",
+        "\"model y l awd\" \"국고보조금\" 2026",
+        "\"model y premium rwd\" \"국고보조금\"",
+        "\"model y premium rwd\" \"전환지원금\" 2026",
+        "\"model y l\" \"국고보조금\" 2026"
+      ]
+    },
+    {
+      "intent": "보조금",
+      "clicks": 1,
+      "impressions": 49,
+      "queries": 5,
+      "ctr": 0.0204,
+      "sample_queries": [
+        "테슬라 보조금 계산기",
+        "테슬라 서울 보조금",
+        "제주 전기차 보조금",
+        "전기차 보조금 계산기 2026",
+        "서울 테슬라 보조금"
+      ]
+    },
+    {
+      "intent": "계산",
+      "clicks": 0,
+      "impressions": 48,
+      "queries": 3,
+      "ctr": 0.0,
+      "sample_queries": [
+        "테슬라 계산기",
+        "테슬라계산기",
+        "테슬라 구매 계산기"
+      ]
+    },
+    {
+      "intent": "유지비",
+      "clicks": 1,
+      "impressions": 43,
+      "queries": 7,
+      "ctr": 0.0233,
+      "sample_queries": [
+        "테슬라 할부 계산기",
+        "테슬라 자동차세",
+        "테슬라 보험료 계산",
+        "테슬라 모델 y 할부 계산기",
+        "테슬라 할부 계산"
+      ]
+    },
+    {
+      "intent": "충전",
+      "clicks": 1,
+      "impressions": 35,
+      "queries": 7,
+      "ctr": 0.0286,
+      "sample_queries": [
+        "테슬라 충전비용",
+        "테슬라 충전 비용",
+        "테슬라 집밥",
+        "테슬라 급속충전",
+        "테슬라 충전기 설치 비용"
+      ]
+    },
+    {
+      "intent": "가격",
+      "clicks": 1,
+      "impressions": 22,
+      "queries": 11,
+      "ctr": 0.0455,
+      "sample_queries": [
+        "테슬라 실구매가 계산기",
+        "테슬라 실구매가 계산",
+        "테슬라y 가격",
+        "테슬라 모델 y 실구매가 계산기",
+        "테슬라 모델 y 가격"
+      ]
+    },
+    {
+      "intent": "기타",
+      "clicks": 0,
+      "impressions": 7,
+      "queries": 7,
+      "ctr": 0.0,
+      "sample_queries": [
+        "테슬라 수리비",
+        "테슬라 fsd 한국 승인 현황 2026",
+        "테슬라 코리아 모델 y 가격 2026 보조금",
+        "무공해차 통합누리집 2026 테슬라 모델3 보조금 서울",
+        "tesla y prix"
+      ]
+    }
+  ],
+  "top_pages": [
+    {
+      "path": "/subsidy/jeju",
+      "page_type": "subsidy-region",
+      "clicks": 10,
+      "impressions": 674,
+      "ctr": 0.0148,
+      "position": 6.0,
+      "clicks_prev": 4,
+      "click_delta": 6
+    },
+    {
+      "path": "/subsidy/seoul",
+      "page_type": "subsidy-region",
+      "clicks": 5,
+      "impressions": 1142,
+      "ctr": 0.0044,
+      "position": 7.1,
+      "clicks_prev": 0,
+      "click_delta": 5
+    },
+    {
+      "path": "/calc/charging",
+      "page_type": "calculator",
+      "clicks": 3,
+      "impressions": 173,
+      "ctr": 0.0173,
+      "position": 9.2,
+      "clicks_prev": 1,
+      "click_delta": 2
+    },
+    {
+      "path": "/",
+      "page_type": "home",
+      "clicks": 3,
+      "impressions": 158,
+      "ctr": 0.019,
+      "position": 8.0,
+      "clicks_prev": 4,
+      "click_delta": -1
+    },
+    {
+      "path": "/answers/tesla-car-tax",
+      "page_type": "answer",
+      "clicks": 3,
+      "impressions": 76,
+      "ctr": 0.0395,
+      "position": 6.0,
+      "clicks_prev": 0,
+      "click_delta": 3
+    },
+    {
+      "path": "/calc/tco",
+      "page_type": "calculator",
+      "clicks": 3,
+      "impressions": 57,
+      "ctr": 0.0526,
+      "position": 7.3,
+      "clicks_prev": 1,
+      "click_delta": 2
+    },
+    {
+      "path": "/calc/monthly-real-cost",
+      "page_type": "calculator",
+      "clicks": 1,
+      "impressions": 36,
+      "ctr": 0.0278,
+      "position": 9.0,
+      "clicks_prev": 0,
+      "click_delta": 1
+    },
+    {
+      "path": "/about",
+      "page_type": "other",
+      "clicks": 1,
+      "impressions": 2,
+      "ctr": 0.5,
+      "position": 5.5,
+      "clicks_prev": 0,
+      "click_delta": 1
+    },
+    {
+      "path": "/models/model-y",
+      "page_type": "model",
+      "clicks": 0,
+      "impressions": 336,
+      "ctr": 0.0,
+      "position": 9.0,
+      "clicks_prev": 0,
+      "click_delta": 0
+    },
+    {
+      "path": "/calc/tesla-subsidy",
+      "page_type": "calculator",
+      "clicks": 0,
+      "impressions": 172,
+      "ctr": 0.0,
+      "position": 6.7,
+      "clicks_prev": 0,
+      "click_delta": 0
+    },
+    {
+      "path": "/guides/fsd-korea-status-2026",
+      "page_type": "guide",
+      "clicks": 0,
+      "impressions": 97,
+      "ctr": 0.0,
+      "position": 7.2,
+      "clicks_prev": 0,
+      "click_delta": 0
+    },
+    {
+      "path": "/models/model-y-l",
+      "page_type": "model",
+      "clicks": 0,
+      "impressions": 64,
+      "ctr": 0.0,
+      "position": 7.7,
+      "clicks_prev": 0,
+      "click_delta": 0
+    },
+    {
+      "path": "/subsidy",
+      "page_type": "subsidy-calculator",
+      "clicks": 0,
+      "impressions": 44,
+      "ctr": 0.0,
+      "position": 8.3,
+      "clicks_prev": 0,
+      "click_delta": 0
+    },
+    {
+      "path": "/calc/charging-time",
+      "page_type": "calculator",
+      "clicks": 0,
+      "impressions": 18,
+      "ctr": 0.0,
+      "position": 9.9,
+      "clicks_prev": 0,
+      "click_delta": 0
+    },
+    {
+      "path": "/answers/tesla-fast-charging-ccs",
+      "page_type": "answer",
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0.0,
+      "position": 11.8,
+      "clicks_prev": 0,
+      "click_delta": 0
+    },
+    {
+      "path": "/answers/tesla-without-home-charger",
+      "page_type": "answer",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0.0,
+      "position": 9.5,
+      "clicks_prev": 0,
+      "click_delta": 0
+    },
+    {
+      "path": "/answers",
+      "page_type": "answer-hub",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0.0,
+      "position": 21.8,
+      "clicks_prev": 0,
+      "click_delta": 0
+    },
+    {
+      "path": "/calc/charger-install",
+      "page_type": "calculator",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0.0,
+      "position": 15.6,
+      "clicks_prev": 0,
+      "click_delta": 0
+    },
+    {
+      "path": "/answers/tesla-repair-cost",
+      "page_type": "answer",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0.0,
+      "position": 16.5,
+      "clicks_prev": 0,
+      "click_delta": 0
+    },
+    {
+      "path": "/answers/tesla-lfp-vs-ncm",
+      "page_type": "answer",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0.0,
+      "position": 7.0,
+      "clicks_prev": 0,
+      "click_delta": 0
+    }
+  ],
+  "page_type_breakdown": [
+    {
+      "page_type": "subsidy-region",
+      "clicks": 15,
+      "impressions": 1816,
+      "pages": 2,
+      "ctr": 0.0083
+    },
+    {
+      "page_type": "calculator",
+      "clicks": 7,
+      "impressions": 462,
+      "pages": 7,
+      "ctr": 0.0152
+    },
+    {
+      "page_type": "model",
+      "clicks": 0,
+      "impressions": 400,
+      "pages": 2,
+      "ctr": 0.0
+    },
+    {
+      "page_type": "home",
+      "clicks": 3,
+      "impressions": 158,
+      "pages": 1,
+      "ctr": 0.019
+    },
+    {
+      "page_type": "answer",
+      "clicks": 3,
+      "impressions": 105,
+      "pages": 5,
+      "ctr": 0.0286
+    },
+    {
+      "page_type": "guide",
+      "clicks": 0,
+      "impressions": 97,
+      "pages": 1,
+      "ctr": 0.0
+    },
+    {
+      "page_type": "subsidy-calculator",
+      "clicks": 0,
+      "impressions": 44,
+      "pages": 1,
+      "ctr": 0.0
+    },
+    {
+      "page_type": "other",
+      "clicks": 1,
+      "impressions": 7,
+      "pages": 5,
+      "ctr": 0.1429
+    },
+    {
+      "page_type": "answer-hub",
+      "clicks": 0,
+      "impressions": 5,
+      "pages": 1,
+      "ctr": 0.0
+    }
+  ],
+  "device_breakdown": [
+    {
+      "key": "DESKTOP",
+      "clicks": 11,
+      "impressions": 2598,
+      "ctr": 0.0042,
+      "position": 7.2
+    },
+    {
+      "key": "MOBILE",
+      "clicks": 18,
+      "impressions": 365,
+      "ctr": 0.0493,
+      "position": 8.0
+    },
+    {
+      "key": "TABLET",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0.0,
+      "position": 8.3
+    }
+  ],
+  "country_breakdown": [
+    {
+      "key": "kor",
+      "clicks": 28,
+      "impressions": 2683,
+      "ctr": 0.0104,
+      "position": 7.2
+    },
+    {
+      "key": "usa",
+      "clicks": 1,
+      "impressions": 130,
+      "ctr": 0.0077,
+      "position": 7.4
+    },
+    {
+      "key": "hkg",
+      "clicks": 0,
+      "impressions": 74,
+      "ctr": 0.0,
+      "position": 6.8
+    },
+    {
+      "key": "are",
+      "clicks": 0,
+      "impressions": 25,
+      "ctr": 0.0,
+      "position": 5.3
+    },
+    {
+      "key": "gbr",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0.0,
+      "position": 13.4
+    }
+  ],
+  "thresholds": {
+    "min_impressions": 4
+  },
+  "opportunities": {
+    "ctr_gap": [
+      {
+        "query": "\"model y premium rwd\" \"국고보조금\" 2026",
+        "intent": "모델정보",
+        "impressions": 42,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 8.1,
+        "landing_page": "/subsidy/seoul",
+        "expected_ctr": 0.035,
+        "action_hint": "제목/메타디스크립션 재작성 — 검색어를 제목 앞부분에 노출"
+      },
+      {
+        "query": "테슬라 계산기",
+        "intent": "계산",
+        "impressions": 40,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 8.8,
+        "landing_page": "/calc/tco",
+        "expected_ctr": 0.03,
+        "action_hint": "제목/메타디스크립션 재작성 — 검색어를 제목 앞부분에 노출"
+      },
+      {
+        "query": "테슬라 보조금 계산기",
+        "intent": "보조금",
+        "impressions": 37,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 8.0,
+        "landing_page": "/",
+        "expected_ctr": 0.035,
+        "action_hint": "제목/메타디스크립션 재작성 — 검색어를 제목 앞부분에 노출"
+      },
+      {
+        "query": "테슬라 할부 계산기",
+        "intent": "유지비",
+        "impressions": 20,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 9.3,
+        "landing_page": "/calc/monthly-real-cost",
+        "expected_ctr": 0.03,
+        "action_hint": "제목/메타디스크립션 재작성 — 검색어를 제목 앞부분에 노출"
+      },
+      {
+        "query": "\"model y l awd\" \"국고보조금\" 2026",
+        "intent": "모델정보",
+        "impressions": 13,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 5.8,
+        "landing_page": "/subsidy/seoul",
+        "expected_ctr": 0.05,
+        "action_hint": "제목/메타디스크립션 재작성 — 검색어를 제목 앞부분에 노출"
+      },
+      {
+        "query": "테슬라 충전 비용",
+        "intent": "충전",
+        "impressions": 12,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 9.7,
+        "landing_page": "/calc/charging",
+        "expected_ctr": 0.025,
+        "action_hint": "제목/메타디스크립션 재작성 — 검색어를 제목 앞부분에 노출"
+      },
+      {
+        "query": "\"model y premium rwd\" \"국고보조금\"",
+        "intent": "모델정보",
+        "impressions": 7,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 6.7,
+        "landing_page": "/subsidy/seoul",
+        "expected_ctr": 0.04,
+        "action_hint": "제목/메타디스크립션 재작성 — 검색어를 제목 앞부분에 노출"
+      },
+      {
+        "query": "테슬라계산기",
+        "intent": "계산",
+        "impressions": 7,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 8.3,
+        "landing_page": "/calc/charging",
+        "expected_ctr": 0.035,
+        "action_hint": "제목/메타디스크립션 재작성 — 검색어를 제목 앞부분에 노출"
+      },
+      {
+        "query": "테슬라 실구매가 계산기",
+        "intent": "가격",
+        "impressions": 4,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 9.0,
+        "landing_page": "/",
+        "expected_ctr": 0.03,
+        "action_hint": "제목/메타디스크립션 재작성 — 검색어를 제목 앞부분에 노출"
+      }
+    ],
+    "striking_distance": [
+      {
+        "query": "\"model y premium rwd\" \"국고보조금\" 2026",
+        "intent": "모델정보",
+        "impressions": 42,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 8.1,
+        "landing_page": "/subsidy/seoul",
+        "action_hint": "랜딩 페이지에 이 검색어 전용 섹션·FAQ 추가로 관련성 강화"
+      },
+      {
+        "query": "테슬라 계산기",
+        "intent": "계산",
+        "impressions": 40,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 8.8,
+        "landing_page": "/calc/tco",
+        "action_hint": "랜딩 페이지에 이 검색어 전용 섹션·FAQ 추가로 관련성 강화"
+      },
+      {
+        "query": "테슬라 보조금 계산기",
+        "intent": "보조금",
+        "impressions": 37,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 8.0,
+        "landing_page": "/",
+        "action_hint": "랜딩 페이지에 이 검색어 전용 섹션·FAQ 추가로 관련성 강화"
+      },
+      {
+        "query": "테슬라 할부 계산기",
+        "intent": "유지비",
+        "impressions": 20,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 9.3,
+        "landing_page": "/calc/monthly-real-cost",
+        "action_hint": "랜딩 페이지에 이 검색어 전용 섹션·FAQ 추가로 관련성 강화"
+      },
+      {
+        "query": "테슬라 충전비용",
+        "intent": "충전",
+        "impressions": 16,
+        "clicks": 1,
+        "ctr": 0.0625,
+        "position": 9.1,
+        "landing_page": "/calc/charging",
+        "action_hint": "랜딩 페이지에 이 검색어 전용 섹션·FAQ 추가로 관련성 강화"
+      },
+      {
+        "query": "테슬라 자동차세",
+        "intent": "유지비",
+        "impressions": 15,
+        "clicks": 1,
+        "ctr": 0.0667,
+        "position": 5.0,
+        "landing_page": "/answers/tesla-car-tax",
+        "action_hint": "랜딩 페이지에 이 검색어 전용 섹션·FAQ 추가로 관련성 강화"
+      },
+      {
+        "query": "\"model y l awd\" \"국고보조금\" 2026",
+        "intent": "모델정보",
+        "impressions": 13,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 5.8,
+        "landing_page": "/subsidy/seoul",
+        "action_hint": "랜딩 페이지에 이 검색어 전용 섹션·FAQ 추가로 관련성 강화"
+      },
+      {
+        "query": "테슬라 충전 비용",
+        "intent": "충전",
+        "impressions": 12,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 9.7,
+        "landing_page": "/calc/charging",
+        "action_hint": "랜딩 페이지에 이 검색어 전용 섹션·FAQ 추가로 관련성 강화"
+      },
+      {
+        "query": "테슬라 서울 보조금",
+        "intent": "보조금",
+        "impressions": 9,
+        "clicks": 1,
+        "ctr": 0.1111,
+        "position": 7.6,
+        "landing_page": "/subsidy/seoul",
+        "action_hint": "랜딩 페이지에 이 검색어 전용 섹션·FAQ 추가로 관련성 강화"
+      },
+      {
+        "query": "\"model y premium rwd\" \"국고보조금\"",
+        "intent": "모델정보",
+        "impressions": 7,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 6.7,
+        "landing_page": "/subsidy/seoul",
+        "action_hint": "랜딩 페이지에 이 검색어 전용 섹션·FAQ 추가로 관련성 강화"
+      },
+      {
+        "query": "테슬라계산기",
+        "intent": "계산",
+        "impressions": 7,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 8.3,
+        "landing_page": "/calc/charging",
+        "action_hint": "랜딩 페이지에 이 검색어 전용 섹션·FAQ 추가로 관련성 강화"
+      },
+      {
+        "query": "테슬라 실구매가 계산",
+        "intent": "가격",
+        "impressions": 4,
+        "clicks": 1,
+        "ctr": 0.25,
+        "position": 9.0,
+        "landing_page": "/",
+        "action_hint": "랜딩 페이지에 이 검색어 전용 섹션·FAQ 추가로 관련성 강화"
+      },
+      {
+        "query": "테슬라 실구매가 계산기",
+        "intent": "가격",
+        "impressions": 4,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 9.0,
+        "landing_page": "/",
+        "action_hint": "랜딩 페이지에 이 검색어 전용 섹션·FAQ 추가로 관련성 강화"
+      }
+    ],
+    "zero_click": [
+      {
+        "query": "\"model y premium rwd\" \"국고보조금\" 2026",
+        "intent": "모델정보",
+        "impressions": 42,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 8.1,
+        "landing_page": "/subsidy/seoul",
+        "action_hint": "노출 순위는 확보됐으나 클릭 없음 — 제목/스니펫이 의도와 불일치"
+      },
+      {
+        "query": "테슬라 계산기",
+        "intent": "계산",
+        "impressions": 40,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 8.8,
+        "landing_page": "/calc/tco",
+        "action_hint": "노출 순위는 확보됐으나 클릭 없음 — 제목/스니펫이 의도와 불일치"
+      },
+      {
+        "query": "테슬라 보조금 계산기",
+        "intent": "보조금",
+        "impressions": 37,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 8.0,
+        "landing_page": "/",
+        "action_hint": "노출 순위는 확보됐으나 클릭 없음 — 제목/스니펫이 의도와 불일치"
+      },
+      {
+        "query": "테슬라 할부 계산기",
+        "intent": "유지비",
+        "impressions": 20,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 9.3,
+        "landing_page": "/calc/monthly-real-cost",
+        "action_hint": "노출 순위는 확보됐으나 클릭 없음 — 제목/스니펫이 의도와 불일치"
+      },
+      {
+        "query": "\"model y l awd\" \"국고보조금\" 2026",
+        "intent": "모델정보",
+        "impressions": 13,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 5.8,
+        "landing_page": "/subsidy/seoul",
+        "action_hint": "노출 순위는 확보됐으나 클릭 없음 — 제목/스니펫이 의도와 불일치"
+      },
+      {
+        "query": "테슬라 충전 비용",
+        "intent": "충전",
+        "impressions": 12,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 9.7,
+        "landing_page": "/calc/charging",
+        "action_hint": "노출 순위는 확보됐으나 클릭 없음 — 제목/스니펫이 의도와 불일치"
+      },
+      {
+        "query": "\"model y premium rwd\" \"국고보조금\"",
+        "intent": "모델정보",
+        "impressions": 7,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 6.7,
+        "landing_page": "/subsidy/seoul",
+        "action_hint": "노출 순위는 확보됐으나 클릭 없음 — 제목/스니펫이 의도와 불일치"
+      },
+      {
+        "query": "테슬라계산기",
+        "intent": "계산",
+        "impressions": 7,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 8.3,
+        "landing_page": "/calc/charging",
+        "action_hint": "노출 순위는 확보됐으나 클릭 없음 — 제목/스니펫이 의도와 불일치"
+      },
+      {
+        "query": "테슬라 실구매가 계산기",
+        "intent": "가격",
+        "impressions": 4,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 9.0,
+        "landing_page": "/",
+        "action_hint": "노출 순위는 확보됐으나 클릭 없음 — 제목/스니펫이 의도와 불일치"
+      }
+    ],
+    "content_gap": [
+      {
+        "query": "테슬라 보조금 계산기",
+        "intent": "보조금",
+        "impressions": 37,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 8.0,
+        "landing_page": "/",
+        "action_hint": "전용 상세 페이지(계산기/답변) 신설 또는 기존 페이지 타겟팅 명확화 후보"
+      },
+      {
+        "query": "테슬라 실구매가 계산",
+        "intent": "가격",
+        "impressions": 4,
+        "clicks": 1,
+        "ctr": 0.25,
+        "position": 9.0,
+        "landing_page": "/",
+        "action_hint": "전용 상세 페이지(계산기/답변) 신설 또는 기존 페이지 타겟팅 명확화 후보"
+      },
+      {
+        "query": "테슬라 실구매가 계산기",
+        "intent": "가격",
+        "impressions": 4,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 9.0,
+        "landing_page": "/",
+        "action_hint": "전용 상세 페이지(계산기/답변) 신설 또는 기존 페이지 타겟팅 명확화 후보"
+      }
+    ]
+  },
+  "page_opportunities": {
+    "buried": [
+      {
+        "path": "/answers",
+        "page_type": "answer-hub",
+        "impressions": 5,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 21.8,
+        "action_hint": "수요 대비 순위 미달 — 검색어 타겟 섹션 추가·내부링크 유입 강화"
+      }
+    ],
+    "ctr_gap": [
+      {
+        "path": "/subsidy/seoul",
+        "page_type": "subsidy-region",
+        "impressions": 1142,
+        "clicks": 5,
+        "ctr": 0.0044,
+        "position": 7.1,
+        "expected_ctr": 0.04,
+        "action_hint": "metadata title/description 재작성"
+      },
+      {
+        "path": "/subsidy/jeju",
+        "page_type": "subsidy-region",
+        "impressions": 674,
+        "clicks": 10,
+        "ctr": 0.0148,
+        "position": 6.0,
+        "expected_ctr": 0.05,
+        "action_hint": "metadata title/description 재작성"
+      },
+      {
+        "path": "/models/model-y",
+        "page_type": "model",
+        "impressions": 336,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 9.0,
+        "expected_ctr": 0.03,
+        "action_hint": "metadata title/description 재작성"
+      },
+      {
+        "path": "/calc/charging",
+        "page_type": "calculator",
+        "impressions": 173,
+        "clicks": 3,
+        "ctr": 0.0173,
+        "position": 9.2,
+        "expected_ctr": 0.03,
+        "action_hint": "metadata title/description 재작성"
+      },
+      {
+        "path": "/calc/tesla-subsidy",
+        "page_type": "calculator",
+        "impressions": 172,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 6.7,
+        "expected_ctr": 0.04,
+        "action_hint": "metadata title/description 재작성"
+      },
+      {
+        "path": "/",
+        "page_type": "home",
+        "impressions": 158,
+        "clicks": 3,
+        "ctr": 0.019,
+        "position": 8.0,
+        "expected_ctr": 0.035,
+        "action_hint": "metadata title/description 재작성"
+      },
+      {
+        "path": "/guides/fsd-korea-status-2026",
+        "page_type": "guide",
+        "impressions": 97,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 7.2,
+        "expected_ctr": 0.04,
+        "action_hint": "metadata title/description 재작성"
+      },
+      {
+        "path": "/models/model-y-l",
+        "page_type": "model",
+        "impressions": 64,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 7.7,
+        "expected_ctr": 0.035,
+        "action_hint": "metadata title/description 재작성"
+      },
+      {
+        "path": "/subsidy",
+        "page_type": "subsidy-calculator",
+        "impressions": 44,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 8.3,
+        "expected_ctr": 0.035,
+        "action_hint": "metadata title/description 재작성"
+      },
+      {
+        "path": "/calc/charging-time",
+        "page_type": "calculator",
+        "impressions": 18,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 9.9,
+        "expected_ctr": 0.025,
+        "action_hint": "metadata title/description 재작성"
+      },
+      {
+        "path": "/answers/tesla-fast-charging-ccs",
+        "page_type": "answer",
+        "impressions": 14,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 11.8,
+        "expected_ctr": 0.02,
+        "action_hint": "metadata title/description 재작성"
+      },
+      {
+        "path": "/answers/tesla-without-home-charger",
+        "page_type": "answer",
+        "impressions": 8,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 9.5,
+        "expected_ctr": 0.025,
+        "action_hint": "metadata title/description 재작성"
+      },
+      {
+        "path": "/calc/charger-install",
+        "page_type": "calculator",
+        "impressions": 5,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 15.6,
+        "expected_ctr": 0.02,
+        "action_hint": "metadata title/description 재작성"
+      },
+      {
+        "path": "/answers/tesla-repair-cost",
+        "page_type": "answer",
+        "impressions": 4,
+        "clicks": 0,
+        "ctr": 0.0,
+        "position": 16.5,
+        "expected_ctr": 0.02,
+        "action_hint": "metadata title/description 재작성"
+      }
+    ],
+    "decaying": [
+      {
+        "path": "/",
+        "page_type": "home",
+        "impressions": 158,
+        "clicks": 3,
+        "ctr": 0.019,
+        "position": 8.0,
+        "clicks_prev": 4,
+        "click_drop": 1,
+        "action_hint": "콘텐츠 신선도 갱신(보조금 최신 수치·기준일) 검토"
+      }
+    ]
+  },
+  "site_routes": [
+    "/",
+    "/about",
+    "/admin",
+    "/admin/editor",
+    "/admin/login",
+    "/admin/posts",
+    "/answers",
+    "/answers/[slug]",
+    "/auth/reset-password",
+    "/calc",
+    "/calc/charger-install",
+    "/calc/charging",
+    "/calc/charging-time",
+    "/calc/compare",
+    "/calc/ev-purchase-readiness",
+    "/calc/maintenance",
+    "/calc/monthly-real-cost",
+    "/calc/switch-to-tesla",
+    "/calc/tco",
+    "/calc/tesla-subsidy",
+    "/compare/model-3-vs-model-y",
+    "/compare/rwd-vs-awd",
+    "/contact",
+    "/data-sources",
+    "/disclaimer",
+    "/editorial-policy",
+    "/guides",
+    "/guides/[slug]",
+    "/models/model-3",
+    "/models/model-y",
+    "/models/model-y-l",
+    "/privacy",
+    "/subsidy",
+    "/subsidy/[region]",
+    "/terms"
+  ]
+}
