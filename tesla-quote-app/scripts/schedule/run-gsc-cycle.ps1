@@ -37,6 +37,25 @@ param(
     [switch]$SkipNotify
 )
 
+# ---------------------------------------------------------------- 실행 보류 (2026-08-24)
+#
+# ohyess.kr(blog) 에서 새 GSC 루프(관찰 -> 판정 -> 결정)가 검증될 때까지
+# 이 루틴은 실행하지 않는다. 지금 구조는 매 회차 코드를 바꾸기만 하고
+# 그 판단이 맞았는지 채점하지 않는 오픈 루프라, 돌릴수록 되돌리기 어려워진다.
+#
+# 작업 스케줄러의 'paytesla-gsc-weekly' 도 함께 비활성화되어 있다 (State: Disabled).
+#
+# 재개 방법:
+#   1) 이 블록을 삭제
+#   2) Enable-ScheduledTask -TaskName 'paytesla-gsc-weekly'
+# 일회성 강제 실행 (검증용):
+#   GSC_CYCLE_FORCE_RUN 환경변수를 1 로 설정한 뒤 러너를 직접 호출한다
+if (-not $env:GSC_CYCLE_FORCE_RUN) {
+    Write-Host "[보류] 이 GSC 루틴은 중단 상태입니다 — ohyess.kr 검증 완료 후 재개합니다."
+    Write-Host "       강제 실행하려면 `$env:GSC_CYCLE_FORCE_RUN='1' 을 설정하세요."
+    exit 0
+}
+
 $ErrorActionPreference = 'Stop'
 
 # scripts/schedule -> scripts -> tesla-quote-app -> f:\개인\tesla (git 저장소 루트)
