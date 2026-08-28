@@ -4,12 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 // '보조금 확인'이 계산기 진입 메뉴다 — 홈(/)은 랜딩, 계산 도구는 /subsidy.
-// 가이드 섹션은 비노출(GUIDES_SECTION_PUBLIC=false) 상태라 상단에서 빼고,
-// 그 자리에 구매 질문 여정 허브(/answers)를 올린다.
 const NAV_ITEMS = [
   { href: "/subsidy",                    label: "보조금 확인", match: (p) => p === "/subsidy" },
   { href: "/calc",                       label: "계산기",     match: (p) => p.startsWith("/calc") },
   { href: "/answers",                    label: "구매 질문",   match: (p) => p.startsWith("/answers") },
+  { href: "/guides",                     label: "가이드",     match: (p) => p.startsWith("/guides") },
   { href: "/models/model-3",             label: "모델",       match: (p) => p.startsWith("/models") },
   { href: "/compare/model-3-vs-model-y", label: "비교",       match: (p) => p.startsWith("/compare") },
 ];

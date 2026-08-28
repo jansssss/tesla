@@ -15,6 +15,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -24,6 +25,20 @@ from scripts.pipeline.config import load_config
 from scripts.pipeline.researcher import TavilyResearcher
 from scripts.pipeline.writer import GuideWriter
 from scripts.pipeline.publisher import SupabasePublisher, FilePublisher
+from scripts.pipeline.quality import validate_guide
+
+
+def load_gsc_query_hints(project_root: Path, limit: int = 8) -> list[str]:
+    """최근 GSC 리포트의 실제 검색어를 주제 후보 판단에만 사용한다."""
+    report_path = project_root / "reports" / "gsc" / "latest.json"
+    if not report_path.exists():
+        return []
+    try:
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        rows = report.get("rising_queries") or report.get("top_queries") or []
+        return [row.get("query", "").strip() for row in rows if row.get("query")][:limit]
+    except (OSError, json.JSONDecodeError):
+        return []
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -43,7 +58,9 @@ def main() -> None:
     args = build_parser().parse_args()
     config = load_config()
 
-    count = args.count or config.guides_per_run
+    # 대량 자동생성을 막는다. 한 실행은 한 편만 분석·작성·검증한다.
+    requested_count = args.count or config.guides_per_run
+    count = min(max(requested_count, 1), 1)
     model = args.model or config.openai_model
 
     # ── 환경변수 검증 ──────────────────────────────
@@ -87,6 +104,7 @@ def main() -> None:
     # ── 발행 이력 조회 ───────────────────────────────
     published_titles: list[str] = []
     recent_categories: list[str] = []
+    query_hints = load_gsc_query_hints(config.project_root)
     if publisher:
         print("[PIPELINE] 발행 이력 조회 중...", flush=True)
         published_titles = publisher.fetch_published_titles()
@@ -105,17 +123,30 @@ def main() -> None:
             research = researcher.research_today(
                 published_topics=published_titles,
                 recent_categories=recent_categories,
+                query_hints=query_hints,
             )
             print(f"[STEP 1] 완료 - 주제: {research['topic']}", flush=True)
         except Exception as exc:
             print(f"[STEP 1] 실패: {exc}", flush=True)
             sys.exit(1)
 
-        # STEP 2: OpenAI 가이드 작성
-        print("[STEP 2] OpenAI 가이드 작성 중...", flush=True)
+        # STEP 2: OpenAI 가이드 작성 + 보수적 품질 게이트
+        print("[STEP 2] OpenAI 가이드 작성 및 품질 검사 중...", flush=True)
         try:
-            guide = writer.write(research)
-            print(f"[STEP 2] 완료 - 제목: {guide.title}", flush=True)
+            quality_issues: list[str] = []
+            guide = None
+            for attempt in range(3):
+                guide = writer.write(research, feedback=quality_issues or None)
+                quality_issues = validate_guide(guide)
+                if not quality_issues:
+                    break
+                print(
+                    f"[QUALITY] {attempt + 1}/3차 초안 보류: " + "; ".join(quality_issues),
+                    flush=True,
+                )
+            if quality_issues:
+                raise RuntimeError("품질 게이트 미통과: " + "; ".join(quality_issues))
+            print(f"[STEP 2] 품질 통과 - 제목: {guide.title}", flush=True)
         except Exception as exc:
             print(f"[STEP 2] 실패: {exc}", flush=True)
             sys.exit(1)

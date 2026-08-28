@@ -1,4 +1,5 @@
 import { MERGED_SLUGS } from "./mergedGuides.js";
+import { rewriteGuide } from "./guideRewrites.js";
 
 const guides = [
   {
@@ -69,7 +70,7 @@ const guides = [
       {
         title: "구매자가 지금 취할 수 있는 현실적 전략",
         paragraphs: [
-          "FSD의 국내 상황이 유동적이라는 건 곧 '계약 시 무조건 선택'이 가장 비효율적인 결정일 수 있다는 의미입니다. FSD는 사후 구매와 월 구독이 모두 열려 있으므로, 지금의 불확실성을 비용으로 떠안을 이유가 적습니다.",
+          "FSD의 국내 상황이 유동적이므로 계약 시 바로 선택하는 것이 비효율적인 결정일 수 있습니다. FSD는 사후 구매와 월 구독 가능 여부를 확인한 뒤, 현재 제공 기능을 실제로 써보고 판단할 수 있습니다.",
           "특히 차량 가격에 FSD 옵션가가 더해지면 실구매가가 올라가고, 이는 보조금 산정·할부 원금·월 납입금에까지 연쇄적으로 영향을 줍니다. 즉 FSD 선택은 단순 옵션이 아니라 '구매 구조 전체'를 바꾸는 결정입니다."
         ],
         bullets: [
@@ -144,7 +145,7 @@ const guides = [
       {
         title: "매입이 함정이 되는 경우",
         paragraphs: [
-          "매입은 '오래 타면 무조건 이득'처럼 보이지만, 두 가지 상황에서 함정이 됩니다. 첫째, 기능 개방이 기대만큼 진전되지 않는 경우입니다. 지불은 지금 했는데 활용 가치가 늦게 따라오면, 그 기간만큼의 기회비용이 매몰됩니다.",
+          "매입은 오래 보유할수록 유리해 보이지만, 두 가지 상황에서는 그렇지 않을 수 있습니다. 첫째, 기능 개방이 기대만큼 진전되지 않는 경우입니다. 지불은 지금 했는데 활용 가치가 늦게 따라오면, 그 기간만큼의 기회비용이 매몰됩니다.",
           "둘째, 차량을 비교적 이르게 되팔 계획이 있는 경우입니다. FSD가 중고 매매 시 다음 소유자에게 그대로 승계되는지는 정책에 따라 달라질 수 있어, 매입가가 중고가에 온전히 반영된다는 보장이 없습니다. 되팔 때 손해 본 만큼이 실질 비용으로 더해집니다."
         ],
         bullets: [
@@ -4264,32 +4265,22 @@ const guides = [
   }
 ];
 
-// 통합(301 리다이렉트) 대상은 목록/사이트맵/관련글/정적생성에서 제외.
-// 원본 콘텐츠는 배열에 남겨두되 노출만 막는다(되돌리기 쉬움).
-const visibleGuides = guides.filter((g) => !MERGED_SLUGS.has(g.slug));
+// 30개 대표 글은 편집 기준을 적용하고, 통합 대상은 공개 목록과 정적 생성에서 제외한다.
+// 원문 57개는 이 파일에 보관해 기존 URL과 변경 이력을 추적할 수 있게 한다.
+const rewrittenGuides = guides.map(rewriteGuide);
+const visibleGuides = rewrittenGuides.filter((g) => !MERGED_SLUGS.has(g.slug));
 
 /**
- * 정적 guides.js 글은 전부 파이프라인 자동생성 콘텐츠다.
- * AdSense "가치 낮은 콘텐츠" 대응으로 전면 ARCHIVED 처리한다:
- *   - 목록(/guides)·사이트맵·홈·관련글 등 모든 노출 경로에서 제외 → getAllGuides()/getAllStaticGuides() 빈 배열
- *   - 정적 생성(generateStaticParams)에서 제외하고, 직접 URL 접근 시 notFound()(404) 처리 (isArchivedStaticSlug)
- *   - 원문 데이터는 이 배열에 그대로 보관(저장소 내부 보관)하되 어떤 공개 경로에서도 서빙하지 않는다.
- *   - AI로 재작성해 다시 공개하지 않는다.
- * 직접 작성한 글은 Supabase(content_html)에만 존재하며 그대로 색인·노출된다.
- * 되돌리려면 이 플래그만 false로.
+ * 품질 감사와 통합을 통과한 정적 대표 글을 공개한다.
+ * MERGED_REDIRECTS에 등록된 27개 원문은 301로 대표 글에 연결되며,
+ * 나머지 30개만 목록·사이트맵·홈·관련 글에 노출된다.
  */
-export const STATIC_GUIDES_ARCHIVED = true;
+export const STATIC_GUIDES_ARCHIVED = false;
 
 /**
- * 가이드 섹션 전체 비노출 플래그.
- *
- * 사이트의 축은 계산기 콘텐츠로 옮겼고, /guides 목록에 남은 글이 소수여서
- * 얇은 목록 페이지가 오히려 품질 신호를 떨어뜨린다. 그래서 섹션 자체를 감춘다.
- *   - /guides, /guides/[slug] → noindex (URL은 살아 있어 404는 내지 않는다)
- *   - 사이트맵·푸터·홈 최근글 섹션에서 제외
- *   - 원문은 Supabase에 그대로 보관 — 되돌리려면 이 플래그만 true로.
+ * 대표 글 30편과 향후 품질 게이트를 통과한 정적 글을 공개한다.
  */
-export const GUIDES_SECTION_PUBLIC = false;
+export const GUIDES_SECTION_PUBLIC = true;
 
 const STATIC_SLUGS = new Set(guides.map((g) => g.slug));
 
@@ -4309,7 +4300,7 @@ export function getAllStaticGuides() {
 }
 
 export function getGuideBySlug(slug) {
-  return guides.find((guide) => guide.slug === slug);
+  return rewrittenGuides.find((guide) => guide.slug === slug);
 }
 
 export function getFeaturedGuides() {
@@ -4318,4 +4309,4 @@ export function getFeaturedGuides() {
   return [visibleGuides[0], visibleGuides[step], visibleGuides[step * 2], visibleGuides[step * 3]];
 }
 
-export default guides;
+export default rewrittenGuides;

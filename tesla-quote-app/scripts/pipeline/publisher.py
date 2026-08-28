@@ -200,6 +200,20 @@ def _guide_to_js(guide: Guide, slug: str) -> str:
     lines.append(f'{pad}  publishedAt: {_js_str(today)},')
     lines.append(f'{pad}  updatedAt: {_js_str(today)},')
     lines.append(f'{pad}  readTime: {_js_str(guide.read_time)},')
+    lines.append(f'{pad}  isNew: true,')
+
+    reader = guide.reader_need
+    lines.append(f'{pad}  readerNeed: {{')
+    lines.append(f'{pad}    question: {_js_str(reader.get("question", ""))},')
+    lines.append(f'{pad}    stage: {_js_str(reader.get("stage", ""))},')
+    lines.append(f'{pad}    needLevel: {_js_str(reader.get("needLevel", ""))},')
+    lines.append(f'{pad}    intent: {_js_str(reader.get("intent", ""))},')
+    lines.append(f'{pad}  }},')
+
+    related_items = ", ".join(_js_str(slug) for slug in guide.related_slugs)
+    answer_items = ", ".join(_js_str(slug) for slug in guide.answer_slugs)
+    lines.append(f'{pad}  relatedSlugs: [{related_items}],')
+    lines.append(f'{pad}  answerSlugs: [{answer_items}],')
 
     source_items = []
     for s in guide.sources:

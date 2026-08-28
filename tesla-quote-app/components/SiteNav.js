@@ -5,6 +5,7 @@ import Link from "next/link";
 const NAV_ITEMS = [
   // 구매 질문 여정 허브
   { label: "구매 질문 30", href: "/answers" },
+  { label: "구매 가이드 30", href: "/guides" },
   // 계산기 (핵심 도구)
   { label: "계산기 전체", href: "/calc" },
   { label: "테슬라 보조금 계산기", href: "/subsidy" },

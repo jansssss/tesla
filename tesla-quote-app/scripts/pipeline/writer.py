@@ -13,6 +13,26 @@ from datetime import date
 from pathlib import Path
 from urllib import request
 from urllib.error import HTTPError
+from urllib.parse import urlparse
+
+
+CANONICAL_RELATED = {
+    "보조금": ["tesla-subsidy-apply-guide", "how-to-read-local-subsidy-notice", "subsidy-remaining-check"],
+    "충전": ["apartment-charging-checklist", "tesla-supercharger-charging-guide", "ev-public-charger-network"],
+    "비교": ["model-y-trim-2026", "model3-trim-comparison", "tesla-vs-ioniq5-ev6-2026"],
+    "금융": ["tesla-affordability-salary-guide", "tesla-monthly-payment-guide", "tesla-3year-cost"],
+    "유지비": ["tesla-3year-cost", "tesla-insurance-guide", "tesla-ev-maintenance-cost"],
+    "FSD": ["fsd-korea-status-2026", "fsd-subscription-vs-purchase", "tesla-hw3-vs-hw4-buying-guide"],
+    "구매": ["tesla-purchase-process-for-beginners", "tesla-buying-mistakes-checklist", "tesla-contract-cancel"],
+}
+
+OFFICIAL_SOURCE_HOSTS = {
+    "tesla.com", "www.tesla.com", "ev.or.kr", "www.ev.or.kr",
+    "me.go.kr", "www.me.go.kr", "molit.go.kr", "www.molit.go.kr",
+    "fss.or.kr", "www.fss.or.kr", "finlife.fss.or.kr",
+    "nts.go.kr", "www.nts.go.kr", "car365.go.kr", "www.car365.go.kr",
+    "law.go.kr", "www.law.go.kr",
+}
 
 
 @dataclass
@@ -35,6 +55,10 @@ class Guide:
     key_points: list[str]
     sources: list[dict]        # [{ name, url, accessedAt }]
     sections: list[GuideSection]
+    reader_need: dict = field(default_factory=dict)
+    related_slugs: list[str] = field(default_factory=list)
+    answer_slugs: list[str] = field(default_factory=list)
+    is_new: bool = True
 
     @property
     def slug(self) -> str:
@@ -60,7 +84,7 @@ class GuideWriter:
         self.model = model
         self.prompt_text = prompt_path.read_text(encoding="utf-8")
 
-    def write(self, research: dict) -> Guide:
+    def write(self, research: dict, feedback: list[str] | None = None) -> Guide:
         """Perplexity 리서치 결과를 받아 Guide 반환"""
         topic = research["topic"]
         category = research.get("category", "전기차")
@@ -91,6 +115,13 @@ class GuideWriter:
             '    "핵심 요약 포인트 2",\n'
             '    "핵심 요약 포인트 3"\n'
             '  ],\n'
+            '  "readerNeed": {\n'
+            '    "question": "이 글이 답하는 구체적인 구매 질문",\n'
+            '    "stage": "확인 시점 (예: 계약 전)",\n'
+            '    "needLevel": "결정 영향 (매우 높음/높음/보통 이상)",\n'
+            '    "intent": "이 글이 필요한 독자의 상황"\n'
+            '  },\n'
+            '  "relatedSlugs": ["아래 허용 목록의 slug 3개"],\n'
             '  "sources": [\n'
             '    {"name": "출처명", "url": "https://...", "accessedAt": "YYYY-MM-DD"},\n'
             '    ...\n'
@@ -111,13 +142,23 @@ class GuideWriter:
             '}'
         )
 
+        feedback_block = ""
+        if feedback:
+            feedback_block = (
+                "\n\n이전 초안이 아래 품질 기준을 통과하지 못했습니다. "
+                "모든 항목을 고쳐 처음부터 다시 작성하세요:\n- " + "\n- ".join(feedback)
+            )
+
+        related_choices = _related_for_category(category)
         user_message = (
             f"{self.prompt_text}\n\n"
             f"{research_block}\n\n"
             f"위 리서치 자료를 바탕으로 paytesla.kr 전기차·자동차 가이드를 작성하세요. "
             f"리서치의 수치와 출처를 글에 직접 인용하세요.\n\n"
             f"아래 JSON 형식으로만 응답하세요. JSON 외 다른 텍스트는 출력하지 마세요:\n"
+            f"관련 글 slug는 다음 목록에서 정확히 3개를 고르세요: {', '.join(related_choices)}\n"
             f"{json_format}"
+            f"{feedback_block}"
         )
 
         print(f"[WRITER] OpenAI API 호출 중... 모델: {self.model}", flush=True)
@@ -154,6 +195,8 @@ class GuideWriter:
         today_str = date.today().strftime("%Y-%m-%d")
         sources = []
         for s in data.get("sources", []):
+            if not _is_official_source(s.get("url", "")):
+                continue
             sources.append({
                 "name": s.get("name", ""),
                 "url": s.get("url", ""),
@@ -161,6 +204,8 @@ class GuideWriter:
             })
         # research에서 받은 sources도 병합
         for s in research.get("sources", []):
+            if not _is_official_source(s.get("url", "")):
+                continue
             if not any(x["url"] == s.get("url", "") for x in sources):
                 sources.append({
                     "name": s.get("name", ""),
@@ -181,6 +226,17 @@ class GuideWriter:
 
         print(f"[WRITER] 섹션 {len(sections)}개 생성됨, 제목: {data['title']}", flush=True)
 
+        reader_need = data.get("readerNeed") or {}
+        related_slugs = [
+            slug for slug in data.get("relatedSlugs", [])
+            if slug in related_choices
+        ][:3]
+        for slug in related_choices:
+            if len(related_slugs) >= 3:
+                break
+            if slug not in related_slugs:
+                related_slugs.append(slug)
+
         return Guide(
             topic=topic,
             category=data.get("category", category),
@@ -191,6 +247,9 @@ class GuideWriter:
             key_points=data.get("keyPoints", []),
             sources=sources,
             sections=sections,
+            reader_need=reader_need,
+            related_slugs=related_slugs,
+            answer_slugs=data.get("answerSlugs", [])[:3],
         )
 
 
@@ -213,6 +272,17 @@ def _extract_json(text: str) -> str:
             if depth == 0:
                 return _fix_json_strings(text[start: i + 1])
     return _fix_json_strings(text[start:])
+
+
+def _related_for_category(category: str) -> list[str]:
+    for keyword, slugs in CANONICAL_RELATED.items():
+        if keyword in category:
+            return slugs
+    return CANONICAL_RELATED["구매"]
+
+
+def _is_official_source(url: str) -> bool:
+    return (urlparse(url).hostname or "") in OFFICIAL_SOURCE_HOSTS
 
 
 def _fix_json_strings(text: str) -> str:

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   getAllGuides,
+  getAllStaticGuides,
   getGuideBySlug,
   isArchivedStaticSlug,
   GUIDES_SECTION_PUBLIC,
@@ -12,6 +13,7 @@ import AdminEditButton from "@/components/AdminEditButton";
 import AuthorBio from "@/components/AuthorBio";
 import { calcCtaForCategory } from "@/lib/calcLinks";
 import { normalizeCategory } from "@/lib/categories";
+import { getAnswer } from "@/lib/answers";
 
 
 const SITE_URL = "https://www.paytesla.kr";
@@ -59,10 +61,8 @@ function ChevronRight() {
 }
 
 export async function generateStaticParams() {
-  // 정적 생성 대상: status='published' 인 Supabase 글만.
-  //  - 정적 guides.js: 전부 archived (생성 안 함)
-  //  - Supabase: published만. draft/archived/자동생성은 제외.
-  //  - 마이그레이션 전(status 컬럼 부재)에는 content_html - 차단목록으로 폴백.
+  // 품질 감사를 통과한 정적 대표 글과 published Supabase 글을 함께 생성한다.
+  const staticParams = getAllStaticGuides().map((guide) => ({ slug: guide.slug }));
   try {
     const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
     const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -72,20 +72,25 @@ export async function generateStaticParams() {
       const res = await fetch(`${base}&status=eq.published`, { headers });
       if (res.ok) {
         const rows = await res.json();
-        return rows.map((r) => ({ slug: r.slug }));
+        return Array.from(
+          new Set([...staticParams.map((item) => item.slug), ...rows.map((r) => r.slug)])
+        ).map((itemSlug) => ({ slug: itemSlug }));
       }
       // 폴백
       const legacy = await fetch(`${base}&content_html=not.is.null`, { headers });
       if (legacy.ok) {
         const rows = await legacy.json();
-        return rows
+        const legacySlugs = rows
           .filter((r) => !isArchivedSupabaseSlug(r.slug))
-          .map((r) => ({ slug: r.slug }));
+          .map((r) => r.slug);
+        return Array.from(
+          new Set([...staticParams.map((item) => item.slug), ...legacySlugs])
+        ).map((itemSlug) => ({ slug: itemSlug }));
       }
     }
   } catch {}
 
-  return [];
+  return staticParams;
 }
 
 export async function generateMetadata({ params }) {
@@ -155,6 +160,10 @@ export default async function GuideDetailPage({ params }) {
 
   // 카테고리에 맞는 계산기로 연결하는 맥락 딥링크 CTA
   const calcCta = calcCtaForCategory(guide.category);
+  const relatedAnswers = (guide.answerSlugs || [])
+    .map((answerSlug) => getAnswer(answerSlug))
+    .filter(Boolean)
+    .slice(0, 3);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -214,6 +223,37 @@ export default async function GuideDetailPage({ params }) {
           </header>
 
           <div className="grid gap-8 px-6 py-8 md:px-10 md:py-10">
+            {guide.readerNeed ? (
+              <section className="rounded-2xl border border-slate-200 bg-slate-50 p-5 md:p-6" aria-labelledby="reader-need-title">
+                <div className="grid gap-5 md:grid-cols-[1.4fr_0.6fr] md:items-start">
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">이 글이 답하는 질문</p>
+                    <h2 id="reader-need-title" className="mt-2 text-lg font-black leading-snug text-slate-950 md:text-xl">
+                      {guide.readerNeed.question}
+                    </h2>
+                    <p className="mt-3 text-sm leading-7 text-slate-600">{guide.readerNeed.intent}</p>
+                  </div>
+                  <dl className="grid grid-cols-2 gap-3 text-sm md:grid-cols-1">
+                    <div className="rounded-xl border border-slate-200 bg-white p-3">
+                      <dt className="text-[11px] font-semibold text-slate-400">확인 시점</dt>
+                      <dd className="mt-1 font-bold text-slate-800">{guide.readerNeed.stage}</dd>
+                    </div>
+                    <div className="rounded-xl border border-slate-200 bg-white p-3">
+                      <dt className="text-[11px] font-semibold text-slate-400">결정 영향</dt>
+                      <dd className="mt-1 font-bold text-slate-800">{guide.readerNeed.needLevel}</dd>
+                    </div>
+                  </dl>
+                </div>
+                {guide.keyPoints?.length ? (
+                  <ul className="mt-5 grid gap-2 border-t border-slate-200 pt-5 md:grid-cols-3">
+                    {guide.keyPoints.map((point) => (
+                      <li key={point} className="text-sm font-semibold leading-6 text-slate-700">{point}</li>
+                    ))}
+                  </ul>
+                ) : null}
+              </section>
+            ) : null}
+
             {/* 목차 */}
             {!guide.contentHtml && guide.sections && guide.sections.length > 1 && (
               <nav className="rounded-2xl border border-slate-200 bg-slate-50 p-5" aria-label="목차">
@@ -240,8 +280,8 @@ export default async function GuideDetailPage({ params }) {
             {!guide.contentHtml && (
             <div className="rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-5">
               <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm shrink-0">
-                  🧮
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-600 text-[10px] font-black text-white">
+                  계산
                 </div>
                 <div>
                   <p className="text-sm font-bold text-blue-900">직접 계산해보세요</p>
@@ -347,6 +387,23 @@ export default async function GuideDetailPage({ params }) {
                     </li>
                   ))}
                 </ul>
+              </section>
+            ) : null}
+
+            {relatedAnswers.length > 0 ? (
+              <section className="border-t border-slate-100 pt-6">
+                <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">함께 확인할 구매 질문</h2>
+                <div className="mt-4 grid gap-3 md:grid-cols-2">
+                  {relatedAnswers.map((answer) => (
+                    <Link
+                      key={answer.slug}
+                      href={`/answers/${answer.slug}`}
+                      className="rounded-xl border border-slate-200 bg-white p-4 text-sm font-bold leading-6 text-slate-800 transition hover:border-blue-300 hover:text-blue-700"
+                    >
+                      {answer.question}
+                    </Link>
+                  ))}
+                </div>
               </section>
             ) : null}
           </div>

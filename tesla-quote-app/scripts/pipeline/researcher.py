@@ -22,13 +22,18 @@ CATEGORIES = [
 
 CATEGORY_STR = " | ".join(CATEGORIES)
 
-# 카테고리별 검색 쿼리 — 다양한 주제가 검색 결과에 포함되도록
+# 구매 여정의 빈틈을 찾기 위한 공식자료 중심 쿼리.
 _SEARCH_QUERY_POOL = [
-    "테슬라 한국 최신 뉴스 이슈",
-    "현대 아이오닉 기아 EV 전기차 한국 최신",
-    "전기차 보조금 충전 인프라 한국 정책 최신",
-    "수입 전기차 BMW iX 벤츠 EQ 폭스바겐 ID 한국",
-    "전기차 자동차 구매 시장 동향 한국 최신",
+    "테슬라 구매 계약 인도 보증 공식 안내 한국",
+    "전기차 보조금 신청 지자체 공고 업무처리지침",
+    "테슬라 충전 수퍼차저 홈차징 정비 공식 안내",
+    "전기차 자동차대출 보험 세금 공식 소비자 안내",
+    "중고 전기차 테슬라 배터리 보증 차량 이력 공식",
+]
+
+_OFFICIAL_DOMAINS = [
+    "tesla.com", "ev.or.kr", "me.go.kr", "molit.go.kr",
+    "fss.or.kr", "nts.go.kr", "car365.go.kr", "law.go.kr",
 ]
 
 
@@ -47,7 +52,8 @@ class TavilyResearcher:
             "query": query,
             "search_depth": "basic",
             "include_answer": True,
-            "max_results": 5,
+            "max_results": 8,
+            "include_domains": _OFFICIAL_DOMAINS,
         }
         raw_body = json.dumps(payload).encode("utf-8")
         req = request.Request(
@@ -67,6 +73,7 @@ class TavilyResearcher:
         self,
         published_topics: list[str] | None = None,
         recent_categories: list[str] | None = None,
+        query_hints: list[str] | None = None,
     ) -> dict:
         """
         오늘의 전기차/자동차 인기 이슈 1개 선정 + 심층 리서치
@@ -105,7 +112,8 @@ class TavilyResearcher:
         # Step 1: Tavily 실시간 검색 — 날짜 기반으로 쿼리 풀 순환
         day_of_year = date.today().timetuple().tm_yday
         base_query = _SEARCH_QUERY_POOL[day_of_year % len(_SEARCH_QUERY_POOL)]
-        query = f"{base_query} {today}"
+        hint_text = " ".join((query_hints or [])[:3])
+        query = f"{base_query} {hint_text} {today}".strip()
         search_results = self._tavily_search(query)
         answer = search_results.get("answer", "")
         snippets = "\n".join(
@@ -134,6 +142,8 @@ class TavilyResearcher:
                         "- 테슬라, 전기차(현대 아이오닉·기아 EV·BMW iX·벤츠 EQ 등), 보조금, 충전, 구매가이드, 자동차 시장 전반을 균형 있게 다룬다.\n"
                         "- 특정 브랜드(테슬라 포함)가 연속으로 선정되지 않도록 다양한 카테고리를 순환하여 선택한다.\n"
                         "- 검색 결과에 테슬라 기사가 많더라도, 다른 카테고리의 의미 있는 이슈가 있다면 그것을 우선 선택할 수 있다.\n\n"
+                        f"- 실제 Search Console 검색어 참고: {', '.join((query_hints or [])[:8]) or '없음'}\n"
+                        "- 검색어가 기존 글과 같은 의도라면 새 글을 만들지 말고, 아직 답하지 않은 하위 의도를 선택한다.\n\n"
                         f"[검색 결과]\n{context}\n\n"
                         "{\n"
                         '  "topic": "이슈 제목 (한국어, 50자 이내)",\n'

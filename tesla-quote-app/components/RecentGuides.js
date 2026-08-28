@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { fetchRecentGuides } from "@/lib/supabase-server";
-import { GUIDES_SECTION_PUBLIC } from "@/lib/guides";
+import { getAllGuides, GUIDES_SECTION_PUBLIC } from "@/lib/guides";
 import { normalizeCategory } from "@/lib/categories";
 
 function formatDate(dateStr) {
+  if (!dateStr) return "";
   const [year, month, day] = dateStr.split("-");
   return `${year}.${String(parseInt(month)).padStart(2, "0")}.${String(parseInt(day)).padStart(2, "0")}`;
 }
@@ -25,7 +26,21 @@ export default async function RecentGuides() {
   // 가이드 섹션 비노출 기간에는 홈에서도 렌더하지 않는다.
   if (!GUIDES_SECTION_PUBLIC) return null;
 
-  const guides = await fetchRecentGuides(6);
+  const staticGuides = getAllGuides();
+  const supabaseGuides = await fetchRecentGuides(12);
+  const bySlug = new Map();
+
+  for (const guide of [...supabaseGuides, ...staticGuides]) {
+    if (!bySlug.has(guide.slug)) bySlug.set(guide.slug, guide);
+  }
+
+  const guides = [...bySlug.values()]
+    .sort((a, b) =>
+      (b.updatedAt || b.publishedAt || b.updated_at || b.published_at || "").localeCompare(
+        a.updatedAt || a.publishedAt || a.updated_at || a.published_at || ""
+      )
+    )
+    .slice(0, 6);
 
   if (!guides || guides.length === 0) return null;
 
@@ -56,15 +71,22 @@ export default async function RecentGuides() {
             className="group flex flex-col rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_8px_32px_rgba(15,23,42,0.06)] transition hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(15,23,42,0.12)]"
           >
             <div className="flex items-center justify-between gap-2">
-              <span
-                className={`inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-bold tracking-wide ${
-                  CATEGORY_COLORS[normalizeCategory(guide.category)] ?? "bg-slate-100 text-slate-600"
-                }`}
-              >
-                {normalizeCategory(guide.category)}
-              </span>
+              <div className="flex items-center gap-2">
+                <span
+                  className={`inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-bold tracking-wide ${
+                    CATEGORY_COLORS[normalizeCategory(guide.category)] ?? "bg-slate-100 text-slate-600"
+                  }`}
+                >
+                  {normalizeCategory(guide.category)}
+                </span>
+                {guide.isNew ? (
+                  <span className="inline-flex rounded-full bg-blue-600 px-2 py-0.5 text-[10px] font-black tracking-[0.08em] text-white">
+                    NEW
+                  </span>
+                ) : null}
+              </div>
               <span className="text-xs text-slate-400">
-                {guide.published_at ? formatDate(guide.published_at) : ""}
+                {formatDate(guide.updatedAt || guide.publishedAt || guide.published_at)}
               </span>
             </div>
             <h3 className="mt-3 text-base font-black leading-snug tracking-tight text-slate-950 transition group-hover:text-blue-700">
@@ -77,7 +99,7 @@ export default async function RecentGuides() {
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                 <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
               </svg>
-              {guide.read_time}
+              {guide.readTime || guide.read_time}
             </div>
           </Link>
         ))}

@@ -26,7 +26,6 @@ export const metadata = {
   title: "정보성 가이드 - 하우머치 테슬라",
   description:
     "테슬라 구매, 지역별 보조금, 세제 혜택, 충전 환경, 신청 전략을 깊이 있게 정리한 정보성 가이드 모음입니다.",
-  // 가이드 섹션은 비노출(GUIDES_SECTION_PUBLIC=false). 링크는 살려두되 색인은 막는다.
   ...(GUIDES_SECTION_PUBLIC ? {} : { robots: { index: false, follow: false } }),
 };
 
@@ -56,9 +55,14 @@ export default async function GuidesPage() {
               className="group rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] transition hover:-translate-y-1 hover:shadow-[0_28px_80px_rgba(15,23,42,0.12)]"
             >
               <div className="flex items-center justify-between gap-3">
-                <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-600">
-                  {normalizeCategory(guide.category)}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-600">
+                    {normalizeCategory(guide.category)}
+                  </span>
+                  {guide.isNew ? (
+                    <span className="inline-flex rounded-full bg-blue-600 px-2 py-1 text-[10px] font-black tracking-[0.08em] text-white">NEW</span>
+                  ) : null}
+                </div>
                 <span className="text-xs font-semibold text-slate-400">
                   {String(index + 1).padStart(2, "0")}
                 </span>

@@ -1,5 +1,6 @@
 import HomeHero from "@/components/home/HomeHero";
 import HomeContent from "@/components/HomeContent";
+import RecentGuides from "@/components/RecentGuides";
 import { loadSubsidySnapshot } from "@/lib/subsidy";
 import { METRO_REGIONS, calcMetroSubsidyStats } from "@/lib/regions";
 
@@ -10,7 +11,7 @@ export const metadata = {
     absolute: "하우머치 테슬라 — 테슬라 실구매가·보조금·유지비 계산 플랫폼",
   },
   description:
-    "테슬라 Model 3·Model Y를 살 때 드는 돈을 지역별 보조금부터 월납입금·유지비까지 한 곳에서 계산합니다. 계산기 8종과 구매 질문 30편으로 구매 판단에 필요한 순서를 그대로 따라갑니다.",
+    "테슬라 Model 3·Model Y를 살 때 드는 돈을 지역별 보조금부터 월납입금·유지비까지 한 곳에서 계산합니다. 계산기와 구매 질문, 대표 가이드 30편으로 구매 판단 순서를 확인합니다.",
   openGraph: {
     title: "하우머치 테슬라 — 테슬라 실구매가·보조금·유지비 계산 플랫폼",
     description:
@@ -98,6 +99,7 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }}
       />
       {preview ? <HomeHero preview={preview} /> : null}
+      <RecentGuides />
       <HomeContent />
     </main>
   );

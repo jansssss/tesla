@@ -100,6 +100,14 @@ export default function EditorialPolicyPage() {
                 </li>
                 <li className="flex items-start">
                   <span className="mr-2">•</span>
+                  <span><strong>자동화 사용 공개</strong> — 검색 질문 분석과 초안 구조화에 AI·자동화 도구를 사용합니다. 공식 1차 출처, 본문 구조, 과장 표현, 내부링크를 코드로 검사하며 기준을 통과하지 못한 글은 공개 파일에 반영하지 않습니다.</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <span><strong>가상 경험 금지</strong> — 확인할 수 없는 1인칭 사용 후기나 소유 경험을 만들지 않습니다. 경험이 아닌 자료 분석 글은 조건과 출처를 중심으로 작성합니다.</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
                   <span><strong>독립 운영</strong> — 이 사이트는 테슬라(Tesla, Inc.)와 공식적인 관계가 없는 독립 정보 제공 사이트입니다.</span>
                 </li>
               </ul>
