@@ -3,7 +3,7 @@
  * GSC 루틴 알림 전송기
  *
  * 데스크톱 토스트(윈도우 알림) + 웹훅(Slack/Discord 호환)으로 결과를 보낸다.
- * 러너(run-gsc-cycle.ps1)와 알림 에이전트(gsc-report-notifier) 양쪽에서 쓴다.
+ * 사람이 수동 실행하거나 Codex 자동화가 명시적으로 알림이 필요할 때 쓴다.
  *
  * Usage:
  *   node scripts/notify-gsc.mjs --title "제목" --message "본문"

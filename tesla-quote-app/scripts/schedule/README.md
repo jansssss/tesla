@@ -1,125 +1,122 @@
 # paytesla AI 운영체제
 
-Google Search Console의 실제 유입을 3일마다 관찰하고, 과거 판단을 채점한 뒤,
-필요할 때만 콘텐츠·내부 링크·페이지 구조를 개선하는 폐쇄형 운영 루프다.
+paytesla.kr은 Codex의 로컬 예약 작업과 Google Search Console 측정 도구를 결합한
+폐쇄형 운영 루프로 관리한다. 콘텐츠 개수를 기계적으로 늘리는 작업이 아니라, 실제
+검색 유입과 구매자 질문을 관찰하고 지난 결정을 평가한 뒤 가장 필요한 개선 하나만
+선택하는 방식이다.
 
+```text
+GSC 관찰 -> 지난 결정 판정 -> 현재 병목 선택 -> 개선 또는 무변경
+         -> 품질 검증 -> 자체 재검토 -> 커밋·푸시 -> 동결 -> 다음 판정
 ```
-관찰 -> 과거 결정 판정 -> 현재 병목 진단 -> 행동 또는 무행동 선택
-     -> 품질 검증 -> 독립 리뷰 -> 자동 커밋·푸시 -> 동결 -> 다음 판정
-```
 
-## 실행 주기
+## 예약 작업
 
-- Windows 작업: `paytesla-ai-os`
+- Codex 작업 이름: `paytesla 3일 AI 운영`
+- 작업 ID: `paytesla-3-ai`
+- 실행 환경: 로컬 `페이테슬라` 프로젝트
 - 주기: 3일마다
-- 시각: 오전 10:00 (KST)
-- 분석 창: 최근 28일, GSC 확정 지연 3일 제외
-- 놓친 실행: PC가 꺼져 있으면 건너뛰고 다음 주기를 기다림
+- 시각: 오전 10:00 (Asia/Seoul)
+- 모델: `gpt-5.6-sol`, reasoning `xhigh`
+- 반영 대상: 검증을 통과한 `origin/main`
 
-오예스 루틴과 동시에 Claude·테스트·빌드를 실행하지 않도록 10시로 분리했다.
+오예스 자동화는 오전 9시에 실행되므로 같은 PC에서 빌드와 Git 작업이 겹치지 않는다.
+이전에 사용하던 Windows 작업 `paytesla-ai-os`와 Claude Code 러너는 사용하지 않는다.
 
-## 두 단계 실행
+## 매 회차 흐름
 
-### Tier 1: 매 회차
+1. `main` 브랜치와 깨끗한 작업 트리를 확인한다. 사용자 변경이 있으면 수정하지 않는다.
+2. `origin/main`을 fast-forward 방식으로 동기화한다. 강제 초기화와 강제 푸시는 금지한다.
+3. 최근 28일의 확정 GSC 데이터를 수집하고 압축 관측 기록을 남긴다.
+4. 판정일이 된 과거 결정을 먼저 평가해 `verdicts.md`와 `beliefs.md`를 갱신한다.
+5. 검색어, 랜딩 페이지, 기존 30개 가이드·답변·계산기를 함께 보고 고객 문제 하나를 고른다.
+6. 기존 대표 글 심화와 내부 왕복 링크를 먼저 검토한다. 독립적인 검색 의도 공백이
+   확인될 때만 회차당 정적 페이지를 최대 1개 만든다.
+7. 공개 콘텐츠를 바꾸기 전에 baseline, 예측, 반증 조건, 동결 기간을 결정 JSON에 기록한다.
+8. 콘텐츠 감사, lint, test, 프로덕션 빌드, diff 검사를 모두 통과시킨다.
+9. 중복 의도, 얇은 내용, 출처, 동결 침범, 링크 단절을 다시 검토한다.
+10. 모든 검증을 통과한 파일과 운영 상태만 커밋하고 `origin/main`에 푸시한다.
 
-- paytesla.kr GSC 검색어·페이지·기기·국가 성과 수집
-- 최근 7일 급변 감지
-- 이전 결정의 배포일을 Git 이력에서 확인
-- 판정 기일이 된 결정의 before/after 수치 산출
-- 압축 관찰 기록을 `reports/gsc/state/observations/`에 저장
+변경 근거가 부족하면 콘텐츠를 만들지 않는다. 관측·판정 상태만 달라졌다면 상태 파일만
+커밋해 다음 회차의 기억을 보존한다.
 
-### Tier 2: 필요할 때만
+## GSC 측정 도구
 
-다음 중 하나가 참일 때 AI 판단을 실행한다.
+`tesla-quote-app`에서 실행한다.
 
-- 과거 결정의 판정 기일이 됨
-- 최근 7일 노출이 40% 이상 변하거나 클릭·노출이 소멸함
-- 마지막 심층 판단 후 28일이 지남
-- 수동 실행에서 `-Force`를 지정함
+```powershell
+# 최근 28일 GSC 보고서 갱신
+python -m scripts.analytics.gsc_daily_insight --days 28
 
-변경할 이유가 없거나 관찰 중인 대상만 있다면 N/H를 선택하고 콘텐츠를 만들지 않는다.
+# 판정 기일이 된 결정의 전후 자료 생성
+python -m scripts.analytics.gsc_evaluate
 
-## 판단의 기억
+# 회차 관측 기록 저장
+python -m scripts.analytics.gsc_evaluate --record-observation
 
-`reports/gsc/state/`만 Git으로 추적한다.
+# 열린 실험, 동결 대상, 신규 결정 여유 확인
+python -m scripts.analytics.gsc_evaluate --status
+```
 
-- `goals.md`: 사용자의 상위 목표와 현재 병목
+측정 도구는 Google Search Console을 읽고 운영 상태를 계산한다. 주제 선택, 공식 자료
+조사, 콘텐츠 작성, 품질 재검토, 커밋·푸시는 예약된 Codex 작업이 담당한다.
+
+## 운영 기억
+
+Git에는 `reports/gsc/state/`의 압축 상태만 남긴다.
+
+- `goals.md`: 사용자의 최상위 목표와 현재 병목
 - `beliefs.md`: 판정으로 검증하거나 폐기할 작업 가설
 - `verdicts.md`: 적중·빗나감·변화없음·판정불가 이력
-- `decisions/*.json`: 가설, 행동, baseline, 예측, 동결 일정
-- `observations/*.json`: 회차별 압축 GSC 시계열
+- `decisions/*.json`: 행동, 대상, baseline, 예측, 반증 조건, 동결·판정일
+- `observations/*.json`: 회차별 압축 GSC 관측값
 
-대용량 원본 리포트·로그·패치는 로컬에만 두고 Git에 넣지 않는다.
+대용량 원본 보고서, 로그, OAuth 파일과 환경 변수는 로컬에만 둔다.
+
+## 콘텐츠 원칙
+
+- 기존 30개 대표 글로 답할 수 있는 질문은 새 URL로 반복하지 않는다.
+- 테슬라 공식 자료와 정부·공공기관의 1차 자료를 최소 2개 교차 확인한다.
+- 가격, 보조금, 세금, 충전, 보증, 정책은 기준일·조건·예외를 분리한다.
+- 첫 화면의 즉답, 조건별 판단 과정, 현실적인 예시 또는 비교, 체크리스트,
+  놓치기 쉬운 비용·예외, FAQ와 클릭 가능한 공식 출처를 제공한다.
+- 이모티콘, 과장, 반복 요약, 검색어 억지 반복과 분량 채우기를 쓰지 않는다.
+- 새 글은 홈페이지와 전체 목록에 노출하고, 발행일 기반 NEW 표시와 관련 기존 글
+  2~4개·계산기·허브 사이의 왕복 링크를 완성한다.
 
 ## 안전장치
 
-- 동시 실험 최대 3건, 회차당 신규 결정 최대 1건
-- 등급별 24~42일 동결 후 첫 판정
-- 대상 순위 변화에서 사이트 전체 순위 변화를 빼서 판정
-- 공식 출처 없는 가격·보조금·정책 수치 금지
-- 계산 로직·가격 데이터·보조금 원천·인증·인프라 수정 차단
-- 기존 구매 질문과 겹치는 얇은 페이지 생성 금지
-- 소스 변경에는 반증 가능한 결정 JSON 필수
-- 소스 변경 최대 8파일
-- 독립 리뷰가 PASS가 아니면 전부 되돌림
+- 열린 실험 최대 3건, 회차당 신규 결정 최대 1건
+- 기존 대상과 검색어는 등급에 따라 24~42일 동결
+- 대상 변화에서 사이트 전체 변화를 보정해 판정
+- 공식 근거 없는 수치와 단정 금지
+- 계산 로직, 차량·가격·보조금 원본 데이터, 인증, 관리자, API, 배포 인프라 자동 변경 금지
+- 결정 JSON 없는 공개 소스 변경 금지
+- 품질 검사나 재검토가 하나라도 실패하면 커밋·푸시 금지
 
-자동 커밋·푸시 전 다음을 모두 통과해야 한다.
+자동 반영 전 최소 검증은 다음과 같다.
 
 ```powershell
 npm run content:audit
 npm run lint
 npm test
 npm run build
+git diff --check
 ```
 
 ## GSC 인증
 
-오예스에서 사용하던 Google OAuth 클라이언트와 토큰을 테슬라 프로젝트의 Git 제외
-경로인 `scripts/credentials/`에 복사해 사용한다. 동일 Google 계정이
+오예스에서 사용하던 Google OAuth 클라이언트와 토큰을 Git 제외 경로인
+`scripts/credentials/`에서 재사용한다. 같은 Google 계정이
 `sc-domain:paytesla.kr` 속성에 접근할 수 있어야 한다.
 
-`.env.local`:
+로컬 `.env.local`에는 다음 속성만 둔다.
 
 ```dotenv
 GSC_SITE_URL=sc-domain:paytesla.kr
 ```
 
-자격증명과 `.env.local`은 절대 커밋하지 않는다.
-
-## 등록과 실행
-
-`tesla-quote-app`에서 실행한다.
-
-```powershell
-# 3일마다 오전 10시로 등록 또는 교체
-powershell -ExecutionPolicy Bypass -File scripts\schedule\register-gsc-cycle.ps1
-
-# Tier 1만 연결 점검
-powershell -ExecutionPolicy Bypass -File scripts\schedule\run-gsc-cycle.ps1 -SkipAgent
-
-# 코드 변경 없이 AI 판단만 확인
-powershell -ExecutionPolicy Bypass -File scripts\schedule\run-gsc-cycle.ps1 -DryRun -Force
-
-# 전체 루프 즉시 실행
-powershell -ExecutionPolicy Bypass -File scripts\schedule\run-gsc-cycle.ps1 -Force
-
-# 등록 작업 즉시 실행 또는 해제
-powershell -ExecutionPolicy Bypass -File scripts\schedule\register-gsc-cycle.ps1 -RunNow
-powershell -ExecutionPolicy Bypass -File scripts\schedule\register-gsc-cycle.ps1 -Unregister
-```
-
-실행 로그는 `reports/gsc/logs/`, 에이전트 보고는 `reports/gsc/agent-*.md`,
-변경 패치는 `reports/gsc/patches/`에 남는다.
-
-## 자동 반영 규칙
-
-1. 시작 시 작업 트리가 깨끗한지 확인한다. 사용자 변경이 있으면 관찰만 하고 종료한다.
-2. `origin/main`을 fast-forward로 동기화한다.
-3. AI는 git 쓰기 명령을 사용할 수 없다.
-4. 러너가 품질 게이트와 독립 리뷰를 다시 실행한다.
-5. PASS인 경로와 GSC 상태 파일만 stage한다.
-6. `seo: apply paytesla GSC decision YYYY-MM-DD`로 커밋하고 `origin/main`에 푸시한다.
-7. push 실패 시 로컬 커밋을 유지하고 다음 회차 시작 시 재시도한다.
+`scripts/credentials/`와 `.env.local`은 절대 출력하거나 커밋하지 않는다.
 
 ## 판정 기간
 
@@ -130,5 +127,5 @@ powershell -ExecutionPolicy Bypass -File scripts\schedule\register-gsc-cycle.ps1
 | B | 내부 링크·구조 변경 | 42일 | 42일 | 70일 |
 | A | 독립 정적 페이지 신설 | 42일 | 42일 | 84일 |
 
-판정 전 같은 페이지나 검색어를 다시 수정하지 않는다. 그래야 어떤 결정이 실제로
-효과가 있었는지 다음 회차에 학습할 수 있다.
+판정 전에는 같은 페이지나 검색어를 다시 수정하지 않는다. 한 번에 하나의 판단만
+검증해야 다음 회차에서 무엇이 실제로 효과가 있었는지 학습할 수 있다.
