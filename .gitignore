@@ -26,10 +26,18 @@ pnp4web.js
 probe_ev.js
 test_model.js
 
-# GSC 루틴 — 자격증명·로그·패치는 커밋하지 않는다
+# GSC 루틴 — 자격증명과 회차별 원본은 커밋하지 않고, 판단의 기억만 추적한다
 tesla-quote-app/scripts/credentials/
-tesla-quote-app/reports/gsc/logs/
-tesla-quote-app/reports/gsc/patches/
+tesla-quote-app/reports/gsc/*
+!tesla-quote-app/reports/gsc/state/
+tesla-quote-app/reports/gsc/state/*
+!tesla-quote-app/reports/gsc/state/goals.md
+!tesla-quote-app/reports/gsc/state/beliefs.md
+!tesla-quote-app/reports/gsc/state/verdicts.md
+!tesla-quote-app/reports/gsc/state/decisions/
+!tesla-quote-app/reports/gsc/state/decisions/*.json
+!tesla-quote-app/reports/gsc/state/observations/
+!tesla-quote-app/reports/gsc/state/observations/*.json
 
 # 파이썬 캐시
 __pycache__/

@@ -1,28 +1,23 @@
 ﻿<#
 .SYNOPSIS
-  paytesla GSC 개선 루틴을 Windows 작업 스케줄러에 등록한다. 기본은 주 1회(월요일 10:00).
+  paytesla AI 운영 루프를 Windows 작업 스케줄러에 등록한다. 기본은 3일마다 10:00.
 
 .DESCRIPTION
   10:00 은 블로그(ohyess) 루틴 09:10 과 겹치지 않게 잡은 시각이다.
   두 루틴이 동시에 돌면 어느 쪽 알림인지 헷갈리고, 같은 PC에서 claude 세션이
   둘 다 붙어 lint/test 가 서로 느려진다.
 
-  트래픽이 적을 때는 주 1회가 맞다. 리포트가 누적 구간을 보므로 매일 돌리면
-  연속 실행이 대부분 같은 데이터를 보게 되고, SEO 변경은 재크롤링·재평가에
-  며칠~몇 주가 걸려 어떤 변경이 효과가 있었는지 알 수 없다.
-  일간 클릭이 두 자리로 올라오면 -Daily 로 전환한다.
+  3일마다 Tier 1 관찰은 수행하지만, AI 심층 판단은 판정 기일·급변·28일 정기
+  점검 중 하나가 있을 때만 실행한다. 검증과 독립 리뷰를 통과한 변경은 자동으로
+  main 브랜치에 커밋·푸시한다.
 
 .EXAMPLE
-  # 등록 — 매주 월요일 10:00, 최근 14일 구간 분석 (기본값)
+  # 등록 — 3일마다 10:00, 최근 28일 구간 분석 (기본값)
   powershell -ExecutionPolicy Bypass -File scripts\schedule\register-gsc-cycle.ps1
 
 .EXAMPLE
-  # 요일·시각 변경
-  powershell -ExecutionPolicy Bypass -File scripts\schedule\register-gsc-cycle.ps1 -DayOfWeek Wednesday -At "10:30"
-
-.EXAMPLE
-  # 트래픽이 늘어난 뒤 매일 실행으로 전환 (구간도 7일로)
-  powershell -ExecutionPolicy Bypass -File scripts\schedule\register-gsc-cycle.ps1 -Daily -Days 7
+  # 간격·시각 변경
+  powershell -ExecutionPolicy Bypass -File scripts\schedule\register-gsc-cycle.ps1 -EveryDays 5 -At "10:30"
 
 .EXAMPLE
   # 등록 해제 / 지금 한 번 실행
@@ -31,13 +26,11 @@
 #>
 [CmdletBinding()]
 param(
-    [string]$TaskName = 'paytesla-gsc-weekly',
+    [string]$TaskName = 'paytesla-ai-os',
     [string]$At = '10:00',
-    [int]$Days = 14,
-    [ValidateSet('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday')]
-    [string]$DayOfWeek = 'Monday',
-    [switch]$Daily,
-    [switch]$Weekdays,
+    [int]$Days = 28,
+    [ValidateRange(1, 31)]
+    [int]$EveryDays = 3,
     [switch]$Unregister,
     [switch]$RunNow
 )
@@ -128,17 +121,8 @@ $action = New-ScheduledTaskAction `
     -Argument "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$RunnerPath`" -Days $Days" `
     -WorkingDirectory $AppRoot
 
-if ($Weekdays) {
-    $trigger = New-ScheduledTaskTrigger -Weekly `
-        -DaysOfWeek Monday, Tuesday, Wednesday, Thursday, Friday -At $At
-    $scheduleLabel = "평일(월~금) $At"
-} elseif ($Daily) {
-    $trigger = New-ScheduledTaskTrigger -Daily -At $At
-    $scheduleLabel = "매일 $At"
-} else {
-    $trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek $DayOfWeek -At $At
-    $scheduleLabel = "매주 $DayOfWeek $At"
-}
+$trigger = New-ScheduledTaskTrigger -Daily -DaysInterval $EveryDays -At $At
+$scheduleLabel = "${EveryDays}일마다 $At"
 
 # StartWhenAvailable 을 켜지 않는다 — PC가 꺼져 있어 정시를 놓치면
 # 나중에 따라잡지 않고 그 회차는 건너뛴다.
@@ -157,13 +141,20 @@ if (Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue) {
     Write-Host "[INFO] 기존 작업을 교체합니다" -ForegroundColor Yellow
 }
 
+# 중단된 옛 주간 작업이 남아 있으면 중복 실행을 막기 위해 제거한다.
+if ($TaskName -ne 'paytesla-gsc-weekly' -and
+    (Get-ScheduledTask -TaskName 'paytesla-gsc-weekly' -ErrorAction SilentlyContinue)) {
+    Unregister-ScheduledTask -TaskName 'paytesla-gsc-weekly' -Confirm:$false
+    Write-Host "[INFO] 옛 작업 'paytesla-gsc-weekly' 제거" -ForegroundColor Yellow
+}
+
 Register-ScheduledTask `
     -TaskName $TaskName `
     -Action $action `
     -Trigger $trigger `
     -Settings $settings `
     -Principal $principal `
-    -Description 'paytesla.kr — GSC 유입 분석 → 개선 코드 반영 → 품질/디자인 리뷰 → 알림 (커밋은 사용자가 직접)' | Out-Null
+    -Description 'paytesla.kr — GSC 관찰 → 과거 결정 판정 → AI 개선 → 품질 검증 → 자동 커밋·푸시' | Out-Null
 
 Write-Host ""
 Write-Host "[OK] 작업 '$TaskName' 등록 완료 — $scheduleLabel 실행" -ForegroundColor Green

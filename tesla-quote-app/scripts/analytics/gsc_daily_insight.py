@@ -28,6 +28,8 @@ from urllib.parse import urlparse
 APP_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(APP_ROOT))
 
+from scripts.analytics import gsc_state as st
+
 # GSC 데이터 확정 지연 (오늘 기준 며칠 전까지가 신뢰 가능한 데이터인가)
 _DATA_LAG_DAYS = 3
 
@@ -299,6 +301,72 @@ class GSCInsight:
             "opportunities": self._opportunities(q_now, qp_rows),
             "page_opportunities": self._page_opportunities(p_now, p_prev),
             "site_routes": scan_site_routes(app_root),
+            "anomaly": self._anomaly(end),
+            "loop_state": self._loop_state(app_root),
+        }
+
+    def _anomaly(self, data_end: date) -> dict:
+        """최근 7일과 직전 7일을 비교해 심층 판단이 필요한 급변만 표시한다."""
+        recent_end = data_end
+        recent_start = recent_end - timedelta(days=6)
+        prior_end = recent_start - timedelta(days=1)
+        prior_start = prior_end - timedelta(days=6)
+        recent = self._totals(self._agg(self._query(["query"], recent_start, recent_end)))
+        prior = self._totals(self._agg(self._query(["query"], prior_start, prior_end)))
+
+        impression_change = None
+        if prior["impressions"]:
+            impression_change = round(
+                (recent["impressions"] - prior["impressions"]) / prior["impressions"], 3
+            )
+        flags: list[str] = []
+        if impression_change is not None and abs(impression_change) >= 0.40:
+            flags.append(f"최근 7일 노출 {impression_change * 100:+.0f}% 급변")
+        if prior["clicks"] >= 3 and recent["clicks"] == 0:
+            flags.append("최근 7일 클릭이 0으로 감소")
+        if prior["impressions"] >= 20 and recent["impressions"] == 0:
+            flags.append("최근 7일 노출이 0으로 감소 — 색인 점검 필요")
+        return {
+            "recent_7d": {
+                "start": recent_start.isoformat(),
+                "end": recent_end.isoformat(),
+                **recent,
+            },
+            "prior_7d": {
+                "start": prior_start.isoformat(),
+                "end": prior_end.isoformat(),
+                **prior,
+            },
+            "impressions_change": impression_change,
+            "flags": flags,
+        }
+
+    @staticmethod
+    def _loop_state(app_root: Path) -> dict:
+        decisions = st.load_decisions(app_root)
+        for decision in st.backfill_deployed_at(app_root, decisions):
+            st.save_decision(app_root, decision)
+        st.refresh_statuses(decisions)
+        can_open, quota_note = st.can_open_new(decisions)
+        return {
+            "open_experiments": [
+                {
+                    "id": item.get("id"),
+                    "grade": item.get("grade"),
+                    "status": item.get("status"),
+                    "hypothesis": item.get("hypothesis"),
+                    "deployed_at": item.get("deployed_at"),
+                    "evaluate_at": item.get("evaluate_at"),
+                }
+                for item in st.open_experiments(decisions)
+            ],
+            "verdict_due": [
+                item.get("id") for item in decisions if item.get("status") == st.STATUS_DUE
+            ],
+            "frozen": st.frozen_targets(decisions),
+            "can_open_new_decision": can_open,
+            "quota_note": quota_note,
+            "max_new_decisions_per_run": st.MAX_NEW_DECISIONS_PER_RUN,
         }
 
     # ---------- 섹션별 분석 ----------
@@ -625,6 +693,32 @@ def render_markdown(r: dict) -> str:
         add("> 최근 구간에 노출이 아예 없다는 것은 순위가 낮은 것과 다른 문제다.")
         add("> 색인 상태·robots·canonical·사이트맵을 먼저 점검해야 한다.")
     add("")
+
+    loop = r.get("loop_state") or {}
+    if loop:
+        add("## 0. 운영 루프 상태")
+        add("")
+        add(f"- {loop.get('quota_note', '')}")
+        if loop.get("verdict_due"):
+            add(f"- 판정 기일 도래: **{', '.join(loop['verdict_due'])}**")
+        for experiment in loop.get("open_experiments") or []:
+            add(
+                f"- `{experiment.get('id')}` [{experiment.get('grade')}] "
+                f"{experiment.get('status')} — 배포 {experiment.get('deployed_at') or '대기'} / "
+                f"판정 {experiment.get('evaluate_at') or '미정'}"
+            )
+        frozen = loop.get("frozen") or {}
+        if frozen.get("pages") or frozen.get("queries"):
+            add("- 동결 대상이 있습니다. 판정 전에는 같은 페이지·검색어를 수정하지 않습니다.")
+        add("")
+
+    anomaly = r.get("anomaly") or {}
+    if anomaly.get("flags"):
+        add("### 최근 7일 급변 신호")
+        add("")
+        for flag in anomaly["flags"]:
+            add(f"- {flag}")
+        add("")
 
     if cur["impressions"] == 0:
         add("> ⚠️ 이 구간에 노출 데이터가 없습니다. GSC 색인 상태 또는 사이트 속성 설정을 확인하세요.")
