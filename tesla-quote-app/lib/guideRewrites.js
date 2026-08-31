@@ -636,7 +636,6 @@ export function rewriteGuide(guide) {
     description: spec.description,
     updatedAt: REVIEW_DATE,
     readTime: "10분",
-    isNew: true,
     keyPoints: spec.keyPoints,
     readerNeed: {
       question: spec.question,

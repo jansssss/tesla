@@ -2,6 +2,7 @@ import Link from "next/link";
 import { fetchRecentGuides } from "@/lib/supabase-server";
 import { getAllGuides, GUIDES_SECTION_PUBLIC } from "@/lib/guides";
 import { normalizeCategory } from "@/lib/categories";
+import { isGuideNew } from "@/lib/guideFreshness";
 
 function formatDate(dateStr) {
   if (!dateStr) return "";
@@ -79,7 +80,7 @@ export default async function RecentGuides() {
                 >
                   {normalizeCategory(guide.category)}
                 </span>
-                {guide.isNew ? (
+                {isGuideNew(guide) ? (
                   <span className="inline-flex rounded-full bg-blue-600 px-2 py-0.5 text-[10px] font-black tracking-[0.08em] text-white">
                     NEW
                   </span>

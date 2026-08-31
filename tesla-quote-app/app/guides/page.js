@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getAllGuides, GUIDES_SECTION_PUBLIC } from "@/lib/guides";
 import { fetchAllGuidesForList } from "@/lib/supabase-server";
 import { normalizeCategory } from "@/lib/categories";
+import { isGuideNew } from "@/lib/guideFreshness";
 
 // 정적 가이드 + Supabase 가이드(관리자 작성 글) 병합
 async function getMergedGuides() {
@@ -59,7 +60,7 @@ export default async function GuidesPage() {
                   <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-600">
                     {normalizeCategory(guide.category)}
                   </span>
-                  {guide.isNew ? (
+                  {isGuideNew(guide) ? (
                     <span className="inline-flex rounded-full bg-blue-600 px-2 py-1 text-[10px] font-black tracking-[0.08em] text-white">NEW</span>
                   ) : null}
                 </div>
