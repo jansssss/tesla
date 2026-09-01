@@ -133,13 +133,13 @@ const MY_SECTIONS = [
 ];
 
 export const metadata = {
-  title: "2026 테슬라 Model Y 트림별 가격·보조금·월납입금 (RWD·LR·L AWD)",
+  title: "테슬라 모델Y 가격 2026 — RWD·롱레인지·L 비교",
   description:
-    "테슬라 Model Y RWD·Long Range·L AWD 트림 출고가, 지역별 보조금, 실구매가 및 할부 월납입금 계산. 패밀리카 추천 모델 2026년 최신 데이터.",
+    "2026 테슬라 모델Y RWD·롱레인지·L의 출고가와 국내 인증 주행거리를 비교하고, 내 조건에 맞는 트림과 지역별 보조금 적용 실구매가 계산 경로를 확인하세요.",
   openGraph: {
-    title: "2026 테슬라 Model Y 트림별 가격·보조금·월납입금",
+    title: "2026 테슬라 모델Y 트림 비교 — 가격·주행거리·보조금",
     description:
-      "테슬라 Model Y RWD·Long Range·L AWD 트림 출고가, 지역별 보조금, 실구매가 및 할부 월납입금 계산.",
+      "RWD·롱레인지·L의 출고가와 국내 인증 주행거리를 비교하고, 지역별 보조금을 적용한 실구매가 계산까지 이어서 확인하세요.",
     url: "https://www.paytesla.kr/models/model-y",
     siteName: "하우머치 테슬라",
     locale: "ko_KR",

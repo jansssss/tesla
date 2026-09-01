@@ -1,0 +1,77 @@
+{
+  "id": "2026-09-01-model-y-serp-ctr",
+  "created": "2026-09-01",
+  "status": "pending_deploy",
+  "grade": "D",
+  "hypothesis": "검색 결과에서 'Model Y' 페이지의 제목이 길고 가격·보조금·월납입금까지 한꺼번에 약속해 핵심 모델 비교 의도가 흐려졌다. 짧은 한국어 모델명 중심 제목과 조건별 선택을 분명히 한 설명으로 바꾸면 이미 확보한 순위에서 클릭 연결이 늘어난다.",
+  "action": "신규 페이지나 차량 데이터는 건드리지 않고 /models/model-y의 metadata title·description과 Open Graph 문구만 2026 모델Y 트림 비교 의도에 맞게 간결하게 고친다.",
+  "targets": {
+    "pages": [
+      "/models/model-y"
+    ],
+    "queries": [
+      "테슬라 모델 y",
+      "테슬라 모델y",
+      "테슬라 모델 y 가격"
+    ]
+  },
+  "baseline": {
+    "window_days": 28,
+    "days": 28,
+    "start": "2026-08-02",
+    "end": "2026-08-29",
+    "pages": {
+      "/models/model-y": {
+        "clicks": 0,
+        "impressions": 641,
+        "ctr": 0.0,
+        "position": 8.90483619344774
+      }
+    },
+    "queries": {},
+    "site": {
+      "clicks": 75,
+      "impressions": 6827,
+      "ctr": 0.01098579170938919,
+      "position": 7.446023143401201
+    },
+    "context": {
+      "model_intent": {
+        "clicks": 0,
+        "impressions": 98,
+        "query_count": 14
+      }
+    }
+  },
+  "predict": {
+    "metric": "position",
+    "direction": "down",
+    "expected": "비교 가능한 28일 창에서 /models/model-y CTR 1.0% 이상 또는 클릭 6회 이상, 사이트 보정 평균순위는 2위 이상 악화되지 않는다.",
+    "secondary_metric": "ctr",
+    "secondary_direction": "up",
+    "target_ctr_min": 0.01,
+    "target_clicks_min": 6,
+    "max_adjusted_position_loss": 2.0
+  },
+  "falsification": "비교 가능한 28일 창에서 노출 200회 이상인데 CTR이 0.5% 미만이거나, 사이트 전체 변화를 보정한 평균순위가 2위 이상 악화되면 제목·설명 가설을 반증으로 본다.",
+  "deployed_at": null,
+  "freeze_until": "2026-09-25",
+  "evaluate_at": "2026-09-25",
+  "final_evaluate_at": "2026-10-13",
+  "extensions": 0,
+  "files": [
+    "tesla-quote-app/app/models/model-y/page.js"
+  ],
+  "sources": [
+    {
+      "name": "Tesla 대한민국 — Model Y",
+      "url": "https://www.tesla.com/ko_kr/modely",
+      "accessed_at": "2026-09-01"
+    },
+    {
+      "name": "무공해차 통합누리집 — 2026 구매보조금 지원",
+      "url": "https://www.ev.or.kr/nportal/buySupprt/initBuySubsidySupprtAction.do",
+      "accessed_at": "2026-09-01"
+    }
+  ]
+}
