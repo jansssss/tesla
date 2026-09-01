@@ -1,7 +1,7 @@
 {
   "id": "2026-09-01-model-y-serp-ctr",
   "created": "2026-09-01",
-  "status": "pending_deploy",
+  "status": "observing",
   "grade": "D",
   "hypothesis": "검색 결과에서 'Model Y' 페이지의 제목이 길고 가격·보조금·월납입금까지 한꺼번에 약속해 핵심 모델 비교 의도가 흐려졌다. 짧은 한국어 모델명 중심 제목과 조건별 선택을 분명히 한 설명으로 바꾸면 이미 확보한 순위에서 클릭 연결이 늘어난다.",
   "action": "신규 페이지나 차량 데이터는 건드리지 않고 /models/model-y의 metadata title·description과 Open Graph 문구만 2026 모델Y 트림 비교 의도에 맞게 간결하게 고친다.",
@@ -54,7 +54,7 @@
     "max_adjusted_position_loss": 2.0
   },
   "falsification": "비교 가능한 28일 창에서 노출 200회 이상인데 CTR이 0.5% 미만이거나, 사이트 전체 변화를 보정한 평균순위가 2위 이상 악화되면 제목·설명 가설을 반증으로 본다.",
-  "deployed_at": null,
+  "deployed_at": "2026-09-01",
   "freeze_until": "2026-09-25",
   "evaluate_at": "2026-09-25",
   "final_evaluate_at": "2026-10-13",
