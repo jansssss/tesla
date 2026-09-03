@@ -1,0 +1,91 @@
+{
+  "id": "2026-09-03-seoul-subsidy-serp-ctr",
+  "created": "2026-09-03",
+  "status": "observing",
+  "grade": "D",
+  "hypothesis": "서울 보조금 페이지는 평균순위 7.4위로 노출 위치를 확보했지만, 공통 템플릿 제목의 '서울특별시'와 포괄적인 설명이 실제 검색어인 '서울 테슬라 보조금'을 빠르게 확인하려는 의도를 선명하게 전달하지 못한다. 서울·테슬라·보조금을 제목 앞부분에 모으고 Model Y·3 금액 확인과 실구매가 계산을 설명하면 클릭 연결이 늘어난다.",
+  "action": "신규 페이지, 보조금·차량 원본 데이터, 본문은 건드리지 않고 /subsidy/seoul에만 적용되는 metadata title·description과 Open Graph 문구를 서울 테슬라 보조금 확인 의도에 맞게 간결하게 고친다.",
+  "targets": {
+    "pages": [
+      "/subsidy/seoul"
+    ],
+    "queries": [
+      "테슬라 서울 보조금",
+      "서울 테슬라 보조금"
+    ]
+  },
+  "baseline": {
+    "window_days": 28,
+    "days": 28,
+    "start": "2026-08-04",
+    "end": "2026-08-31",
+    "pages": {
+      "/subsidy/seoul": {
+        "clicks": 10,
+        "impressions": 2447,
+        "ctr": 0.004086636697997548,
+        "position": 7.360441356763384
+      }
+    },
+    "queries": {
+      "테슬라 서울 보조금": {
+        "clicks": 1,
+        "impressions": 19,
+        "ctr": 0.05263157894736842,
+        "position": 6.473684210526316
+      },
+      "서울 테슬라 보조금": {
+        "clicks": 0,
+        "impressions": 12,
+        "ctr": 0.0,
+        "position": 4.833333333333334
+      }
+    },
+    "site": {
+      "clicks": 73,
+      "impressions": 6994,
+      "ctr": 0.01043751787246211,
+      "position": 7.444809837003145
+    },
+    "context": {
+      "page_ctr_gap": "서울 보조금 페이지 CTR 0.41%는 같은 기간 사이트 전체 페이지 CTR 1.04%보다 0.63%p 낮다.",
+      "content_check": "기존 페이지에 차종별 보조금 표, 기준일, 적용 조건·예외, 계산기와 관련 모델·비교 페이지 왕복 링크가 있어 본문 공백보다 검색결과 문구가 우선 병목이다."
+    }
+  },
+  "predict": {
+    "metric": "ctr",
+    "direction": "up",
+    "expected": "비교 가능한 28일 창에서 /subsidy/seoul CTR 0.8% 이상 또는 클릭 20회 이상, 사이트 변화를 보정한 평균순위는 2위 이상 악화되지 않는다.",
+    "secondary_metric": "clicks",
+    "secondary_direction": "up",
+    "target_ctr_min": 0.008,
+    "target_clicks_min": 20,
+    "max_adjusted_position_loss": 2.0
+  },
+  "falsification": "비교 가능한 28일 창에서 노출 1,000회 이상인데 CTR이 0.5% 미만이거나, 사이트 전체 변화를 보정한 평균순위가 2위 이상 악화되면 제목·설명 가설을 반증으로 본다.",
+  "deployed_at": "2026-09-03",
+  "freeze_until": "2026-09-27",
+  "evaluate_at": "2026-09-27",
+  "final_evaluate_at": "2026-10-15",
+  "extensions": 0,
+  "files": [
+    "tesla-quote-app/app/subsidy/[region]/page.js"
+  ],
+  "sources": [
+    {
+      "name": "Tesla 대한민국 — 차량 모델",
+      "url": "https://www.tesla.com/ko_kr",
+      "accessed_at": "2026-09-03"
+    },
+    {
+      "name": "무공해차 통합누리집 — 2026년 전기자동차 보급사업 보조금 업무처리지침",
+      "url": "https://ev.or.kr/nportal/infoGarden/initGuideAction.do",
+      "accessed_at": "2026-09-03"
+    },
+    {
+      "name": "서울특별시 — 2026 서울시 전기차 보조금 안내",
+      "url": "https://news.seoul.go.kr/env/archives/567170?listPage=1",
+      "accessed_at": "2026-09-03"
+    }
+  ]
+}
