@@ -1,0 +1,79 @@
+{
+  "id": "2026-09-04-jeju-subsidy-serp-ctr",
+  "created": "2026-09-04",
+  "status": "observing",
+  "grade": "D",
+  "hypothesis": "제주 보조금 페이지는 평균순위 5.8위로 검색 결과 상단을 확보했지만, 공통 템플릿 제목의 긴 행정구역명과 포괄적인 설명이 제주에서 테슬라 보조금과 실구매가를 확인하려는 의도를 빠르게 전달하지 못한다. 제목 앞부분에 제주·테슬라·보조금을 모으고 Model 3·Y 금액 확인과 계산 목적을 분명히 하면 클릭 연결이 늘어난다.",
+  "action": "신규 페이지, 보조금·차량 원본 데이터, 본문은 건드리지 않고 /subsidy/jeju에만 적용되는 metadata title·description과 Open Graph 문구를 제주 테슬라 보조금 확인 의도에 맞게 간결하게 고친다.",
+  "targets": {
+    "pages": [
+      "/subsidy/jeju"
+    ],
+    "queries": [
+      "제주 테슬라 보조금",
+      "테슬라 제주 보조금"
+    ]
+  },
+  "baseline": {
+    "window_days": 28,
+    "days": 28,
+    "start": "2026-08-05",
+    "end": "2026-09-01",
+    "pages": {
+      "/subsidy/jeju": {
+        "clicks": 12,
+        "impressions": 1057,
+        "ctr": 0.011352885525070956,
+        "position": 5.753074739829707
+      }
+    },
+    "queries": {},
+    "site": {
+      "clicks": 71,
+      "impressions": 7196,
+      "ctr": 0.009866592551417454,
+      "position": 7.429683157309617
+    },
+    "context": {
+      "page_ctr_gap": "제주 보조금 페이지 CTR 1.14%는 평균순위 5.75위에서 기대되는 CTR보다 낮다.",
+      "query_visibility": "제주 관련 개별 검색어는 GSC 익명화·저표본으로 기준선에 충분히 나타나지 않아 페이지 단위 성과를 주 판정 기준으로 삼는다.",
+      "content_check": "기존 페이지에 차종별 보조금 표, 기준일, 적용 조건·예외, FAQ, 계산기와 보조금 허브·모델·비교 페이지 왕복 링크가 있어 본문 공백보다 검색결과 문구가 우선 병목이다."
+    }
+  },
+  "predict": {
+    "metric": "ctr",
+    "direction": "up",
+    "expected": "비교 가능한 28일 창에서 /subsidy/jeju CTR 2.0% 이상 또는 클릭 20회 이상, 사이트 변화를 보정한 평균순위는 2위 이상 악화되지 않는다.",
+    "secondary_metric": "clicks",
+    "secondary_direction": "up",
+    "target_ctr_min": 0.02,
+    "target_clicks_min": 20,
+    "max_adjusted_position_loss": 2.0
+  },
+  "falsification": "비교 가능한 28일 창에서 노출 500회 이상인데 CTR이 1.0% 미만이거나, 사이트 전체 변화를 보정한 평균순위가 2위 이상 악화되면 제목·설명 가설을 반증으로 본다.",
+  "deployed_at": "2026-09-04",
+  "freeze_until": "2026-09-28",
+  "evaluate_at": "2026-09-28",
+  "final_evaluate_at": "2026-10-16",
+  "extensions": 0,
+  "files": [
+    "tesla-quote-app/app/subsidy/[region]/page.js"
+  ],
+  "sources": [
+    {
+      "name": "Tesla 대한민국 — 차량 모델",
+      "url": "https://www.tesla.com/ko_kr/models",
+      "accessed_at": "2026-09-04"
+    },
+    {
+      "name": "무공해차 통합누리집 — 2026 구매보조금 지원",
+      "url": "https://www.ev.or.kr/nportal/buySupprt/initBuySubsidySupprtAction.do",
+      "accessed_at": "2026-09-04"
+    },
+    {
+      "name": "무공해차 통합누리집 — 지자체별 보조금 현황",
+      "url": "https://www.ev.or.kr/nportal/buySupprt/initSubsidyPaymentCheckAction.do",
+      "accessed_at": "2026-09-04"
+    }
+  ]
+}

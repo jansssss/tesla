@@ -29,11 +29,16 @@ export async function generateMetadata({ params }) {
   const hasData = stats.statsByModel.some((s) => (s.max || 0) > 0);
   const noindex = metro.type === "do" || !hasData;
   const isSeoul = region === "seoul";
+  const isJeju = region === "jeju";
   const title = isSeoul
     ? "2026 서울 테슬라 보조금 — Model Y·3 금액·실구매가"
+    : isJeju
+      ? "2026 제주 테슬라 보조금 — Model Y·3 금액·실구매가"
     : `2026 ${metro.name} 테슬라 보조금 실구매가 계산`;
   const description = isSeoul
     ? `서울 테슬라 Model Y·3의 국고·지방보조금과 차감 예상가를 ${snapshot.dataDate} 기준으로 확인하세요. 거주·출고 조건, 예산 소진 유의사항과 월납입금 계산까지 제공합니다.`
+    : isJeju
+      ? `제주 테슬라 Model Y·3의 국고·도비 보조금과 차감 예상가를 ${snapshot.dataDate} 기준으로 확인하세요. 거주·출고 조건, 예산 소진 유의사항과 월납입금 계산까지 제공합니다.`
     : `${metro.name} 테슬라 Model 3·Model Y 보조금 총액, 실구매가 및 월납입금 자동 계산. 국고보조금+${metro.shortName} 지방보조금 합산 2026년 최신 데이터.`;
 
   return {
