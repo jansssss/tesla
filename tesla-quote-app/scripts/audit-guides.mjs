@@ -9,10 +9,13 @@ const warnings = [];
 const OFFICIAL_SOURCE_HOSTS = new Set([
   "www.tesla.com",
   "tesla.com",
+  "ir.tesla.com",
   "www.ev.or.kr",
   "ev.or.kr",
   "www.me.go.kr",
   "me.go.kr",
+  "www.molit.go.kr",
+  "molit.go.kr",
   "finlife.fss.or.kr",
   "www.fss.or.kr",
   "fss.or.kr",
@@ -35,6 +38,7 @@ function articleText(guide) {
     ...(guide.keyPoints || []),
     guide.readerNeed?.question || "",
     guide.readerNeed?.intent || "",
+    ...(guide.columnParagraphs || []),
     ...(guide.sections || []).flatMap((section) => [
       section.title,
       ...(section.paragraphs || []),
@@ -61,6 +65,7 @@ if (slugs.size !== guides.length) {
 for (const guide of guides) {
   const text = articleText(guide);
   const sections = guide.sections || [];
+  const isColumn = guide.format === "column";
   const paragraphCount = sections.reduce((sum, section) => sum + (section.paragraphs?.length || 0), 0);
   const tableCount = sections.filter((section) => section.table?.rows?.length).length;
   const bulletCount = sections.reduce((sum, section) => sum + (section.bullets?.length || 0), 0);
@@ -69,11 +74,16 @@ for (const guide of guides) {
     fail(guide.slug, "대상 독자·핵심 질문·확인 시점이 없습니다.");
   }
   if ((guide.keyPoints || []).length < 3) fail(guide.slug, "핵심 요약은 3개 이상이어야 합니다.");
-  if (sections.length < 5) fail(guide.slug, "본문 섹션은 5개 이상이어야 합니다.");
-  if (paragraphCount < 8) fail(guide.slug, "완전한 설명 문단은 8개 이상이어야 합니다.");
-  if (tableCount < 1) fail(guide.slug, "판단 기준 비교표가 없습니다.");
-  if (bulletCount < 5) fail(guide.slug, "실행 체크리스트가 5개 미만입니다.");
-  if (text.replace(/\s/g, "").length < 1400) fail(guide.slug, "실질 본문이 1,400자 미만입니다.");
+  if (isColumn) {
+    if ((guide.columnParagraphs || []).length < 12) fail(guide.slug, "칼럼 본문은 12문단 이상이어야 합니다.");
+    if (text.replace(/\s/g, "").length < 2400) fail(guide.slug, "칼럼 실질 본문이 2,400자 미만입니다.");
+  } else {
+    if (sections.length < 5) fail(guide.slug, "본문 섹션은 5개 이상이어야 합니다.");
+    if (paragraphCount < 8) fail(guide.slug, "완전한 설명 문단은 8개 이상이어야 합니다.");
+    if (tableCount < 1) fail(guide.slug, "판단 기준 비교표가 없습니다.");
+    if (bulletCount < 5) fail(guide.slug, "실행 체크리스트가 5개 미만입니다.");
+    if (text.replace(/\s/g, "").length < 1400) fail(guide.slug, "실질 본문이 1,400자 미만입니다.");
+  }
   if (EMOJI_PATTERN.test(text)) fail(guide.slug, "본문에 이모티콘 또는 장식용 기호가 있습니다.");
   if (HYPE_PATTERN.test(text)) fail(guide.slug, "과장형·단정형 문구가 있습니다.");
   if (FAKE_EXPERIENCE_PATTERN.test(text)) fail(guide.slug, "검증되지 않은 1인칭 경험 표현이 있습니다.");

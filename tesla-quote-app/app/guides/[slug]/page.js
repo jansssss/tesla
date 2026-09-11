@@ -131,6 +131,7 @@ export default async function GuideDetailPage({ params }) {
   const { slug } = await params;
   const staticGuide = getGuideBySlug(slug);
   const guide = staticGuide ?? await fetchGuideBySlug(slug);
+  const isColumn = guide?.format === "column";
 
   // 공개 기준: status='published'(Supabase) 또는 비-archived 정적 글만. 그 외 404.
   if (!isPublishedGuide(staticGuide, guide, slug)) {
@@ -223,7 +224,7 @@ export default async function GuideDetailPage({ params }) {
           </header>
 
           <div className="grid gap-8 px-6 py-8 md:px-10 md:py-10">
-            {guide.readerNeed ? (
+            {guide.readerNeed && !isColumn ? (
               <section className="rounded-2xl border border-slate-200 bg-slate-50 p-5 md:p-6" aria-labelledby="reader-need-title">
                 <div className="grid gap-5 md:grid-cols-[1.4fr_0.6fr] md:items-start">
                   <div>
@@ -255,7 +256,7 @@ export default async function GuideDetailPage({ params }) {
             ) : null}
 
             {/* 목차 */}
-            {!guide.contentHtml && guide.sections && guide.sections.length > 1 && (
+            {!isColumn && !guide.contentHtml && guide.sections && guide.sections.length > 1 && (
               <nav className="rounded-2xl border border-slate-200 bg-slate-50 p-5" aria-label="목차">
                 <p className="text-[11px] font-black uppercase tracking-[0.22em] text-slate-400 mb-3">목차</p>
                 <ol className="space-y-2">
@@ -277,7 +278,7 @@ export default async function GuideDetailPage({ params }) {
             )}
 
             {/* 인아티클 계산기 CTA — 자동생성(sections) 글에만. 직접작성 글은 본문 우선 + 하단 CTA로 충분 */}
-            {!guide.contentHtml && (
+            {!isColumn && !guide.contentHtml && (
             <div className="rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-5">
               <div className="flex items-center gap-2.5 mb-4">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-600 text-[10px] font-black text-white">
@@ -303,7 +304,18 @@ export default async function GuideDetailPage({ params }) {
             </div>
             )}
 
-            {guide.contentHtml ? (
+            {isColumn ? (
+              <div className="mx-auto max-w-2xl space-y-6 text-[15px] leading-8 text-slate-700 md:text-[17px] md:leading-9">
+                {(guide.columnParagraphs || []).map((paragraph, index) => (
+                  <p
+                    key={paragraph}
+                    className={index === 0 ? "text-lg font-semibold leading-9 text-slate-900 md:text-xl md:leading-10" : undefined}
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            ) : guide.contentHtml ? (
               /* 관리자가 HTML 편집한 경우 */
               <div
                 className="guide-html-content"
