@@ -37,16 +37,16 @@ Google AdSense의 유용한 콘텐츠 기준을 충족해 승인을 받는다.**
 
 ## 현재 병목
 
-### 2026-09-15 진단
+### 2026-09-16 진단
 
 **병목**: 포괄적인 `테슬라 계산기` 검색이 구매 단계에 맞는 계산기 허브보다
-`/calc/charging`으로 연결된다. `테슬라 계산기`는 28일간 56노출·0클릭·평균 8.9위,
-띄어쓰기 없는 `테슬라계산기`는 18노출·0클릭·평균 8.4위였고 두 검색어 모두 충전비 계산기로
-연결됐다. 충전비 계산기 페이지 전체는 555노출·13클릭·CTR 2.34%·평균 7.6위였다. 충전비
+`/calc/charging`으로 연결된다. `테슬라 계산기`는 28일간 54노출·0클릭·평균 9.0위,
+띄어쓰기 없는 `테슬라계산기`는 16노출·0클릭·평균 8.3위였고 두 검색어 모두 충전비 계산기로
+연결됐다. 충전비 계산기 페이지 전체는 571노출·12클릭·CTR 2.10%·평균 7.5위였다. 충전비
 계산기 자체의 클릭은 늘었지만, 실구매가·월 부담·충전비·총소유비용 중 무엇을 계산할지 찾는
 포괄 검색 의도는 여전히 허브로 연결되지 않는 것이 현재 가장 큰 비동결 고객 문제다.
 
-**근거**: 2026-08-16~09-12 검색어 차원은 11클릭·876노출·CTR 1.26%·평균 9.5위다.
+**근거**: 2026-08-17~09-13 검색어 차원은 12클릭·872노출·CTR 1.38%·평균 9.5위다.
 계산 의도 전체는 112노출·0클릭이었다. 기존 `/calc` 허브에는 계산기 10종과 구매 판단 순서가
 있고, 대표 글 `/guides/tesla-monthly-payment-guide`와
 `/guides/tesla-ev-maintenance-cost`가 월납입금·유지비 의도를 나눠 설명한다.
@@ -71,7 +71,7 @@ Tesla는 홈 충전을 편리하고 경제적인 일상 충전 방식으로 안�
 
 **공식 확인**: [Tesla 홈차징](https://www.tesla.com/ko_KR/support/charging/home-charging),
 [Tesla 수퍼차저](https://www.tesla.com/ko_kr/support/charging/supercharging),
-[무공해차 통합누리집 전기차 충전요금](https://ev.or.kr/nportal/evcarInfo/initEvcarChargePrice.do),
+[무공해차 통합누리집 전기차 충전요금](https://ev.or.kr/nportal/evcarInfo/initEvcarChargePriceV2.do),
 [2026 공공 충전요금 개편](https://ev.or.kr/nportal/board/generalView.do?ARTC_ID=24873&boardType=notice),
 [2026 가을철 충전요금 할인](https://www.mcee.go.kr/home/web/board/read.do?boardId=1888250&boardMasterId=939&menuId=10598)
-(2026-09-15 확인).
+(2026-09-16 확인).
