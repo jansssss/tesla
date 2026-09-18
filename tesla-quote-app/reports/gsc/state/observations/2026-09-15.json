@@ -1,0 +1,214 @@
+{
+  "recorded_at": "2026-09-18",
+  "generated_for": "2026-09-15",
+  "window": {
+    "start": "2026-08-19",
+    "end": "2026-09-15",
+    "days": 28
+  },
+  "summary": {
+    "clicks": 11,
+    "impressions": 861,
+    "ctr": 0.012775842044134728,
+    "position": 9.59233449477352,
+    "query_count": 154
+  },
+  "delta_pct": {
+    "clicks": 175.0,
+    "impressions": 115.3,
+    "query_count": 144.4
+  },
+  "anomaly_flags": [],
+  "top_queries": [
+    {
+      "query": "테슬라 보조금 계산기",
+      "impressions": 183,
+      "clicks": 4,
+      "position": 7.7,
+      "intent": "보조금"
+    },
+    {
+      "query": "테슬라 수리비",
+      "impressions": 36,
+      "clicks": 1,
+      "position": 10.7,
+      "intent": "기타"
+    },
+    {
+      "query": "테슬라 자동차세",
+      "impressions": 34,
+      "clicks": 1,
+      "position": 4.8,
+      "intent": "유지비"
+    },
+    {
+      "query": "테슬라 보험료 계산",
+      "impressions": 7,
+      "clicks": 1,
+      "position": 6.9,
+      "intent": "유지비"
+    },
+    {
+      "query": "테슬라 풀충전 비용",
+      "impressions": 7,
+      "clicks": 1,
+      "position": 3.7,
+      "intent": "충전"
+    },
+    {
+      "query": "테슬라 취등록세",
+      "impressions": 6,
+      "clicks": 1,
+      "position": 6.0,
+      "intent": "유지비"
+    },
+    {
+      "query": "제주",
+      "impressions": 1,
+      "clicks": 1,
+      "position": 5.0,
+      "intent": "기타"
+    },
+    {
+      "query": "테슬라 모델y 보험료",
+      "impressions": 1,
+      "clicks": 1,
+      "position": 9.0,
+      "intent": "유지비"
+    },
+    {
+      "query": "테슬라 계산기",
+      "impressions": 45,
+      "clicks": 0,
+      "position": 9.0,
+      "intent": "계산"
+    },
+    {
+      "query": "테슬라 모델 y 실구매가 계산기",
+      "impressions": 36,
+      "clicks": 0,
+      "position": 9.0,
+      "intent": "가격"
+    }
+  ],
+  "top_pages": [
+    {
+      "path": "/calc/charging",
+      "impressions": 602,
+      "clicks": 11,
+      "position": 7.3
+    },
+    {
+      "path": "/subsidy/seoul",
+      "impressions": 3619,
+      "clicks": 9,
+      "position": 7.8
+    },
+    {
+      "path": "/calc/charging-time",
+      "impressions": 705,
+      "clicks": 9,
+      "position": 7.0
+    },
+    {
+      "path": "/answers/tesla-car-tax",
+      "impressions": 463,
+      "clicks": 9,
+      "position": 5.9
+    },
+    {
+      "path": "/",
+      "impressions": 303,
+      "clicks": 7,
+      "position": 7.9
+    },
+    {
+      "path": "/subsidy/jeju",
+      "impressions": 1416,
+      "clicks": 6,
+      "position": 5.3
+    },
+    {
+      "path": "/subsidy",
+      "impressions": 1146,
+      "clicks": 5,
+      "position": 7.3
+    },
+    {
+      "path": "/calc/tco",
+      "impressions": 129,
+      "clicks": 5,
+      "position": 8.4
+    },
+    {
+      "path": "/answers/tesla-repair-cost",
+      "impressions": 106,
+      "clicks": 5,
+      "position": 9.5
+    },
+    {
+      "path": "/calc/monthly-real-cost",
+      "impressions": 106,
+      "clicks": 4,
+      "position": 8.5
+    }
+  ],
+  "intent_breakdown": [
+    {
+      "intent": "보조금",
+      "impressions": 227,
+      "clicks": 4,
+      "queries": 11
+    },
+    {
+      "intent": "기타",
+      "impressions": 132,
+      "clicks": 2,
+      "queries": 41
+    },
+    {
+      "intent": "충전",
+      "impressions": 119,
+      "clicks": 1,
+      "queries": 39
+    },
+    {
+      "intent": "유지비",
+      "impressions": 116,
+      "clicks": 4,
+      "queries": 20
+    },
+    {
+      "intent": "계산",
+      "impressions": 106,
+      "clicks": 0,
+      "queries": 10
+    },
+    {
+      "intent": "가격",
+      "impressions": 78,
+      "clicks": 0,
+      "queries": 16
+    },
+    {
+      "intent": "모델정보",
+      "impressions": 44,
+      "clicks": 0,
+      "queries": 10
+    },
+    {
+      "intent": "출고절차",
+      "impressions": 36,
+      "clicks": 0,
+      "queries": 4
+    }
+  ],
+  "loop": {
+    "verdict_due": [],
+    "open_experiments": [
+      "2026-09-01-model-y-serp-ctr",
+      "2026-09-03-seoul-subsidy-serp-ctr",
+      "2026-09-04-jeju-subsidy-serp-ctr"
+    ]
+  }
+}
