@@ -8,7 +8,8 @@
     "build": "npm run prepare:data && next build",
     "start": "next start",
     "lint": "eslint . --ext .js,.jsx",
-    "content:audit": "node scripts/audit-guides.mjs",
+    "content:audit": "node scripts/audit-guides.mjs && node scripts/audit-adsense-readiness.mjs",
+    "adsense:audit": "node scripts/audit-adsense-readiness.mjs",
     "test": "vitest run",
     "test:watch": "vitest"
   },

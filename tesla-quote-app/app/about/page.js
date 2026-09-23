@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: '사이트 소개 | 하우머치 테슬라',
+  title: '사이트 소개',
   description: '하우머치 테슬라는 환경부·지자체 보조금 공고를 분석해 테슬라 실구매가를 지역별로 계산해주는 정보 사이트입니다.',
   alternates: { canonical: 'https://www.paytesla.kr/about' },
 };
@@ -31,7 +31,7 @@ export default function AboutPage() {
               여기에 청년·다자녀 가산 혜택까지 붙으면 계산이 복잡해집니다.
             </p>
             <p className="text-sm text-gray-700 leading-relaxed">
-              하우머치 테슬라는 환경부와 각 지자체가 공개한 보조금 공고문을 분석해
+              하우머치 테슬라는 무공해차 통합누리집과 각 지자체가 공개한 보조금 공고문을 분석해
               모델별·지역별 실구매가를 계산해주는 사이트입니다.
               공식 공고 전 예상 보조금이나 가격 전망은 제공하지 않으며,
               공식 발표가 나온 뒤 이전 기준과 달라진 변경점만 분석합니다.
@@ -58,11 +58,37 @@ export default function AboutPage() {
                   지역별 실구매가를 바로 계산해주는 도구를 만들어 직접 검수하며 정리하고 있습니다.
                 </p>
                 <p>
-                  전문가의 분석이라기보다, <strong>같은 고민을 먼저 해본 한 명의 실구매자</strong>로서
-                  제가 부딪힌 정보들을 정리한다는 마음으로 운영합니다.
+                  자동차 판매나 금융상품 중개를 하지 않으며 특정 선택을 정답처럼 권하지 않습니다.
+                  <strong> 같은 고민을 먼저 해본 한 명의 실구매자</strong>로서, 공식 문서에서 확인되는
+                  사실과 사이트가 계산한 예시를 구분해 설명합니다.
                 </p>
               </div>
             </div>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-bold text-gray-800 mb-4">글과 계산기는 이렇게 검수합니다</h2>
+            <ol className="space-y-3 text-sm text-gray-700">
+              {[
+                "구매자가 실제로 결정해야 할 질문을 먼저 정하고, 필요한 가격·자격·기한 항목을 나눕니다.",
+                "테슬라 공식 사이트, 무공해차 통합누리집, 지자체 공고 등 1차 출처를 우선 확인합니다.",
+                "출처에서 가져온 수치와 하우머치 테슬라가 계산한 예시를 분리하고 계산 조건을 함께 적습니다.",
+                "AI가 검색 질문 분류나 초안 구조화를 보조하더라도, 공개 전 출처·수치·조건·링크는 jans가 최종 대조합니다.",
+              ].map((item, index) => (
+                <li key={item} className="flex items-start gap-3">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-900 text-xs font-bold text-white">
+                    {index + 1}
+                  </span>
+                  <span className="pt-0.5 leading-relaxed">{item}</span>
+                </li>
+              ))}
+            </ol>
+            <p className="mt-4 text-sm text-gray-600 leading-relaxed">
+              각 가이드에는 최종 검수일과 사용한 공식·공공 출처 수를 표시합니다. 세부 기준은{" "}
+              <Link href="/editorial-policy" className="text-red-600 hover:underline">콘텐츠 정책</Link>,
+              계산 가정은{" "}
+              <Link href="/data-sources" className="text-red-600 hover:underline">데이터 출처 및 계산 기준</Link>에서 확인할 수 있습니다.
+            </p>
           </section>
 
           {/* 데이터 신뢰성 */}
@@ -71,16 +97,16 @@ export default function AboutPage() {
             <ul className="space-y-3 text-sm text-gray-700">
               {[
                 {
-                  title: "환경부 전기차 보조금 공고",
-                  desc: "매년 발표되는 환경부 무공해차 보급사업 보조금 공고문을 직접 분석합니다.",
+                  title: "정부 전기차 보조금 공고",
+                  desc: "무공해차 통합누리집과 주무 부처의 무공해차 보급사업 공고문을 직접 확인합니다.",
                 },
                 {
                   title: "지자체 보조금 공고",
                   desc: "17개 광역시도 + 주요 기초자치단체의 개별 보조금 공고를 수집·정리합니다.",
                 },
                 {
-                  title: "커뮤니티 실구매 사례 교차검증",
-                  desc: "테슬라 커뮤니티에 올라오는 실제 구매 사례와 데이터를 대조해 오류를 보정합니다.",
+                  title: "사이트 자체 계산",
+                  desc: "공식 수치에 적용한 계산식과 입력 조건을 분리해 표기하고, 결과를 역산해 오류를 확인합니다.",
                 },
                 {
                   title: "테슬라 코리아 공식 출고가",
@@ -102,7 +128,8 @@ export default function AboutPage() {
               {[
                 { title: "공고 기반", desc: "계산 데이터는 공개된 공고문을 근거로 하며, 출처를 확인할 수 있습니다." },
                 { title: "정기 업데이트", desc: "보조금 공고가 나오면 데이터를 갱신하고, 업데이트 시점을 표기합니다." },
-                { title: "오류 수정", desc: "잘못된 수치나 누락이 있으면 제보를 받아 즉시 수정합니다." },
+                { title: "사람의 최종 검수", desc: "자동화 도구가 보조한 내용도 운영자가 공식 출처와 대조한 뒤 공개합니다." },
+                { title: "오류 수정", desc: "오류 제보는 영업일 기준 3일 안에 검토하고, 수정한 글에는 최신 검수일을 표시합니다." },
               ].map(({ title, desc }) => (
                 <li key={title} className="flex items-start gap-2">
                   <span className="text-red-600 mt-0.5 font-bold flex-shrink-0">▸</span>

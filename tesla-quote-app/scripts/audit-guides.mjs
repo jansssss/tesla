@@ -14,6 +14,8 @@ const OFFICIAL_SOURCE_HOSTS = new Set([
   "ev.or.kr",
   "www.me.go.kr",
   "me.go.kr",
+  "www.mcee.go.kr",
+  "mcee.go.kr",
   "www.molit.go.kr",
   "molit.go.kr",
   "finlife.fss.or.kr",
@@ -30,6 +32,13 @@ const OFFICIAL_SOURCE_HOSTS = new Set([
 const EMOJI_PATTERN = /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}]/u;
 const HYPE_PATTERN = /(완벽\s*가이드|완전\s*정리|무조건|반드시\s*(유리|구매|승인)|충격|대박|솔직한\s*판단)/;
 const FAKE_EXPERIENCE_PATTERN = /(제가\s*(직접|타보|구매)|저는\s*(직접|구매|운전)|타면서\s*느꼈|솔직히\s*말하면)/;
+const FLAGSHIP_ANALYSIS_SLUGS = new Set([
+  "tesla-purchase-process-for-beginners",
+  "tesla-monthly-payment-guide",
+  "tesla-3year-cost",
+  "tesla-subsidy-apply-guide",
+  "apartment-charging-checklist",
+]);
 
 function articleText(guide) {
   return [
@@ -83,6 +92,12 @@ for (const guide of guides) {
     if (tableCount < 1) fail(guide.slug, "판단 기준 비교표가 없습니다.");
     if (bulletCount < 5) fail(guide.slug, "실행 체크리스트가 5개 미만입니다.");
     if (text.replace(/\s/g, "").length < 1400) fail(guide.slug, "실질 본문이 1,400자 미만입니다.");
+    if (
+      FLAGSHIP_ANALYSIS_SLUGS.has(guide.slug) &&
+      !sections.some((section) => section.editorialMarker === "paytesla-original-analysis")
+    ) {
+      fail(guide.slug, "대표 재심사 글에 자체 계산·분석 섹션이 없습니다.");
+    }
   }
   if (EMOJI_PATTERN.test(text)) fail(guide.slug, "본문에 이모티콘 또는 장식용 기호가 있습니다.");
   if (HYPE_PATTERN.test(text)) fail(guide.slug, "과장형·단정형 문구가 있습니다.");

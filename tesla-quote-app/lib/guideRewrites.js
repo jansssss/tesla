@@ -9,6 +9,7 @@
 
 const REVIEW_DATE = "2026-08-28";
 const FSD_LITE_REVIEW_DATE = "2026-09-11";
+const REAPPLY_REVIEW_DATE = "2026-09-23";
 
 const SOURCES = {
   teslaSupport: {
@@ -77,9 +78,9 @@ const SOURCES = {
     accessedAt: REVIEW_DATE,
   },
   environment: {
-    name: "환경부 — 무공해차 보급 정책 및 업무처리지침",
-    url: "https://www.me.go.kr/home/web/main.do",
-    accessedAt: REVIEW_DATE,
+    name: "기후에너지환경부 — 무공해차 보급 정책 및 업무처리지침",
+    url: "https://www.mcee.go.kr/home/web/main.do",
+    accessedAt: REAPPLY_REVIEW_DATE,
   },
   fss: {
     name: "금융감독원 금융상품통합비교공시 — 자동차 금융 비교",
@@ -120,6 +121,25 @@ const R = {
     relatedSlugs: ["tesla-buying-mistakes-checklist", "tesla-subsidy-apply-guide", "tesla-contract-cancel"],
     answerSlugs: ["model-y-worth-buying", "tesla-without-home-charger"],
     sourceKeys: ["teslaSupport", "teslaTestDrive", "evPortal"],
+    updatedAt: REAPPLY_REVIEW_DATE,
+    originalAnalysis: {
+      title: "주문일부터 인도일까지 한 장으로 관리하는 일정표",
+      paragraphs: [
+        "하우머치 테슬라는 구매 절차를 차량 주문 하나로 보지 않고 예산, 충전, 보조금, 보험, 등록의 다섯 흐름으로 나눕니다. 아래 표처럼 각 흐름의 완료 기준을 따로 적으면 차량 배정이 예상보다 빨라져도 준비가 덜 된 항목을 바로 찾을 수 있습니다.",
+        "시점은 법정 기한이 아니라 누락을 막기 위한 작업 예시입니다. 실제 접수일과 출고 기한은 거주지 공고와 Tesla 안내가 우선합니다.",
+      ],
+      table: {
+        headers: ["관리 시점", "확인할 흐름", "완료 기준"],
+        rows: [
+          ["견적 전", "월 예산·충전", "차량비 상한과 주 충전 장소를 숫자로 기록"],
+          ["주문 당일", "주문 조건", "차종·옵션·결제액·변경 조건을 저장"],
+          ["보조금 접수 전", "자격·서류", "공고 원문과 판매사 제출 일정을 대조"],
+          ["인도 1주 전", "보험·등록·잔금", "개시 시각과 송금·등록 서류를 확정"],
+          ["인도 당일", "차량·앱", "외관·기능·계정 연동과 문제 접수 방법 확인"],
+        ],
+      },
+      callout: "일정이 바뀌면 모든 준비를 처음부터 다시 하지 말고, 완료 기준이 깨진 행만 다시 확인합니다.",
+    },
   },
   "tesla-buying-mistakes-checklist": {
     category: "구매 가이드",
@@ -273,6 +293,23 @@ const R = {
     relatedSlugs: ["ev-auto-loan-guide-2026", "tesla-affordability-salary-guide", "tesla-3year-cost"],
     answerSlugs: [],
     sourceKeys: ["fss", "teslaModel3", "teslaModelY"],
+    updatedAt: REAPPLY_REVIEW_DATE,
+    originalAnalysis: {
+      title: "같은 4,000만원 대출도 기간에 따라 달라지는 금액",
+      paragraphs: [
+        "원리금균등상환 예시로 대출원금 4,000만원, 연 5%, 별도 수수료 없음이라는 동일 조건을 적용했습니다. 월납입금만 보면 60개월이 가장 가벼워 보이지만 36개월보다 총이자가 약 213만원 늘어납니다.",
+        "이 계산은 특정 금융상품 추천이나 현재 적용 금리가 아닙니다. 실제 비교에서는 승인 금리, 중도상환수수료, 차량 할인과 등록비를 별도 항목으로 넣어야 합니다.",
+      ],
+      table: {
+        headers: ["상환 기간", "예상 월납입금", "예상 총이자"],
+        rows: [
+          ["36개월", "약 119만 9천원", "약 315만 8천원"],
+          ["48개월", "약 92만 1천원", "약 421만 6천원"],
+          ["60개월", "약 75만 5천원", "약 529만 1천원"],
+        ],
+      },
+      callout: "월납입금 비교표 옆에 총이자와 예상 매각 시점의 남은 원금을 함께 적어야 낮은 월 금액의 착시를 피할 수 있습니다.",
+    },
   },
   "ev-lease-installment-cash": {
     category: "구매·금융",
@@ -307,6 +344,23 @@ const R = {
     relatedSlugs: ["tesla-affordability-salary-guide", "tesla-ev-maintenance-cost", "tesla-insurance-guide"],
     answerSlugs: ["tesla-insurance-cost", "tesla-tire-replacement"],
     sourceKeys: ["teslaSupport", "fss", "evPortal"],
+    updatedAt: REAPPLY_REVIEW_DATE,
+    originalAnalysis: {
+      title: "3년 총비용에서 중고가 가정이 만드는 차이",
+      paragraphs: [
+        "총소유비용은 구매가에서 예상 매각가를 뺀 감가액에 금융·보험·충전·세금·소모품을 더해 계산합니다. 예시로 실구매가 5,000만원, 3년 운영비 합계 900만원을 고정하고 매각가만 바꾸면 결과 차이가 선명해집니다.",
+        "미래 중고가는 확정할 수 없으므로 기준값 하나를 정답처럼 쓰지 않습니다. 낙관·기준·보수 세 시나리오의 간격이 구매 후 감당 가능한 범위인지 확인하는 용도입니다.",
+      ],
+      table: {
+        headers: ["3년 후 매각가 가정", "감가액", "3년 총비용"],
+        rows: [
+          ["3,500만원", "1,500만원", "2,400만원"],
+          ["3,000만원", "2,000만원", "2,900만원"],
+          ["2,500만원", "2,500만원", "3,400만원"],
+        ],
+      },
+      callout: "충전비를 몇 만원 정밀하게 맞추는 것보다 매각가를 500만원 낮춘 시나리오를 함께 보는 편이 총비용 위험을 더 잘 보여줍니다.",
+    },
   },
   "tesla-insurance-guide": {
     category: "유지비·세제",
@@ -358,6 +412,24 @@ const R = {
     relatedSlugs: ["tesla-subsidy-required-docs", "subsidy-budget-timing-strategy", "how-to-read-local-subsidy-notice"],
     answerSlugs: [],
     sourceKeys: ["evPortal", "environment", "teslaSupport"],
+    updatedAt: REAPPLY_REVIEW_DATE,
+    originalAnalysis: {
+      title: "주문·신청·선정·출고를 분리한 상태표",
+      paragraphs: [
+        "하우머치 테슬라는 보조금 진행 상태를 한 줄의 '신청 완료'로 표시하지 않습니다. 주문, 지원 신청, 대상자 선정, 출고·등록은 담당 주체와 실패 원인이 다르기 때문에 네 단계로 나눠 기록합니다.",
+        "아래 상태표의 날짜와 접수번호를 채우면 판매사 안내와 지자체 처리 상태가 어긋나는 지점을 빨리 발견할 수 있습니다.",
+      ],
+      table: {
+        headers: ["단계", "주 담당", "구매자가 남길 증거"],
+        rows: [
+          ["차량 주문", "구매자·Tesla", "주문서·결제 영수증·예상 인도 시점"],
+          ["지원 신청", "판매사", "제출일·접수번호·보완 요청 채널"],
+          ["대상자 선정", "지자체", "선정 통지·유효기간·출고 기한"],
+          ["출고·등록", "판매사·구매자", "등록일·최종 보조금·잔금 내역"],
+        ],
+      },
+      callout: "주문번호가 있어도 지자체 선정 통지가 없으면 보조금이 확보됐다고 단정하지 않습니다.",
+    },
   },
   "tesla-subsidy-required-docs": {
     category: "보조금",
@@ -477,6 +549,24 @@ const R = {
     relatedSlugs: ["home-charger-guide", "ev-public-charger-network", "tesla-supercharger-charging-guide"],
     answerSlugs: ["tesla-without-home-charger", "ev-charging-card"],
     sourceKeys: ["teslaSupport", "evPortal", "environment"],
+    updatedAt: REAPPLY_REVIEW_DATE,
+    originalAnalysis: {
+      title: "월 1,200km 운전자에게 필요한 충전 시간을 먼저 계산하기",
+      paragraphs: [
+        "월 1,200km를 주행하고 실제 전비를 5.5km/kWh로 잡으면 차량에 필요한 에너지는 약 218kWh입니다. 7kW 완속충전기가 정격 출력을 계속 낸다고 가정하면 월 약 31시간, 주당 7~8시간의 충전 자리가 필요합니다.",
+        "실제 충전은 손실, 출력 제한, 배터리 온도와 다른 차량의 점유 때문에 더 길어질 수 있습니다. 그래서 충전기 대수보다 내가 귀가하는 시간에 주당 8시간 이상 안정적으로 사용할 수 있는지를 확인하는 편이 실용적입니다.",
+      ],
+      table: {
+        headers: ["입력 조건", "예시 값", "직접 바꿔볼 값"],
+        rows: [
+          ["월 주행거리", "1,200km", "최근 3개월 실제 평균"],
+          ["실제 전비", "5.5km/kWh", "겨울·고속도로 조건이면 낮춰 입력"],
+          ["필요 전력량", "약 218kWh/월", "주행거리 ÷ 전비"],
+          ["7kW 충전 시간", "이론상 약 31시간/월", "손실과 출력 제한을 더해 여유 확보"],
+        ],
+      },
+      callout: "관리사무소에는 충전기 보유 대수만 묻지 말고 평일 귀가 시간대 점유율과 충전 완료 후 이동 규정을 함께 확인합니다.",
+    },
   },
   "home-charger-guide": {
     category: "충전",
@@ -662,6 +752,16 @@ function makeChecklistSection(spec) {
   };
 }
 
+function makeOriginalAnalysisSection(spec) {
+  return {
+    title: spec.originalAnalysis.title,
+    paragraphs: spec.originalAnalysis.paragraphs,
+    table: spec.originalAnalysis.table,
+    callout: spec.originalAnalysis.callout,
+    editorialMarker: "paytesla-original-analysis",
+  };
+}
+
 /** 기존 글을 2026년 8월 편집 기준에 맞춰 대표 글로 재구성한다. */
 export function rewriteGuide(guide) {
   const spec = R[guide.slug];
@@ -673,7 +773,12 @@ export function rewriteGuide(guide) {
     .slice(0, 4);
   const sections = isColumn
     ? []
-    : [makeDecisionSection(spec), ...preserved, makeChecklistSection(spec)];
+    : [
+        makeDecisionSection(spec),
+        ...(spec.originalAnalysis ? [makeOriginalAnalysisSection(spec)] : []),
+        ...preserved,
+        makeChecklistSection(spec),
+      ];
 
   return {
     ...guide,

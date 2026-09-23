@@ -186,8 +186,11 @@ export default async function GuideDetailPage({ params }) {
     publisher: {
       "@type": "Organization",
       name: "하우머치 테슬라",
-      url: SITE_URL
-    }
+      url: SITE_URL,
+    },
+    inLanguage: "ko-KR",
+    isAccessibleForFree: true,
+    citation: (guide.sources || []).map((source) => source.url),
   };
 
   return (
@@ -421,7 +424,10 @@ export default async function GuideDetailPage({ params }) {
           </div>
         </article>
 
-        <AuthorBio />
+        <AuthorBio
+          reviewedAt={guide.updatedAt}
+          sourceCount={(guide.sources || []).length}
+        />
 
         <section className="rounded-[32px] bg-[linear-gradient(135deg,#0f172a_0%,#1e3a8a_100%)] p-8 text-white shadow-[0_20px_60px_rgba(15,23,42,0.15)] md:p-10">
           <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.24em] text-blue-200">

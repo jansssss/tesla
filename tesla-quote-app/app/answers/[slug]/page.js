@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import AnswerArticle from "@/components/answers/AnswerArticle";
+import AuthorBio from "@/components/AuthorBio";
 import {
   getAnswer,
   getAnswerSlugs,
@@ -71,6 +72,26 @@ export default async function AnswerPage({ params }) {
           { "@type": "ListItem", position: 3, name: answer.question, item: `${BASE}/answers/${answer.slug}` },
         ],
       },
+      {
+        "@type": "Article",
+        headline: answer.question,
+        description: answer.description,
+        dateModified: ANSWERS_UPDATED_AT,
+        inLanguage: "ko-KR",
+        isAccessibleForFree: true,
+        mainEntityOfPage: `${BASE}/answers/${answer.slug}`,
+        author: {
+          "@type": "Person",
+          name: "jans",
+          url: `${BASE}/about`,
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "하우머치 테슬라",
+          url: BASE,
+        },
+        citation: (answer.sources || []).map((source) => source.url).filter(Boolean),
+      },
       ...(faqItems.length
         ? [
             {
@@ -134,6 +155,12 @@ export default async function AnswerPage({ params }) {
         siblings={siblings}
         groupLabel={groupLabel}
       />
+      <div className="mx-auto max-w-3xl px-4 pb-16 md:px-8">
+        <AuthorBio
+          reviewedAt={ANSWERS_UPDATED_AT}
+          sourceCount={(answer.sources || []).length}
+        />
+      </div>
     </main>
   );
 }

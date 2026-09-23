@@ -1,8 +1,9 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: '콘텐츠 정책 - 하우머치 테슬라',
+  title: '콘텐츠 정책',
   description: '하우머치 테슬라의 정보 출처, 업데이트 방침, 콘텐츠 신뢰도 기준을 안내합니다.',
+  alternates: { canonical: 'https://www.paytesla.kr/editorial-policy' },
 };
 
 export default function EditorialPolicyPage() {
@@ -30,6 +31,15 @@ export default function EditorialPolicyPage() {
             </section>
 
             <section>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">작성 및 책임 주체</h2>
+              <p className="text-gray-700 leading-relaxed">
+                운영자 <strong>jans</strong>가 가이드와 답변의 주제를 선정하고 최종 내용을 검수합니다.
+                자동차 제조사·판매사·금융사로부터 작성 지시를 받지 않으며, 광고 게재 여부와 관계없이
+                같은 출처·검수 기준을 적용합니다. 글 하단에는 최종 검수일과 대조한 공식·공공 출처 수를 표시합니다.
+              </p>
+            </section>
+
+            <section>
               <h2 className="text-2xl font-bold text-gray-800 mb-4">정보 출처</h2>
               <ul className="space-y-3 text-gray-700">
                 <li className="flex items-start">
@@ -49,6 +59,17 @@ export default function EditorialPolicyPage() {
                   <span><strong>테슬라 공식 차량 가격</strong> — 차량 기본 가격은 테슬라 공식 사이트의 공개 가격을 사용합니다.</span>
                 </li>
               </ul>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">작성·검수 절차</h2>
+              <ol className="space-y-3 text-gray-700 list-decimal pl-6">
+                <li>검색 질문이 실제 구매 결정의 어느 단계에 필요한지 정의합니다.</li>
+                <li>공식 1차 자료에서 가격, 지원 자격, 기한과 예외 조건을 확인합니다.</li>
+                <li>공식 수치와 사이트의 계산 예시를 구분하고, 계산식·가정·한계를 함께 적습니다.</li>
+                <li>출처 링크, 숫자, 단정 표현, 관련 페이지 연결을 자동 검사합니다.</li>
+                <li>운영자 jans가 원문과 최종 화면을 직접 대조한 뒤 공개합니다.</li>
+              </ol>
             </section>
 
             <section>
@@ -100,7 +121,7 @@ export default function EditorialPolicyPage() {
                 </li>
                 <li className="flex items-start">
                   <span className="mr-2">•</span>
-                  <span><strong>자동화 사용 공개</strong> — 검색 질문 분석과 초안 구조화에 AI·자동화 도구를 사용합니다. 공식 1차 출처, 본문 구조, 과장 표현, 내부링크를 코드로 검사하며 기준을 통과하지 못한 글은 공개 파일에 반영하지 않습니다.</span>
+                  <span><strong>자동화 사용 공개</strong> — 검색 질문 분류와 초안 구조화에 AI·자동화 도구를 보조적으로 사용합니다. 도구가 작성·검수 책임을 대신하지 않으며, 공식 1차 출처, 수치, 조건, 과장 표현, 내부링크를 검사한 뒤 운영자가 최종 확인합니다.</span>
                 </li>
                 <li className="flex items-start">
                   <span className="mr-2">•</span>
@@ -111,6 +132,17 @@ export default function EditorialPolicyPage() {
                   <span><strong>독립 운영</strong> — 이 사이트는 테슬라(Tesla, Inc.)와 공식적인 관계가 없는 독립 정보 제공 사이트입니다.</span>
                 </li>
               </ul>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">정정 및 이의 제기</h2>
+              <p className="text-gray-700 leading-relaxed mb-3">
+                출처와 다른 수치, 오래된 조건, 계산 오류가 확인되면 영향을 받는 계산기와 관련 글을 함께 점검합니다.
+                오류 제보는 영업일 기준 3일 이내에 검토하며, 수정이 필요한 글은 내용을 고치고 최종 검수일을 갱신합니다.
+              </p>
+              <p className="text-gray-600 text-sm">
+                단순 문구 수정이 아니라 구매 판단에 영향을 주는 변경이면 출처를 다시 확인하고 계산 예시도 재검산합니다.
+              </p>
             </section>
 
             <section className="bg-red-50 border border-red-100 p-6 rounded-lg">

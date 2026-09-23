@@ -6,6 +6,35 @@ import Breadcrumb from "@/components/Breadcrumb";
 import FloatingCalcButton from "@/components/FloatingCalcButton";
 import MobileTabBar from "@/components/mobile/MobileTabBar";
 
+const SITE_URL = "https://www.paytesla.kr";
+const ADSENSE_ACCOUNT = "ca-pub-6676446565175753";
+
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: "하우머치 테슬라",
+      inLanguage: "ko-KR",
+      publisher: { "@id": `${SITE_URL}/#organization` },
+    },
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: "하우머치 테슬라",
+      url: SITE_URL,
+      logo: `${SITE_URL}/icon.svg`,
+      founder: {
+        "@type": "Person",
+        name: "jans",
+        url: `${SITE_URL}/about`,
+      },
+    },
+  ],
+};
+
 // viewportFit: "cover" 를 켜야 env(safe-area-inset-*) 값이 실제로 들어온다.
 // 노치·홈 인디케이터가 있는 기기에서 하단 고정 요소가 가려지지 않게 하는 전제 조건.
 export const viewport = {
@@ -21,7 +50,10 @@ export const metadata = {
     template: "%s | 하우머치 테슬라",
   },
   description: "테슬라 Model 3·Model Y 지역별 보조금 자동 적용 실구매가·월납입금 계산기. 전국 17개 시·도 보조금 최신 반영.",
-  metadataBase: new URL("https://www.paytesla.kr"),
+  metadataBase: new URL(SITE_URL),
+  other: {
+    "google-adsense-account": ADSENSE_ACCOUNT,
+  },
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     shortcut: [{ url: "/icon.svg", type: "image/svg+xml" }]
@@ -32,6 +64,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ko">
       <body className="flex flex-col min-h-screen">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+        />
         {/* 고지 배너 — 모바일은 세로 공간이 귀해 한 줄로 축약한다 */}
         <div className="bg-slate-900 px-4 py-1.5 text-center text-[11px] font-medium text-slate-300 md:text-xs">
           <span className="md:hidden">Tesla 비공식 독립 계산 플랫폼</span>
