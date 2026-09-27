@@ -69,6 +69,29 @@ const FLOW = [
   },
 ];
 
+const DECISION_GUIDES = [
+  {
+    href: "/guides/tesla-monthly-payment-guide",
+    label: "월납입금 계산 전에 볼 금융 조건",
+    desc: "선수금·금리·기간이 월 부담과 총이자에 미치는 차이를 먼저 확인합니다.",
+  },
+  {
+    href: "/guides/tesla-ev-maintenance-cost",
+    label: "유지비에서 빠뜨리기 쉬운 항목",
+    desc: "보험·자동차세·타이어·충전비를 월 비용으로 바꾸는 기준을 봅니다.",
+  },
+  {
+    href: "/guides/tesla-subsidy-apply-guide",
+    label: "보조금 신청 순서와 예산 변수",
+    desc: "예상 보조금과 실제 지급액이 달라지는 자격·접수·출고 조건을 확인합니다.",
+  },
+  {
+    href: "/guides/apartment-charging-checklist",
+    label: "아파트 충전 환경 체크리스트",
+    desc: "계산기에 단가를 넣기 전에 실제로 쓸 수 있는 충전 장소와 시간을 점검합니다.",
+  },
+];
+
 export default function CalcIndexPage() {
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#eef2ff_0%,#f8fafc_22%,#ffffff_100%)] py-10 md:py-14">
@@ -152,6 +175,28 @@ export default function CalcIndexPage() {
             );
           })}
         </div>
+
+        <section className="mt-14 rounded-[28px] border border-slate-200 bg-slate-50 p-6 md:p-8">
+          <h2 className="text-xl font-black tracking-tight text-slate-950 md:text-2xl">
+            계산 전에 조건부터 확인하세요
+          </h2>
+          <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-600">
+            같은 계산 결과도 보조금 접수 시점, 금융 조건, 충전 환경에 따라 실제 지출과 달라집니다.
+            아래 가이드에서 조건을 확인한 뒤 계산기로 돌아오면 입력값을 현실에 가깝게 잡을 수 있습니다.
+          </p>
+          <div className="mt-5 grid gap-3 md:grid-cols-2">
+            {DECISION_GUIDES.map((guide) => (
+              <Link
+                key={guide.href}
+                href={guide.href}
+                className="rounded-2xl border border-slate-200 bg-white p-5 transition hover:border-blue-300 hover:shadow-sm"
+              >
+                <h3 className="text-sm font-black text-slate-950">{guide.label} →</h3>
+                <p className="mt-2 text-xs leading-6 text-slate-600">{guide.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
 
         {/* 계산기 사용에 대한 안내 */}
         <section className="mt-14 rounded-2xl border border-slate-200 bg-white p-6 md:p-8">

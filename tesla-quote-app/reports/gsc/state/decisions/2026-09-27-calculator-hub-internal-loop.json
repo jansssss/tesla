@@ -1,0 +1,97 @@
+{
+  "id": "2026-09-27-calculator-hub-internal-loop",
+  "created": "2026-09-27",
+  "status": "observing",
+  "grade": "B",
+  "hypothesis": "포괄 검색어인 '테슬라 계산기'가 계산기 10종을 안내하는 /calc가 아니라 /calc/charging으로 연결되는 이유는 개별 계산기에서 허브로 돌아오는 문맥 링크가 없고, 허브도 계산 전 판단을 돕는 대표 가이드와 직접 연결되지 않아 사이트가 /calc를 계산 의도의 중심 페이지로 충분히 설명하지 못하기 때문이다. 허브와 개별 계산기·대표 가이드의 내부 순환을 완성하면 포괄 계산 의도의 랜딩이 /calc로 모이고 클릭이 생긴다.",
+  "action": "새 페이지나 계산 로직·원본 데이터·메타데이터는 바꾸지 않는다. 공용 PurchaseCrossLinks에 /calc의 '계산기 10종 전체 보기' 왕복 링크를 추가하고, /calc 허브에는 월납입금·유지비·보조금 신청·아파트 충전 대표 가이드 4편을 연결한다.",
+  "targets": {
+    "queries": [
+      "테슬라 계산기",
+      "테슬라계산기"
+    ]
+  },
+  "baseline": {
+    "window_days": 28,
+    "days": 28,
+    "start": "2026-08-28",
+    "end": "2026-09-24",
+    "queries": {
+      "테슬라 계산기": {
+        "clicks": 0,
+        "impressions": 49,
+        "ctr": 0.0,
+        "position": 8.306122448979592
+      },
+      "테슬라계산기": {
+        "clicks": 0,
+        "impressions": 13,
+        "ctr": 0.0,
+        "position": 7.615384615384615
+      }
+    },
+    "pages": {
+      "/calc": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0.0,
+        "position": 0.0
+      },
+      "/calc/charging": {
+        "clicks": 13,
+        "impressions": 703,
+        "ctr": 0.01849217638691323,
+        "position": 7.240398293029872
+      }
+    },
+    "site": {
+      "clicks": 87,
+      "impressions": 11725,
+      "ctr": 0.007420042643923241,
+      "position": 7.295181236673774
+    },
+    "context": {
+      "combined_query_baseline": "두 포괄 검색어 합계 62노출·0클릭이며 대표 랜딩은 /calc/charging이다.",
+      "hub_check": "/calc에는 계산기 10종과 구매 판단 순서가 있지만 개별 계산기 공용 교차 링크에는 /calc로 돌아오는 링크가 없었다.",
+      "content_gap_check": "월납입금·유지비·보조금·충전은 기존 계산기와 대표 가이드가 이미 답하므로 신규 정적 페이지 공백이 아니다."
+    }
+  },
+  "predict": {
+    "metric": "position",
+    "direction": "down",
+    "expected": "비교 가능한 28일 창에서 두 대상 검색어 합계 클릭 2회 이상 또는 CTR 2.0% 이상이 되고, /calc가 대상 검색어의 랜딩으로 10회 이상 노출된다. 사이트 변화를 보정한 평균순위는 2위 이상 악화되지 않는다.",
+    "secondary_metric": "clicks",
+    "secondary_direction": "up",
+    "target_ctr_min": 0.02,
+    "target_clicks_min": 2,
+    "target_hub_impressions_min": 10,
+    "max_adjusted_position_loss": 2.0
+  },
+  "falsification": "비교 가능한 28일 창에서 두 대상 검색어 합계 노출이 50회 이상인데도 클릭이 0회이고 /calc 노출도 0회이거나, 사이트 전체 변화를 보정한 평균순위가 2위 이상 악화되면 내부 순환 가설을 반증으로 본다.",
+  "deployed_at": "2026-09-27",
+  "freeze_until": "2026-11-08",
+  "evaluate_at": "2026-11-08",
+  "final_evaluate_at": "2026-12-06",
+  "extensions": 0,
+  "files": [
+    "tesla-quote-app/app/calc/page.js",
+    "tesla-quote-app/components/calc/PurchaseCrossLinks.js"
+  ],
+  "sources": [
+    {
+      "name": "Tesla 대한민국 — 자동차 구매 계약",
+      "url": "https://www.tesla.com/configurator/api/v3/terms?locale=ko_KR&model=my&saleType=Sale",
+      "accessed_at": "2026-09-27"
+    },
+    {
+      "name": "Tesla 지원 대한민국 — 홈차징",
+      "url": "https://www.tesla.com/ko_kr/support/charging/home-charging",
+      "accessed_at": "2026-09-27"
+    },
+    {
+      "name": "무공해차 통합누리집 — 충전요금 시뮬레이터",
+      "url": "https://ev.or.kr/nportal/evcarInfo/initEvcarChargeSimulator.do",
+      "accessed_at": "2026-09-27"
+    }
+  ]
+}

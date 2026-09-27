@@ -1,7 +1,7 @@
 {
   "id": "2026-09-03-seoul-subsidy-serp-ctr",
   "created": "2026-09-03",
-  "status": "observing",
+  "status": "closed",
   "grade": "D",
   "hypothesis": "서울 보조금 페이지는 평균순위 7.4위로 노출 위치를 확보했지만, 공통 템플릿 제목의 '서울특별시'와 포괄적인 설명이 실제 검색어인 '서울 테슬라 보조금'을 빠르게 확인하려는 의도를 선명하게 전달하지 못한다. 서울·테슬라·보조금을 제목 앞부분에 모으고 Model Y·3 금액 확인과 실구매가 계산을 설명하면 클릭 연결이 늘어난다.",
   "action": "신규 페이지, 보조금·차량 원본 데이터, 본문은 건드리지 않고 /subsidy/seoul에만 적용되는 metadata title·description과 Open Graph 문구를 서울 테슬라 보조금 확인 의도에 맞게 간결하게 고친다.",
@@ -68,6 +68,15 @@
   "evaluate_at": "2026-09-27",
   "final_evaluate_at": "2026-10-15",
   "extensions": 0,
+  "verdicts": [
+    {
+      "date": "2026-09-27",
+      "verdict": "빗나감",
+      "note": "변경 후 확정 15일간 1,416노출·2클릭·CTR 0.14%, 평균순위 7.8위였다. 기준선 2,447노출·10클릭·CTR 0.41%·평균 7.4위보다 CTR이 낮아졌고 사이트 보정 순위도 +0.7위였으며, 노출 1,000회 이상에서 CTR 0.5% 미만이라는 반증 조건을 충족했다."
+    }
+  ],
+  "closed_at": "2026-09-27",
+  "final_verdict": "빗나감",
   "files": [
     "tesla-quote-app/app/subsidy/[region]/page.js"
   ],

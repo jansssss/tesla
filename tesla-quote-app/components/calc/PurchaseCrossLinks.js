@@ -13,9 +13,17 @@ export default function PurchaseCrossLinks({ items }) {
   return (
     <section className="mx-auto max-w-3xl px-4 md:px-8 mt-8">
       <div className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
-        <h2 className="text-lg md:text-xl font-black text-slate-950 mb-4">
-          구매 전 함께 계산할 항목
-        </h2>
+        <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="text-lg font-black text-slate-950 md:text-xl">
+            구매 전 함께 계산할 항목
+          </h2>
+          <Link
+            href="/calc"
+            className="text-sm font-bold text-blue-700 transition hover:text-blue-900"
+          >
+            계산기 10종 전체 보기 →
+          </Link>
+        </div>
         <div className="grid gap-3 sm:grid-cols-2">
           <Link
             href={primary.href}
