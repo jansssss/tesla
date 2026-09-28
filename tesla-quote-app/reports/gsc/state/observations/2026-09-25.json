@@ -1,0 +1,215 @@
+{
+  "recorded_at": "2026-09-28",
+  "generated_for": "2026-09-25",
+  "window": {
+    "start": "2026-08-29",
+    "end": "2026-09-25",
+    "days": 28
+  },
+  "summary": {
+    "clicks": 13,
+    "impressions": 869,
+    "ctr": 0.014959723820483314,
+    "position": 9.491369390103568,
+    "query_count": 166
+  },
+  "delta_pct": {
+    "clicks": 44.4,
+    "impressions": 19.0,
+    "query_count": 49.5
+  },
+  "anomaly_flags": [],
+  "top_queries": [
+    {
+      "query": "테슬라 보조금 계산기",
+      "impressions": 137,
+      "clicks": 3,
+      "position": 7.8,
+      "intent": "보조금"
+    },
+    {
+      "query": "테슬라 보험료 계산",
+      "impressions": 10,
+      "clicks": 3,
+      "position": 6.3,
+      "intent": "유지비"
+    },
+    {
+      "query": "테슬라 할부 계산기",
+      "impressions": 44,
+      "clicks": 1,
+      "position": 9.2,
+      "intent": "유지비"
+    },
+    {
+      "query": "테슬라 전비 계산",
+      "impressions": 24,
+      "clicks": 1,
+      "position": 4.8,
+      "intent": "계산"
+    },
+    {
+      "query": "테슬라 취등록세",
+      "impressions": 24,
+      "clicks": 1,
+      "position": 8.0,
+      "intent": "유지비"
+    },
+    {
+      "query": "테슬라 취득세",
+      "impressions": 9,
+      "clicks": 1,
+      "position": 4.3,
+      "intent": "유지비"
+    },
+    {
+      "query": "테슬라 풀충전 비용",
+      "impressions": 9,
+      "clicks": 1,
+      "position": 3.1,
+      "intent": "충전"
+    },
+    {
+      "query": "제주",
+      "impressions": 1,
+      "clicks": 1,
+      "position": 5.0,
+      "intent": "기타"
+    },
+    {
+      "query": "테슬라 보조금 조회",
+      "impressions": 1,
+      "clicks": 1,
+      "position": 9.0,
+      "intent": "보조금"
+    },
+    {
+      "query": "테슬라 계산기",
+      "impressions": 48,
+      "clicks": 0,
+      "position": 8.3,
+      "intent": "계산"
+    }
+  ],
+  "top_pages": [
+    {
+      "path": "/answers/tesla-car-tax",
+      "impressions": 679,
+      "clicks": 16,
+      "position": 5.4
+    },
+    {
+      "path": "/calc/charging",
+      "impressions": 718,
+      "clicks": 14,
+      "position": 7.3
+    },
+    {
+      "path": "/subsidy",
+      "impressions": 1175,
+      "clicks": 9,
+      "position": 7.5
+    },
+    {
+      "path": "/calc/charging-time",
+      "impressions": 863,
+      "clicks": 8,
+      "position": 6.5
+    },
+    {
+      "path": "/subsidy/seoul",
+      "impressions": 3185,
+      "clicks": 7,
+      "position": 7.9
+    },
+    {
+      "path": "/calc/monthly-real-cost",
+      "impressions": 145,
+      "clicks": 7,
+      "position": 7.4
+    },
+    {
+      "path": "/",
+      "impressions": 207,
+      "clicks": 4,
+      "position": 7.8
+    },
+    {
+      "path": "/calc/tco",
+      "impressions": 147,
+      "clicks": 4,
+      "position": 7.9
+    },
+    {
+      "path": "/guides/tesla-affordability-salary-guide",
+      "impressions": 74,
+      "clicks": 4,
+      "position": 7.2
+    },
+    {
+      "path": "/subsidy/jeju",
+      "impressions": 1262,
+      "clicks": 3,
+      "position": 5.2
+    }
+  ],
+  "intent_breakdown": [
+    {
+      "intent": "유지비",
+      "impressions": 183,
+      "clicks": 6,
+      "queries": 22
+    },
+    {
+      "intent": "보조금",
+      "impressions": 179,
+      "clicks": 4,
+      "queries": 19
+    },
+    {
+      "intent": "충전",
+      "impressions": 126,
+      "clicks": 1,
+      "queries": 34
+    },
+    {
+      "intent": "계산",
+      "impressions": 103,
+      "clicks": 1,
+      "queries": 8
+    },
+    {
+      "intent": "가격",
+      "impressions": 102,
+      "clicks": 0,
+      "queries": 23
+    },
+    {
+      "intent": "기타",
+      "impressions": 93,
+      "clicks": 1,
+      "queries": 45
+    },
+    {
+      "intent": "출고절차",
+      "impressions": 52,
+      "clicks": 0,
+      "queries": 2
+    },
+    {
+      "intent": "모델정보",
+      "impressions": 29,
+      "clicks": 0,
+      "queries": 11
+    }
+  ],
+  "loop": {
+    "verdict_due": [
+      "2026-09-04-jeju-subsidy-serp-ctr"
+    ],
+    "open_experiments": [
+      "2026-09-04-jeju-subsidy-serp-ctr",
+      "2026-09-27-calculator-hub-internal-loop"
+    ]
+  }
+}

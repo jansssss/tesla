@@ -1,0 +1,89 @@
+{
+  "id": "2026-09-28-delivery-status-guide-depth",
+  "created": "2026-09-28",
+  "status": "observing",
+  "grade": "C",
+  "hypothesis": "검색어 '테슬라 출고 예상 사이트'는 평균순위 4.0위인데도 홈페이지로 연결되고 클릭이 없다. 기존 구매 절차 대표 글이 계약부터 인도까지를 다루지만, 출고 예상일을 어디서 확인하는지와 일정이 확정되는 조건을 첫 답변과 독립 섹션에서 직접 설명하지 않아 Google과 구매자 모두 적합한 랜딩을 식별하기 어렵다. 별도 URL을 만들지 않고 기존 대표 글을 공식 절차 중심으로 심화하면 이 검색어의 랜딩이 대표 글로 이동하고 클릭이 생긴다.",
+  "action": "새 페이지와 계산 로직은 만들지 않는다. /guides/tesla-purchase-process-for-beginners의 첫 답변·설명·핵심 항목을 출고 일정 확인 의도까지 포함하도록 고치고, Tesla 계정·앱·어드바이저의 역할과 예상일 변동 조건을 공식 지원 자료에 근거한 독립 섹션과 체크리스트로 보강한다.",
+  "targets": {
+    "queries": [
+      "테슬라 출고 예상 사이트"
+    ]
+  },
+  "baseline": {
+    "window_days": 28,
+    "days": 28,
+    "start": "2026-08-29",
+    "end": "2026-09-25",
+    "queries": {
+      "테슬라 출고 예상 사이트": {
+        "clicks": 0,
+        "impressions": 44,
+        "ctr": 0.0,
+        "position": 4.022727272727273
+      }
+    },
+    "pages": {
+      "/": {
+        "clicks": 4,
+        "impressions": 207,
+        "ctr": 0.01932367149758454,
+        "position": 7.78743961352657
+      },
+      "/guides/tesla-purchase-process-for-beginners": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0.0,
+        "position": 0.0
+      }
+    },
+    "site": {
+      "clicks": 88,
+      "impressions": 11619,
+      "ctr": 0.007573801531973492,
+      "position": 7.2998536879249505
+    },
+    "context": {
+      "landing_mismatch": "대상 검색어 44노출의 대표 랜딩은 홈페이지이고 기존 구매 절차 대표 글은 검색 노출이 0이다.",
+      "content_gap_check": "기존 대표 글이 계약·보조금·보험·인도를 이미 다루므로 독립 URL 공백이 아니라 출고 일정 확인 답변의 깊이와 명시성 공백이다.",
+      "official_process": "Tesla 공식 안내는 주문 후 계정에서 인도 정보를 확인하고 차량 준비 뒤 일정 예약 연락을 받는다고 설명하며, 일정은 모델·지역·생산·입항·물류·절차에 따라 변동될 수 있다고 밝힌다."
+    }
+  },
+  "predict": {
+    "metric": "clicks",
+    "direction": "up",
+    "expected": "비교 가능한 28일 창에서 대상 검색어 클릭 2회 이상 또는 CTR 2.0% 이상이 되고, 구매 절차 대표 글이 대상 검색어의 랜딩으로 10회 이상 노출된다. 사이트 변화를 보정한 평균순위는 2위 이상 악화되지 않는다.",
+    "secondary_metric": "ctr",
+    "secondary_direction": "up",
+    "target_ctr_min": 0.02,
+    "target_clicks_min": 2,
+    "target_guide_impressions_min": 10,
+    "max_adjusted_position_loss": 2.0
+  },
+  "falsification": "비교 가능한 28일 창에서 대상 검색어가 30회 이상 노출됐는데 클릭이 0회이고 구매 절차 대표 글의 대상 검색어 노출도 0회이거나, 사이트 전체 변화를 보정한 평균순위가 2위 이상 악화되면 기존 글 심화 가설을 반증으로 본다.",
+  "deployed_at": "2026-09-28",
+  "freeze_until": "2026-10-26",
+  "evaluate_at": "2026-10-26",
+  "final_evaluate_at": "2026-11-23",
+  "extensions": 0,
+  "files": [
+    "tesla-quote-app/lib/guideRewrites.js"
+  ],
+  "sources": [
+    {
+      "name": "Tesla 지원 대한민국 — 인도일",
+      "url": "https://www.tesla.com/ko_kr/support/delivery-day",
+      "accessed_at": "2026-09-28"
+    },
+    {
+      "name": "Tesla 지원 대한민국 — 주문·인도 FAQ",
+      "url": "https://www.tesla.com/ko_kr/support/faq",
+      "accessed_at": "2026-09-28"
+    },
+    {
+      "name": "Tesla 지원 대한민국 — Tesla 앱",
+      "url": "https://www.tesla.com/ko_kr/support/tesla-app",
+      "accessed_at": "2026-09-28"
+    }
+  ]
+}

@@ -52,10 +52,30 @@
   },
   "falsification": "비교 가능한 28일 창에서 노출 500회 이상인데 CTR이 1.0% 미만이거나, 사이트 전체 변화를 보정한 평균순위가 2위 이상 악화되면 제목·설명 가설을 반증으로 본다.",
   "deployed_at": "2026-09-04",
-  "freeze_until": "2026-09-28",
-  "evaluate_at": "2026-09-28",
+  "freeze_until": "2026-10-12",
+  "evaluate_at": "2026-10-12",
   "final_evaluate_at": "2026-10-16",
-  "extensions": 0,
+  "extensions": 1,
+  "interim_evaluations": [
+    {
+      "date": "2026-09-28",
+      "data_end": "2026-09-25",
+      "after_window": {
+        "start": "2026-09-11",
+        "end": "2026-09-25",
+        "days": 15
+      },
+      "result": "판정불가",
+      "reason": "변경 후 485노출·1클릭·CTR 0.21%로 기준선보다 낮지만 사전 반증 표본 500노출에 15회 부족하고 최종 판정일 전이므로 14일 연장한다.",
+      "metrics": {
+        "clicks": 1,
+        "impressions": 485,
+        "ctr": 0.002061855670103093,
+        "position": 5.1,
+        "site_adjusted_position_delta": -0.4
+      }
+    }
+  ],
   "files": [
     "tesla-quote-app/app/subsidy/[region]/page.js"
   ],
