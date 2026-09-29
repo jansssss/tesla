@@ -4,12 +4,12 @@ import PurchaseCrossLinks from "@/components/calc/PurchaseCrossLinks";
 import { CALC_DATA_DATE } from "@/lib/calcExtra";
 
 export const metadata = {
-  title: "전기차 충전 시간 계산기 — 완속·급속·슈퍼차저",
+  title: "테슬라 충전 시간 계산기 — 7kW 완속·급속·수퍼차저",
   description:
-    "배터리 용량과 충전기 출력, 현재·목표 충전율을 입력해 예상 충전 시간을 계산합니다. 충전 곡선 때문에 80%를 넘기면 왜 느려지는지, 겨울에 충전이 오래 걸리는 이유까지 정리했습니다.",
+    "7kW 완속충전과 급속·수퍼차저의 예상 충전 시간을 계산합니다. 60kWh 배터리를 20%에서 80%까지 충전하는 예시와 실제 시간이 달라지는 조건을 확인하세요.",
   openGraph: {
-    title: "전기차 충전 시간 계산기",
-    description: "완속·급속·슈퍼차저별 예상 충전 시간을 계산합니다.",
+    title: "테슬라 충전 시간 계산기",
+    description: "7kW 완속·급속·수퍼차저별 예상 충전 시간과 조건을 계산합니다.",
     url: "https://www.paytesla.kr/calc/charging-time",
     siteName: "하우머치 테슬라",
     locale: "ko_KR",
@@ -19,6 +19,33 @@ export const metadata = {
 };
 
 const SECTIONS = [
+  {
+    heading: "7kW 완속 충전은 얼마나 걸리나",
+    lead: "60kWh 배터리를 20%에서 80%까지 충전한다면 7kW 완속 충전의 산술 소요 시간은 약 5시간 43분입니다. 필요한 전력 36kWh를 충전 효율 90%로 계산한 값이며, 차량 대기전력과 온도에 따라 실제 시간은 더 길어질 수 있습니다.",
+    blocks: [
+      {
+        type: "table",
+        headers: ["충전기 출력", "같은 조건의 산술 시간", "판단할 때 볼 점"],
+        rows: [
+          ["3kW", "약 13시간 20분", "이동형 커넥터 수준으로 밤새 충전할 때"],
+          ["7kW", "약 5시간 43분", "Model 3·Y RWD의 교류 충전 상한과 같은 수준"],
+          ["10.5kW", "약 3시간 49분", "Model 3·Y Long Range·Performance의 교류 충전 상한 수준"],
+          ["50kW", "약 48분", "출력이 계속 유지된다고 가정한 급속 충전 산술 하한"],
+          ["100kW", "약 24분", "출력이 계속 유지된다고 가정한 급속 충전 산술 하한"],
+          ["250kW", "약 10분", "출력이 계속 유지된다고 가정한 수퍼차저 산술 하한"],
+        ],
+        note: "공통 가정: 사용 가능 배터리 60kWh, 20%→80%, 충전 효율 90%. 급속·수퍼차저는 충전 곡선 때문에 표의 산술 하한보다 실제 시간이 길어집니다.",
+      },
+      {
+        type: "text",
+        paragraphs: [
+          "테슬라 공식 안내 기준으로 Model 3·Y RWD의 교류 충전 수용 출력은 최대 7kW, Long Range와 Performance는 최대 10.5kW입니다. 충전기가 11kW를 표시하더라도 RWD는 차량 한계인 7kW 안에서 충전됩니다. 이동형 커넥터는 약 3kW 수준입니다.",
+          "위 예시는 완전 방전에서 100%까지가 아니라 20%에서 80%까지 채우는 상황입니다. 본인 차량의 배터리 용량과 실제 시작·목표 충전율을 계산기에 넣어야 일정에 맞는 값이 나옵니다.",
+          "직류 급속 충전은 차량의 온보드 차저를 거치지 않지만, 배터리 잔량과 온도에 따라 수용 출력이 계속 바뀝니다. 특히 80% 이후에는 출력이 크게 낮아질 수 있으므로 100% 도달 시간을 단순 비례로 계산하면 안 됩니다.",
+        ],
+      },
+    ],
+  },
   {
     heading: "충전 시간은 충전기 출력만으로 정해지지 않는다",
     lead: "'250kW 슈퍼차저니까 60kWh를 15분이면 채우겠지'라는 계산은 현실과 다릅니다. 표시된 출력은 최대치일 뿐, 실제로 그 속도가 유지되는 구간은 짧습니다.",
@@ -46,14 +73,16 @@ const SECTIONS = [
     blocks: [
       {
         type: "table",
-        headers: ["충전기 등급", "일반적인 출력", "성격"],
+        headers: ["충전 방식", "공식 안내상 출력", "구매자가 확인할 점"],
         rows: [
-          ["가정용 완속", "3~7kW", "밤새 충전 — 시간을 따로 쓰지 않음"],
-          ["공용 완속", "7kW 내외", "아파트·직장 주차 중 충전"],
-          ["공공 급속", "50~100kW", "이동 중 보급 — 30분 내외 체류"],
-          ["슈퍼차저", "최대 250kW", "장거리 이동 중 단시간 보급"],
+          ["이동형 커넥터", "약 3kW", "주차 시간이 길 때 필요한 충전량을 채울 수 있는지"],
+          ["월 커넥터 + Model 3·Y RWD", "차량 최대 7kW", "충전기보다 차량의 교류 수용 한계가 먼저 적용됨"],
+          ["월 커넥터 + Model 3·Y Long Range·Performance", "차량 최대 10.5kW", "전기 설비와 설치 조건에 따라 실제 출력이 달라짐"],
+          ["J1772 공공 완속", "어댑터 기준 최대 16kW", "차량 수용 한계와 충전기 출력 중 낮은 값이 적용됨"],
+          ["CHAdeMO 공공 급속", "어댑터 기준 최대 50kW", "차량·충전기 호환과 어댑터 보유 여부를 먼저 확인"],
+          ["수퍼차저", "충전소·차량별 상이", "배터리 잔량·온도·충전 곡선으로 실제 출력이 계속 변함"],
         ],
-        note: "표기된 출력은 충전기의 최대 사양입니다. 차량이 받아들일 수 있는 한계, 동시 사용 중인 다른 차량, 배터리 상태에 따라 실제 출력은 이보다 낮은 경우가 많습니다.",
+        note: "2026년 9월 29일 테슬라 코리아 지원 문서 기준입니다. 같은 이름의 충전 방식도 차량 모델, 어댑터, 전기 설비, 충전소 상태에 따라 실제 출력이 달라집니다.",
       },
       {
         type: "text",
@@ -196,11 +225,11 @@ export default function ChargingTimePage() {
             충전 시간 계산기
           </span>
           <h1 className="mt-4 text-3xl md:text-4xl font-black tracking-tight text-slate-950">
-            전기차 충전 시간 계산기
+            테슬라 충전 시간 계산기
           </h1>
           <p className="mt-3 text-sm md:text-base leading-7 text-slate-600">
-            배터리 용량과 충전기 출력, 현재·목표 충전율을 입력하면 예상 충전 시간을 계산합니다.
-            아래 해설에서 충전 곡선과 겨울철 변수까지 함께 확인하세요.
+            60kWh 배터리를 20%에서 80%까지 채우면 7kW 완속 기준 약 5시간 43분입니다.
+            내 조건을 입력해 계산하고, 충전 곡선과 겨울철 변수까지 함께 확인하세요.
           </p>
         </header>
         <ChargingTimeCalculator />
@@ -223,6 +252,11 @@ export default function ChargingTimePage() {
             label: "구매 준비도 체크",
             desc: "충전 환경이 전기차 구매에 적합한지 5문항으로 점검합니다.",
           },
+          {
+            href: "/answers/tesla-fast-charging-ccs",
+            label: "공공 급속충전 준비물",
+            desc: "CCS·CHAdeMO 호환 조건과 필요한 어댑터를 충전소에 가기 전에 확인합니다.",
+          },
         ]}
       />
 
@@ -231,18 +265,28 @@ export default function ChargingTimePage() {
           sections={SECTIONS}
           currentHref="/calc/charging-time"
           dataDate={CALC_DATA_DATE}
-          dataNote="이 계산기는 평균 출력이 일정하다고 가정한 추정치입니다. 실제 충전 속도는 배터리 잔량·온도, 차량의 수용 출력, 충전소 혼잡도에 따라 달라지므로 결과는 하한선으로 참고하세요. 충전기 출력 구간은 일반적으로 통용되는 등급 기준입니다."
+          dataNote="공식 사양은 2026년 9월 29일 테슬라 코리아 지원 문서에서 확인했습니다. 계산 예시는 60kWh 배터리, 20%→80%, 충전 효율 90%를 가정합니다. 실제 충전 속도는 배터리 잔량·온도, 차량의 수용 출력, 전기 설비와 충전소 상태에 따라 달라지므로 급속 충전 결과는 산술 하한으로 참고하세요."
           relatedHeading="충전 계획을 세웠다면 이어서 볼 계산기"
           sources={[
             {
-              name: "무공해차 통합누리집 — 충전 안내",
-              url: "https://www.ev.or.kr",
-              note: "충전기 등급·인프라 공식 정보",
+              name: "테슬라 공식 — 홈 차징",
+              url: "https://www.tesla.com/ko_kr/support/charging/home-charging",
+              note: "이동형 커넥터와 Model 3·Y 트림별 월 커넥터 충전 출력",
             },
             {
-              name: "테슬라 공식 — 슈퍼차저",
-              url: "https://www.tesla.com/ko_kr/supercharger",
-              note: "슈퍼차저 사양·위치",
+              name: "테슬라 공식 — 온보드 차저",
+              url: "https://www.tesla.com/ko_kr/support/charging/onboard-charger",
+              note: "트림별 교류 충전 수용 출력과 직류 충전의 차이",
+            },
+            {
+              name: "테슬라 공식 — 공공 충전",
+              url: "https://www.tesla.com/ko_kr/support/charging/public-charging",
+              note: "J1772·CHAdeMO 어댑터 출력과 호환 조건",
+            },
+            {
+              name: "테슬라 공식 — 수퍼차징",
+              url: "https://www.tesla.com/ko_kr/support/charging/supercharging",
+              note: "수퍼차저 이용 조건과 충전 속도에 영향을 주는 요소",
             },
           ]}
         />

@@ -1,0 +1,107 @@
+{
+  "id": "2026-09-29-charging-time-guide-depth",
+  "created": "2026-09-29",
+  "status": "observing",
+  "grade": "C",
+  "hypothesis": "충전 시간 계산기 페이지는 평균순위 6.5위와 882노출을 확보했지만 CTR은 0.91%다. 특히 '7kw 완속 충전기 충전 시간'과 '급속 충전이랑 완속 충전 실제로 얼마나 걸려?'가 합계 37노출·0클릭이다. 계산기는 입력 뒤 결과를 제공하지만 검색 직후 원하는 7kW 즉답과 완속·급속의 산술값·현실 차이를 첫 화면에서 바로 보여주지 않아 클릭과 랜딩 적합성이 약하다. 기존 페이지에 공식 출력 조건과 예시를 심화하면 별도 URL 없이 이 검색 의도를 더 정확히 충족할 수 있다.",
+  "action": "새 페이지와 계산 로직은 만들지 않는다. /calc/charging-time의 제목·설명·첫 답변을 7kW 완속·급속·수퍼차저 시간 의도에 맞게 구체화하고, 60kWh 배터리 20→80%·효율 90% 조건의 출력별 산술 예시와 실제 급속 충전이 더 오래 걸리는 이유를 추가한다. Tesla 홈차징·온보드 차저·공공 충전 공식 자료를 연결하고, 급속 충전 준비물 답변과 왕복 링크를 만든다.",
+  "targets": {
+    "pages": [
+      "/calc/charging-time"
+    ],
+    "queries": [
+      "7kw 완속 충전기 충전 시간",
+      "급속 충전이랑 완속 충전 실제로 얼마나 걸려?",
+      "테슬라 완속 충전 시간"
+    ]
+  },
+  "baseline": {
+    "window_days": 28,
+    "days": 28,
+    "start": "2026-08-30",
+    "end": "2026-09-26",
+    "pages": {
+      "/calc/charging-time": {
+        "clicks": 8,
+        "impressions": 882,
+        "ctr": 0.009070294784580499,
+        "position": 6.505668934240362
+      }
+    },
+    "queries": {
+      "7kw 완속 충전기 충전 시간": {
+        "clicks": 0,
+        "impressions": 19,
+        "ctr": 0.0,
+        "position": 7.473684210526316
+      },
+      "급속 충전이랑 완속 충전 실제로 얼마나 걸려?": {
+        "clicks": 0,
+        "impressions": 18,
+        "ctr": 0.0,
+        "position": 9.944444444444445
+      },
+      "테슬라 완속 충전 시간": {
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0.0,
+        "position": 6.571428571428571
+      }
+    },
+    "site": {
+      "clicks": 86,
+      "impressions": 11253,
+      "ctr": 0.007642406469385942,
+      "position": 7.1895494534790725
+    },
+    "context": {
+      "combined_query_baseline": "세 대상 검색어 합계 44노출·0클릭이다.",
+      "content_gap_check": "기존 계산기와 충전 곡선 해설이 있어 독립 페이지 공백은 아니다. 다만 7kW 완속 충전의 즉답과 공식 트림별 AC 수용 출력, 같은 조건의 완속·급속 산술 비교가 첫 화면에 없다.",
+      "official_check": "Tesla 공식 홈차징·온보드 차저 안내는 Model 3·Y RWD의 AC 최대 7kW, Long Range·Performance의 최대 10.5kW, 모바일 커넥터의 3kW 조건을 구분한다.",
+      "quota_exception": "2026-09-29 사용자가 이번 제안의 수정과 커밋·푸시를 명시 승인해 열린 실험 상한 3건에 대한 이번 회차 한정 예외로 기록한다. 기존 세 동결 대상은 수정하지 않는다."
+    }
+  },
+  "predict": {
+    "metric": "ctr",
+    "direction": "up",
+    "expected": "비교 가능한 28일 창에서 /calc/charging-time CTR 1.5% 이상 또는 클릭 12회 이상이 되고, 세 대상 검색어 합계 클릭 2회 이상 또는 CTR 3.0% 이상이 된다. 사이트 변화를 보정한 평균순위는 2위 이상 악화되지 않는다.",
+    "secondary_metric": "clicks",
+    "secondary_direction": "up",
+    "target_page_ctr_min": 0.015,
+    "target_page_clicks_min": 12,
+    "target_query_ctr_min": 0.03,
+    "target_query_clicks_min": 2,
+    "max_adjusted_position_loss": 2.0
+  },
+  "falsification": "비교 가능한 28일 창에서 페이지 노출 700회 이상인데 CTR이 0.8% 이하이고 세 대상 검색어 합계 노출 30회 이상에서 클릭이 0회이거나, 사이트 전체 변화를 보정한 평균순위가 2위 이상 악화되면 즉답·예시 심화 가설을 반증으로 본다.",
+  "deployed_at": "2026-09-29",
+  "freeze_until": "2026-10-27",
+  "evaluate_at": "2026-10-27",
+  "final_evaluate_at": "2026-11-24",
+  "extensions": 0,
+  "files": [
+    "tesla-quote-app/app/calc/charging-time/page.js"
+  ],
+  "sources": [
+    {
+      "name": "Tesla 지원 대한민국 — 홈차징",
+      "url": "https://www.tesla.com/ko_kr/support/charging/home-charging",
+      "accessed_at": "2026-09-29"
+    },
+    {
+      "name": "Tesla 지원 대한민국 — 온보드 차저",
+      "url": "https://www.tesla.com/ko_kr/support/charging/onboard-charger",
+      "accessed_at": "2026-09-29"
+    },
+    {
+      "name": "Tesla 지원 대한민국 — 공공 충전",
+      "url": "https://www.tesla.com/ko_kr/support/charging/public-charging",
+      "accessed_at": "2026-09-29"
+    },
+    {
+      "name": "Tesla 지원 대한민국 — 수퍼차저",
+      "url": "https://www.tesla.com/ko_kr/support/charging/supercharging",
+      "accessed_at": "2026-09-29"
+    }
+  ]
+}
