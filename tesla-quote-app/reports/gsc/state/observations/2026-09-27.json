@@ -1,0 +1,215 @@
+{
+  "recorded_at": "2026-09-30",
+  "generated_for": "2026-09-27",
+  "window": {
+    "start": "2026-08-31",
+    "end": "2026-09-27",
+    "days": 28
+  },
+  "summary": {
+    "clicks": 14,
+    "impressions": 888,
+    "ctr": 0.015765765765765764,
+    "position": 9.772522522522523,
+    "query_count": 173
+  },
+  "delta_pct": {
+    "clicks": 40.0,
+    "impressions": 14.9,
+    "query_count": 53.1
+  },
+  "anomaly_flags": [],
+  "top_queries": [
+    {
+      "query": "테슬라 보험료 계산",
+      "impressions": 10,
+      "clicks": 3,
+      "position": 6.3,
+      "intent": "유지비"
+    },
+    {
+      "query": "테슬라 보조금 계산기",
+      "impressions": 127,
+      "clicks": 2,
+      "position": 7.8,
+      "intent": "보조금"
+    },
+    {
+      "query": "테슬라 할부 계산기",
+      "impressions": 48,
+      "clicks": 1,
+      "position": 9.1,
+      "intent": "유지비"
+    },
+    {
+      "query": "테슬라 취등록세",
+      "impressions": 26,
+      "clicks": 1,
+      "position": 8.0,
+      "intent": "유지비"
+    },
+    {
+      "query": "테슬라 전비 계산",
+      "impressions": 20,
+      "clicks": 1,
+      "position": 5.0,
+      "intent": "계산"
+    },
+    {
+      "query": "테슬라 모델y 자동차세",
+      "impressions": 13,
+      "clicks": 1,
+      "position": 4.2,
+      "intent": "유지비"
+    },
+    {
+      "query": "테슬라 취득세",
+      "impressions": 12,
+      "clicks": 1,
+      "position": 4.8,
+      "intent": "유지비"
+    },
+    {
+      "query": "테슬라 풀충전 비용",
+      "impressions": 7,
+      "clicks": 1,
+      "position": 3.7,
+      "intent": "충전"
+    },
+    {
+      "query": "구형 테슬라 fsd",
+      "impressions": 2,
+      "clicks": 1,
+      "position": 8.5,
+      "intent": "기타"
+    },
+    {
+      "query": "제주",
+      "impressions": 1,
+      "clicks": 1,
+      "position": 5.0,
+      "intent": "기타"
+    }
+  ],
+  "top_pages": [
+    {
+      "path": "/answers/tesla-car-tax",
+      "impressions": 754,
+      "clicks": 21,
+      "position": 5.4
+    },
+    {
+      "path": "/calc/charging",
+      "impressions": 726,
+      "clicks": 14,
+      "position": 7.4
+    },
+    {
+      "path": "/calc/monthly-real-cost",
+      "impressions": 167,
+      "clicks": 9,
+      "position": 7.4
+    },
+    {
+      "path": "/calc/charging-time",
+      "impressions": 900,
+      "clicks": 8,
+      "position": 6.5
+    },
+    {
+      "path": "/subsidy",
+      "impressions": 1129,
+      "clicks": 7,
+      "position": 7.5
+    },
+    {
+      "path": "/subsidy/seoul",
+      "impressions": 2993,
+      "clicks": 6,
+      "position": 7.9
+    },
+    {
+      "path": "/guides/tesla-affordability-salary-guide",
+      "impressions": 81,
+      "clicks": 5,
+      "position": 7.1
+    },
+    {
+      "path": "/subsidy/jeju",
+      "impressions": 1224,
+      "clicks": 4,
+      "position": 5.2
+    },
+    {
+      "path": "/calc/tco",
+      "impressions": 149,
+      "clicks": 4,
+      "position": 7.9
+    },
+    {
+      "path": "/",
+      "impressions": 203,
+      "clicks": 3,
+      "position": 7.9
+    }
+  ],
+  "intent_breakdown": [
+    {
+      "intent": "유지비",
+      "impressions": 210,
+      "clicks": 7,
+      "queries": 23
+    },
+    {
+      "intent": "보조금",
+      "impressions": 167,
+      "clicks": 3,
+      "queries": 18
+    },
+    {
+      "intent": "충전",
+      "impressions": 127,
+      "clicks": 1,
+      "queries": 34
+    },
+    {
+      "intent": "가격",
+      "impressions": 103,
+      "clicks": 0,
+      "queries": 23
+    },
+    {
+      "intent": "계산",
+      "impressions": 99,
+      "clicks": 1,
+      "queries": 9
+    },
+    {
+      "intent": "기타",
+      "impressions": 97,
+      "clicks": 2,
+      "queries": 50
+    },
+    {
+      "intent": "출고절차",
+      "impressions": 50,
+      "clicks": 0,
+      "queries": 2
+    },
+    {
+      "intent": "모델정보",
+      "impressions": 33,
+      "clicks": 0,
+      "queries": 12
+    }
+  ],
+  "loop": {
+    "verdict_due": [],
+    "open_experiments": [
+      "2026-09-04-jeju-subsidy-serp-ctr",
+      "2026-09-27-calculator-hub-internal-loop",
+      "2026-09-28-delivery-status-guide-depth",
+      "2026-09-29-charging-time-guide-depth"
+    ]
+  }
+}
