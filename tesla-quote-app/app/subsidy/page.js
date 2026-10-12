@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import Link from "next/link";
 import QuoteWizard from "@/components/QuoteWizard";
 import QuoteWizardSkeleton from "@/components/QuoteWizardSkeleton";
 import HomeCalcLinks from "@/components/HomeCalcLinks";
@@ -14,7 +15,7 @@ import { loadSubsidySnapshot } from "@/lib/subsidy";
 export const metadata = {
   title: "테슬라 보조금 계산기 2026 — Model 3·Model Y 실구매가·월납입금",
   description:
-    "2026년 테슬라 Model 3·Model Y의 국고보조금·지자체 보조금을 자동 적용해 실구매가와 할부 월납입금을 계산합니다. 전국 17개 시·도 보조금 최신 반영.",
+    "테슬라 Model 3·Model Y의 지역별 보조금 자료로 예상 차량가와 할부 월납입금을 비교합니다. 자료 기준일과 신청 조건을 확인하세요. 실시간 잔여 예산은 제공하지 않습니다.",
   openGraph: {
     title: "테슬라 보조금 계산기 2026 — Model 3·Model Y 실구매가·월납입금",
     description:
@@ -74,7 +75,7 @@ export default function SubsidyCalculatorPage() {
           </h1>
           <p className="mx-auto max-w-2xl text-xs leading-6 text-slate-500 md:text-sm">
             거주 지역과 트림을 고르면 국고·지자체 보조금을 자동으로 적용해 실구매가와 할부 월납입금을
-            계산합니다. 기준 데이터 {snapshot.dataDate}.
+            계산합니다. 보조금 자료 {snapshot.dataDate} 기준이며 현재 지급액·잔여 예산은 실시간 반영하지 않습니다.
           </p>
         </div>
       </div>
@@ -82,6 +83,10 @@ export default function SubsidyCalculatorPage() {
         <QuoteWizard rows={snapshot.rows} regions={snapshot.regions} dataDate={snapshot.dataDate} />
       </Suspense>
       <div className="border-b border-slate-100" />
+      <nav aria-label="보조금 계산 후 확인" className="mx-auto flex max-w-5xl flex-wrap gap-4 px-4 py-6 text-sm font-semibold text-blue-700">
+        <Link href="/subsidy/seoul#decision-guide" className="underline">서울 신청 조건 확인</Link>
+        <Link href="/guides" className="underline">전체 구매 가이드</Link>
+      </nav>
       <HomeCalcLinks />
     </main>
   );

@@ -8,6 +8,7 @@ import RegionSubsidyTable from "@/components/seo/RegionSubsidyTable";
 import RegionPresetButtons from "@/components/seo/RegionPresetButtons";
 import RegionFAQ from "@/components/seo/RegionFAQ";
 import RegionInternalLinks from "@/components/seo/RegionInternalLinks";
+import RegionDecisionGuide from "@/components/seo/RegionDecisionGuide";
 import Link from "next/link";
 
 export async function generateStaticParams() {
@@ -39,7 +40,7 @@ export async function generateMetadata({ params }) {
     ? `서울 테슬라 Model Y·3의 국고·지방보조금과 차감 예상가를 ${snapshot.dataDate} 기준으로 확인하세요. 거주·출고 조건, 예산 소진 유의사항과 월납입금 계산까지 제공합니다.`
     : isJeju
       ? `제주 테슬라 Model Y·3의 국고·도비 보조금과 차감 예상가를 ${snapshot.dataDate} 기준으로 확인하세요. 거주·출고 조건, 예산 소진 유의사항과 월납입금 계산까지 제공합니다.`
-    : `${metro.name} 테슬라 Model 3·Model Y 보조금 총액, 실구매가 및 월납입금 자동 계산. 국고보조금+${metro.shortName} 지방보조금 합산 2026년 최신 데이터.`;
+    : `${metro.name} 테슬라 Model 3·Model Y 보조금을 ${snapshot.dataDate} 자료로 비교합니다. 현재 지급액·잔여 예산은 별도 확인이 필요합니다. 신청 전 체크리스트와 예상 월납입금 계산을 제공합니다.`;
 
   return {
     title,
@@ -68,7 +69,6 @@ export default async function RegionSubsidyPage({ params }) {
   const stats = calcMetroSubsidyStats(snapshot.rows, metro);
 
   const m3rwd = stats.statsByModel.find((s) => s.trimId === "m3-rwd");
-  const m3lr = stats.statsByModel.find((s) => s.trimId === "m3-lr");
   const myRwd = stats.statsByModel.find((s) => s.trimId === "my-rwd");
 
   // 대표 코드: si → representativeCode, do → 가장 보조금 높은 기초자치단체
@@ -78,18 +78,18 @@ export default async function RegionSubsidyPage({ params }) {
   const presets = [
     {
       label: "Model 3 RWD · 기본 조건",
-      sublabel: `보조금 최대 ${m3rwd?.max ?? 0}만원 적용`,
-      url: `/?model=model3&trim=m3-rwd&region=${repCode}&downPayment=10000000&months=60&rate=3.6`,
+      sublabel: "선수금 1,000만원 · 60개월 · 연 3.6% 가정",
+      url: `/subsidy?model=model3&trim=m3-rwd&region=${repCode}&downPayment=10000000&months=60&rate=3.6`,
     },
     {
       label: "Model 3 Long Range · 60개월",
-      sublabel: `보조금 최대 ${m3lr?.max ?? 0}만원 적용`,
-      url: `/?model=model3&trim=m3-lr&region=${repCode}&downPayment=10000000&months=60&rate=3.6`,
+      sublabel: "선수금 1,000만원 · 60개월 · 연 3.6% 가정",
+      url: `/subsidy?model=model3&trim=m3-lr&region=${repCode}&downPayment=10000000&months=60&rate=3.6`,
     },
     {
       label: "Model Y RWD · 선수금 1,500만",
-      sublabel: `보조금 최대 ${myRwd?.max ?? 0}만원 적용`,
-      url: `/?model=modely&trim=my-rwd&region=${repCode}&downPayment=15000000&months=60&rate=3.6`,
+      sublabel: "선수금 1,500만원 · 60개월 · 연 3.6% 가정",
+      url: `/subsidy?model=modely&trim=my-rwd&region=${repCode}&downPayment=15000000&months=60&rate=3.6`,
     },
   ];
 
@@ -111,12 +111,13 @@ export default async function RegionSubsidyPage({ params }) {
       />
 
       {/* Hero */}
-      <RegionHero metro={metro} stats={stats} />
+      <RegionHero metro={metro} stats={stats} dataDate={snapshot.dataDate} />
 
       {/* 메인 콘텐츠 */}
       <div className="max-w-4xl mx-auto px-4 md:px-8 py-8 md:py-12 space-y-10">
+        <RegionDecisionGuide metro={metro} dataDate={snapshot.dataDate} />
         {/* 보조금 현황 테이블 */}
-        <RegionSubsidyTable stats={stats} metro={metro} />
+        <RegionSubsidyTable stats={stats} metro={metro} dataDate={snapshot.dataDate} />
 
         {/* 데이터 출처·확인 신뢰 박스 */}
         <section className="rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
@@ -136,7 +137,7 @@ export default async function RegionSubsidyPage({ params }) {
             </div>
             <div className="flex gap-2">
               <dt className="w-28 shrink-0 font-semibold text-slate-500">지방보조금 출처</dt>
-              <dd>{metro.name} 전기차 보급사업 공고</dd>
+              <dd>저장된 공개 자료 기준 · 최신 {metro.name} 공고와 재대조 필요</dd>
             </div>
           </dl>
           <p className="mt-3 text-xs leading-relaxed text-slate-500">
@@ -186,13 +187,13 @@ export default async function RegionSubsidyPage({ params }) {
               </p>
             )}
             <p className="text-xs text-gray-400 pt-1">
-              업데이트: 2026년 · 보조금은 예산 소진 및 정책 변경으로 달라질 수 있습니다.
+              보조금 자료 {snapshot.dataDate} · 가격 자료 {VEHICLE_DATA_VERIFIED_AT} 기준 비교입니다. 현재 지급액을 뜻하지 않습니다.
             </p>
           </div>
         </section>
 
         {/* FAQ */}
-        <RegionFAQ metro={metro} stats={stats} />
+        <RegionFAQ metro={metro} dataDate={snapshot.dataDate} />
 
         {/* 계산기 CTA */}
         <section className="rounded-[32px] bg-[linear-gradient(135deg,#0f172a_0%,#1e3a8a_100%)] px-8 py-10 md:px-12 md:py-12 text-white">
@@ -202,16 +203,16 @@ export default async function RegionSubsidyPage({ params }) {
                 지역별 계산기
               </span>
               <h2 className="mt-3 text-xl md:text-2xl font-black leading-tight">
-                내 조건으로 정확하게<br />
+                내 조건으로 예상<br />
                 월 납입금을 계산해보세요
               </h2>
               <p className="mt-2 text-sm text-blue-100/70">
-                {metro.shortName} 보조금이 자동 적용됩니다. 선수금·할부 기간도 직접 설정 가능.
+                저장된 지역 자료로 비교합니다. 선수금·할부 기간·금리를 직접 바꿔보세요.
               </p>
             </div>
             <div className="shrink-0">
               <Link
-                href={`/?region=${repCode}`}
+                href={`/subsidy?region=${repCode}`}
                 className="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3 text-sm font-bold text-slate-950 transition hover:bg-blue-50"
               >
                 {metro.shortName} 계산기 바로가기

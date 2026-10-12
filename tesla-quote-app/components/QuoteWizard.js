@@ -382,7 +382,7 @@ export default function QuoteWizard({ rows, regions, dataDate }) {
           <div className="flex justify-center">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-medium text-gray-600">
               <span className="h-1.5 w-1.5 rounded-full bg-brandRed" />
-              보조금 데이터 {dataDateLabel} 기준 최신
+              보조금 자료 {dataDateLabel} 기준 · 현재 지급액 재확인 필요
             </span>
           </div>
         )}

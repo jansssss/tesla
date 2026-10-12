@@ -4,11 +4,11 @@ function formatWon(amount) {
   return `₩${Number(amount).toLocaleString("ko-KR")}`;
 }
 
-export default function RegionSubsidyTable({ stats, metro }) {
+export default function RegionSubsidyTable({ stats, metro, dataDate }) {
   return (
     <section>
       <h2 className="text-lg md:text-xl font-bold mb-4">
-        2026년 모델별 보조금 현황
+        모델별 보조금 비교 · {dataDate} 자료
       </h2>
 
       {metro.type === "do" && (
@@ -25,7 +25,7 @@ export default function RegionSubsidyTable({ stats, metro }) {
                 <th className="text-right px-4 py-3 font-semibold text-green-700">
                   {metro.type === "si" ? "보조금" : "보조금 범위"}
                 </th>
-                <th className="text-right px-4 py-3 font-semibold text-gray-900">실구매가*</th>
+                <th className="text-right px-4 py-3 font-semibold text-gray-900">보조금 차감 차량가*</th>
               </tr>
             </thead>
             <tbody>
@@ -55,11 +55,11 @@ export default function RegionSubsidyTable({ stats, metro }) {
                     </td>
                     <td className="px-4 py-3.5 text-right">
                       <span className="font-semibold text-green-600">
-                        -{subsidyDisplay}
+                        {stat.max > 0 ? `-${subsidyDisplay}` : "자료 미확인"}
                       </span>
                     </td>
                     <td className="px-4 py-3.5 text-right font-bold text-gray-900">
-                      {estimatedPrice ? formatWon(estimatedPrice) : "지역 선택 시"}
+                      {estimatedPrice ? formatWon(estimatedPrice) : metro.type === "do" ? "지역 선택 시" : "자료 미확인"}
                     </td>
                   </tr>
                 );
@@ -68,7 +68,8 @@ export default function RegionSubsidyTable({ stats, metro }) {
           </table>
         </div>
         <p className="text-xs text-gray-400 px-4 py-3 border-t border-gray-50">
-          * 실구매가는 보조금만 차감한 기준입니다. 청년·다자녀·전환 혜택은 계산기에서 확인하세요.
+          * 당시 차량 가격에서 기본 보조금만 차감한 비교값입니다. 취득세·등록비·보험·옵션·할부 이자는 포함하지 않습니다.
+          추가 지원은 자격 확인 전 확정 금액에 넣지 마세요. 자료 미확인은 지원 불가를 뜻하지 않습니다.
           {metro.type === "do" && " 도 단위 보조금은 시/군/구별로 다릅니다."}
         </p>
       </div>

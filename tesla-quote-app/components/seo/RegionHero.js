@@ -1,4 +1,4 @@
-export default function RegionHero({ metro, stats }) {
+export default function RegionHero({ metro, stats, dataDate }) {
   const m3rwd = stats.statsByModel.find((s) => s.trimId === "m3-rwd");
   const myRwd = stats.statsByModel.find((s) => s.trimId === "my-rwd");
 
@@ -19,7 +19,7 @@ export default function RegionHero({ metro, stats }) {
         </h1>
 
         <p className="text-blue-100/70 text-sm md:text-base mb-10">
-          국고보조금 + {metro.shortName} 지방보조금 합산 최신 데이터 기준
+          보조금 자료 {dataDate} 기준 · 현재 지급액과 잔여 예산은 별도 확인이 필요합니다.
           {metro.type === "do" && " · 시/군/구별 보조금이 다를 수 있습니다"}
         </p>
 
@@ -27,17 +27,17 @@ export default function RegionHero({ metro, stats }) {
         <div className="grid grid-cols-3 gap-2 md:gap-3">
           <StatCard
             label={`Model 3 RWD 최대 보조금`}
-            value={`${m3rwd?.max ?? 0}만원`}
-            sub={metro.type === "do" ? `최소 ${m3rwd?.min ?? 0}만원` : null}
+            value={m3rwd?.max > 0 ? `${m3rwd.max}만원` : "자료 미확인"}
+            sub={metro.type === "do" && m3rwd?.min > 0 ? `최소 ${m3rwd.min}만원` : null}
           />
           <StatCard
             label={`Model Y RWD 최대 보조금`}
-            value={`${myRwd?.max ?? 0}만원`}
-            sub={metro.type === "do" ? `최소 ${myRwd?.min ?? 0}만원` : null}
+            value={myRwd?.max > 0 ? `${myRwd.max}만원` : "자료 미확인"}
+            sub={metro.type === "do" && myRwd?.min > 0 ? `최소 ${myRwd.min}만원` : null}
           />
           <StatCard
-            label={metro.type === "si" ? "지원 모델 수" : "지원 시/군/구"}
-            value={metro.type === "si" ? `5종` : `${stats.districts.length}개`}
+            label={metro.type === "si" ? "자료 수록 트림" : "자료 수록 지역"}
+            value={metro.type === "si" ? `${stats.statsByModel.filter((s) => s.max > 0).length}종` : `${stats.districts.length}개`}
             sub={null}
           />
         </div>

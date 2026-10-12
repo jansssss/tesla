@@ -11,16 +11,17 @@ export default function RegionDistrictSelector({ districts, metro }) {
     const code = e.target.value;
     setSelected(code);
     if (code) {
-      router.push(`/?region=${code}&model=model3&trim=m3-rwd`);
+      router.push(`/subsidy?region=${code}&model=model3&trim=m3-rwd`);
     }
   };
 
   return (
     <div className="mb-5 flex flex-col sm:flex-row items-start sm:items-center gap-3 bg-blue-950/40 border border-blue-800/40 rounded-xl p-4">
-      <span className="text-sm font-medium text-blue-300 whitespace-nowrap">
+      <label htmlFor="subsidy-district" className="text-sm font-medium text-blue-300 whitespace-nowrap">
         {metro.shortName} 내 시/군/구 선택
-      </span>
+      </label>
       <select
+        id="subsidy-district"
         value={selected}
         onChange={handleChange}
         className="flex-1 w-full sm:w-auto bg-gray-900 border border-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"

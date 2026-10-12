@@ -48,6 +48,12 @@ export default async function GuidesPage() {
           </p>
         </section>
 
+        <aside className="rounded-2xl border border-blue-200 bg-white p-6">
+          <h2 className="font-bold text-slate-900">서울 보조금을 보고 계약을 고민 중이라면</h2>
+          <p className="mt-2 text-sm leading-7 text-slate-600">신청기간과 지급 순서, 출고가 미정일 때의 자금 계획을 기존 지역 페이지에서 확인하세요. 새 글이 아닌 신청 판단 안내 보강입니다.</p>
+          <Link href="/subsidy/seoul#decision-guide" className="mt-3 inline-block text-sm font-semibold text-blue-700 underline">서울 신청 조건과 구매 체크리스트</Link>
+        </aside>
+
         <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {guides.map((guide, index) => (
             <Link

@@ -46,7 +46,7 @@ export default function HomeHero({ preview }) {
 
           <p className="mt-5 max-w-lg text-sm leading-7 text-tesla-ink70 md:text-base">
             국고보조금과 지자체 보조금은 같은 차라도 사는 곳에 따라 달라집니다. 하우머치 테슬라는
-            공개 데이터를 그대로 적용해 실구매가·월납입금·유지비까지 한 번에 계산합니다.
+            기준일이 있는 공개 자료와 입력한 조건으로 예상 차량가·월납입금·유지비를 비교합니다.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -65,9 +65,13 @@ export default function HomeHero({ preview }) {
             </Link>
           </div>
 
-          <p className="mt-6 text-[11px] leading-5 text-slate-400">
-            무공해차 통합누리집 공개 데이터 기준 · 데이터 기준일 {preview.dataDate}
+          <p className="mt-6 text-xs leading-6 text-slate-600">
+            보조금 자료 {preview.dataDate} 기준. 현재 지급액·잔여 예산은 실시간 반영하지 않습니다.
+            표의 차량가는 취득세·등록비·보험·옵션·할부 이자를 제외한 비교값입니다.
           </p>
+          <Link href="/subsidy/seoul#decision-guide" className="mt-3 inline-block text-sm font-semibold text-tesla-blue underline underline-offset-4">
+            서울 구매자: 금액보다 먼저 확인할 신청·출고 조건
+          </Link>
         </div>
 
         {/* ── 우: 실데이터 프리뷰 ── */}
@@ -95,7 +99,7 @@ export default function HomeHero({ preview }) {
                   </p>
                 </div>
                 <div>
-                  <p className="text-[10px] text-slate-500">실구매가</p>
+                  <p className="text-[10px] text-slate-500">보조금 차감 차량가</p>
                   <p className="text-sm font-black text-tesla-ink">{man(preview.best.netPrice)}</p>
                 </div>
               </div>

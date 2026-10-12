@@ -1,0 +1,30 @@
+{
+  "id": "2026-10-12-adsense-regional-decision-flow",
+  "created": "2026-10-12",
+  "status": "observing",
+  "grade": "B",
+  "manual_exception": "사용자가 2026-10-12 이번 개편만 예외로 실행을 승인했다. 열린 실험 상한의 일회 예외이며 기존 동결 파일과 원본 데이터는 유지한다. 다음 자동 회차는 상한 규칙을 그대로 적용한다.",
+  "hypothesis": "지역 보조금 방문자가 자료의 시점과 신청 조건을 구분하고 선택한 조건으로 실제 계산기에 도달하면 구매 판단의 유용성이 개선된다. AdSense 승인 원인을 단독으로 입증하는 실험은 아니다.",
+  "action": "지역 계산 링크 복구, 스냅샷 기준일과 한계 명시, 잘못된 모델 수와 근거 없는 지역 FAQ 정리, 서울 공고 기반 판단 안내와 왕복 링크 보강. 신규 URL 없음.",
+  "targets": { "pages": ["/", "/subsidy", "/subsidy/seoul", "/guides"], "queries": ["서울 테슬라 보조금"], "scope": "지역 공용 컴포넌트 변경은 17개 지역 페이지에 적용" },
+  "baseline": {
+    "window_days": 28, "days": 28, "start": "2026-09-12", "end": "2026-10-09",
+    "site": { "clicks": 143, "impressions": 9471, "ctr": 0.015099, "position": 7.0646 },
+    "pages": { "/subsidy/seoul": { "clicks": 8, "impressions": 1536, "ctr": 0.005208, "position": 7.6732 } },
+    "queries": { "서울 테슬라 보조금": { "clicks": 1, "impressions": 12, "ctr": 0.083333, "position": 6.92 } },
+    "source": "같은 날 확정한 로컬 GSC와 연결 앱 관측 재사용. 필터 없음, 약 3일 확정 지연, 검색어 익명화와 상위 반환 행 제한."
+  },
+  "predict": { "metric": "ctr", "direction": "up", "expected": "기능 검증에서 모든 지역 프리셋이 /subsidy로 조건을 보존해 이동한다. 비교 가능한 28일 서울 CTR 0.8% 이상 또는 12클릭 이상, 사이트 보정 평균순위 악화 2위 미만을 기대한다.", "target_ctr_min": 0.008, "target_clicks_min": 12, "max_adjusted_position_loss": 2 },
+  "falsification": "서울 1000노출 이상에서 CTR 0.5% 미만이거나 사이트 보정 순위가 2위 이상 악화되면 검색 개선 가설을 반증한다. 표본 부족은 최종일까지 연장한다. AdSense 결과만으로 SEO 가설을 판정하지 않는다.",
+  "confounders": "홈과 지역 공용 동선 개편은 기존 계산기 내부 순환·구매 절차·충전 시간 실험에 간접 영향을 줄 수 있다. 기존 동결 소스는 수정하지 않으며 이후 판정에 이 개입을 명시한다.",
+  "freeze_until": "2026-11-23",
+  "evaluate_at": "2026-11-23",
+  "final_evaluate_at": "2026-12-21",
+  "deployed_at": "2026-10-12",
+  "extensions": 0,
+  "files": ["tesla-quote-app/app/subsidy/[region]/page.js", "tesla-quote-app/app/subsidy/page.js", "tesla-quote-app/app/guides/page.js", "tesla-quote-app/components/seo/RegionHero.js", "tesla-quote-app/components/seo/RegionSubsidyTable.js", "tesla-quote-app/components/seo/RegionDistrictSelector.js", "tesla-quote-app/components/seo/RegionFAQ.js", "tesla-quote-app/components/seo/RegionDecisionGuide.js", "tesla-quote-app/components/home/HomeHero.js", "tesla-quote-app/components/HomeContent.js", "tesla-quote-app/components/QuoteWizard.js"],
+  "sources": [
+    { "name": "서울시 하반기 추가 공고", "url": "https://news.seoul.go.kr/env/archives/570727", "accessed_at": "2026-10-12" },
+    { "name": "Tesla 공식 FAQ", "url": "https://www.tesla.com/ko_KR/support/faq", "accessed_at": "2026-10-12" }
+  ]
+}
