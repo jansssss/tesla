@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 // '보조금 확인'이 계산기 진입 메뉴다 — 홈(/)은 랜딩, 계산 도구는 /subsidy.
 const NAV_ITEMS = [
@@ -21,9 +22,16 @@ export default function SiteHeader() {
       <div className="mx-auto flex h-[var(--header-h)] max-w-7xl items-center justify-between gap-4 px-4 md:px-8">
         <Link
           href="/"
-          className="shrink-0 text-[15px] font-black tracking-tight text-slate-950 md:text-base"
+          className="flex shrink-0 items-center rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f4512c] focus-visible:ring-offset-2"
         >
-          하우머치 <span className="text-red-600">테슬라</span>
+          <Image
+            src="/brand/wordmark.png"
+            alt="PAYTESLA 하우머치 테슬라"
+            width={930}
+            height={270}
+            priority
+            className="h-auto w-[142px] md:w-[166px]"
+          />
         </Link>
 
         {/* 데스크톱 전용 상단 네비.

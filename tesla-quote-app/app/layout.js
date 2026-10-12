@@ -25,7 +25,7 @@ const siteJsonLd = {
       "@id": `${SITE_URL}/#organization`,
       name: "하우머치 테슬라",
       url: SITE_URL,
-      logo: `${SITE_URL}/icon.svg`,
+      logo: `${SITE_URL}/brand/wordmark.png`,
       founder: {
         "@type": "Person",
         name: "jans",
@@ -55,8 +55,12 @@ export const metadata = {
     "google-adsense-account": ADSENSE_ACCOUNT,
   },
   icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    shortcut: [{ url: "/icon.svg", type: "image/svg+xml" }]
+    icon: [
+      { url: "/brand/symbol.png", type: "image/png", sizes: "192x192" },
+      { url: "/brand/symbol.png", type: "image/png", sizes: "32x32" },
+    ],
+    shortcut: [{ url: "/brand/symbol.png", type: "image/png" }],
+    apple: [{ url: "/brand/symbol.png", type: "image/png", sizes: "180x180" }],
   }
 };
 
