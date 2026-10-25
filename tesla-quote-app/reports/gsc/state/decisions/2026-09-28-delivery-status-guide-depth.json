@@ -62,10 +62,32 @@
   },
   "falsification": "비교 가능한 28일 창에서 대상 검색어가 30회 이상 노출됐는데 클릭이 0회이고 구매 절차 대표 글의 대상 검색어 노출도 0회이거나, 사이트 전체 변화를 보정한 평균순위가 2위 이상 악화되면 기존 글 심화 가설을 반증으로 본다.",
   "deployed_at": "2026-09-28",
-  "freeze_until": "2026-10-26",
-  "evaluate_at": "2026-10-26",
+  "freeze_until": "2026-11-23",
+  "evaluate_at": "2026-11-23",
   "final_evaluate_at": "2026-11-23",
-  "extensions": 0,
+  "extensions": 1,
+  "interim_evaluations": [
+    {
+      "date": "2026-10-26",
+      "data_end": "2026-10-23",
+      "after_window": {
+        "start": "2026-10-05",
+        "end": "2026-10-23",
+        "days": 19
+      },
+      "result": "판정불가 — 28일 연장",
+      "reason": "대상 검색어는 112노출·2클릭으로 클릭 목표를 충족했고 사이트 보정 순위도 0.9위 악화에 그쳤다. 그러나 구매 절차 대표 글의 정확 일치 검색어 노출은 8회로 사전 목표 10회에 2회 부족하고 최종 판정일 전이다. 클릭 0회·대표 글 노출 0회라는 반증 조건은 충족하지 않아 2026-11-23까지 한 번 연장한다.",
+      "metrics": {
+        "query_clicks": 2,
+        "query_impressions": 112,
+        "query_ctr": 0.017857142857142856,
+        "query_position": 4.6,
+        "guide_query_impressions": 8,
+        "guide_query_clicks": 0,
+        "site_adjusted_position_delta": 0.9
+      }
+    }
+  ],
   "files": [
     "tesla-quote-app/lib/guideRewrites.js"
   ],

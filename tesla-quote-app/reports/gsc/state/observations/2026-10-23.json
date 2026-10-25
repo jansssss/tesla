@@ -1,0 +1,217 @@
+{
+  "recorded_at": "2026-10-26",
+  "generated_for": "2026-10-23",
+  "window": {
+    "start": "2026-09-26",
+    "end": "2026-10-23",
+    "days": 28
+  },
+  "summary": {
+    "clicks": 43,
+    "impressions": 2107,
+    "ctr": 0.02040816326530612,
+    "position": 8.051732320835312,
+    "query_count": 301
+  },
+  "delta_pct": {
+    "clicks": 230.8,
+    "impressions": 142.5,
+    "query_count": 81.3
+  },
+  "anomaly_flags": [],
+  "top_queries": [
+    {
+      "query": "테슬라 계산기",
+      "impressions": 123,
+      "clicks": 4,
+      "position": 6.2,
+      "intent": "계산"
+    },
+    {
+      "query": "테슬라 인도 예상 사이트",
+      "impressions": 190,
+      "clicks": 3,
+      "position": 6.8,
+      "intent": "출고절차"
+    },
+    {
+      "query": "테슬라계산기",
+      "impressions": 35,
+      "clicks": 3,
+      "position": 5.4,
+      "intent": "계산"
+    },
+    {
+      "query": "테슬라 출고 예상 사이트",
+      "impressions": 149,
+      "clicks": 2,
+      "position": 4.6,
+      "intent": "출고절차"
+    },
+    {
+      "query": "테슬라 보조금 계산기",
+      "impressions": 109,
+      "clicks": 2,
+      "position": 6.4,
+      "intent": "보조금"
+    },
+    {
+      "query": "테슬라 할부 계산기",
+      "impressions": 76,
+      "clicks": 2,
+      "position": 7.4,
+      "intent": "유지비"
+    },
+    {
+      "query": "테슬라 인도 절차",
+      "impressions": 32,
+      "clicks": 2,
+      "position": 8.8,
+      "intent": "출고절차"
+    },
+    {
+      "query": "테슬라 세금",
+      "impressions": 22,
+      "clicks": 2,
+      "position": 2.1,
+      "intent": "유지비"
+    },
+    {
+      "query": "테슬라 자동차세",
+      "impressions": 59,
+      "clicks": 1,
+      "position": 4.4,
+      "intent": "유지비"
+    },
+    {
+      "query": "모델y 취등록세",
+      "impressions": 35,
+      "clicks": 1,
+      "position": 7.6,
+      "intent": "유지비"
+    }
+  ],
+  "top_pages": [
+    {
+      "path": "/guides/tesla-purchase-process-for-beginners",
+      "impressions": 1051,
+      "clicks": 34,
+      "position": 7.4
+    },
+    {
+      "path": "/answers/tesla-car-tax",
+      "impressions": 1190,
+      "clicks": 33,
+      "position": 5.3
+    },
+    {
+      "path": "/calc",
+      "impressions": 669,
+      "clicks": 18,
+      "position": 6.9
+    },
+    {
+      "path": "/subsidy/incheon",
+      "impressions": 213,
+      "clicks": 16,
+      "position": 5.7
+    },
+    {
+      "path": "/subsidy/seoul",
+      "impressions": 813,
+      "clicks": 14,
+      "position": 7.4
+    },
+    {
+      "path": "/calc/charging",
+      "impressions": 869,
+      "clicks": 13,
+      "position": 7.1
+    },
+    {
+      "path": "/calc/monthly-real-cost",
+      "impressions": 254,
+      "clicks": 11,
+      "position": 5.6
+    },
+    {
+      "path": "/subsidy/jeju",
+      "impressions": 183,
+      "clicks": 9,
+      "position": 5.5
+    },
+    {
+      "path": "/calc/charging-time",
+      "impressions": 1511,
+      "clicks": 8,
+      "position": 6.7
+    },
+    {
+      "path": "/",
+      "impressions": 220,
+      "clicks": 8,
+      "position": 5.5
+    }
+  ],
+  "intent_breakdown": [
+    {
+      "intent": "유지비",
+      "impressions": 468,
+      "clicks": 9,
+      "queries": 27
+    },
+    {
+      "intent": "출고절차",
+      "impressions": 427,
+      "clicks": 8,
+      "queries": 19
+    },
+    {
+      "intent": "충전",
+      "impressions": 317,
+      "clicks": 3,
+      "queries": 38
+    },
+    {
+      "intent": "가격",
+      "impressions": 239,
+      "clicks": 2,
+      "queries": 44
+    },
+    {
+      "intent": "계산",
+      "impressions": 201,
+      "clicks": 8,
+      "queries": 13
+    },
+    {
+      "intent": "보조금",
+      "impressions": 189,
+      "clicks": 5,
+      "queries": 23
+    },
+    {
+      "intent": "기타",
+      "impressions": 182,
+      "clicks": 7,
+      "queries": 108
+    },
+    {
+      "intent": "모델정보",
+      "impressions": 80,
+      "clicks": 1,
+      "queries": 25
+    }
+  ],
+  "loop": {
+    "verdict_due": [
+      "2026-09-28-delivery-status-guide-depth"
+    ],
+    "open_experiments": [
+      "2026-09-27-calculator-hub-internal-loop",
+      "2026-09-28-delivery-status-guide-depth",
+      "2026-09-29-charging-time-guide-depth",
+      "2026-10-12-adsense-regional-decision-flow"
+    ]
+  }
+}
