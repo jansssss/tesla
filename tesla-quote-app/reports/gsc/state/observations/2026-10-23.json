@@ -204,9 +204,7 @@
     }
   ],
   "loop": {
-    "verdict_due": [
-      "2026-09-28-delivery-status-guide-depth"
-    ],
+    "verdict_due": [],
     "open_experiments": [
       "2026-09-27-calculator-hub-internal-loop",
       "2026-09-28-delivery-status-guide-depth",
