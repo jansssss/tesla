@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/AppLink";
 
 export default function RegionDecisionGuide({ metro, dataDate }) {
   const isSeoul = metro.slug === "seoul";

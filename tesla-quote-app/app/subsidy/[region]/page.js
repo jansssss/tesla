@@ -9,7 +9,7 @@ import RegionPresetButtons from "@/components/seo/RegionPresetButtons";
 import RegionFAQ from "@/components/seo/RegionFAQ";
 import RegionInternalLinks from "@/components/seo/RegionInternalLinks";
 import RegionDecisionGuide from "@/components/seo/RegionDecisionGuide";
-import Link from "next/link";
+import Link from "@/components/AppLink";
 
 export async function generateStaticParams() {
   return ALL_SLUGS.map((slug) => ({ region: slug }));

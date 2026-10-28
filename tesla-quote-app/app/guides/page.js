@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/AppLink";
 import { getAllGuides, GUIDES_SECTION_PUBLIC } from "@/lib/guides";
 import { fetchAllGuidesForList } from "@/lib/supabase-server";
 import { normalizeCategory } from "@/lib/categories";

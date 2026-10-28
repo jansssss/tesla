@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/AppLink';
 
 export const metadata = {
   title: '개인정보처리방침 - 하우머치 테슬라',

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/AppLink";
 
 /**
  * AuthorBio — 운영자(jans) 저자 박스

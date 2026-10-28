@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/AppLink";
 import { CALCULATOR_GROUPS, calculatorsByGroup } from "@/lib/calculators";
 import { ANSWERS, JOURNEY_STOPS, ANSWERS_UPDATED_AT } from "@/lib/answers";
 

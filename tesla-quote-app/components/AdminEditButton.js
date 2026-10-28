@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
+import Link from '@/components/AppLink'
 
 export default function AdminEditButton({ slug }) {
   const [isAdmin, setIsAdmin] = useState(false)

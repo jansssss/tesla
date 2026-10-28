@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/AppLink";
 import { METRO_REGIONS } from "@/lib/regions";
 
 export default function RegionInternalLinks({ currentSlug }) {

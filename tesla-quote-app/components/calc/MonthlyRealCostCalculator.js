@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react";
-import Link from "next/link";
+import Link from "@/components/AppLink";
 import { CALC_DEFAULTS, calcCharging } from "@/lib/calcExtra";
 
 function monthlyPayment(principal, annualRatePct, months) {

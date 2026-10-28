@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/AppLink";
 import { CALCULATOR_GROUPS, calculatorsByGroup, CALCULATORS } from "@/lib/calculators";
 import CalcIcon from "@/components/calc/CalcIcon";
 

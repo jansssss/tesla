@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/AppLink";
 
 /**
  * 홈 히어로 — 좌측 카피 / 우측 실데이터 프리뷰 카드의 2단 구조.

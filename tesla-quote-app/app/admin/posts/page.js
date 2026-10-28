@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import Link from '@/components/AppLink'
 import { supabase } from '@/lib/supabase'
 
 const PAGE_SIZE = 20

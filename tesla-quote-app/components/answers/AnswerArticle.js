@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/AppLink";
 import { Block } from "@/components/calc/CalcContent";
 import { CALCULATORS } from "@/lib/calculators";
 

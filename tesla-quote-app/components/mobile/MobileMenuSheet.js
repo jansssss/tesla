@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
+import Link from "@/components/AppLink";
 import { CALCULATOR_GROUPS, calculatorsByGroup } from "@/lib/calculators";
 
 /* 색인 유지 대상(광역시·특별시)만 노출 — do 단위 지역은 noindex 처리되어 있다 */

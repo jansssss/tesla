@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/AppLink";
 
 /**
  * 계산 결과 아래 배치하는 "구매 전 함께 계산할 항목" 섹션.

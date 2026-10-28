@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/AppLink';
 
 export const metadata = {
   title: '면책조항 - 하우머치 테슬라',

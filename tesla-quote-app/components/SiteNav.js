@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/AppLink";
 
 // 데스크톱 전용 보조 네비게이션.
 // 모바일은 하단 탭바 + 전체 메뉴 시트(MobileMenuSheet)가 같은 링크를 담당한다.

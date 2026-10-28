@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/AppLink";
 import { METRO_REGIONS } from "@/lib/regions";
 import { CALC_DATA_DATE, CALC_DEFAULTS } from "@/lib/calcExtra";
 import CalcContent from "@/components/calc/CalcContent";

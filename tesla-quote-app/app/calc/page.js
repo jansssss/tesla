@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/AppLink";
 import { CALCULATORS, CALCULATOR_GROUPS, calculatorsByGroup } from "@/lib/calculators";
 import { CALC_DATA_DATE } from "@/lib/calcExtra";
 import { VEHICLE_DATA_VERIFIED_AT } from "@/lib/vehicleData";

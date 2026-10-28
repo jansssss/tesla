@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Link from "next/link";
+import Link from "@/components/AppLink";
 import QuoteWizard from "@/components/QuoteWizard";
 import QuoteWizardSkeleton from "@/components/QuoteWizardSkeleton";
 import HomeCalcLinks from "@/components/HomeCalcLinks";

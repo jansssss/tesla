@@ -2,7 +2,7 @@
 
 import { Suspense, useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
+import Link from '@/components/AppLink'
 import { supabase } from '@/lib/supabase'
 
 const CATEGORIES = ['테슬라', '전기차', '보조금', '충전', '비교', '구매가이드', '자동차']
