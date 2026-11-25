@@ -38,7 +38,14 @@ def main() -> None:
         client_secret_path=settings["client_secret_path"],
         token_path=settings["token_path"],
     )
+    previous = json.loads(OUT_FILE.read_text(encoding="utf-8")) if OUT_FILE.exists() else {}
+
     end = date.today() - timedelta(days=_DATA_LAG_DAYS)
+    # Vercel Web Analytics 수집 시작일(analyticsStart) 이후는 Vercel 방문 수가 담당한다.
+    # 검색 클릭 1건 = 방문 1건이라 기간이 겹치면 이중 집계되므로 GSC 는 그 전날까지만 센다.
+    analytics_start = previous.get("analyticsStart")
+    if analytics_start:
+        end = min(end, date.fromisoformat(analytics_start) - timedelta(days=1))
     start = end - timedelta(days=args.days - 1)
     rows = insight._query(["page"], start, end)
     if not rows:
@@ -55,11 +62,10 @@ def main() -> None:
         "generatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "clicks": dict(sorted(clicks.items(), key=lambda kv: (-kv[1], kv[0]))),
     }
-    # Vercel Web Analytics 방문 수(pageviews)는 Vercel MCP 로 따로 채운다 — 덮어쓰지 않고 유지.
-    if OUT_FILE.exists():
-        previous = json.loads(OUT_FILE.read_text(encoding="utf-8"))
-        if "pageviews" in previous:
-            payload["pageviews"] = previous["pageviews"]
+    # Vercel 쪽 필드(수집 시작일, 방문 수)는 Vercel MCP 로 따로 채운다 — 덮어쓰지 않고 유지.
+    for key in ("analyticsStart", "pageviews"):
+        if key in previous:
+            payload[key] = previous[key]
     OUT_FILE.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"[NAV] {start} ~ {end} ({args.days}d), pages {len(clicks)} -> {OUT_FILE}")
 

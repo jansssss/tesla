@@ -101,12 +101,13 @@ npm test && npm run content:audit && npx next build
 - 한 줄 노출 개수: md 4 · lg 6 · xl 8, 나머지는 '전체 메뉴' 드롭다운(`components/SiteNavMore.js`)
 - 헤더(SiteHeader)와 같은 목적지는 넣지 않는다.
 
-데이터는 두 가지이고, 메뉴 페이지 방문 합계가 200 이상이면 `pageviews`를 우선 쓴다.
+인기 점수 = **GSC 검색 클릭 + Vercel 방문 수**. 검색 클릭 1건은 그 자체로 방문 1건이므로, 두 값의 **기간이 겹치지 않게** 나눠서 더한다(겹치면 검색 유입이 이중 집계됨).
 
-| 필드 | 출처 | 갱신 방법 |
-|---|---|---|
-| `pageviews` | Vercel Web Analytics 실제 방문(최근 30일) | Claude Code에 "메뉴 인기 순위 갱신" 요청 → Vercel MCP `aggregate_pageviews`(by `requestPath`)로 조회해 `{ window: {start, end, days}, counts: {"/경로": 수} }` 형식으로 기록 |
-| `clicks` | GSC 검색 클릭(최근 90일) | `python -m scripts.analytics.nav_popularity` (`pageviews` 필드는 유지됨) |
+| 필드 | 출처 | 기간 | 갱신 방법 |
+|---|---|---|---|
+| `analyticsStart` | Vercel Web Analytics 수집 시작일 | - | 대시보드에서 Web Analytics를 켠 날짜(YYYY-MM-DD) |
+| `clicks` | GSC 검색 클릭 | `analyticsStart` 전날까지 90일 | `python -m scripts.analytics.nav_popularity` (Vercel 필드는 유지됨) |
+| `pageviews` | Vercel Web Analytics 방문 | `analyticsStart`부터 | Claude Code에 "메뉴 인기 순위 갱신" 요청 → Vercel MCP `aggregate_pageviews`(by `requestPath`, since=`analyticsStart`)로 조회해 `{ window: {start, end, days}, counts: {"/경로": 수} }` 형식으로 기록 |
 
 - Vercel 프로젝트: `tesla`(`prj_Y7Hozlxv5mmvJ48Rq1hJeOID4CP6`), 팀 `team_XuKR2FsTmPkbtA2ujV4xC0Vn`. Web Analytics는 `app/layout.js`의 `<Analytics />`로 수집한다(Hobby: 페이지뷰만, 커스텀 이벤트 불가, 월 5만 이벤트).
 - 월 1회 정도 갱신하고 `data/nav-popularity.json`을 커밋한다.

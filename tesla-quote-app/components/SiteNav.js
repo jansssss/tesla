@@ -6,8 +6,8 @@ import popularity from "@/data/nav-popularity.json";
 // 모바일은 하단 탭바 + 전체 메뉴 시트(MobileMenuSheet)가 같은 링크를 담당한다.
 //
 // 순서와 색은 data/nav-popularity.json 으로 정한다.
-//   pageviews: Vercel Web Analytics 실제 방문(쌓이면 우선 사용, MIN_PAGEVIEWS 참고)
-//   clicks:    GSC 검색 클릭(방문 데이터가 적을 때 대체)
+//   clicks:    GSC 검색 클릭(Vercel 수집 시작 전 기간)
+//   pageviews: Vercel Web Analytics 실제 방문(수집 시작 후 기간) — 둘을 더해 점수로 쓴다
 //   갱신 방법은 README '많이 찾는 메뉴 인기 순위 갱신' 참고
 // 헤더(SiteHeader)에 이미 있는 목적지(/subsidy, /calc, /answers, /guides,
 // /models/model-3, /compare/model-3-vs-model-y)는 중복이라 넣지 않는다.
@@ -57,18 +57,20 @@ const TIER_CLASS = {
   base: "border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-400 hover:bg-white hover:text-gray-900",
 };
 
-// Vercel Web Analytics 실제 방문(pageviews)이 이 정도 쌓이면 검색 클릭(GSC) 대신 방문 수로 순위를 정한다.
-const MIN_PAGEVIEWS = 200;
-
+// 인기 점수 = GSC 검색 클릭 + Vercel 방문(pageviews).
+// 검색 클릭 1건은 그 자체로 방문 1건이라 같은 기간을 더하면 이중 집계가 된다.
+// 그래서 GSC 기간은 Vercel 수집 시작일(analyticsStart) 전날까지로 잘라 두 기간이 겹치지 않게 한다
+// (scripts/analytics/nav_popularity.py 가 처리).
 function pickSource() {
-  const pv = popularity?.pageviews;
-  const pvTotal = pv?.counts
-    ? NAV_ITEMS.reduce((sum, item) => sum + (pv.counts[item.href] ?? 0), 0)
-    : 0;
-  if (pvTotal >= MIN_PAGEVIEWS) {
-    return { counts: pv.counts, days: pv.window?.days ?? 30, label: "방문" };
+  const clicks = popularity?.clicks ?? {};
+  const pv = popularity?.pageviews?.counts ?? {};
+  const counts = {};
+  for (const item of NAV_ITEMS) {
+    counts[item.href] = (clicks[item.href] ?? 0) + (pv[item.href] ?? 0);
   }
-  return { counts: popularity?.clicks ?? {}, days: popularity?.window?.days ?? 90, label: "검색 유입" };
+  const hasPv = Object.keys(pv).length > 0;
+  const days = (popularity?.window?.days ?? 90) + (hasPv ? popularity.pageviews.window?.days ?? 0 : 0);
+  return { counts, days, label: hasPv ? "검색 유입·방문" : "검색 유입" };
 }
 
 function rankItems(counts) {
