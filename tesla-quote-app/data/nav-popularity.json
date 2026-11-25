@@ -1,5 +1,6 @@
 {
   "source": "Google Search Console 페이지별 검색 클릭",
+  "analyticsStart": "2026-11-25",
   "window": {
     "start": "2026-08-25",
     "end": "2026-11-22",
