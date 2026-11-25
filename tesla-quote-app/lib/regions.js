@@ -55,7 +55,7 @@ export function getDistrictsForMetro(rows, metro) {
 /** 트림 카탈로그 (보조금 계산 기준) */
 export const TRIM_CATALOG = [
   { trimId: 'm3-rwd',  modelId: 'model3', label: 'Model 3 RWD',         price: TRIM_PRICES['m3-rwd'],   csvModel: 'Model 3 RWD' },
-  { trimId: 'm3-lr',   modelId: 'model3', label: 'Model 3 Long Range',   price: TRIM_PRICES['m3-lr'],   csvModel: 'Model 3 Premium Long Range RWD' },
+  { trimId: 'm3-lr',   modelId: 'model3', label: 'Model 3 Long Range',   price: TRIM_PRICES['m3-lr'],   csvModel: 'Model 3 Premium Long Range RWD(5999만원)' },
   { trimId: 'm3-perf', modelId: 'model3', label: 'Model 3 Performance',  price: TRIM_PRICES['m3-perf'], csvModel: 'Model 3 Performance' },
   { trimId: 'my-rwd',  modelId: 'modely', label: 'Model Y RWD',          price: TRIM_PRICES['my-rwd'],  csvModel: 'Model Y Premium RWD' },
   { trimId: 'my-lr',   modelId: 'modely', label: 'Model Y Long Range',   price: TRIM_PRICES['my-lr'],   csvModel: 'Model Y Premium Long Range' },

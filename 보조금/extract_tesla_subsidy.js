@@ -7,7 +7,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const BASE = 'https://ev.or.kr';
 const INIT_PATH = '/nportal/buySupprt/initPsLocalCarPirceAction.do';
 const MODEL_PATH = '/nportal/buySupprt/psPopupLocalCarModelPrice.do';
-const PNP_PATH = '/nportal/js/pnp4web/pnp4web.js?v=20190219';
+const MODEL_AJAX_PATH = '/nportal/buySupprt/getLocalCarModelPrice.ajax';
+const PNP_PATH ='/nportal/js/pnp4web/pnp4web.js?v=20190219';
 
 const agent = new https.Agent({ rejectUnauthorized: false });
 
@@ -143,6 +144,40 @@ function parseTeslaRows(modelHtml, local) {
   return rows;
 }
 
+// 2026-11 ev.or.kr 개편 이후: 지역 목록은 #localListData data-json, 연도는 #pageInfo data-json,
+// 차종별 금액은 getLocalCarModelPrice.ajax(JSON) 로 제공된다.
+function readDataJson(html, id) {
+  const m = html.match(new RegExp(`id="${id}"[^>]*data-json="([^"]*)"`));
+  if (!m) return null;
+  return JSON.parse(m[1].replace(/&#034;/g, '"').replace(/&quot;/g, '"').replace(/&amp;/g, '&'));
+}
+
+function parseLocalTargetsV2(initHtml) {
+  const list = readDataJson(initHtml, 'localListData');
+  const pageInfo = readDataJson(initHtml, 'pageInfo') || {};
+  if (!Array.isArray(list)) return [];
+  const year = String(pageInfo.year1 || new Date().getFullYear());
+  return list.map((r) => ({ year, localCode: String(r.LOCAL_CD), localName: r.LOCAL_NM }));
+}
+
+function parseTeslaRowsV2(data, local) {
+  return (data.list11 || [])
+    .filter((r) => /테슬라|tesla/i.test(r.MAKER_NM || '') || /model\s*[3ysx]/i.test(r.MODEL_NM || ''))
+    .map((r) => ({
+      year: local.year,
+      local_code: local.localCode,
+      local_name: local.localName,
+      vehicle_type: r.TYPE_NM || '',
+      maker: r.MAKER_NM || '',
+      // 기존 CSV와 모델명 호환을 위해 사이트 화면의 '(단종) ' 접두어는 붙이지 않는다
+      model: r.MODEL_NM || '',
+      national_subsidy_manwon: numText(String(r.SUM_GAMT || r.GAMT || '')),
+      local_subsidy_manwon: numText(String(r.LAMT || '')),
+      total_subsidy_manwon: numText(String(r.TOTAL_AMT || '')),
+      source: `${BASE}${INIT_PATH}`,
+    }));
+}
+
 function toCsv(rows) {
   const headers = [
     'year',
@@ -170,24 +205,49 @@ async function main() {
 
   const initRaw = await requestRaw(INIT_PATH);
   const initHtml = decodePnp(initRaw);
-  const targets = parseLocalTargets(initHtml);
+  let targets = parseLocalTargetsV2(initHtml);
+  const useV2 = targets.length > 0;
+  if (!useV2) targets = parseLocalTargets(initHtml);
 
   if (targets.length === 0) {
-    throw new Error('No local targets found from init page');
+    fs.writeFileSync(path.join(process.cwd(), '_debug_init.html'), initHtml, 'utf8');
+    throw new Error('No local targets found from init page (saved _debug_init.html)');
   }
+
+  // ONLY=1100,2600 처럼 지정하면 해당 지자체만 수집(테스트용, 파일 저장 안 함)
+  const only = (process.env.ONLY || '').split(',').filter(Boolean);
+  if (only.length) targets = targets.filter((t) => only.includes(t.localCode));
 
   const allRows = [];
   for (let i = 0; i < targets.length; i += 1) {
     const t = targets[i];
-    const body = `year=${encodeURIComponent(t.year)}&local_cd=${encodeURIComponent(t.localCode)}&local_nm=${encodeURIComponent(t.localName)}&car_type=11`;
-    const modelRaw = await requestRaw(MODEL_PATH, 'POST', body);
-    const modelHtml = decodePnp(modelRaw);
-    const teslaRows = parseTeslaRows(modelHtml, t);
+    let teslaRows;
+    if (useV2) {
+      const body = `year=${encodeURIComponent(t.year)}&local_cd=${encodeURIComponent(t.localCode)}`;
+      const raw = await requestRaw(MODEL_AJAX_PATH, 'POST', body);
+      let data;
+      try {
+        data = JSON.parse(raw);
+      } catch {
+        data = JSON.parse(decodePnp(raw));
+      }
+      teslaRows = parseTeslaRowsV2(data, t);
+    } else {
+      const body = `year=${encodeURIComponent(t.year)}&local_cd=${encodeURIComponent(t.localCode)}&local_nm=${encodeURIComponent(t.localName)}&car_type=11`;
+      const modelRaw = await requestRaw(MODEL_PATH, 'POST', body);
+      teslaRows = parseTeslaRows(decodePnp(modelRaw), t);
+    }
     allRows.push(...teslaRows);
+    if (only.length) console.log(JSON.stringify(teslaRows, null, 1));
 
     if ((i + 1) % 20 === 0 || i + 1 === targets.length) {
       console.log(`[${i + 1}/${targets.length}] ${t.localName} -> tesla rows ${teslaRows.length}`);
     }
+  }
+
+  if (only.length) {
+    console.log(`test mode (ONLY): rows ${allRows.length}, nothing saved`);
+    return;
   }
 
   const now = new Date();

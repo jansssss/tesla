@@ -36,7 +36,7 @@ const MODEL_CATALOG = [
         id: "m3-lr",
         label: "Premium Long Range RWD(후륜 구동)",
         price: TRIM_PRICES["m3-lr"],
-        csvModel: "Model 3 Premium Long Range RWD",
+        csvModel: "Model 3 Premium Long Range RWD(5999만원)",
         stats: getTrimStats("m3-lr")
       },
       {

@@ -64,7 +64,7 @@ export const VEHICLE_TRIMS = [
     model: "Model 3",
     trim: "Long Range",
     trimFull: "Model 3 Long Range",
-    csvModel: "Model 3 Premium Long Range RWD",
+    csvModel: "Model 3 Premium Long Range RWD(5999만원)",
     driveType: "RWD",
     priceKrw: 59990000,      // 2026-07-02 공식 확인: 5,999만원
     rangeKm: 538,
