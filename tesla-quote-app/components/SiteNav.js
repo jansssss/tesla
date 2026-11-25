@@ -39,11 +39,11 @@ const HOT_COUNT = 3; // 상위 3개: 진한 그라디언트 + 순위 숫자
 const WARM_COUNT = 4; // 다음 4개: 은은한 그라디언트
 
 // 화면 폭에 맞춰 한 줄에 보이는 개수 — 나머지는 '전체 메뉴'에서 연다.
-// md 4개 · lg 6개 · xl 이상 8개
+// md 3개 · lg 5개 · xl 이상 7개 (1~7위 = 색이 있는 순위 메뉴 전체)
 function visibilityClass(rank) {
-  if (rank < 4) return "inline-flex";
-  if (rank < 6) return "hidden lg:inline-flex";
-  if (rank < 8) return "hidden xl:inline-flex";
+  if (rank < 3) return "inline-flex";
+  if (rank < 5) return "hidden lg:inline-flex";
+  if (rank < 7) return "hidden xl:inline-flex";
   return "hidden";
 }
 
@@ -80,9 +80,15 @@ function rankItems(counts) {
       let tier = "base";
       if (item.score > 0 && rank < HOT_COUNT) tier = "hot";
       else if (item.score > 0 && rank < HOT_COUNT + WARM_COUNT) tier = "warm";
-      return { label: item.label, href: item.href, group: item.group, rank, tier };
+      return { label: item.label, href: item.href, group: item.group, rank, tier, score: item.score };
     });
 }
+
+// 순위 숫자 배지 — 색만으로는 '많이 찾아서 진하다'는 의미가 안 보이므로 1위부터 숫자를 붙인다.
+const RANK_BADGE_CLASS = {
+  hot: "bg-white/25 text-white",
+  warm: "bg-[#3457dc]/10 text-[#3446b8]",
+};
 
 export default function SiteNav() {
   const source = pickSource();
@@ -97,12 +103,20 @@ export default function SiteNav() {
   return (
     <nav className="hidden border-b border-gray-100 bg-white md:block" aria-label="많이 찾는 메뉴">
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-2.5 md:px-8">
-        <span
-          className="shrink-0 text-xs font-semibold text-gray-500"
-          title={`${basis}이 많은 순서`}
-        >
-          많이 찾는 메뉴
-        </span>
+        <p className="flex shrink-0 items-center gap-1.5 text-xs" title={`${basis}이 많은 순서`}>
+          <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 text-[#f4512c]" aria-hidden="true">
+            <path
+              d="M2 11.5 6 7.5l3 3 5-5.5M10.5 5H14v3.5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <span className="font-bold text-gray-800">많이 찾는 순</span>
+          <span className="hidden text-gray-400 lg:inline">최근 {days}일</span>
+        </p>
         <span className="h-3.5 w-px shrink-0 bg-gray-200" aria-hidden="true" />
 
         {/* 안전장치: 폭이 모자라면 버튼이 반쯤 잘리지 않고 통째로 둘째 줄(숨김)로 넘어간다.
@@ -112,12 +126,13 @@ export default function SiteNav() {
             <li key={item.href} className={visibilityClass(item.rank)}>
               <Link
                 href={item.href}
+                title={item.score > 0 ? `${basis} ${item.score.toLocaleString("ko-KR")}회 · ${item.rank + 1}위` : undefined}
                 className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-medium transition ${TIER_CLASS[item.tier]}`}
               >
-                {item.tier === "hot" ? (
+                {item.tier !== "base" ? (
                   <>
                     <span
-                      className="flex h-4 w-4 items-center justify-center rounded-full bg-white/25 text-[10px] font-bold leading-none"
+                      className={`flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold leading-none ${RANK_BADGE_CLASS[item.tier]}`}
                       aria-hidden="true"
                     >
                       {item.rank + 1}

@@ -68,6 +68,9 @@ export default function SiteNavMore({ groups, basis }) {
                       >
                         <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${DOT_CLASS[item.tier]}`} aria-hidden="true" />
                         {item.label}
+                        {item.tier !== "base" ? (
+                          <span className="ml-auto text-[11px] font-semibold text-gray-400">{item.rank + 1}위</span>
+                        ) : null}
                       </Link>
                     </li>
                   ))}
@@ -76,7 +79,7 @@ export default function SiteNavMore({ groups, basis }) {
             ))}
           </div>
           <p className="mt-4 border-t border-gray-100 pt-3 text-[11px] text-gray-400">
-            색이 진할수록 많이 찾는 메뉴입니다 ({basis} 기준).
+            순위와 색은 {basis} 횟수를 쌓아 정합니다. 많이 찾을수록 순위가 오르고 색이 진해집니다.
           </p>
         </div>
       ) : null}
