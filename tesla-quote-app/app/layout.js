@@ -5,6 +5,8 @@ import SiteNav from "@/components/SiteNav";
 import Breadcrumb from "@/components/Breadcrumb";
 import FloatingCalcButton from "@/components/FloatingCalcButton";
 import MobileTabBar from "@/components/mobile/MobileTabBar";
+// Vercel Web Analytics — 페이지뷰만 수집(Hobby). '많이 찾는 메뉴' 인기 순위의 실제 방문 데이터 출처.
+import { Analytics } from "@vercel/analytics/next";
 
 const SITE_URL = "https://www.paytesla.kr";
 const ADSENSE_ACCOUNT = "ca-pub-6676446565175753";
@@ -86,6 +88,7 @@ export default function RootLayout({ children }) {
         <FloatingCalcButton />
         <Footer />
         <MobileTabBar />
+        <Analytics />
       </body>
     </html>
   );

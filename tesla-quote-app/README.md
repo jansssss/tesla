@@ -94,6 +94,23 @@ npm test && npm run content:audit && npx next build
   - ~2026-07: 지역 목록은 `psPopupLocalCarModelPrice('연도','코드','이름')` 링크, 금액은 `psPopupLocalCarModelPrice.do` HTML 표.
   - 2026-11~: 지역 목록은 `#localListData`의 `data-json`, 연도는 `#pageInfo`의 `year1`, 금액은 `POST /nportal/buySupprt/getLocalCarModelPrice.ajax`(`year`, `local_cd`) JSON의 `list11`(전기승용). 필드: `MODEL_NM`, `MAKER_NM`, `TYPE_NM`, `SUM_GAMT`(국고), `LAMT`(지방), `TOTAL_AMT`.
 
+## 상단 '많이 찾는 메뉴' 인기 순위 갱신
+
+`components/SiteNav.js`는 `data/nav-popularity.json`으로 메뉴 순서와 색을 정한다.
+- 상위 3개: 코랄 그라디언트 + 순위 숫자 / 다음 4개: 블루·바이올렛 그라디언트 / 나머지: 회색
+- 한 줄 노출 개수: md 4 · lg 6 · xl 8, 나머지는 '전체 메뉴' 드롭다운(`components/SiteNavMore.js`)
+- 헤더(SiteHeader)와 같은 목적지는 넣지 않는다.
+
+데이터는 두 가지이고, 메뉴 페이지 방문 합계가 200 이상이면 `pageviews`를 우선 쓴다.
+
+| 필드 | 출처 | 갱신 방법 |
+|---|---|---|
+| `pageviews` | Vercel Web Analytics 실제 방문(최근 30일) | Claude Code에 "메뉴 인기 순위 갱신" 요청 → Vercel MCP `aggregate_pageviews`(by `requestPath`)로 조회해 `{ window: {start, end, days}, counts: {"/경로": 수} }` 형식으로 기록 |
+| `clicks` | GSC 검색 클릭(최근 90일) | `python -m scripts.analytics.nav_popularity` (`pageviews` 필드는 유지됨) |
+
+- Vercel 프로젝트: `tesla`(`prj_Y7Hozlxv5mmvJ48Rq1hJeOID4CP6`), 팀 `team_XuKR2FsTmPkbtA2ujV4xC0Vn`. Web Analytics는 `app/layout.js`의 `<Analytics />`로 수집한다(Hobby: 페이지뷰만, 커스텀 이벤트 불가, 월 5만 이벤트).
+- 월 1회 정도 갱신하고 `data/nav-popularity.json`을 커밋한다.
+
 ## GitHub 푸시
 ```bash
 git add -A
